@@ -36,6 +36,13 @@
   font-family: var(--mo-font-body);
 }
 
+/* CUSTOM: the pre-launch onepager is a full-screen takeover (it carries its own
+   logo), so hide the theme header/announcement bar that otherwise leaves a white
+   strip above it. custom.css only loads on pages containing this section. */
+#header-group {
+  display: none;
+}
+
 .mo-prelaunch__bg {
   position: absolute;
   inset: 0;
@@ -193,6 +200,7 @@
 .mo-prelaunch__input {
   flex: 1 1 auto;
   min-width: 0;
+  min-height: 54px;       /* match the button height (esp. when stacked on mobile) */
   padding: 14px 18px;
   border: 1px solid rgba(15, 61, 46, 0.2);
   /* Desktop: round only the left corners so it sits flush against the button. */
@@ -215,6 +223,10 @@
 
 .mo-prelaunch__button {
   flex: 0 0 auto;
+  min-height: 54px;       /* same height as the input */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 14px 22px;
   border: none;
   /* Desktop: round only the right corners so it sits flush against the input. */
