@@ -6,14 +6,16 @@
 /* CUSTOM: brand tokens (scoped to custom blocks; does not override Horizon globals). */
 .mo-prelaunch {
   --mo-pink: #f2a2ff;
+  --mo-pink-soft: #ffd5f7;
   --mo-green: #1fa567;
   --mo-mint: #b8f3d8;
   --mo-deep-green: #0f3d2e;
   --mo-font-body: 'Inter', sans-serif;
   --mo-font-mono: 'IBM Plex Mono', monospace;
 
-  /* Fallbacks; overridden inline by section settings. Mockup uses pink overlay text. */
-  --mo-overlay-text: var(--mo-pink);
+  /* Fallbacks; overridden inline by section settings.
+     Mockup: body overlay text = soft pink; only logo + eyebrow use the saturated pink. */
+  --mo-overlay-text: var(--mo-pink-soft);
   --mo-button-bg: var(--mo-green);
   --mo-button-text: #ffffff;
   --mo-input-bg: #ffffff;
@@ -75,8 +77,7 @@
 /* ---------- Eyebrow ---------- */
 .mo-prelaunch__eyebrow {
   margin: 0;
-  /* CUSTOM: brand spec — eyebrow uses primary Pink, not the deep-green body text. */
-  color: var(--mo-pink);
+  /* Inherits the soft-pink overlay text color like all other overlay copy. */
   font-family: var(--mo-font-mono);
   font-weight: 500;
   font-size: 0.8125rem;
