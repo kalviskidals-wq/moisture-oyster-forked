@@ -27,7 +27,7 @@
         "email_placeholder": "Your email address",
         "button_label": "CLAIM MY FREE CASE",
         "success_message": "You’re on the list. Watch your inbox.",
-        "legal": "<p>By signing up you agree to receive marketing emails. You can unsibsribe anytime.</p>",
+        "legal": "<p>By signing up you agree to receive marketing emails. <strong>You can unsibsribe anytime.</strong></p>",
         "overlay_text_color": "#ffd5f7",
         "button_color": "#1fa567",
         "button_text_color": "#ffffff",
