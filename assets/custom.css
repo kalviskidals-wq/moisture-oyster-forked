@@ -287,20 +287,37 @@
     align-items: stretch;
     justify-content: flex-start;
     padding: clamp(20px, 6vw, 32px);
-    padding-top: clamp(28px, 7vh, 56px);
+    padding-top: clamp(16px, 3vh, 32px);
     padding-bottom: clamp(40px, 9vh, 72px);
   }
 
+  /* Keep the top content compact so it stays within the image's teal top zone and
+     the form clears the hand + free-gift sticker below it. */
   .mo-prelaunch__content {
     max-width: 100%;
     min-height: 100%;     /* fill the overlay so the legal can drop to the bottom */
     align-items: flex-start;
     text-align: left;
-    gap: 16px;
+    gap: 12px;
+  }
+
+  .mo-prelaunch__subhead {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .mo-prelaunch__pill {
+    font-size: 0.625rem;
+    padding: 6px 12px;
   }
 
   .mo-prelaunch__social {
     flex-wrap: nowrap;    /* keep avatars + waitlist on one line, as in the example */
+  }
+
+  .mo-prelaunch__waitlist {
+    white-space: nowrap;  /* never wrap the waitlist count to a second line */
+    font-size: 0.875rem;
   }
 
   .mo-prelaunch__field {
