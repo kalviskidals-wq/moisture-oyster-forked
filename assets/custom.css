@@ -8,6 +8,9 @@
   --mo-pink: #f2a2ff;
   --mo-pink-soft: #ffd5f7;
   --mo-green: #1fa567;
+  /* Teal sampled from the background image's top tone — fills any area the
+     image doesn't cover so the page never shows a white stripe. */
+  --mo-teal-bg: #4d6b7a;
   --mo-mint: #b8f3d8;
   --mo-deep-green: #0f3d2e;
   --mo-font-body: 'Inter', sans-serif;
@@ -28,6 +31,7 @@
   width: 100%;
   min-height: 100svh;
   overflow: hidden;
+  background-color: var(--mo-teal-bg);
   color: var(--mo-overlay-text);
   font-family: var(--mo-font-body);
 }
@@ -191,7 +195,8 @@
   min-width: 0;
   padding: 14px 18px;
   border: 1px solid rgba(15, 61, 46, 0.2);
-  border-radius: 10px;
+  /* Desktop: round only the left corners so it sits flush against the button. */
+  border-radius: 10px 0 0 10px;
   background-color: var(--mo-input-bg);
   /* Mockup: input text + placeholder are brand Green, not deep green. */
   color: var(--mo-green);
@@ -212,7 +217,8 @@
   flex: 0 0 auto;
   padding: 14px 22px;
   border: none;
-  border-radius: 10px;
+  /* Desktop: round only the right corners so it sits flush against the input. */
+  border-radius: 0 10px 10px 0;
   background-color: var(--mo-button-bg);
   color: var(--mo-button-text);
   font-family: var(--mo-font-mono);
@@ -269,11 +275,12 @@
      height follows the image; content overlays the empty teal top, so the hand +
      free-gift sticker sit fully visible below it (matches the design example). */
   .mo-prelaunch {
-    min-height: 0;
+    min-height: 100svh;   /* fill the screen; teal bg covers any area below the image */
   }
 
   .mo-prelaunch__bg {
     position: relative;   /* in flow → image's natural height drives the section */
+    margin-top: -4vh;     /* lift the image slightly */
   }
 
   .mo-prelaunch__bg picture,
@@ -326,7 +333,16 @@
   .mo-prelaunch__field {
     flex-direction: column;
     max-width: 100%;
-    gap: 8px;              /* mobile: small gap between stacked input and button */
+    gap: 0;                /* mobile: stacked flush so the squared corners join */
+  }
+
+  /* Mobile (stacked): round outer corners only so the pair reads as one unit. */
+  .mo-prelaunch__input {
+    border-radius: 10px 10px 0 0;
+  }
+
+  .mo-prelaunch__button {
+    border-radius: 0 0 10px 10px;
   }
 
   .mo-prelaunch__button {
