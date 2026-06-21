@@ -368,9 +368,9 @@ body {
     width: 100%;
   }
 
-  /* Legal sits at the bottom over the water, above the baked-in wordmark. */
+  /* Legal sits directly below the button (normal flow). */
   .mo-prelaunch__legal {
-    margin-top: auto;
+    margin-top: 0;
   }
 }
 
