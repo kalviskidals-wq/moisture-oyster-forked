@@ -351,6 +351,7 @@
   /* Mobile (stacked): round outer corners only so the pair reads as one unit. */
   .mo-prelaunch__input {
     border-radius: 10px 10px 0 0;
+    text-align: center;     /* center the placeholder / typed text on mobile */
   }
 
   .mo-prelaunch__button {
