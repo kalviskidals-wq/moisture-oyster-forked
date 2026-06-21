@@ -37,10 +37,17 @@
 }
 
 /* CUSTOM: the pre-launch onepager is a full-screen takeover (it carries its own
-   logo), so hide the theme header/announcement bar that otherwise leaves a white
-   strip above it. custom.css only loads on pages containing this section. */
-#header-group {
+   logo), so hide the theme header/announcement bar and footer that otherwise leave
+   colored bands above/below it. custom.css only loads on pages with this section. */
+#header-group,
+.page-wrapper > footer {
   display: none;
+}
+
+/* Teal page background (matches the image's top tone) so the safe-area / status-bar
+   strip and any overscroll blend in instead of showing as a separate block. */
+body {
+  background-color: #4d6b7a;
 }
 
 .mo-prelaunch__bg {
