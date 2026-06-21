@@ -12,8 +12,8 @@
   --mo-font-body: 'Inter', sans-serif;
   --mo-font-mono: 'IBM Plex Mono', monospace;
 
-  /* Fallbacks; overridden inline by section settings. */
-  --mo-overlay-text: var(--mo-deep-green);
+  /* Fallbacks; overridden inline by section settings. Mockup uses pink overlay text. */
+  --mo-overlay-text: var(--mo-pink);
   --mo-button-bg: var(--mo-green);
   --mo-button-text: #ffffff;
   --mo-input-bg: #ffffff;
@@ -36,11 +36,20 @@
   z-index: 0;
 }
 
+/* CUSTOM: <picture> must fill the section, otherwise the inner img's height:100%
+   resolves against the picture's auto height and the background stops covering. */
+.mo-prelaunch__bg picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .mo-prelaunch__bg-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
+  /* Keep the right side (free-gift sticker) anchored as the viewport narrows. */
+  object-position: right center;
   display: block;
 }
 
@@ -66,6 +75,8 @@
 /* ---------- Eyebrow ---------- */
 .mo-prelaunch__eyebrow {
   margin: 0;
+  /* CUSTOM: brand spec — eyebrow uses primary Pink, not the deep-green body text. */
+  color: var(--mo-pink);
   font-family: var(--mo-font-mono);
   font-weight: 500;
   font-size: 0.8125rem;
@@ -180,13 +191,14 @@
   border: 1px solid rgba(15, 61, 46, 0.2);
   border-radius: 10px;
   background-color: var(--mo-input-bg);
-  color: var(--mo-deep-green);
+  /* Mockup: input text + placeholder are brand Green, not deep green. */
+  color: var(--mo-green);
   font-family: var(--mo-font-body);
   font-size: 1rem;
 }
 
 .mo-prelaunch__input::placeholder {
-  color: rgba(15, 61, 46, 0.55);
+  color: rgba(31, 165, 103, 0.75);
 }
 
 .mo-prelaunch__input:focus-visible {
@@ -251,11 +263,18 @@
 
 /* ---------- Mobile: stacked top ---------- */
 @media screen and (max-width: 749px) {
+  /* Keep the free-gift sticker (bottom of the mobile crop) visible. */
+  .mo-prelaunch__bg-img {
+    object-position: center bottom;
+  }
+
   .mo-prelaunch__overlay {
     align-items: flex-start;     /* mobile: content stacked at the top */
-    justify-content: center;
+    justify-content: flex-start;
     padding: clamp(20px, 6vw, 32px);
     padding-top: clamp(32px, 10vh, 80px);
+    /* Reserve the lower portion so content never overlaps the bottom sticker. */
+    padding-bottom: 44vh;
   }
 
   .mo-prelaunch__content {
