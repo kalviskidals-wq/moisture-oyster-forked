@@ -180,7 +180,8 @@
 
 .mo-prelaunch__field {
   display: flex;
-  gap: 8px;
+  align-items: stretch;   /* input + button share the same height */
+  gap: 0;                 /* desktop: input and button sit flush, no gap */
   width: 100%;
   max-width: 480px;
 }
@@ -309,6 +310,8 @@
   .mo-prelaunch__pill {
     font-size: 0.625rem;
     padding: 6px 12px;
+    white-space: nowrap;     /* keep the credibility pill on one line */
+    letter-spacing: 0.06em;
   }
 
   .mo-prelaunch__social {
@@ -323,6 +326,7 @@
   .mo-prelaunch__field {
     flex-direction: column;
     max-width: 100%;
+    gap: 8px;              /* mobile: small gap between stacked input and button */
   }
 
   .mo-prelaunch__button {
