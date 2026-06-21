@@ -264,25 +264,43 @@
 
 /* ---------- Mobile: stacked top ---------- */
 @media screen and (max-width: 749px) {
-  /* Keep the free-gift sticker (bottom of the mobile crop) visible. */
+  /* Mobile shows the FULL tall background image (not cover-cropped). The section
+     height follows the image; content overlays the empty teal top, so the hand +
+     free-gift sticker sit fully visible below it (matches the design example). */
+  .mo-prelaunch {
+    min-height: 0;
+  }
+
+  .mo-prelaunch__bg {
+    position: relative;   /* in flow → image's natural height drives the section */
+  }
+
+  .mo-prelaunch__bg picture,
   .mo-prelaunch__bg-img {
-    object-position: center bottom;
+    height: auto;         /* show the whole image at its natural aspect ratio */
   }
 
   .mo-prelaunch__overlay {
-    align-items: flex-start;     /* mobile: content stacked at the top */
+    position: absolute;
+    inset: 0;             /* span the full image height */
+    min-height: 0;
+    align-items: stretch;
     justify-content: flex-start;
     padding: clamp(20px, 6vw, 32px);
-    padding-top: clamp(32px, 10vh, 80px);
-    /* Reserve the lower portion so content never overlaps the bottom sticker. */
-    padding-bottom: 44vh;
+    padding-top: clamp(28px, 7vh, 56px);
+    padding-bottom: clamp(40px, 9vh, 72px);
   }
 
   .mo-prelaunch__content {
     max-width: 100%;
+    min-height: 100%;     /* fill the overlay so the legal can drop to the bottom */
     align-items: flex-start;
     text-align: left;
     gap: 16px;
+  }
+
+  .mo-prelaunch__social {
+    flex-wrap: nowrap;    /* keep avatars + waitlist on one line, as in the example */
   }
 
   .mo-prelaunch__field {
@@ -292,6 +310,11 @@
 
   .mo-prelaunch__button {
     width: 100%;
+  }
+
+  /* Legal sits at the bottom over the water, above the baked-in wordmark. */
+  .mo-prelaunch__legal {
+    margin-top: auto;
   }
 }
 
