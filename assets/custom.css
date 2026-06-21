@@ -287,12 +287,11 @@
      height follows the image; content overlays the empty teal top, so the hand +
      free-gift sticker sit fully visible below it (matches the design example). */
   .mo-prelaunch {
-    min-height: 100svh;   /* fill the screen; teal bg covers any area below the image */
+    min-height: 0;        /* section hugs the image exactly — no teal bands top or bottom */
   }
 
   .mo-prelaunch__bg {
-    position: relative;   /* in flow → image's natural height drives the section */
-    margin-top: -4vh;     /* lift the image slightly */
+    position: relative;   /* in flow → image's natural height defines the section height */
   }
 
   .mo-prelaunch__bg picture,
