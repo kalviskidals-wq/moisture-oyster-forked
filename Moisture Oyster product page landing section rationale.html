@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moysure Oyster — Mobile PDP Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cr:#F4EDDF;--cs:#FAF7F1;--gd:#A97928;--gl:#DFC48A;--gp:#EDE0C4;
+  --dk:#231606;--mt:#8A7055;--sb:#BEA07A;--wh:#FFFEF9;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Jost',system-ui,sans-serif;
+  --ab:#EEF3FA;--at:#1a3350
+}
+body{font-family:var(--sans);background:#ccc8c0;min-height:100vh;display:flex;gap:3rem;padding:2.5rem;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+
+/* ── OVERVIEW PANEL ── */
+.overview{width:280px;flex-shrink:0;position:sticky;top:2.5rem;max-height:calc(100vh - 5rem);overflow-y:auto}
+.overview::-webkit-scrollbar{width:3px}
+.overview::-webkit-scrollbar-thumb{background:var(--gp);border-radius:2px}
+.ov-h{font-family:var(--serif);font-size:1.5rem;font-weight:400;color:#1a1208;margin-bottom:.3rem}
+.ov-s{font-size:.68rem;color:#6b5e4e;line-height:1.65;margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid #c0bbb0}
+.ov-blocks{display:flex;flex-direction:column;gap:.5rem}
+.ob{background:#fff;border-left:3px solid var(--gd);padding:.65rem .8rem;transition:border-color .2s,background .2s}
+.ob:hover{background:#fdf8f0}
+.ob-row{display:flex;align-items:baseline;gap:.4rem;margin-bottom:.28rem}
+.ob-n{font-size:.58rem;font-weight:600;color:var(--gd);letter-spacing:.1em;flex-shrink:0}
+.ob-name{font-size:.73rem;font-weight:500;color:var(--dk)}
+.ob-desc{font-size:.63rem;color:#6b5e4e;line-height:1.6}
+
+/* ── PHONE FRAME ── */
+.phone-wrap{display:flex;flex-direction:column;align-items:center}
+.phone{width:390px;background:var(--cs);overflow:hidden;border-radius:36px;box-shadow:0 0 0 10px #1a1208,0 28px 70px rgba(0,0,0,.4)}
+
+/* ANNOTATION STRIP */
+.ann{background:var(--ab);border-bottom:1px solid #c5d5e8;padding:.4rem .75rem;display:flex;gap:.5rem;align-items:flex-start}
+.an{font-size:.6rem;font-weight:700;color:#2D4A6B;min-width:20px;padding-top:.04rem;flex-shrink:0}
+.at{font-size:.6rem;color:var(--at);line-height:1.55}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.1rem;background:var(--cr);border-bottom:1px solid var(--gp)}
+.logo{font-family:var(--serif);font-size:1rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dk)}
+.logo em{color:var(--gd);font-style:normal}
+.bag{width:20px;height:20px;background:var(--dk);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.52rem;color:var(--wh)}
+
+/* GALLERY */
+.gal{background:var(--cr);height:310px;display:flex;align-items:center;justify-content:center;position:relative;border-bottom:1px solid var(--gp)}
+.gbadge{position:absolute;top:.8rem;left:.8rem;background:var(--dk);color:var(--wh);padding:.2rem .5rem;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase}
+.snudge{position:absolute;bottom:.7rem;left:0;right:0;text-align:center}
+.snudge span{background:rgba(35,22,6,.72);color:rgba(255,254,249,.82);font-size:.55rem;letter-spacing:.1em;padding:.25rem .7rem;display:inline-block}
+.bottle{display:flex;flex-direction:column;align-items:center}
+.bc{width:32px;height:18px;background:var(--gd);border-radius:2px 2px 0 0;border:1px solid #8a6020}
+.bs{width:46px;height:8px;background:var(--wh);border:1px solid var(--gl);border-top:none;border-bottom:none}
+.bb{width:68px;height:158px;background:var(--wh);border:1px solid var(--gl);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem}
+.bbn{font-family:var(--serif);font-size:.62rem;color:var(--dk);text-align:center;line-height:1.3}
+.bbl{width:32px;height:1px;background:var(--gp)}
+.bbr{font-family:var(--serif);font-size:.45rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mt)}
+.bbf{font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gd)}
+.bbo{width:68px;height:10px;background:var(--wh);border:1px solid var(--gl);border-top:none;border-radius:0 0 3px 3px}
+.bcase{margin-top:.6rem;width:92px;height:22px;background:var(--gp);border:1px solid var(--gl);border-radius:3px;display:flex;align-items:center;justify-content:center}
+.bcase span{font-size:.45rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mt)}
+.dots{display:flex;justify-content:center;gap:.4rem;padding:.6rem;background:var(--cr);border-bottom:1px solid var(--gp)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--gp)}
+.dot.on{background:var(--gd);width:18px;border-radius:3px}
+
+/* BUY BOX */
+.bbox{padding:1rem 1.1rem}
+.ew{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gd);margin-bottom:.45rem;display:flex;align-items:center;gap:.5rem}
+.ew::before{content:'';width:1rem;height:1px;background:var(--gd)}
+.pt{font-family:var(--serif);font-size:1.6rem;font-weight:400;line-height:1.1;margin-bottom:.2rem;color:var(--dk)}
+.ps{font-size:.7rem;color:var(--mt);line-height:1.55;margin-bottom:.65rem}
+.rrow{display:flex;align-items:center;gap:.5rem;padding-bottom:.7rem;border-bottom:1px solid var(--gp);margin-bottom:.75rem;flex-wrap:wrap}
+.stars{color:var(--gd);font-size:.7rem;letter-spacing:2px}
+.rn{font-size:.67rem;color:var(--mt)}
+.rlnk{font-size:.64rem;color:var(--gd);text-decoration:underline}
+.cert{margin-left:auto;background:var(--gp);padding:.18rem .45rem;font-size:.52rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mt)}
+.slbl{font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mt);margin-bottom:.42rem}
+.stabs{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--gp);margin-bottom:.65rem;background:var(--wh)}
+.stab{padding:.7rem .5rem;text-align:center;cursor:pointer;border:none;background:transparent;font-family:var(--sans);min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.12rem;transition:background .2s}
+.stab.on{background:var(--dk);color:var(--wh)}
+.stab:not(.on){border-right:1px solid var(--gp)}
+.stn{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
+.stp{font-family:var(--serif);font-size:1.05rem}
+.sts{font-size:.52rem;letter-spacing:.08em;padding:.1rem .28rem;display:inline-block}
+.stab.on .sts{background:var(--gd);color:var(--wh)}
+.stab:not(.on) .sts{background:var(--gp);color:var(--mt)}
+.stab:not(.on) .stp,.stab:not(.on) .stn{color:var(--mt)}
+.swp{display:none;font-size:.61rem;color:var(--gd);text-align:center;margin-bottom:.55rem;padding:.32rem;background:var(--cs);border:1px solid var(--gp)}
+.freq{display:flex;align-items:center;gap:.5rem;padding:.5rem .65rem;background:var(--cs);border:1px solid var(--gp);margin-bottom:.65rem;font-size:.62rem}
+.fl{color:var(--mt);white-space:nowrap}
+.fs{border:1px solid var(--gp);background:var(--wh);font-size:.62rem;padding:.22rem .35rem;font-family:var(--sans);color:var(--dk);flex:1}
+.ctabtn{width:100%;background:var(--dk);color:var(--wh);border:none;padding:.92rem;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;font-family:var(--sans);margin-bottom:.5rem;transition:opacity .2s}
+.ctabtn:hover{opacity:.88}
+.tlines{display:flex;flex-direction:column;gap:.28rem;margin-bottom:.65rem;padding:.55rem .7rem;background:var(--cs);border:1px solid var(--gp)}
+.tl{display:flex;align-items:center;gap:.5rem;font-size:.62rem;color:var(--mt)}
+.tld{width:5px;height:5px;border-radius:50%;background:var(--gd);flex-shrink:0}
+.pays{display:flex;gap:.3rem;flex-wrap:wrap;align-items:center}
+.pi{border:1px solid var(--gp);background:var(--wh);padding:.16rem .4rem;font-size:.5rem;letter-spacing:.05em;color:var(--mt)}
+.bnpl{font-size:.6rem;color:var(--mt);display:flex;align-items:center;gap:.3rem;width:100%;margin-top:.2rem}
+.bd{width:4px;height:4px;border-radius:50%;background:var(--gd);flex-shrink:0}
+
+/* STICKY */
+.sticky{background:var(--dk);padding:.72rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:.8rem;border-top:2px solid var(--gd)}
+.stname{font-family:var(--serif);font-size:.82rem;color:var(--wh)}
+.stprice{font-size:.58rem;color:var(--gl);margin-top:.1rem}
+.stbtn{background:var(--gd);color:var(--wh);border:none;padding:.64rem 1.1rem;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;font-family:var(--sans);white-space:nowrap;flex-shrink:0}
+
+/* DIVIDER */
+.sdiv{height:8px;background:var(--gp)}
+
+/* BENEFITS BAR */
+.benbar{display:grid;grid-template-columns:repeat(4,1fr);background:var(--cr);border-bottom:1px solid var(--gp)}
+.benic{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:.7rem .25rem;text-align:center;gap:.3rem;border-right:1px solid var(--gp)}
+.benic:last-child{border-right:none}
+.bsh{width:26px;height:26px;border:1px solid var(--gd);display:flex;align-items:center;justify-content:center}
+.bin{width:9px;height:9px;background:var(--gd)}
+.blbl{font-size:.48rem;letter-spacing:.07em;text-transform:uppercase;color:var(--mt);line-height:1.4}
+
+/* SECTIONS */
+.sec{padding:.95rem 1.1rem}
+.sew{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gd);margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.sew::before{content:'';width:1rem;height:1px;background:var(--gd)}
+.sh{font-family:var(--serif);font-size:1.28rem;font-weight:400;color:var(--dk);margin-bottom:.58rem;line-height:1.2}
+.prose p{font-size:.74rem;color:var(--mt);line-height:1.75;margin-bottom:.52rem}
+.prose p:last-child{margin-bottom:0}
+
+/* INGREDIENTS */
+.ingh{padding:.95rem 1.1rem .48rem}
+.itabs{display:flex;border-bottom:1px solid var(--gp);padding:0 1.1rem}
+.itab{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;padding:.52rem 0;color:var(--mt);border-bottom:2px solid transparent;margin-right:1.1rem;cursor:pointer;margin-bottom:-1px}
+.itab.on{color:var(--gd);border-bottom-color:var(--gd)}
+.ipanel{padding:.7rem 1.1rem;display:none}
+.ipanel.on{display:block}
+.icards{display:flex;flex-direction:column;gap:.45rem}
+.icard{background:var(--wh);border:1px solid var(--gp);padding:.6rem .75rem;cursor:pointer}
+.ictop{display:flex;align-items:center;justify-content:space-between}
+.icn{font-size:.7rem;font-weight:500;color:var(--dk)}
+.icc{font-size:.58rem;color:var(--gd);margin-left:.35rem}
+.ice{font-size:.8rem;color:var(--mt);transition:transform .2s;flex-shrink:0}
+.ice.open{transform:rotate(45deg)}
+.icd{display:none;margin-top:.45rem;border-top:1px solid var(--gp);padding-top:.45rem}
+.icd.open{display:block}
+.icdr{display:flex;gap:.4rem;margin-bottom:.22rem}
+.icdt{font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dk);width:52px;flex-shrink:0}
+.icdd{font-size:.6rem;color:var(--mt);line-height:1.55}
+.flist{display:flex;flex-direction:column;gap:.42rem}
+.fi{display:flex;align-items:flex-start;gap:.55rem;padding:.52rem .65rem;background:var(--wh);border:1px solid var(--gp)}
+.fx{width:16px;height:16px;background:var(--dk);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.05rem}
+.fx span{font-size:.5rem;color:var(--wh);font-weight:500}
+.fn{font-size:.7rem;font-weight:500;color:var(--dk);margin-bottom:.1rem}
+.fw{font-size:.6rem;color:var(--mt);line-height:1.52}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.sc{background:var(--wh);border:1px solid var(--gp);padding:.62rem .68rem}
+.scn{font-family:var(--serif);font-size:1.65rem;color:var(--gd);line-height:1;margin-bottom:.18rem}
+.scl{font-size:.58rem;letter-spacing:.09em;text-transform:uppercase;color:var(--dk);margin-bottom:.18rem}
+.scd{font-size:.58rem;color:var(--mt);line-height:1.52}
+
+/* HOW TO USE */
+.how{display:flex;flex-direction:column;gap:.45rem}
+.hstep{display:flex;align-items:flex-start;gap:.65rem;padding:.6rem .72rem;background:var(--wh);border:1px solid var(--gp)}
+.hn{font-family:var(--serif);font-size:1.35rem;color:var(--gp);flex-shrink:0;line-height:1}
+.ht strong{font-size:.67rem;font-weight:500;color:var(--dk);display:block;margin-bottom:.12rem}
+.ht p{font-size:.62rem;color:var(--mt);line-height:1.6}
+
+/* SCIENCE */
+.scigrid{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.scicard{border:1px solid var(--gp);background:var(--wh);padding:.68rem}
+.scin{font-family:var(--serif);font-size:1.85rem;color:var(--gd);line-height:1;margin-bottom:.18rem}
+.scil{font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dk);margin-bottom:.18rem}
+.scid{font-size:.6rem;color:var(--mt);line-height:1.52}
+.squo{background:var(--dk);padding:.72rem .88rem;margin-top:.62rem}
+.sqn{font-family:var(--serif);font-size:1.9rem;color:var(--gd);line-height:1}
+.sqt{font-size:.63rem;color:rgba(255,254,249,.48);line-height:1.55;margin-top:.18rem}
+
+/* REVIEWS */
+.rsum{display:flex;align-items:center;gap:1rem;padding:.95rem 1.1rem;border-bottom:1px solid var(--gp)}
+.rbig{font-family:var(--serif);font-size:2.7rem;color:var(--dk);line-height:1}
+.rsts{color:var(--gd);font-size:.72rem;letter-spacing:2px;margin:.12rem 0}
+.rtot{font-size:.6rem;color:var(--mt)}
+.brow{display:flex;align-items:center;gap:.5rem;margin-bottom:.28rem}
+.blab{font-size:.6rem;color:var(--mt);width:26px;flex-shrink:0}
+.btrk{flex:1;height:4px;background:var(--gp)}
+.bfll{height:4px;background:var(--gd)}
+.bnum{font-size:.58rem;color:var(--mt);width:24px;text-align:right;flex-shrink:0}
+.rfilt{display:flex;gap:.32rem;padding:.6rem 1.1rem;border-bottom:1px solid var(--gp);overflow-x:auto}
+.rf{font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--gp);padding:.2rem .45rem;white-space:nowrap;cursor:pointer;flex-shrink:0;color:var(--mt)}
+.rf.on{background:var(--dk);color:var(--wh);border-color:var(--dk)}
+.ugcs{display:flex;gap:.45rem;padding:.68rem 1.1rem;border-bottom:1px solid var(--gp);overflow-x:auto}
+.ugc{width:62px;height:62px;flex-shrink:0;background:var(--gp);border:1px solid var(--gl);display:flex;align-items:center;justify-content:center}
+.ugcl{font-size:.42rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mt);text-align:center;padding:.2rem;line-height:1.3}
+.rcards{display:flex;flex-direction:column;gap:.45rem;padding:.95rem 1.1rem}
+.rcard{background:var(--wh);border:1px solid var(--gp);padding:.78rem}
+.rcs{color:var(--gd);font-size:.62rem;letter-spacing:2px;margin-bottom:.42rem}
+.rcq{font-family:var(--serif);font-size:.85rem;font-style:italic;line-height:1.64;color:var(--dk);margin-bottom:.52rem}
+.rca{font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mt)}
+.rcb{font-size:.55rem;color:var(--gd);margin-top:.1rem}
+.rcp{font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;background:var(--dk);color:var(--wh);padding:.1rem .3rem;display:inline-block;margin-top:.2rem}
+.rctags{display:flex;gap:.28rem;flex-wrap:wrap;margin-top:.34rem}
+.rctag{font-size:.5rem;letter-spacing:.07em;text-transform:uppercase;border:1px solid var(--gp);padding:.1rem .28rem;color:var(--mt)}
+
+/* FAQ */
+.faqrow{border-bottom:1px solid var(--gp)}
+.faqh{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.1rem;cursor:pointer;user-select:none;gap:.8rem}
+.faqq{font-size:.7rem;color:var(--dk);line-height:1.4;flex:1}
+.faqi{font-size:.9rem;color:var(--mt);flex-shrink:0;transition:transform .2s}
+.faqi.open{transform:rotate(45deg)}
+.faqb{display:none;padding:0 1.1rem .8rem;font-size:.68rem;color:var(--mt);line-height:1.72}
+.faqb.open{display:block}
+
+/* SUB DEEP DIVE */
+.sdd{padding:1.1rem;background:var(--dk)}
+.sdew{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gd);margin-bottom:.45rem}
+.sdh{font-family:var(--serif);font-size:1.32rem;color:var(--wh);margin-bottom:.58rem;font-weight:400}
+.sdsteps{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.75rem}
+.sdstep{display:flex;align-items:flex-start;gap:.58rem;padding:.5rem .65rem;background:rgba(255,254,249,.05);border:1px solid rgba(169,121,40,.2)}
+.sdsn{font-family:var(--serif);font-size:1.25rem;color:var(--gd);flex-shrink:0;line-height:1}
+.sdst strong{font-size:.63rem;font-weight:500;color:var(--wh);display:block;margin-bottom:.1rem}
+.sdst p{font-size:.58rem;color:rgba(255,254,249,.48);line-height:1.52}
+.sdquo{background:rgba(169,121,40,.12);border-left:2px solid var(--gd);padding:.58rem .72rem;margin-bottom:.75rem}
+.sdq{font-family:var(--serif);font-size:.84rem;font-style:italic;color:rgba(255,254,249,.82);line-height:1.6;margin-bottom:.28rem}
+.sda{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gd)}
+.sdbtn{width:100%;background:var(--gd);color:var(--wh);border:none;padding:.8rem;font-size:.67rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;font-family:var(--sans)}
+.sdlock{font-size:.58rem;color:rgba(255,254,249,.3);text-align:center;margin-top:.45rem}
+
+/* CROSS-SELL */
+.yal{padding:1.1rem;background:var(--cr)}
+.yalh{font-family:var(--serif);font-size:1.22rem;color:var(--dk);margin-bottom:.75rem}
+.ycard{background:var(--cs);border:1px solid var(--gp);display:flex;margin-bottom:.52rem}
+.yimg{width:72px;background:var(--gp);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.yimgl{font-size:.42rem;letter-spacing:.07em;text-transform:uppercase;color:var(--mt);text-align:center;padding:.25rem;line-height:1.3}
+.yinfo{padding:.65rem;flex:1}
+.yn{font-family:var(--serif);font-size:.88rem;color:var(--dk);margin-bottom:.14rem}
+.ys{font-size:.58rem;color:var(--mt);margin-bottom:.28rem;line-height:1.4}
+.yp{font-size:.64rem;color:var(--gd);margin-bottom:.34rem}
+.ybtn{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--gp);padding:.28rem .55rem;background:transparent;cursor:pointer;font-family:var(--sans);color:var(--mt)}
+
+/* DRUG FACTS */
+.dfp{padding:.9rem 1.1rem;background:var(--wh);border-top:3px solid var(--dk);border-bottom:1px solid var(--gp)}
+.dfp-title{font-family:var(--sans);font-size:1rem;font-weight:700;color:var(--dk);border-bottom:3px solid var(--dk);padding-bottom:.22rem;margin-bottom:.5rem;letter-spacing:.02em}
+.dfp-sub{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--dk);margin:.52rem 0 .18rem;border-bottom:1px solid var(--dk);padding-bottom:.1rem}
+.dfp-row{display:flex;justify-content:space-between;font-size:.6rem;color:var(--dk);padding:.06rem 0}
+.dfp-row span:last-child{font-style:italic}
+.dfp-p{font-size:.59rem;color:var(--dk);line-height:1.65;margin-bottom:.14rem}
+.dfp-bul{display:flex;align-items:flex-start;gap:.35rem;font-size:.59rem;color:var(--dk);line-height:1.6;margin-bottom:.1rem}
+.dfp-bul::before{content:'·';flex-shrink:0;margin-top:.02rem}
+.dfp-bold{font-weight:700}
+
+/* REASSURANCE */
+.reas{background:var(--cs);border-top:1px solid var(--gp);padding:.68rem 1.1rem;display:flex;flex-direction:column;gap:.32rem}
+.rrow2{display:flex;align-items:center;gap:.5rem;font-size:.63rem;color:var(--mt)}
+.rd{width:5px;height:5px;border-radius:50%;background:var(--gd);flex-shrink:0}
+
+/* TOP TESTIMONIAL STRIP */
+.toptest{background:var(--dk);padding:.72rem 1.1rem;display:flex;align-items:flex-start;gap:.65rem;border-bottom:2px solid var(--gd)}
+.toptest-quote{flex:1}
+.toptest-stars{color:var(--gd);font-size:.6rem;letter-spacing:2px;margin-bottom:.3rem}
+.toptest-text{font-family:var(--serif);font-size:.82rem;font-style:italic;color:rgba(255,254,249,.9);line-height:1.55;margin-bottom:.28rem}
+.toptest-attr{font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gd)}
+.toptest-badge{font-size:.46rem;letter-spacing:.09em;text-transform:uppercase;background:rgba(169,121,40,.2);border:1px solid rgba(169,121,40,.4);color:var(--gl);padding:.14rem .3rem;margin-top:.16rem;display:inline-block;white-space:nowrap}
+
+/* RESEARCH CITATIONS */
+.cite-block{margin-top:.62rem;border:1px solid var(--gp);background:var(--wh)}
+.cite-header{padding:.45rem .68rem;background:var(--cs);border-bottom:1px solid var(--gp);font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gd)}
+.cite-item{padding:.55rem .68rem;border-bottom:1px solid var(--gp);display:flex;gap:.55rem;align-items:flex-start}
+.cite-item:last-child{border-bottom:none}
+.cite-num{font-family:var(--serif);font-size:1.1rem;color:var(--gp);flex-shrink:0;line-height:1;margin-top:.05rem}
+.cite-journal{font-size:.58rem;font-weight:600;color:var(--dk);display:block;margin-bottom:.1rem}
+.cite-finding{font-size:.58rem;color:var(--mt);line-height:1.55;display:block}
+
+/* COMPARISON TABLE */
+.comp-sec{padding:1.1rem}
+.comp-table{width:100%;border-collapse:collapse;margin-top:.65rem}
+.comp-th{padding:.48rem .45rem;text-align:center;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;background:var(--dk);color:var(--wh);border:1px solid rgba(169,121,40,.3)}
+.comp-th:first-child{text-align:left}
+.comp-th.ours{background:var(--gd);color:var(--wh)}
+.comp-td{padding:.52rem .45rem;border:1px solid var(--gp);vertical-align:middle;line-height:1.45;font-size:.6rem}
+.comp-td:first-child{color:var(--dk);font-weight:500;background:var(--cs);font-size:.59rem}
+.comp-td.yes{color:#2a5e1e;text-align:center;background:rgba(42,94,30,.06);font-size:.72rem;font-weight:600}
+.comp-td.no{color:#8b2a1e;text-align:center;background:var(--wh);font-size:.65rem}
+.comp-td.mo{text-align:center;background:rgba(169,121,40,.07);font-size:.58rem;color:var(--dk);line-height:1.4}
+.comp-tr-alt .comp-td:first-child{background:var(--wh)}
+.comp-tr-alt .comp-td.mo{background:rgba(169,121,40,.12)}
+.comp-tr-alt .comp-td.yes{background:rgba(42,94,30,.1)}
+.comp-tr-alt .comp-td.no{background:var(--cs)}
+.comp-note{font-size:.55rem;color:var(--mt);margin-top:.5rem;line-height:1.6;font-style:italic}
+/* BOTTLE ILLUSTRATIONS */
+.btl{display:flex;flex-direction:column;align-items:center;gap:0;margin:0 auto}
+/* MO bottle — matches actual product: frosted body, ribbed Aptar OSD blue cap, teal+pink label */
+.btl-mo-cap{width:18px;height:32px;background:linear-gradient(160deg,#a8cce8,#5b9fd4);border-radius:3px 3px 0 0;position:relative;display:flex;flex-direction:column;gap:2px;padding:3px 2px;box-shadow:inset -2px 0 3px rgba(0,0,0,.12)}
+.btl-mo-rib{height:2px;background:rgba(255,255,255,.35);border-radius:1px}
+.btl-mo-neck{width:14px;height:6px;background:rgba(210,232,248,.8);border:1px solid #8bbcd8;margin:0 auto}
+.btl-mo-body{width:34px;height:80px;background:linear-gradient(160deg,rgba(230,244,252,.9),rgba(200,228,244,.7));border:1px solid #a8cce0;border-radius:2px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.btl-mo-label{position:absolute;bottom:18px;left:0;right:0;background:linear-gradient(180deg,#6ecece 0%,#5ab5b5 40%,#fff 40%,#fff 100%);padding:.12rem .08rem .08rem}
+.btl-mo-label .lbl-top{font-size:.26rem;color:#e85588;font-weight:700;letter-spacing:.04em;text-transform:uppercase;text-align:center;line-height:1.2;display:block}
+.btl-mo-label .lbl-main{font-size:.32rem;color:#3ab5b5;font-weight:800;letter-spacing:.02em;text-transform:uppercase;text-align:center;line-height:1.1;display:block}
+.btl-mo-label .lbl-sub{font-size:.22rem;color:#555;text-align:center;display:block;line-height:1.3}
+.btl-mo-base{width:34px;height:5px;background:rgba(180,215,235,.6);border:1px solid #a8cce0;border-top:none;border-radius:0 0 2px 2px}
+.btl-caption{font-size:.46rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gd);margin-top:.35rem;font-weight:600;text-align:center}
+/* Blink bottle — recognisable clear/white bottle, blue cap, label blurred */
+.btl-bl-cap{width:16px;height:14px;background:linear-gradient(160deg,#7ab8d8,#3a80b8);border-radius:3px 3px 0 0;box-shadow:inset -1px 0 2px rgba(0,0,0,.1)}
+.btl-bl-neck{width:12px;height:5px;background:rgba(220,236,248,.9);border:1px solid #9cc0dc;margin:0 auto}
+.btl-bl-body{width:30px;height:72px;background:linear-gradient(160deg,rgba(240,248,255,.95),rgba(220,238,250,.8));border:1px solid #b0d0e8;border-radius:2px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.btl-bl-label{width:100%;padding:.35rem .05rem;background:#fff;text-align:center;filter:blur(2.8px);-webkit-filter:blur(2.8px)}
+.btl-bl-label span{display:block;font-size:.32rem;font-weight:800;color:#1a5c9e;letter-spacing:.02em;line-height:1.3;text-transform:uppercase}
+.btl-bl-label small{display:block;font-size:.22rem;color:#555;margin-top:.06rem}
+.btl-bl-base{width:30px;height:4px;background:rgba(180,215,240,.5);border:1px solid #b0d0e8;border-top:none;border-radius:0 0 2px 2px}
+.btl-caption-bl{font-size:.44rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mt);margin-top:.35rem;font-weight:500;text-align:center;line-height:1.4}
+.btl-blur-note{font-size:.36rem;color:var(--mt);font-style:italic;text-align:center;margin-top:.1rem}
+
+/* PROBLEM AGITATION */
+.prob-agit{padding:1.1rem;background:var(--dk)}
+.prob-eyebrow{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gd);margin-bottom:.42rem}
+.prob-h{font-family:var(--serif);font-size:1.32rem;color:var(--wh);margin-bottom:.65rem;font-weight:400;line-height:1.25}
+.prob-items{display:flex;flex-direction:column;gap:.38rem;margin-bottom:.72rem}
+.prob-item{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .68rem;border:1px solid rgba(169,121,40,.25);background:rgba(255,254,249,.04)}
+.prob-num{font-family:var(--serif);font-size:1.35rem;color:rgba(169,121,40,.4);flex-shrink:0;line-height:1;margin-top:.08rem}
+.prob-txt strong{font-size:.65rem;font-weight:500;color:rgba(255,254,249,.9);display:block;margin-bottom:.1rem}
+.prob-txt p{font-size:.6rem;color:rgba(255,254,249,.48);line-height:1.58}
+.prob-trans{padding:.72rem .75rem;background:rgba(169,121,40,.1);border-left:2px solid var(--gd)}
+.prob-trans p{font-family:var(--serif);font-size:1.45rem;font-style:italic;color:var(--wh);line-height:1.2;font-weight:400}
+
+/* GUARANTEE */
+.guar{padding:1.15rem 1.1rem;background:var(--cs);border-top:2px solid var(--gd)}
+.guar-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.62rem}
+.guar-shield{width:36px;height:36px;border:1px solid var(--gd);background:var(--cr);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.guar-shield-inner{width:16px;height:16px;border:1px solid var(--gd);border-radius:50%}
+.guar-label{font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gd);margin-bottom:.18rem}
+.guar-days{font-family:var(--serif);font-size:1.32rem;color:var(--dk);line-height:1.15;font-weight:400}
+.guar-body{font-size:.7rem;color:var(--mt);line-height:1.75;margin-bottom:.62rem}
+.guar-process{background:var(--wh);border:1px solid var(--gp);border-left:2px solid var(--gd);padding:.55rem .68rem}
+.guar-process-lbl{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gd);margin-bottom:.22rem}
+.guar-process-items{display:flex;flex-direction:column;gap:.22rem}
+.guar-process-item{display:flex;align-items:center;gap:.42rem;font-size:.62rem;color:var(--mt)}
+.guar-dot{width:4px;height:4px;border-radius:50%;background:var(--gd);flex-shrink:0}
+.guar-wit{font-size:.6rem;color:var(--mt);font-style:italic;margin-top:.48rem;text-align:center}
+.guar-terms{font-size:.52rem;color:var(--mt);line-height:1.6;margin-top:.55rem;padding-top:.55rem;border-top:1px solid var(--gp);opacity:.7}
+
+/* QUANTITY SELECTOR */
+.qlbl{font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mt);margin-bottom:.42rem;margin-top:.7rem}
+.qgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.65rem}
+.qcard{border:1px solid var(--gp);background:var(--wh);padding:.52rem .35rem;text-align:center;cursor:pointer;position:relative;transition:background .15s,border-color .15s;min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.1rem}
+.qcard.on{background:var(--dk);border-color:var(--dk)}
+.qcard-badge{font-size:.44rem;letter-spacing:.07em;text-transform:uppercase;padding:.1rem .28rem;background:var(--gp);color:var(--gd);margin-bottom:.14rem;line-height:1.3}
+.qcard.on .qcard-badge{background:var(--gd);color:var(--wh)}
+.qcard-n{font-family:var(--serif);font-size:1.45rem;line-height:1;color:var(--dk)}
+.qcard.on .qcard-n{color:var(--wh)}
+.qcard-label{font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mt)}
+.qcard.on .qcard-label{color:rgba(255,254,249,.5)}
+.qcard-best{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--gd);color:var(--wh);font-size:.42rem;letter-spacing:.08em;text-transform:uppercase;padding:.1rem .35rem;white-space:nowrap}
+</style>
+</head>
+<body>
+
+<!-- ══ STRUCTURAL OVERVIEW ══ -->
+<div class="overview">
+  <div class="ov-h">Page Structure</div>
+  <p class="ov-s">A 15-block long-form product page designed for the US health DTC market. Scroll depth is an intent signal — each block deepens trust and resolves a specific purchase barrier.</p>
+  <div class="ov-blocks">
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">★</span><span class="ob-name">Top Testimonial</span></div>
+      <p class="ob-desc">A pinned high-credibility quote from a verified eye care professional, placed immediately below the nav. Creates clinical authority at first glance before any product detail is encountered — the equivalent of a cover endorsement.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">01</span><span class="ob-name">Image Gallery</span></div>
+      <p class="ob-desc">5–7 swipeable images including product hero, case open and closed, and in-use lifestyle. A social proof nudge at the base creates passive urgency without countdown timers or pressure mechanics.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">02</span><span class="ob-name">Buy Box</span></div>
+      <p class="ob-desc">Opens with a quantity selector (1, 2, 3 packs) with tiered discount badges — anchoring multi-unit value before the purchase toggle appears. Subscribe is pre-selected by default. CTA text and price update dynamically across both quantity and purchase mode. Three trust micro-copy lines address the top subscription objections.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">03</span><span class="ob-name">Sticky Add to Cart</span></div>
+      <p class="ob-desc">Activates on scroll past the buy box and persists through the entire page. Ensures the CTA is always within one tap — critical for long-form pages where purchase intent can crystallise at any scroll depth.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">04</span><span class="ob-name">Key Benefits Bar</span></div>
+      <p class="ob-desc">Four clinical claims presented as icon badges immediately below the buy box. Designed to be scanned in under three seconds. The icons function as brand assets — communicating quality to users who won't read the full page.</p>
+    </div>
+
+    <div class="ob" style="border-left-color:#7a2e1e">
+      <div class="ob-row"><span class="ob-n" style="color:#7a2e1e">PA</span><span class="ob-name">Problem Agitation</span></div>
+      <p class="ob-desc">NEW — dedicated pain section before the solution. Physical pain (grit, sandpaper 3pm feeling, short-lived relief, BAK damage) AND emotional pain (ugly clinical packaging you avoid using) must both land before Moisture Oyster appears as the answer. Dark background creates visual contrast that makes the problem feel weighty. Written in Moisture Oyster's witty brand voice.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">05</span><span class="ob-name">Product Description</span></div>
+      <p class="ob-desc">Written for cold traffic arriving from paid social who haven't seen the homepage. Structured as problem → solution → differentiator: screen-driven dry eye, the dual-action formula, and what separates Hydra+ from standard OTC drops.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">06</span><span class="ob-name">Ingredient Transparency</span></div>
+      <p class="ob-desc">The single highest-differentiation block on the page — one no eye care competitor currently executes. Three tabbed layers: active ingredients with expandable clinical depth, a "free from" panel leading with BAK removal, and a typographic formula specification card. Designed to feel like a premium data sheet, not a pharmacy insert.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">07</span><span class="ob-name">How to Use</span></div>
+      <p class="ob-desc">Usage clarity is a purchase trigger for first-time eye drop buyers — it makes the product feel manageable. The case earns its own step, reinforcing it as half the product rather than a bundled accessory.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">08</span><span class="ob-name">Clinical &amp; Science</span></div>
+      <p class="ob-desc">Anchors scientific credibility after the product story rather than front-loading it. One US statistic contextualises the problem at category scale. The science reinforces the decision — it doesn't initiate it.</p>
+    </div>
+
+    <div class="ob" style="border-left-color:var(--gd)">
+      <div class="ob-row"><span class="ob-n">CMP</span><span class="ob-name">Comparison Table</span></div>
+      <p class="ob-desc">NEW — Moisture Oyster vs Standard OTC Drops. 7-row table covering: preservative system, hydration agents, cellular osmoprotection, pH match, no post-application blur, daily use design, and digital-age formulation. Legally uses "Standard OTC Drops" category label — not brand names — to avoid Lanham Act exposure while still making the contrast unmistakable.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">09</span><span class="ob-name">Reviews</span></div>
+      <p class="ob-desc">55% of US consumers read at least four reviews before purchasing. Use-case filters (lens wearer, screen worker) let buyers find relatable peer validation. A UGC photo strip surfaces real-world context before text reviews. Verified eye care professional reviews are badged separately for clinical credibility.</p>
+    </div>
+
+    <div class="ob" style="border-left-color:#2a5e1e">
+      <div class="ob-row"><span class="ob-n" style="color:#2a5e1e">GTY</span><span class="ob-name">7-Day Guarantee</span></div>
+      <p class="ob-desc">NEW — dedicated risk-reversal block placed immediately after reviews. Peer validation lands first, then the guarantee removes the final purchase barrier. Outcome-specific (7 days) converts better than vague 30-day promises — it signals product confidence. Process transparency (no return, 48h refund) removes friction. Witty sign-off maintains brand voice while the block does serious conversion work.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">10</span><span class="ob-name">FAQ</span></div>
+      <p class="ob-desc">A conversion safety net for last-minute objections. Six questions mapped directly to subscription hesitation: price lock, delivery reminders, cadence flexibility, cancellation, and long-term daily safety. Accordion keeps the page clean while making full detail accessible on tap.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">11</span><span class="ob-name">Subscription Deep Dive</span></div>
+      <p class="ob-desc">Placed after reviews deliberately — peer validation followed by a subscription pitch is the highest-converting DTC sequence. Targets high-intent visitors who passed the buy box without committing. Includes the onboarding promise and a subscriber quote to frame recurring delivery as a supported programme.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">12</span><span class="ob-name">Complete Your Routine</span></div>
+      <p class="ob-desc">Framed as building a habit rather than buying more — aligning with the brand's identity-led positioning. Surfaces eye vitamins and bundle at the point of highest intent, after the full product case has been made.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">13</span><span class="ob-name">Reassurance Strip</span></div>
+      <p class="ob-desc">A final safety net for users who've read everything but haven't converted. Repeats the five most trust-critical signals. Users who reach page-bottom without buying are risk-hesitant, not uninterested — this block catches them before they exit.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">14</span><span class="ob-name">Drug Facts Panel</span></div>
+      <p class="ob-desc">Mandatory FDA OTC labelling rendered faithfully on-page. Positions Moisture Oyster as a fully compliant OTC drug product, not a cosmetic. Builds regulatory credibility for clinical buyers and instils confidence in first-time users unfamiliar with OTC eye drop standards.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">15</span><span class="ob-name">Reassurance Strip</span></div>
+      <p class="ob-desc">A final safety net for users who've read everything but haven't converted. Repeats the five most trust-critical signals including GLP testing, BAK-free status, and Netherlands manufacturing provenance.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ PHONE MOCKUP ══ -->
+<div class="phone-wrap"><div class="phone">
+
+<div class="nav"><div style="font-size:.7rem;color:var(--mt)">☰</div><div class="logo">Moysure <em>Oyster</em></div><div style="display:flex;align-items:center;gap:.8rem"><div style="font-size:.62rem;color:var(--mt)">Search</div><div class="bag">1</div></div></div>
+
+<div class="ann" style="background:#e8f0db;border-bottom-color:#b3c99a"><span class="an" style="color:#3a5a1e">★</span><span class="at" style="color:#3a5a1e">Top Testimonial — a pinned high-credibility quote placed above the gallery to create immediate social proof before any product detail is seen. Uses a professional source (optometrist) to establish clinical authority at first glance. Compact and skimmable — doesn't interrupt the purchase flow.</span></div>
+<div class="toptest">
+  <div class="toptest-quote">
+    <div class="toptest-stars">★★★★★</div>
+    <p class="toptest-text">"The only preservative-free drop I recommend without hesitation. My patients with screen fatigue report a real difference within days."</p>
+    <div class="toptest-attr">Dr. James K. · Optometrist · Chicago, IL</div>
+    <div class="toptest-badge">Verified Eye Care Professional</div>
+  </div>
+</div>
+
+<div class="ann"><span class="an">01</span><span class="at">Image Gallery — swipeable, full-width. Social proof nudge overlay replaces countdown timers: passive urgency that builds trust rather than pressuring it.</span></div>
+<div class="gal"><div class="gbadge">Hero Product</div><div class="bottle"><div class="bc"></div><div class="bs"></div><div class="bb"><div class="bbr">Moysure Oyster</div><div class="bbl"></div><div class="bbn">Hydra+<br>Eye Drops</div><div class="bbf">Clinical Formula</div><div class="bbl"></div><div style="font-size:.42rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mt)">10ml · 30 day supply</div></div><div class="bbo"></div><div class="bcase"><span>Signature Carry Case</span></div></div><div class="snudge"><span>94% of subscribers renew — our most popular product</span></div></div>
+<div class="dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+
+<div class="ann"><span class="an">02</span><span class="at">Buy Box — quantity selector (1/2/3 pack) with tiered discounts appears first, anchoring multi-unit value before the purchase toggle. Subscribe is pre-selected. Full-width 44px toggle tabs, dynamic CTA text and price that reflect both qty and purchase mode. Three trust lines address the top subscription objections.</span></div>
+<div class="bbox">
+  <div class="ew">Eyes that feel good all day. Even on slide 47.</div>
+  <h1 class="pt">Moisture Oyster<br><span style="font-size:1.15rem;color:var(--dk);font-family:var(--serif);font-weight:400">Lubricant Eye Drops</span></h1>
+  <p class="ps">Eyes that feel good all day — even after 10 hours on screen. Preservative-free, triple-action formula with Glycerin, Sodium Hyaluronate and L-Carnitine. Made in the Netherlands.</p>
+  <div class="rrow"><span class="stars">★★★★★</span><span class="rn">4.9</span><span class="rlnk">580 reviews ↓</span><span class="cert" style="font-size:.45rem">GLP Non-Irritant · OECD 492B</span></div>
+  <div class="slbl">Quantity</div>
+  <div class="qgrid">
+    <div class="qcard on" id="qc1" onclick="setQty(1)">
+      <div class="qcard-badge">1 Pack</div>
+      <div class="qcard-n">1</div>
+      <div class="qcard-label">Bottle</div>
+    </div>
+    <div class="qcard" id="qc2" onclick="setQty(2)" style="position:relative">
+      <div class="qcard-best">Most Popular</div>
+      <div class="qcard-badge">Save 10%</div>
+      <div class="qcard-n">2</div>
+      <div class="qcard-label">Bottles</div>
+    </div>
+    <div class="qcard" id="qc3" onclick="setQty(3)">
+      <div class="qcard-badge">Save 15%</div>
+      <div class="qcard-n">3</div>
+      <div class="qcard-label">Bottles</div>
+    </div>
+  </div>
+  <div class="slbl">Purchase Option</div>
+  <div class="stabs">
+    <div class="stab on" id="stab-sub" onclick="setPurch('sub')"><span class="stn">Subscribe</span><span class="stp">$32.30</span><span class="sts">Save 15%</span></div>
+    <div class="stab" id="stab-once" onclick="setPurch('once')"><span class="stn">One-Time</span><span class="stp">$38.00</span><span class="sts">&nbsp;</span></div>
+  </div>
+  <div id="swp" class="swp">Subscribe &amp; save 15% — cancel anytime →</div>
+  <div class="freq" id="freq"><span class="fl">Deliver every</span><select class="fs"><option>30 days — for daily users</option><option>60 days — for occasional users</option></select></div>
+  <button class="ctabtn" id="ctabtn">Subscribe and Save 15%</button>
+  <div class="tlines">
+    <div class="tl"><div class="tld"></div>Free shipping on all subscription orders</div>
+    <div class="tl"><div class="tld"></div>Skip, pause, or cancel anytime — no calls, no forms</div>
+    <div class="tl"><div class="tld"></div>30-day satisfaction guarantee on your first order</div>
+    <div class="tl"><div class="tld"></div>Preservative-free — safe for daily use</div>
+  </div>
+  <div class="pays"><span class="pi">Apple Pay</span><span class="pi">Google Pay</span><span class="pi">Visa</span><span class="pi">MC</span><span class="pi">Afterpay</span><span class="pi">Klarna</span><div class="bnpl"><div class="bd"></div>Or 4 payments of $8.07 with Afterpay</div></div>
+</div>
+
+<div class="ann"><span class="an">03</span><span class="at">Sticky Add to Cart — activates on scroll past the buy box, persists throughout the full page. Button text mirrors the active purchase option. Always within thumb reach.</span></div>
+<div class="sticky" style="border-top:1px solid rgba(169,121,40,.3);border-bottom:1px solid rgba(169,121,40,.25)"><div><div class="stname">Moisture Oyster Eye Drops</div><div style="font-size:.48rem;color:var(--gd);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.1rem">Preservative-Free · Triple-Action Formula</div><div class="stprice" id="stprice">Subscribe · $32.30/mo · Free Shipping</div></div><button class="stbtn" id="stbtn">Subscribe &amp; Save</button></div>
+
+<div class="sdiv"></div>
+<div class="ann"><span class="an">04</span><span class="at">Key Benefits Bar — four clinical claims as icon badges. Scannable in under three seconds. Designed to function as brand assets, not generic trust stamps.</span></div>
+<div class="benbar">
+  <div class="benic"><div class="bsh"><div class="bin"></div></div><div class="blbl">Preserva-<br>tive Free</div></div>
+  <div class="benic"><div class="bsh"><div class="bin" style="border-radius:50%"></div></div><div class="blbl">BAK-<br>Free</div></div>
+  <div class="benic"><div class="bsh"><div class="bin" style="transform:rotate(45deg)"></div></div><div class="blbl">~200 Drop<br>Bottle</div></div>
+  <div class="benic" style="border-right:none"><div class="bsh"><div class="bin" style="width:10px;height:5px;border-radius:2px"></div></div><div class="blbl">GLP<br>Tested</div></div>
+</div>
+
+<div class="sdiv"></div>
+<div class="ann" style="background:#f5ede8;border-bottom-color:#d4a898"><span class="an" style="color:#7a2e1e">PA</span><span class="at" style="color:#5c2416">Problem Agitation — dedicated pain section before the solution appears. Physical pain (grit, sandpaper eyes, short-lived BAK drops) AND emotional pain (ugly clinical bottle you never reach for) must both land before Moisture Oyster is the answer. Dark panel creates visual separation from product content. Brand voice: witty, direct, not clinical.</span></div>
+<div class="prob-agit">
+  <div class="prob-eyebrow">Sound Familiar?</div>
+  <div class="prob-h">You blink 55% less when you're on a screen. Your eyes noticed. They've been quietly suffering since slide 3.</div>
+  <div class="prob-items">
+    <div class="prob-item">
+      <div class="prob-num">01</div>
+      <div class="prob-txt">
+        <strong>The 3pm wall</strong>
+        <p>Gritty. Heavy. Stinging when you finally look away from the screen. You blink and it doesn't help. You blink again. Still nothing.</p>
+      </div>
+    </div>
+    <div class="prob-item">
+      <div class="prob-num">02</div>
+      <div class="prob-txt">
+        <strong>The drops that gave up before you did</strong>
+        <p>You tried the ones from the pharmacy. They helped for maybe 40 minutes. Then the drawer happened. Your eyes have been on their own ever since.</p>
+      </div>
+    </div>
+    <div class="prob-item">
+      <div class="prob-num">03</div>
+      <div class="prob-txt">
+        <strong>Fine. Whatever.</strong>
+        <p>You take care of yourself in every other way. But your eyes? You've accepted that this is just how it is now.</p>
+      </div>
+    </div>
+  </div>
+  <div class="prob-trans"><p>It isn't.</p></div>
+</div>
+
+<div class="sdiv"></div>
+<div class="ann"><span class="an">05</span><span class="at">Product Description — problem → solution → differentiator. Written for cold traffic from paid social arriving without homepage context.</span></div>
+<div class="sec">
+  <div class="sew">About This Product</div>
+  <div class="sh">Built for eyes that never get a break</div>
+  <div class="prose">
+    <p>Screens cut your blink rate dramatically — starving the ocular surface of moisture. Air conditioning, air travel, and contact lens wear compound the damage. Most people tolerate discomfort they don't have to.</p>
+    <p>Moisture Oyster delivers instant hydration and long-lasting tear-film stability through a triple-action formula: Glycerin for immediate lubrication, Sodium Hyaluronate for a sustained mucomimetic moisture film, and L-Carnitine to protect corneal cells from osmotic stress.</p>
+    <p>No benzalkonium chloride, no preservatives. Buffered to physiologic tear chemistry. Dispensed through an Aptar OSD one-way-valve bottle — FDA-cleared multi-dose preservative-free delivery. Safe for daily use with contact lenses.</p>
+  </div>
+</div>
+
+<div class="sdiv"></div>
+<div class="ann"><span class="an">06</span><span class="at">Ingredient Transparency — four tabbed layers: active ingredient with clinical depth, key inactive ingredients, "free from" panel, and formula specifications. The differentiating block no eye care competitor currently publishes at this depth.</span></div>
+<div class="ingh"><div class="sew">Formula Transparency</div><div class="sh" style="margin-bottom:.42rem">What's in your drops</div></div>
+<div class="itabs" style="overflow-x:auto;flex-wrap:nowrap">
+  <div class="itab on" onclick="ingTab(0)" id="it0" style="white-space:nowrap">Active</div>
+  <div class="itab" onclick="ingTab(1)" id="it1" style="white-space:nowrap">Inactive</div>
+  <div class="itab" onclick="ingTab(2)" id="it2" style="white-space:nowrap">Free From</div>
+  <div class="itab" onclick="ingTab(3)" id="it3" style="white-space:nowrap">Specs</div>
+</div>
+<div class="ipanel on" id="ip0">
+  <div class="icards">
+    <div class="icard" onclick="togIng(0)"><div class="ictop"><div><span class="icn">Glycerin</span><span class="icc">0.25%</span></div><div class="ice" id="ie0">+</div></div><div class="icd" id="id0"><div class="icdr"><span class="icdt">Function</span><span class="icdd">Eye lubricant — FDA OTC monograph demulcent per 21 CFR 349.12</span></div><div class="icdr"><span class="icdt">Why 0.25%</span><span class="icdd">Clinically effective within the 0.2–1.0% monograph range. Low enough for sensitive eyes, high enough for immediate relief.</span></div></div></div>
+  </div>
+</div>
+<div class="ipanel" id="ip1">
+  <div class="icards">
+    <div class="icard" onclick="togIng(1)"><div class="ictop"><div><span class="icn">Sodium Hyaluronate</span><span class="icc">0.25%</span></div><div class="ice" id="ie1">+</div></div><div class="icd" id="id1"><div class="icdr"><span class="icdt">Function</span><span class="icdd">Long-acting mucomimetic lubricant; binds up to 1,000× its weight in water</span></div><div class="icdr"><span class="icdt">Why it matters</span><span class="icdd">Non-Newtonian behavior keeps it on the ocular surface longer than standard lubricants</span></div><div class="icdr"><span class="icdt">Origin</span><span class="icdd">Non-animal-derived fermentation process</span></div></div></div>
+    <div class="icard" onclick="togIng(2)"><div class="ictop"><div><span class="icn">L-Carnitine</span><span class="icc">0.25%</span></div><div class="ice" id="ie2">+</div></div><div class="icd" id="id2"><div class="icdr"><span class="icdt">Function</span><span class="icdd">Osmoprotectant — stabilises corneal epithelial cells under hyperosmolar stress (dry eye, screen use, air travel)</span></div><div class="icdr"><span class="icdt">Evidence</span><span class="icdd">Clinically shown to reduce IL-6 inflammatory signalling and restore corneal cells toward healthy baseline after environmental dry-eye stress</span></div></div></div>
+    <div class="icard" onclick="togIng(3)"><div class="ictop"><div><span class="icn">Borate Buffer</span></div><div class="ice" id="ie3">+</div></div><div class="icd" id="id3"><div class="icdr"><span class="icdt">Function</span><span class="icdd">Stabilises the formula at physiologic tear pH (~7.5)</span></div></div></div>
+    <div class="icard" onclick="togIng(4)"><div class="ictop"><div><span class="icn">Balanced Saline</span></div><div class="ice" id="ie4">+</div></div><div class="icd" id="id4"><div class="icdr"><span class="icdt">Function</span><span class="icdd">Isotonic carrier matched to natural tears at 272 mOsm/kg</span></div></div></div>
+  </div>
+</div>
+<div class="ipanel" id="ip2">
+  <div class="flist">
+    <div class="fi"><div class="fx"><span>✕</span></div><div><div class="fn">No Benzalkonium Chloride (BAK)</div><div class="fw">Found in many OTC drops, BAK is associated with corneal toxicity with repeated daily use. Moisture Oyster is BAK-free.</div></div></div>
+    <div class="fi"><div class="fx"><span>✕</span></div><div><div class="fn">No Preservatives</div><div class="fw">Preservative-free multi-dose bottle via the Aptar OSD — a one-way-valve system that prevents contamination without chemical preservatives. FDA-cleared.</div></div></div>
+    <div class="fi"><div class="fx"><span>✕</span></div><div><div class="fn">No Artificial Thickeners</div><div class="fw">No HPMC or carbomer thickeners that cause post-application blur.</div></div></div>
+    <div class="fi"><div class="fx"><span>✕</span></div><div><div class="fn">No Artificial Colorants</div><div class="fw">Clear, pure formula.</div></div></div>
+  </div>
+</div>
+<div class="ipanel" id="ip3">
+  <div class="sgrid">
+    <div class="sc"><div class="scn">~7.5</div><div class="scl">pH</div><div class="scd">Spec 7.2–7.8. Buffered to physiologic tear pH.</div></div>
+    <div class="sc"><div class="scn">272</div><div class="scl">mOsm/kg</div><div class="scd">Isotonic, matched to healthy human tears.</div></div>
+    <div class="sc"><div class="scn">10ml</div><div class="scl">Volume</div><div class="scd">~200 drops per bottle. 30-day supply.</div></div>
+    <div class="sc"><div class="scn">24M</div><div class="scl">Shelf Life</div><div class="scd">24 months unopened. FDA cGMP 21 CFR 210 &amp; 211.</div></div>
+  </div>
+  <div style="padding:.6rem .7rem .5rem;margin-top:.4rem;background:var(--wh);border:1px solid var(--gp)">
+    <div style="font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gd);margin-bottom:.22rem">Safety Testing</div>
+    <div style="font-size:.62rem;color:var(--mt);line-height:1.6">GLP Non-Irritant · OECD TG 492B · LAUS GmbH Study No. 25040707G892<br>Tissue viability 97.6% / 93.8% / 96.2% at 5 / 16 / 120-min exposures — far above the 50% irritation threshold. No UN GHS eye irritation category.</div>
+  </div>
+</div>
+
+<div class="sdiv"></div>
+<div class="ann"><span class="an">07</span><span class="at">How to Use — usage clarity is a purchase trigger for first-time buyers. Three steps kept short and reassuring.</span></div>
+<div class="sec"><div class="sew">How to Use</div><div class="how">
+  <div class="hstep"><div class="hn">01</div><div class="ht"><strong>Tilt head back</strong><p>Hold the bottle above your eye.</p></div></div>
+  <div class="hstep"><div class="hn">02</div><div class="ht"><strong>Apply 1–2 drops per eye</strong><p>Blink to distribute. Safe with contact lenses in place.</p></div></div>
+  <div class="hstep"><div class="hn">03</div><div class="ht"><strong>Use as needed</strong><p>Repeat throughout the day.</p></div></div>
+</div></div>
+
+<div class="sdiv"></div>
+<div class="ann"><span class="an">08</span><span class="at">Clinical & Science — placed after the product story so it reinforces rather than front-loads. GLP test result callout anchors independent third-party validation.</span></div>
+<div class="sec"><div class="sew">The Science</div><div class="sh">Engineered for tear-film support — validated by GLP testing</div>
+<div class="scigrid">
+  <div class="scicard"><div class="scin">0.25%</div><div class="scil">Sodium Hyaluronate</div><div class="scid">Disclosed, clinically meaningful concentration for a stable ocular film.</div></div>
+  <div class="scicard"><div class="scin">0.25%</div><div class="scil">L-Carnitine</div><div class="scid">Osmoprotectant shown to reduce hyperosmolar inflammatory stress on corneal cells.</div></div>
+  <div class="scicard"><div class="scin">272</div><div class="scil">mOsm/kg</div><div class="scid">Isotonic, matched to healthy human tears.</div></div>
+  <div class="scicard"><div class="scin">7.5</div><div class="scil">pH</div><div class="scid">Buffered to physiologic tear pH — no sting.</div></div>
+</div>
+<div class="squo" style="margin-top:.62rem"><div class="sqn" style="font-size:1.1rem;letter-spacing:.04em">GLP Non-Irritant</div><div class="sqt">OECD TG 492B · LAUS GmbH. Tissue viability 97.6% / 93.8% / 96.2% at 5 / 16 / 120-minute exposures — far above the 50% irritation threshold. No UN GHS eye irritation category.</div></div>
+<div class="cite-block">
+  <div class="cite-header">Blink Rate Research</div>
+  <div class="cite-item">
+    <div class="cite-num">①</div>
+    <div>
+      <span class="cite-journal">New England Journal of Medicine, 1993</span>
+      <span class="cite-finding">Landmark peer-reviewed study confirming blink rate reduction during screen use. One of the most cited ophthalmology studies globally — the anchor citation in this category.</span>
+    </div>
+  </div>
+  <div class="cite-item">
+    <div class="cite-num">②</div>
+    <div>
+      <span class="cite-journal">Graefe's Archive for Clinical & Experimental Ophthalmology, 2021</span>
+      <span class="cite-finding">45–55% blink rate reduction confirmed across all digital display types.</span>
+    </div>
+  </div>
+  <div class="cite-item">
+    <div class="cite-num">③</div>
+    <div>
+      <span class="cite-journal">Investigative Ophthalmology & Visual Science (IOVS / PMC), 2023</span>
+      <span class="cite-finding">Blink rate decrease confirmed during both digital and print reading — most recent research consensus.</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="sdiv"></div>
+<div class="ann"><span class="an">CMP</span><span class="at">Comparison Table — Moisture Oyster vs Standard OTC Drops. Placed after Science so clinical credibility is established before the comparison lands. "Standard OTC Drops" category label used throughout — legally safe under FTC comparative advertising rules, avoids Lanham Act exposure from naming Blink or Systane directly.</span></div>
+<div class="comp-sec">
+  <div class="sew">How We Compare</div>
+  <div class="sh">Not all eye drops are equal</div>
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th class="comp-th" style="width:36%"></th>
+        <th class="comp-th ours" style="padding:.65rem .3rem">
+          <div class="btl">
+            <div class="btl-mo-cap"><div class="btl-mo-rib"></div><div class="btl-mo-rib"></div><div class="btl-mo-rib"></div><div class="btl-mo-rib"></div><div class="btl-mo-rib"></div></div>
+            <div class="btl-mo-neck"></div>
+            <div class="btl-mo-body">
+              <div class="btl-mo-label">
+                <span class="lbl-top">Lubricating Eye Drops</span>
+                <span class="lbl-main">Moisture<br>Oyster</span>
+                <span class="lbl-sub">Designed for daily use<br>PRESERVATIVE-FREE</span>
+              </div>
+            </div>
+            <div class="btl-mo-base"></div>
+          </div>
+          <div class="btl-caption">Moisture Oyster</div>
+        </th>
+        <th class="comp-th" style="padding:.65rem .3rem">
+          <div class="btl">
+            <div class="btl-bl-cap"></div>
+            <div class="btl-bl-neck"></div>
+            <div class="btl-bl-body">
+              <div class="btl-bl-label">
+                <span>Blink<br>Tears</span>
+                <small>Lubricating Eye Drops</small>
+              </div>
+            </div>
+            <div class="btl-bl-base"></div>
+          </div>
+          <div class="btl-caption-bl">Standard OTC Drops</div>
+          <div class="btl-blur-note">(brand name blurred)</div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="comp-td">Preservative system</td>
+        <td class="comp-td mo">Preservative-free<br><span style="font-size:.5rem;color:var(--gd)">Aptar OSD valve</span></td>
+        <td class="comp-td no">Contains preservatives ✕</td>
+      </tr>
+      <tr class="comp-tr-alt">
+        <td class="comp-td">Hydration agents</td>
+        <td class="comp-td mo">Triple-action<br><span style="font-size:.5rem;color:var(--gd)">Glycerin + SH + L-Carnitine</span></td>
+        <td class="comp-td no">Single lubricant ✕</td>
+      </tr>
+      <tr>
+        <td class="comp-td">L-Carnitine cell support</td>
+        <td class="comp-td yes">✓</td>
+        <td class="comp-td no">✕</td>
+      </tr>
+      <tr class="comp-tr-alt">
+        <td class="comp-td">pH matched to natural tears</td>
+        <td class="comp-td yes">✓ 7.5</td>
+        <td class="comp-td no">Not optimised ✕</td>
+      </tr>
+      <tr>
+        <td class="comp-td">Won't blur your vision</td>
+        <td class="comp-td yes">✓</td>
+        <td class="comp-td no" style="font-size:.52rem;text-align:left;padding:.52rem .45rem">Commonly contains HPMC, carbomer or CMC — associated with post-application blur ✕</td>
+      </tr>
+      <tr class="comp-tr-alt">
+        <td class="comp-td">Designed for daily use</td>
+        <td class="comp-td yes">✓</td>
+        <td class="comp-td no">Occasional use ✕</td>
+      </tr>
+      <tr>
+        <td class="comp-td">Made for digital-age eyes</td>
+        <td class="comp-td yes">✓</td>
+        <td class="comp-td no">General purpose ✕</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="comp-note">*Reflects typical standard OTC lubricant eye drop formulations. Individual products may vary.</p>
+</div>
+
+<div class="sdiv"></div>
+<div class="ann"><span class="an">09</span><span class="at">Reviews — use-case filters surface relatable peer validation. UGC photo strip before text reviews. Eye care professional reviews badged separately for clinical credibility.</span></div>
+<div class="rsum">
+  <div><div class="rbig">4.9</div><div class="rsts">★★★★★</div><div class="rtot">580 verified reviews</div></div>
+  <div style="flex:1;display:flex;flex-direction:column;gap:.26rem">
+    <div class="brow"><span class="blab">5★</span><div class="btrk"><div class="bfll" style="width:91%"></div></div><span class="bnum">528</span></div>
+    <div class="brow"><span class="blab">4★</span><div class="btrk"><div class="bfll" style="width:7%"></div></div><span class="bnum">40</span></div>
+    <div class="brow"><span class="blab">3★</span><div class="btrk"><div class="bfll" style="width:1.5%"></div></div><span class="bnum">9</span></div>
+    <div class="brow"><span class="blab">2★</span><div class="btrk"><div class="bfll" style="width:.5%"></div></div><span class="bnum">2</span></div>
+    <div class="brow"><span class="blab">1★</span><div class="btrk"><div class="bfll" style="width:.2%"></div></div><span class="bnum">1</span></div>
+  </div>
+</div>
+<div class="rfilt"><div class="rf on">All</div><div class="rf">Verified</div><div class="rf">Most Helpful</div><div class="rf">Lens Wearer</div><div class="rf">Screen Worker</div><div class="rf">Has Photos</div></div>
+<div class="ugcs"><div class="ugc"><div class="ugcl">Customer photo</div></div><div class="ugc"><div class="ugcl">Customer photo</div></div><div class="ugc"><div class="ugcl">Customer photo</div></div><div class="ugc"><div class="ugcl">Customer photo</div></div><div class="ugc"><div class="ugcl">Customer photo</div></div></div>
+<div class="rcards">
+  <div class="rcard"><div class="rcs">★★★★★</div><p class="rcq">"Finally drops I actually enjoy using. The case stays in my bag — eyes feel genuinely better after two weeks."</p><div class="rca">Sarah M. · New York, NY</div><div class="rcb">Verified Subscriber · 3 months</div><div class="rctags"><span class="rctag">Lens wearer</span><span class="rctag">Screen heavy</span></div></div>
+  <div class="rcard"><div class="rcs">★★★★★</div><p class="rcq">"As an optometrist I'm selective about what I recommend. Preservative-free, pH-correct — the case gets patients to actually use it."</p><div class="rca">Dr. James K. · Chicago, IL</div><div class="rcp">Verified Eye Care Professional</div><div class="rctags"><span class="rctag">Clinical use</span></div></div>
+  <div class="rcard"><div class="rcs">★★★★★</div><p class="rcq">"Ten hours on screens daily — the only product that's made a noticeable difference. No sting, no blur. Subscription just arrives."</p><div class="rca">Daniel K. · San Francisco, CA</div><div class="rcb">Verified Subscriber · 5 months</div><div class="rctags"><span class="rctag">Daily use</span><span class="rctag">Screen worker</span></div></div>
+</div>
+
+<div class="sdiv"></div>
+<div class="ann" style="background:#edf5ea;border-bottom-color:#9dc48a"><span class="an" style="color:#2a5e1e">GTY</span><span class="at" style="color:#2a4e1e">7-Day Guarantee — dedicated risk-reversal block. Playbook: for skeptical cold traffic to a new brand, the guarantee must be its own prominent section — not buried in a reassurance strip. Placed after reviews so peer validation lands first, then the guarantee kills remaining doubt right before FAQs handle final objections. Outcome-specific (7 days) signals confidence. No-friction process (no return, 48h refund) removes the final hesitation barrier.</span></div>
+<div class="guar">
+  <div class="guar-head">
+    <div class="guar-shield"><div class="guar-shield-inner"></div></div>
+    <div>
+      <div class="guar-label">7-Day Guarantee</div>
+      <div class="guar-days">Feel the difference —<br>or it's on us.</div>
+    </div>
+  </div>
+  <div class="guar-body">We're that confident. Use Moisture Oyster every day for 7 days. If your eyes don't feel noticeably better — less gritty, less dry, more human — email us and we'll refund you completely.</div>
+  <div class="guar-process">
+    <div class="guar-process-lbl">How it works</div>
+    <div class="guar-process-items">
+      <div class="guar-process-item"><div class="guar-dot"></div>Email dropit@moistureoyster.com with your order number</div>
+      <div class="guar-process-item"><div class="guar-dot"></div>No return shipping required</div>
+      <div class="guar-process-item"><div class="guar-dot"></div>Full refund processed within 48 hours</div>
+    </div>
+  </div>
+  <div class="guar-wit">No questions (okay, maybe one: did you actually use it?)</div>
+  <div class="guar-terms">7-day guarantee applies to single-bottle orders. Bundle orders must be returned for a refund — return shipping is at the customer's cost. Full terms at moistureoyster.com/guarantee.</div>
+</div>
+
+<div class="sdiv"></div>
+<div class="ann"><span class="an">10</span><span class="at">FAQ — eight questions covering product use, the preservative-free bottle technology, and subscription management. Accordion keeps the page clean while full detail is one tap away.</span></div>
+<div class="sec" style="padding-bottom:0"><div class="sew">FAQ</div></div>
+<div>
+  <div class="faqrow"><div class="faqh" onclick="faq(0)"><span class="faqq">Can I use Moisture Oyster with contact lenses?</span><span class="faqi open" id="fi0">+</span></div><div class="faqb open" id="fb0">Yes — preservative-free and BAK-free, safe with all soft contact lens types. Apply with lenses in place.</div></div>
+  <div class="faqrow"><div class="faqh" onclick="faq(1)"><span class="faqq">How does the preservative-free multi-dose bottle work?</span><span class="faqi" id="fi1">+</span></div><div class="faqb" id="fb1">The bottle uses the Aptar OSD (Ophthalmic Squeeze Dispenser) — a one-way-valve system that prevents contamination without chemical preservatives. FDA-cleared technology.</div></div>
+  <div class="faqrow"><div class="faqh" onclick="faq(2)"><span class="faqq">Will my subscription price ever increase?</span><span class="faqi" id="fi2">+</span></div><div class="faqb" id="fb2">Your price is locked at sign-up. We never increase subscription prices without 30 days' notice and an opt-out window.</div></div>
+  <div class="faqrow"><div class="faqh" onclick="faq(3)"><span class="faqq">What if I forget a delivery is coming?</span><span class="faqi" id="fi3">+</span></div><div class="faqb" id="fb3">We send a reminder 3 days before every delivery — time to skip, delay, or adjust before it ships.</div></div>
+  <div class="faqrow"><div class="faqh" onclick="faq(4)"><span class="faqq">What if I use it up too slowly?</span><span class="faqi" id="fi4">+</span></div><div class="faqb" id="fb4">Switch to 60-day delivery from your account dashboard. Change frequency anytime, no fees.</div></div>
+  <div class="faqrow"><div class="faqh" onclick="faq(5)"><span class="faqq">How do I pause or cancel?</span><span class="faqi" id="fi5">+</span></div><div class="faqb" id="fb5">One tap in your account dashboard. No forms, no phone calls.</div></div>
+  <div class="faqrow"><div class="faqh" onclick="faq(6)"><span class="faqq">Is Moisture Oyster safe for daily use?</span><span class="faqi" id="fi6">+</span></div><div class="faqb" id="fb6">Yes. BAK-free, preservative-free, and independently tested as non-irritant under OECD TG 492B. Follow the directions on the Drug Facts panel.</div></div>
+  <div class="faqrow"><div class="faqh" onclick="faq(7)"><span class="faqq">Where is Moisture Oyster made?</span><span class="faqi" id="fi7">+</span></div><div class="faqb" id="fb7">Manufactured in the Netherlands by Oté Pharma SOL B.V. according to US FDA 21 CFR 210 &amp; 211 cGMP standards.</div></div>
+</div>
+
+<div class="sdiv"></div>
+<div class="ann"><span class="an">11</span><span class="at">Subscription Deep Dive — placed after reviews because peer validation then subscription pitch is the highest-converting DTC sequence. Targets high-intent visitors who passed the buy box without committing.</span></div>
+<div class="sdd">
+  <div class="sdew">Subscribe &amp; Save</div>
+  <div class="sdh">Why subscribers love it more</div>
+  <div class="sdsteps">
+    <div class="sdstep"><div class="sdsn">01</div><div class="sdst"><strong>Choose your frequency</strong><p>30-day for daily use or 60-day for occasional. Change anytime.</p></div></div>
+    <div class="sdstep"><div class="sdsn">02</div><div class="sdst"><strong>Free delivery, always</strong><p>Every subscription ships free across the US. No threshold, no conditions.</p></div></div>
+    <div class="sdstep"><div class="sdsn">03</div><div class="sdst"><strong>Your eye care guide</strong><p>After your first order we send a guide to building a daily eye care habit.</p></div></div>
+  </div>
+  <div class="sdquo"><p class="sdq">"I set it to 60 days and completely forget about it. My eyes have never felt better."</p><div class="sda">Priya L. · Verified Subscriber · Austin, TX</div></div>
+  <button class="sdbtn">Start My Eye Care Routine</button>
+  <div class="sdlock">Not ready? Try it once for $38 — subscribe later.</div>
+</div>
+
+<div class="ann"><span class="an">12</span><span class="at">Complete Your Routine — framed as building a habit, not upselling. Surfaces vitamins and bundle at the point of highest intent, after the full product case has been made.</span></div>
+<div class="yal">
+  <div class="yalh">Complete Your Routine</div>
+  <div class="ycard"><div class="yimg"><div class="yimgl">Eye Vitamins image</div></div><div class="yinfo"><div class="yn">Eye Vitamins Daily</div><div class="ys">60 caps · 2 month supply</div><div class="yp">$42 · Subscribe from $35.70</div><button class="ybtn">Quick Add</button></div></div>
+  <div class="ycard"><div class="yimg"><div class="yimgl">Bundle image</div></div><div class="yinfo"><div style="font-size:.48rem;letter-spacing:.09em;text-transform:uppercase;background:var(--gd);color:var(--wh);padding:.1rem .26rem;display:inline-block;margin-bottom:.2rem">Save 20%</div><div class="yn">Drops + Vitamins Bundle</div><div class="ys">Complete eye health routine</div><div class="yp">From $64/mo · Free shipping</div><button class="ybtn">Shop Bundle</button></div></div>
+</div>
+
+<div class="ann"><span class="an">14</span><span class="at">Drug Facts Panel — mandatory FDA OTC labelling, rendered faithfully on-page for transparency. Positions Moisture Oyster as a fully compliant OTC drug product, not a cosmetic. Builds regulatory credibility for clinical buyers.</span></div>
+<div class="dfp">
+  <div class="dfp-title">Drug Facts</div>
+  <div class="dfp-sub">Active ingredient &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Purpose</div>
+  <div class="dfp-row"><span>Glycerin 0.25%</span><span>Eye lubricant</span></div>
+  <div class="dfp-sub">Uses</div>
+  <div class="dfp-bul">For the temporary relief of burning and irritation due to dryness of the eye</div>
+  <div class="dfp-bul">For use as a protectant against further irritation</div>
+  <div class="dfp-sub">Warnings</div>
+  <div class="dfp-p"><span class="dfp-bold">For external use only</span></div>
+  <div class="dfp-p"><span class="dfp-bold">Do not use</span> if this solution changes color or becomes cloudy</div>
+  <div class="dfp-p"><span class="dfp-bold">When using this product</span></div>
+  <div class="dfp-bul">do not touch tip of container to any surface to avoid contamination</div>
+  <div class="dfp-bul">replace cap after use</div>
+  <div class="dfp-p"><span class="dfp-bold">Stop use and ask a doctor if</span></div>
+  <div class="dfp-bul">you experience eye pain</div>
+  <div class="dfp-bul">changes in vision occur</div>
+  <div class="dfp-bul">continued redness or irritation of the eye occurs</div>
+  <div class="dfp-bul">the condition worsens or persists for more than 72 hours</div>
+  <div class="dfp-p" style="margin-top:.24rem"><span class="dfp-bold">Keep out of reach of children.</span> If swallowed, get medical help or contact a Poison Control Center right away.</div>
+  <div class="dfp-sub">Directions</div>
+  <div class="dfp-bul">Instill 1 or 2 drops in the affected eye(s) as needed</div>
+  <div class="dfp-sub">Other information</div>
+  <div class="dfp-bul">Store at 20–25°C (68–77°F)</div>
+  <div class="dfp-bul">Use before the expiration date marked on the bottle</div>
+  <div class="dfp-sub">Inactive ingredients</div>
+  <div class="dfp-p">borax, boric acid, calcium chloride, L-carnitine, purified water, sodium chloride, sodium hyaluronate</div>
+</div>
+
+<div class="ann"><span class="an">15</span><span class="at">Reassurance Strip — five trust signals for users who've read everything but haven't converted. Risk-hesitancy, not disinterest, is the barrier at page-bottom.</span></div>
+<div class="reas">
+  <div class="rrow2"><div class="rd"></div>30-day satisfaction guarantee on your first subscription order</div>
+  <div class="rrow2"><div class="rd"></div>Free shipping on all subscriptions — always</div>
+  <div class="rrow2"><div class="rd"></div>Cancel, pause, or skip anytime — no calls, no forms</div>
+  <div class="rrow2"><div class="rd"></div>GLP Non-Irritant tested · BAK-free · Made in the Netherlands</div>
+  <div class="rrow2"><div class="rd"></div>Secure checkout · Apple Pay · Google Pay · Afterpay</div>
+</div>
+
+</div></div><!-- /phone /phone-wrap -->
+
+<script>
+// Pricing table: [oneTime, subscribe] per qty
+var QTY_PRICES={1:[38.00,32.30],2:[68.40,58.10],3:[96.90,82.40]};
+var activeQty=1;
+var activeMode='sub';
+
+function setQty(q){
+  activeQty=q;
+  [1,2,3].forEach(function(n){document.getElementById('qc'+n).classList.toggle('on',n===q)});
+  refreshPrice();
+}
+
+function setPurch(m){
+  activeMode=m;
+  var ss=document.getElementById('stab-sub'),so=document.getElementById('stab-once');
+  var fr=document.getElementById('freq'),sw=document.getElementById('swp');
+  if(m==='sub'){ss.classList.add('on');so.classList.remove('on');fr.style.display='flex';sw.style.display='none';}
+  else{so.classList.add('on');ss.classList.remove('on');fr.style.display='none';sw.style.display='block';}
+  refreshPrice();
+}
+
+function refreshPrice(){
+  var prices=QTY_PRICES[activeQty];
+  var price=activeMode==='sub'?prices[1]:prices[0];
+  var cb=document.getElementById('ctabtn'),sp=document.getElementById('stprice'),sb=document.getElementById('stbtn');
+  var qtySuffix=activeQty>1?' ('+activeQty+' pack)':'';
+  if(activeMode==='sub'){
+    cb.textContent='Subscribe and Save'+qtySuffix+' — $'+price.toFixed(2)+'/mo';
+    sp.textContent='Subscribe'+qtySuffix+' · $'+price.toFixed(2)+'/mo · Free Shipping';
+    sb.textContent='Subscribe & Save';
+  } else {
+    cb.textContent='Add to Cart'+qtySuffix+' — $'+price.toFixed(2);
+    sp.textContent='One-Time'+qtySuffix+' · $'+price.toFixed(2);
+    sb.textContent='Add to Cart';
+  }
+}
+
+function ingTab(i){
+  ['it0','it1','it2','it3'].forEach(function(id,j){document.getElementById(id).classList.toggle('on',i===j)});
+  ['ip0','ip1','ip2','ip3'].forEach(function(id,j){document.getElementById(id).classList.toggle('on',i===j)});
+}
+function togIng(i){
+  var d=document.getElementById('id'+i),e=document.getElementById('ie'+i),o=d.classList.contains('open');
+  d.classList.toggle('open',!o);e.classList.toggle('open',!o);
+}
+function faq(i){
+  var b=document.getElementById('fb'+i),ic=document.getElementById('fi'+i),o=b.classList.contains('open');
+  b.classList.toggle('open',!o);ic.classList.toggle('open',!o);
+}
+</script>
+</body>
+</html>

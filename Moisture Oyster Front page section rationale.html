@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moysure Oyster — Homepage Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cr:#F4EDDF;--cs:#FAF7F1;--gd:#A97928;--gl:#DFC48A;--gp:#EDE0C4;
+  --dk:#231606;--mt:#8A7055;--sb:#BEA07A;--wh:#FFFEF9;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Jost',system-ui,sans-serif;
+  --ab:#EEF3FA;--at:#1a3350
+}
+body{font-family:var(--sans);background:#ccc8c0;min-height:100vh;display:flex;gap:3rem;padding:2.5rem;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+
+/* ── OVERVIEW PANEL ── */
+.overview{width:280px;flex-shrink:0;position:sticky;top:2.5rem;max-height:calc(100vh - 5rem);overflow-y:auto}
+.overview::-webkit-scrollbar{width:3px}
+.overview::-webkit-scrollbar-thumb{background:var(--gp);border-radius:2px}
+.ov-h{font-family:var(--serif);font-size:1.5rem;font-weight:400;color:#1a1208;margin-bottom:.3rem}
+.ov-s{font-size:.68rem;color:#6b5e4e;line-height:1.65;margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid #c0bbb0}
+.ov-blocks{display:flex;flex-direction:column;gap:.5rem}
+.ob{background:#fff;border-left:3px solid var(--gd);padding:.65rem .8rem}
+.ob-row{display:flex;align-items:baseline;gap:.4rem;margin-bottom:.28rem}
+.ob-n{font-size:.58rem;font-weight:600;color:var(--gd);letter-spacing:.1em;flex-shrink:0}
+.ob-name{font-size:.73rem;font-weight:500;color:var(--dk)}
+.ob-desc{font-size:.63rem;color:#6b5e4e;line-height:1.6}
+
+/* ── HOMEPAGE FRAME ── */
+.page-wrap{flex:1;min-width:860px;max-width:1200px}
+.page{background:var(--cs);overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.3)}
+
+/* ANNOTATION STRIP */
+.ann{background:var(--ab);border-bottom:1px solid #c5d5e8;padding:.4rem 1.5rem;display:flex;gap:.65rem;align-items:flex-start}
+.an{font-size:.6rem;font-weight:700;color:#2D4A6B;min-width:20px;padding-top:.05rem;flex-shrink:0}
+.at{font-size:.6rem;color:var(--at);line-height:1.55}
+
+/* ── NAV ── */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3.5rem;background:var(--cr);border-bottom:1px solid var(--gp)}
+.logo{font-family:var(--serif);font-size:1.35rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dk)}
+.logo em{color:var(--gd);font-style:normal}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mt);text-decoration:none}
+.nav-right{display:flex;align-items:center;gap:1.2rem}
+.nav-bag{font-size:.65rem;letter-spacing:.13em;text-transform:uppercase;color:var(--mt)}
+.btn-dk{background:var(--dk);color:var(--wh);padding:.52rem 1.4rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;font-family:var(--sans)}
+.btn-gd{background:var(--gd);color:var(--wh);padding:.85rem 2.2rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;border:none;cursor:pointer;font-family:var(--sans)}
+.btn-ol{font-size:.78rem;color:var(--dk);border-bottom:1px solid var(--gd);padding-bottom:2px;text-decoration:none;letter-spacing:.04em;cursor:pointer}
+
+/* ── HERO ── */
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:640px}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:5rem 3.5rem 5rem 4rem;border-right:1px solid var(--gp)}
+.hero-eb{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gd);margin-bottom:1.8rem;display:flex;align-items:center;gap:.8rem}
+.hero-eb::before{content:'';width:2rem;height:1px;background:var(--gd)}
+.hero-h1{font-family:var(--serif);font-size:4.2rem;line-height:1.03;font-weight:400;color:var(--dk);margin-bottom:1.4rem}
+.hero-h1 i{color:var(--gd);font-style:italic}
+.hero-sub{font-size:.88rem;line-height:1.82;color:var(--mt);max-width:28rem;margin-bottom:2.6rem}
+.hero-ctas{display:flex;align-items:center;gap:1.8rem;margin-bottom:2.2rem}
+.hero-rat{display:flex;align-items:center;gap:.7rem}
+.rat-stars{color:var(--gd);font-size:.8rem;letter-spacing:3px}
+.rat-t{font-size:.76rem;color:var(--mt)}
+.hero-right{display:grid;grid-template-rows:1fr 1fr}
+.h-prod{background:var(--cr);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--gp);position:relative;padding:2rem}
+.h-prod-badge{position:absolute;top:1.2rem;left:1.2rem;background:var(--dk);color:var(--wh);padding:.25rem .6rem;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase}
+.h-life{background:var(--sb);display:flex;align-items:center;justify-content:center;position:relative}
+.life-inner{text-align:center}
+.life-h{font-family:var(--serif);font-size:2rem;font-style:italic;color:var(--wh);opacity:.55;line-height:1.3}
+.eye-oval{width:140px;height:66px;border-radius:50%;border:1px solid rgba(255,254,249,.22);margin:.8rem auto}
+.life-sub{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,254,249,.35)}
+
+/* BOTTLE ILLUSTRATION */
+.prod-illo{display:flex;flex-direction:column;align-items:center}
+.b-cap{width:36px;height:20px;background:var(--gd);border-radius:3px 3px 0 0;border:1px solid #8a6020}
+.b-shoulder{width:52px;height:10px;background:var(--wh);border:1px solid var(--gl);border-top:none;border-bottom:none}
+.b-body{width:76px;height:185px;background:var(--wh);border:1px solid var(--gl);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.45rem}
+.b-brand{font-family:var(--serif);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mt)}
+.b-hline{width:36px;height:1px;background:var(--gp)}
+.b-name{font-family:var(--serif);font-size:.78rem;font-weight:400;color:var(--dk);text-align:center;line-height:1.3}
+.b-formula{font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gd)}
+.b-vol{font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mt)}
+.b-bottom{width:76px;height:12px;background:var(--wh);border:1px solid var(--gl);border-top:none;border-radius:0 0 4px 4px}
+.b-case-unit{margin-top:.9rem;display:flex;flex-direction:column;align-items:center;gap:3px}
+.b-case{width:106px;height:28px;background:var(--gp);border:1px solid var(--gl);border-radius:4px;display:flex;align-items:center;justify-content:center}
+.b-case span{font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mt)}
+.b-hinge{width:18px;height:6px;background:var(--gl);border-radius:2px}
+
+/* ── TRUST BAR ── */
+.trust-bar{background:var(--dk);padding:1rem 4rem;display:flex;align-items:center;justify-content:center;gap:2.8rem;flex-wrap:wrap}
+.t-item{display:flex;align-items:center;gap:.45rem;font-size:.61rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,254,249,.45)}
+.t-dot{width:5px;height:5px;background:var(--gd);border-radius:50%;flex-shrink:0}
+
+/* ── HERO PRODUCT FEATURE ── */
+.prod-sec{display:grid;grid-template-columns:1fr 1fr;background:var(--cs)}
+.prod-img-side{background:var(--cr);display:flex;align-items:center;justify-content:center;padding:4rem;min-height:540px;border-right:1px solid var(--gp)}
+.prod-det{padding:4rem 3.5rem;display:flex;flex-direction:column;justify-content:center}
+.sec-eb{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gd);margin-bottom:1.1rem;display:flex;align-items:center;gap:.6rem}
+.sec-eb::before{content:'';width:1.4rem;height:1px;background:var(--gd)}
+.sec-h2{font-family:var(--serif);font-size:2.6rem;font-weight:400;line-height:1.1;margin-bottom:.65rem;color:var(--dk)}
+.sec-desc{font-size:.86rem;line-height:1.82;color:var(--mt);margin-bottom:1.8rem;max-width:30rem}
+.sub-tgl{display:inline-flex;margin-bottom:1.4rem;border:1px solid var(--gp);overflow:hidden}
+.tg-opt{padding:.56rem 1.2rem;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;color:var(--mt);background:var(--wh);border:none;font-family:var(--sans);transition:all .2s}
+.tg-opt.on{background:var(--dk);color:var(--wh)}
+.price-area{margin-bottom:1.4rem}
+.p-main{font-family:var(--serif);font-size:3rem;font-weight:400;color:var(--dk);line-height:1}
+.p-note{font-size:.75rem;color:var(--mt);margin-top:.3rem}
+.save-pill{background:var(--gd);color:var(--wh);padding:.18rem .52rem;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;margin-left:.5rem;vertical-align:middle}
+.freq-row{font-size:.75rem;color:var(--mt);margin-top:.5rem;display:none}
+.freq-row select{border:1px solid var(--gp);background:var(--cs);font-size:.72rem;padding:.2rem .4rem;font-family:var(--sans);color:var(--dk);margin-left:.35rem}
+.ben-list{list-style:none;margin-bottom:1.6rem}
+.ben-item{display:flex;align-items:center;gap:.55rem;font-size:.82rem;color:var(--mt);padding:.42rem 0;border-bottom:1px solid var(--gp)}
+.bm{width:5px;height:5px;border-radius:50%;background:var(--gd);flex-shrink:0}
+.pay-note{margin-top:.65rem;font-size:.7rem;color:var(--mt)}
+
+/* ── EYE HEALTH ── */
+.eye-health{padding:5rem 4rem;background:var(--dk);text-align:center}
+.eh-eb{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gd);margin-bottom:1rem}
+.eh-h2{font-family:var(--serif);font-size:3rem;font-weight:400;color:var(--wh);margin-bottom:.75rem}
+.eh-sub{font-size:.86rem;color:rgba(255,254,249,.42);line-height:1.72;max-width:36rem;margin:0 auto 3.5rem}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:860px;margin:0 auto}
+.stat-b{border:1px solid rgba(169,121,40,.28);padding:2.4rem 1.8rem;text-align:center}
+.stat-n{font-family:var(--serif);font-size:4rem;font-weight:400;color:var(--gd);line-height:1;margin-bottom:.45rem}
+.stat-l{font-size:.8rem;color:rgba(255,254,249,.45);line-height:1.65}
+
+/* ── HOW IT WORKS ── */
+.hiw{padding:5rem 4rem;background:var(--cs);text-align:center}
+.hiw-sub{font-size:.86rem;color:var(--mt);line-height:1.72;max-width:28rem;margin:0 auto 3.5rem}
+.steps-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:900px;margin:0 auto}
+.step-b{background:var(--cr);border:1px solid var(--gp);padding:2.4rem 2rem;text-align:center}
+.step-n{font-family:var(--serif);font-size:3.8rem;font-weight:300;color:var(--gp);line-height:1;margin-bottom:.9rem}
+.step-h{font-family:var(--serif);font-size:1.22rem;font-weight:400;margin-bottom:.55rem;color:var(--dk)}
+.step-p{font-size:.8rem;color:var(--mt);line-height:1.72}
+
+/* ── ABOUT ── */
+.about{display:grid;grid-template-columns:1fr 1fr;min-height:480px}
+.about-img{background:var(--gp);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem}
+.founder-circle{width:150px;height:150px;border-radius:50%;background:var(--sb);border:4px solid var(--wh);display:flex;align-items:center;justify-content:center}
+.fi-init{font-family:var(--serif);font-size:2.4rem;font-weight:300;color:var(--wh)}
+.fi-lbl{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mt)}
+.about-con{padding:5rem 4rem;display:flex;flex-direction:column;justify-content:center;background:var(--cr)}
+.about-h2{font-family:var(--serif);font-size:2.7rem;font-weight:400;line-height:1.1;margin-bottom:1.3rem;color:var(--dk)}
+.about-p{font-size:.86rem;line-height:1.88;color:var(--mt);margin-bottom:1.3rem}
+.about-lk{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gd);text-decoration:none;border-bottom:1px solid var(--gd);padding-bottom:2px;cursor:pointer}
+
+/* ── TESTIMONIALS ── */
+.testimonials{padding:5rem 4rem;background:var(--cr)}
+.test-head{text-align:center;margin-bottom:3.2rem}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;max-width:1000px;margin:0 auto}
+.test-c{background:var(--cs);border:1px solid var(--gp);padding:1.9rem}
+.tc-stars{color:var(--gd);font-size:.72rem;letter-spacing:3px;margin-bottom:.9rem}
+.tc-q{font-family:var(--serif);font-size:1.02rem;font-style:italic;line-height:1.66;color:var(--dk);margin-bottom:1.1rem}
+.tc-auth{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mt)}
+.tc-badge{font-size:.6rem;color:var(--gd);margin-top:.18rem}
+.tc-pro{font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;background:var(--dk);color:var(--wh);padding:.1rem .32rem;display:inline-block;margin-top:.22rem}
+
+/* ── COMING SOON ── */
+.coming{padding:4.5rem;background:var(--dk);text-align:center}
+.cs-eb{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gd);margin-bottom:.95rem}
+.cs-h2{font-family:var(--serif);font-size:2.8rem;font-weight:400;color:var(--wh);margin-bottom:.65rem}
+.cs-sub{font-size:.86rem;color:rgba(255,254,249,.42);margin-bottom:2rem;max-width:28rem;margin-left:auto;margin-right:auto;line-height:1.72}
+.email-row{display:flex;max-width:400px;margin:0 auto;border:1px solid rgba(169,121,40,.4)}
+.email-i{flex:1;padding:.75rem 1.1rem;background:transparent;border:none;color:var(--wh);font-size:.84rem;font-family:var(--sans);outline:none}
+.email-i::placeholder{color:rgba(255,254,249,.28)}
+.email-btn{padding:.75rem 1.3rem;background:var(--gd);color:var(--wh);border:none;cursor:pointer;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;font-family:var(--sans)}
+
+/* ── FOOTER ── */
+.footer{background:var(--dk);padding:3.5rem 4rem 2rem;border-top:1px solid rgba(169,121,40,.15)}
+.f-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.8rem}
+.f-logo{font-family:var(--serif);font-size:1.2rem;letter-spacing:.2em;text-transform:uppercase;color:var(--wh);margin-bottom:.75rem}
+.f-logo em{color:var(--gd);font-style:normal}
+.f-tag{font-size:.76rem;color:rgba(255,254,249,.3);line-height:1.68;max-width:18rem}
+.f-col-h{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gd);margin-bottom:.9rem}
+.f-list{list-style:none;display:flex;flex-direction:column;gap:.45rem}
+.f-list a{font-size:.76rem;color:rgba(255,254,249,.38);text-decoration:none}
+.f-bot{border-top:1px solid rgba(169,121,40,.12);padding-top:1.4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem}
+.f-leg{font-size:.66rem;color:rgba(255,254,249,.22)}
+.pay-row{display:flex;gap:.4rem;flex-wrap:wrap}
+.pay-b{background:rgba(255,254,249,.06);border:1px solid rgba(255,254,249,.1);padding:.18rem .5rem;font-size:.56rem;letter-spacing:.06em;color:rgba(255,254,249,.32)}
+</style>
+</head>
+<body>
+
+<!-- ══ STRUCTURAL OVERVIEW ══ -->
+<div class="overview">
+  <div class="ov-h">Page Structure</div>
+  <p class="ov-s">A 9-block conversion-first homepage for the US DTC market. Every block serves a specific role in the journey from first impression to purchase intent — and is built to scale as the product catalog grows.</p>
+  <div class="ov-blocks">
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">01</span><span class="ob-name">Navigation</span></div>
+      <p class="ob-desc">The permanent brand frame across every page. Category labels (Eye Drops, Vitamins) are introduced from launch even with one product per category — creating the navigation architecture that grows into a full dropdown at Phase 2 without structural disruption. Bag and CTA anchor the right side.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">02</span><span class="ob-name">Hero Section</span></div>
+      <p class="ob-desc">The most critical 5–7 seconds of the brand experience. A split layout gives equal real estate to the product (left: headline, value proposition, CTA) and the brand lifestyle (right: product imagery top, lifestyle tone bottom). A single primary CTA reduces decision fatigue and directs traffic immediately into the purchasing funnel. The subscription offer is introduced here but detailed below.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">03</span><span class="ob-name">Trust Bar</span></div>
+      <p class="ob-desc">Five credibility signals positioned immediately below the hero before any scroll. In health DTC, trust is the primary currency — establishing it at this point intercepts buyer hesitation before product details are explored. The dark background creates a visual break that draws the eye down the page.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">04</span><span class="ob-name">Hero Product Feature</span></div>
+      <p class="ob-desc">Full product presentation for Moisture Oyster Lubricant Eye Drops with the subscription toggle directly on the card. Showing subscribe vs one-time pricing at homepage level is the primary mechanism for increasing customer lifetime value. This block condenses into a product grid when the catalog grows to Phase 2.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">05</span><span class="ob-name">Eye Health Education</span></div>
+      <p class="ob-desc">A problem agitation block placed deliberately after the product introduction — not before it. Users who have seen the product are primed to contextualise the statistics as personal relevance. The three US-specific stats (16M Americans, 7hr screen time, $4B market) shift the visitor from passive interest to active need, creating urgency before they reach the subscription pitch below.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">06</span><span class="ob-name">How It Works</span></div>
+      <p class="ob-desc">A 3-step visual guide addressing the subscription model's friction points before they become objections. Transparency about the process — choose frequency, free delivery, cancel anytime — reduces anxiety and encourages users to opt for recurring delivery over one-time purchase. The block frames subscription as a service, not a commitment.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">07</span><span class="ob-name">About Us</span></div>
+      <p class="ob-desc">Brand humanisation placed in the lower half of the page, after all product information has been absorbed. Consumers connect with authentic founder stories — this section builds emotional resonance that drives long-term retention rather than single-order conversion. A photo placeholder anchors the human element.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">08</span><span class="ob-name">Testimonials</span></div>
+      <p class="ob-desc">Peer validation as the final conversion nudge before the email capture. Three cards with verified badges, geographic attribution, and use-case context (lens wearer, screen worker) provide relatable proof for the target audience. Positioned late in the scroll journey to catch high-intent users who are close to deciding.</p>
+    </div>
+
+    <div class="ob">
+      <div class="ob-row"><span class="ob-n">09</span><span class="ob-name">Coming Soon / Teaser</span></div>
+      <p class="ob-desc">A dual-purpose block: builds anticipation for the eye vitamins launch and captures email leads for future product announcements. The email capture here is warmer than a generic newsletter signup — visitors who reach this point are already engaged with the brand. At Phase 2, this block is replaced by the full product grid.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ HOMEPAGE MOCKUP ══ -->
+<div class="page-wrap"><div class="page">
+
+<!-- ── 01 NAV ── -->
+<div class="ann"><span class="an">01</span><span class="at">Navigation — permanent brand frame. Category labels introduced from launch even with one product per category, establishing the architecture that expands into a full mega-menu dropdown at Phase 2 without structural disruption.</span></div>
+<nav class="nav">
+  <div class="logo">Moisture <em>Oyster</em></div>
+  <ul class="nav-links">
+    <li><a href="#">Eye Drops</a></li>
+    <li><a href="#">Vitamins</a></li>
+    <li><a href="#">Subscribe</a></li>
+    <li><a href="#">Eye Health</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-bag">Bag (0)</span>
+    <button class="btn-dk">Shop Now</button>
+  </div>
+</nav>
+
+<!-- ── 02 HERO ── -->
+<div class="ann"><span class="an">02</span><span class="at">Hero Section — the most critical 5–7 seconds of the brand experience. Split layout: product value proposition and single CTA left, product imagery and lifestyle tone right. One CTA reduces decision fatigue and directs traffic immediately into the purchase funnel.</span></div>
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eb">Clinical Eye Care</div>
+    <h1 class="hero-h1">See the World<br><i>More Clearly</i></h1>
+    <p class="hero-sub">Premium preservative-free eye drops with Glycerin, Hyaluronate, and L-Carnitine. Made in the Netherlands. Designed for the modern, screen-driven eye.</p>
+    <div class="hero-ctas">
+      <button class="btn-gd">Shop Eye Drops</button>
+      <a class="btn-ol" href="#">How It Works</a>
+    </div>
+    <div class="hero-rat">
+      <span class="rat-stars">★★★★★</span>
+      <span class="rat-t">4.9 · 580+ Verified Reviews</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="h-prod">
+      <span class="h-prod-badge">New · US Launch</span>
+      <div class="prod-illo">
+        <div class="b-cap"></div>
+        <div class="b-shoulder"></div>
+        <div class="b-body">
+          <div class="b-brand">Moysure Oyster</div>
+          <div class="b-hline"></div>
+          <div class="b-name">Hydra+<br>Eye Drops</div>
+          <div class="b-formula">Clinical Formula</div>
+          <div class="b-hline"></div>
+          <div class="b-vol">10ml · 30 day supply</div>
+        </div>
+        <div class="b-bottom"></div>
+        <div class="b-case-unit">
+          <div class="b-hinge"></div>
+          <div class="b-case"><span>Signature Carry Case</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="h-life">
+      <div class="life-inner">
+        <div class="life-h">For Eyes<br>That Never Rest</div>
+        <div class="eye-oval"></div>
+        <div class="life-sub">Lifestyle imagery</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 03 TRUST BAR ── -->
+<div class="ann"><span class="an">03</span><span class="at">Trust Bar — five credibility signals immediately below the hero, before any scroll. Trust is the primary currency in health DTC. The dark background creates a visual break and draws the eye through to the product section below.</span></div>
+<div class="trust-bar">
+  <div class="t-item"><div class="t-dot"></div>BAK-Free &amp; Preservative-Free</div>
+  <div class="t-item"><div class="t-dot"></div>GLP Non-Irritant Tested (OECD 492B)</div>
+  <div class="t-item"><div class="t-dot"></div>US FDA cGMP 21 CFR 210 &amp; 211 Manufacturing</div>
+  <div class="t-item"><div class="t-dot"></div>Made in the Netherlands</div>
+  <div class="t-item"><div class="t-dot"></div>Free Shipping on Subscriptions</div>
+</div>
+
+<!-- ── 04 HERO PRODUCT FEATURE ── -->
+<div class="ann"><span class="an">04</span><span class="at">Hero Product Feature — full product presentation with the subscription toggle directly on the card. Showing subscribe vs one-time pricing here anchors the value of recurring purchase and is the primary mechanism for increasing customer lifetime value from the homepage.</span></div>
+<section class="prod-sec">
+  <div class="prod-img-side">
+    <div class="prod-illo" style="transform:scale(1.05)">
+      <div class="b-cap"></div>
+      <div class="b-shoulder"></div>
+      <div class="b-body" style="height:200px">
+        <div class="b-brand">Moysure Oyster</div>
+        <div class="b-hline"></div>
+        <div class="b-name">Hydra+<br>Eye Drops</div>
+        <div class="b-formula">Hydra+ Formula</div>
+        <div class="b-hline"></div>
+        <div class="b-vol">10ml · 30 day supply</div>
+      </div>
+      <div class="b-bottom"></div>
+      <div class="b-case-unit">
+        <div class="b-hinge"></div>
+        <div class="b-case" style="width:115px"><span>Signature Carry Case</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="prod-det">
+    <div class="sec-eb">Hero Product</div>
+    <h2 class="sec-h2">Moisture Oyster<br>Lubricant Eye Drops</h2>
+    <p class="sec-desc">Triple-action hydration with Glycerin, Hyaluronate, and L-Carnitine. Preservative-free. Multi-dose bottle via Aptar OSD technology. Safe for daily use with contact lenses. Made in the Netherlands by Oté Pharma.</p>
+    <div class="sub-tgl">
+      <button class="tg-opt on" id="btn-once" onclick="setMode('once')">One-Time</button>
+      <button class="tg-opt" id="btn-sub" onclick="setMode('sub')">Subscribe &amp; Save</button>
+    </div>
+    <div class="price-area">
+      <div class="p-main" id="p-main">$38<span style="font-size:1.2rem;color:var(--mt)">.00</span></div>
+      <div class="p-note" id="p-note">One-time purchase · Free shipping on orders over $30</div>
+      <div class="freq-row" id="freq-row">Deliver every: <select><option>30 days</option><option>60 days</option><option>90 days</option></select></div>
+    </div>
+    <ul class="ben-list">
+      <li class="ben-item"><span class="bm"></span>Sodium Hyaluronate 0.25% + Glycerin 0.25% + L-Carnitine 0.25%</li>
+      <li class="ben-item"><span class="bm"></span>Preservative-free · BAK-free · pH ~7.5 · 272 mOsm/kg</li>
+      <li class="ben-item"><span class="bm"></span>Aptar OSD multi-dose dispenser — ~200 drops per bottle</li>
+      <li class="ben-item"><span class="bm"></span>GLP non-irritant tested (OECD 492B)</li>
+      <li class="ben-item"><span class="bm"></span>Contact-lens safe</li>
+    </ul>
+    <button class="btn-gd" style="align-self:flex-start">Add to Bag</button>
+    <div class="pay-note">Apple Pay · Google Pay · Klarna · Afterpay · Shop Pay</div>
+  </div>
+</section>
+
+<!-- ── 05 EYE HEALTH EDUCATION ── -->
+<div class="ann"><span class="an">05</span><span class="at">Eye Health Education — problem agitation placed after the product introduction. Users who have seen the product contextualise the statistics as personal relevance. The three US-specific stats shift the visitor from passive interest to active need, creating urgency before the subscription pitch.</span></div>
+<section class="eye-health">
+  <div class="eh-eb">Why Eye Care Matters</div>
+  <h2 class="eh-h2">The Silent Crisis<br>in Eye Health</h2>
+  <p class="eh-sub">Modern life is unkind to the tear film. Screens, indoor air, contact lenses, and air travel all accelerate dry-eye symptoms — often before people realize they have a problem.</p>
+  <div class="stats-row">
+    <div class="stat-b">
+      <div class="stat-n">16M</div>
+      <div class="stat-l">Americans diagnosed with dry eye disease — with millions more currently undiagnosed</div>
+    </div>
+    <div class="stat-b">
+      <div class="stat-n">7hr</div>
+      <div class="stat-l">Average daily screen time for US adults, reducing blink rate by up to 60%</div>
+    </div>
+    <div class="stat-b">
+      <div class="stat-n">$4B</div>
+      <div class="stat-l">US dry eye market by 2026 — consumer demand for premium solutions is accelerating</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 06 HOW IT WORKS ── -->
+<div class="ann"><span class="an">06</span><span class="at">How It Works — addresses the subscription model's friction points before they become objections. Transparency about process (choose frequency, free delivery, cancel anytime) reduces anxiety and frames subscription as a service, not a commitment.</span></div>
+<section class="hiw">
+  <div class="sec-eb" style="justify-content:center;margin-bottom:1rem">Subscription Made Simple</div>
+  <h2 class="sec-h2" style="text-align:center;font-size:2.7rem;margin-bottom:.7rem">How It Works</h2>
+  <p class="hiw-sub">Premium eye care that fits your life. Set up once, stay hydrated always.</p>
+  <div class="steps-row">
+    <div class="step-b">
+      <div class="step-n">01</div>
+      <div class="step-h">Choose Your Frequency</div>
+      <p class="step-p">Select 30, 60, or 90-day delivery cycles. Adjust anytime from your account dashboard — no friction, no lock-in.</p>
+    </div>
+    <div class="step-b">
+      <div class="step-n">02</div>
+      <div class="step-h">Free Delivery, Every Time</div>
+      <p class="step-p">All subscriptions ship free across the US. Your drops arrive before you run out — every time, guaranteed.</p>
+    </div>
+    <div class="step-b">
+      <div class="step-n">03</div>
+      <div class="step-h">Pause or Cancel Freely</div>
+      <p class="step-p">No lock-ins. Pause, skip, or cancel your subscription in one tap — no forms, no questions asked.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 07 ABOUT US ── -->
+<div class="ann"><span class="an">07</span><span class="at">About Us — anchors manufacturing provenance as a brand differentiator. Oté Pharma SOL B.V. and FDA cGMP standards positioned as trust-building brand story, not compliance footnote. Emotional resonance drives long-term retention beyond single-order conversion.</span></div>
+<section class="about">
+  <div class="about-img">
+    <div class="founder-circle"><div class="fi-init">MO</div></div>
+    <div class="fi-lbl">The Founders</div>
+  </div>
+  <div class="about-con">
+    <div class="sec-eb">Our Story</div>
+    <h2 class="about-h2">Premium Eye Care,<br>Made in the Netherlands</h2>
+    <p class="about-p">Moisture Oyster was created to bring European ophthalmic-pharma quality to the US eye-drop aisle. We partner with Oté Pharma SOL B.V. — a Dutch ophthalmic pharmaceutical company working under US FDA cGMP 21 CFR 210 &amp; 211 standards — to manufacture a preservative-free, triple-action formula few US brands can match.</p>
+    <a class="about-lk" href="#">Read our full story →</a>
+  </div>
+</section>
+
+<!-- ── 08 TESTIMONIALS ── -->
+<div class="ann"><span class="an">08</span><span class="at">Testimonials — peer validation as the final conversion nudge. Positioned late in the scroll journey to catch high-intent users close to deciding. Verified badges, geographic attribution, and use-case tags provide relatable proof for the US target audience.</span></div>
+<section class="testimonials">
+  <div class="test-head">
+    <div class="sec-eb" style="justify-content:center;margin-bottom:.9rem">What Customers Say</div>
+    <h2 class="sec-h2" style="font-size:2.5rem;text-align:center">Real Results, Real People</h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-c">
+      <div class="tc-stars">★★★★★</div>
+      <p class="tc-q">"Finally, eye drops I actually enjoy using. The case makes it so easy to keep in my bag — and my eyes feel genuinely better after two weeks."</p>
+      <div class="tc-auth">Sarah M. — New York, NY</div>
+      <div class="tc-badge">Verified Subscriber · 3 months</div>
+    </div>
+    <div class="test-c">
+      <div class="tc-stars">★★★★★</div>
+      <p class="tc-q">"As an optometrist I'm selective about what I recommend. Preservative-free, pH-correct — the case gets patients to actually use it consistently."</p>
+      <div class="tc-auth">Dr. James K. — Chicago, IL</div>
+      <div class="tc-pro">Verified Eye Care Professional</div>
+    </div>
+    <div class="test-c">
+      <div class="tc-stars">★★★★★</div>
+      <p class="tc-q">"My optometrist recommended these and they've changed my daily routine. Elegant packaging, serious formula. I'm a subscriber for life."</p>
+      <div class="tc-auth">Priya L. — Austin, TX</div>
+      <div class="tc-badge">Verified Subscriber · 5 months</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 09 COMING SOON ── -->
+<div class="ann"><span class="an">09</span><span class="att" style="font-size:.6rem;color:var(--at);line-height:1.55">Coming Soon / Email Capture — builds anticipation for the eye vitamins launch and captures warm leads. Visitors who reach this point are already engaged with the brand — this email signup converts at a higher rate than a generic newsletter prompt. Replaced by the full product grid at Phase 2.</span></div>
+<section class="coming">
+  <div class="cs-eb">Coming Next</div>
+  <h2 class="cs-h2">[Product Name TBC]</h2>
+  <p class="cs-sub">[Copy to follow once product name and positioning confirmed. Join the early access list below.]</p>
+  <div class="email-row">
+    <input class="email-i" type="email" placeholder="Your email address">
+    <button class="email-btn">Notify Me</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="f-grid">
+    <div>
+      <div class="f-logo">Moisture <em>Oyster</em></div>
+      <p class="f-tag">Premium, preservative-free eye care for the modern world. Made in the Netherlands. Delivered with care.</p>
+    </div>
+    <div>
+      <div class="f-col-h">Shop</div>
+      <ul class="f-list"><li><a href="#">Eye Drops</a></li><li><a href="#">Subscribe &amp; Save</a></li></ul>
+    </div>
+    <div>
+      <div class="f-col-h">Support</div>
+      <ul class="f-list"><li><a href="#">FAQ</a></li><li><a href="#">Shipping &amp; Returns</a></li><li><a href="#">Manage Subscription</a></li><li><a href="#">Contact</a></li></ul>
+    </div>
+    <div>
+      <div class="f-col-h">Company</div>
+      <ul class="f-list"><li><a href="#">About Us</a></li><li><a href="#">Terms &amp; Privacy</a></li></ul>
+    </div>
+  </div>
+  <div style="padding:.75rem 0 1.2rem;border-bottom:1px solid rgba(169,121,40,.1);margin-bottom:1.2rem">
+    <p style="font-size:.6rem;color:rgba(255,254,249,.28);line-height:1.7">Moisture Oyster Lubricant Eye Drops · NDC 87105-100-1 · Distributed in the USA by OTE North America LLC, Valley Stream, NY 11580 · Manufactured by Oté Pharma SOL B.V., Netherlands</p>
+  </div>
+  <div class="f-bot">
+    <div class="f-leg">© 2025 OTE North America LLC · All rights reserved · United States</div>
+    <div class="pay-row">
+      <span class="pay-b">Visa</span><span class="pay-b">Mastercard</span><span class="pay-b">Amex</span>
+      <span class="pay-b">Apple Pay</span><span class="pay-b">Google Pay</span>
+      <span class="pay-b">Klarna</span><span class="pay-b">Afterpay</span>
+    </div>
+  </div>
+</footer>
+
+</div></div><!-- /page /page-wrap -->
+
+<script>
+function setMode(m){
+  var bo=document.getElementById('btn-once'),bs=document.getElementById('btn-sub');
+  var pm=document.getElementById('p-main'),pn=document.getElementById('p-note'),fr=document.getElementById('freq-row');
+  if(m==='once'){
+    bo.classList.add('on');bs.classList.remove('on');
+    pm.innerHTML='$38<span style="font-size:1.2rem;color:var(--mt)">.00</span>';
+    pn.textContent='One-time purchase · Free shipping on orders over $30';
+    fr.style.display='none';
+  } else {
+    bs.classList.add('on');bo.classList.remove('on');
+    pm.innerHTML='$32<span style="font-size:1.2rem;color:var(--mt)">.30</span><span class="save-pill">Save 15%</span>';
+    pn.textContent='Subscribe & Save 15% · Always free shipping included';
+    fr.style.display='block';
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+/* CUSTOM: Moisture Oyster theme overrides. Net-new file, loaded after base.css per-section. UPSTREAM risk LOW. */
+
+/* CUSTOM: brand fonts — only Inter + IBM Plex Mono are used on the pre-launch page. */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+
+/* CUSTOM: brand tokens (scoped to custom blocks; does not override Horizon globals). */
+.mo-prelaunch {
+  --mo-pink: #f2a2ff;
+  --mo-green: #1fa567;
+  --mo-mint: #b8f3d8;
+  --mo-deep-green: #0f3d2e;
+  --mo-font-body: 'Inter', sans-serif;
+  --mo-font-mono: 'IBM Plex Mono', monospace;
+
+  /* Fallbacks; overridden inline by section settings. */
+  --mo-overlay-text: var(--mo-deep-green);
+  --mo-button-bg: var(--mo-green);
+  --mo-button-text: #ffffff;
+  --mo-input-bg: #ffffff;
+  --mo-content-max: 520px;
+}
+
+/* ---------- Layout ---------- */
+.mo-prelaunch {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  color: var(--mo-overlay-text);
+  font-family: var(--mo-font-body);
+}
+
+.mo-prelaunch__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.mo-prelaunch__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+.mo-prelaunch__overlay {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;          /* desktop: vertically centered */
+  justify-content: flex-start;  /* desktop: overlay on the left */
+  min-height: 100svh;
+  padding: clamp(24px, 5vw, 72px);
+  box-sizing: border-box;
+}
+
+.mo-prelaunch__content {
+  width: 100%;
+  max-width: var(--mo-content-max);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---------- Eyebrow ---------- */
+.mo-prelaunch__eyebrow {
+  margin: 0;
+  font-family: var(--mo-font-mono);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ---------- Logo ---------- */
+.mo-prelaunch__logo {
+  display: block;
+  width: auto;
+  max-width: min(360px, 70%);
+  height: auto;
+}
+
+.mo-prelaunch__logo-text {
+  font-family: var(--mo-font-body);
+  font-weight: 600;
+  font-size: clamp(2rem, 6vw, 3rem);
+  color: var(--mo-pink);
+  line-height: 1;
+}
+
+/* ---------- Subhead ---------- */
+.mo-prelaunch__subhead {
+  font-family: var(--mo-font-body);
+  font-weight: 400;
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  line-height: 1.45;
+  max-width: 42ch;
+}
+
+.mo-prelaunch__subhead p {
+  margin: 0;
+}
+
+/* ---------- Credibility pill ---------- */
+.mo-prelaunch__pill {
+  align-self: flex-start;
+  margin: 0;
+  padding: 8px 14px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-family: var(--mo-font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+/* ---------- Social proof ---------- */
+.mo-prelaunch__social {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.mo-prelaunch__avatars {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mo-prelaunch__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ffffff;
+  margin-left: -10px;
+  background: var(--mo-mint);
+}
+
+.mo-prelaunch__avatar:first-child {
+  margin-left: 0;
+}
+
+.mo-prelaunch__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mo-prelaunch__waitlist {
+  font-family: var(--mo-font-body);
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+
+/* ---------- Email capture ---------- */
+.mo-prelaunch__form {
+  margin: 0;
+  width: 100%;
+}
+
+.mo-prelaunch__field {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.mo-prelaunch__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 14px 18px;
+  border: 1px solid rgba(15, 61, 46, 0.2);
+  border-radius: 10px;
+  background-color: var(--mo-input-bg);
+  color: var(--mo-deep-green);
+  font-family: var(--mo-font-body);
+  font-size: 1rem;
+}
+
+.mo-prelaunch__input::placeholder {
+  color: rgba(15, 61, 46, 0.55);
+}
+
+.mo-prelaunch__input:focus-visible {
+  outline: 2px solid var(--mo-green);
+  outline-offset: 1px;
+}
+
+.mo-prelaunch__button {
+  flex: 0 0 auto;
+  padding: 14px 22px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--mo-button-bg);
+  color: var(--mo-button-text);
+  font-family: var(--mo-font-mono);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: filter 0.15s ease;
+}
+
+.mo-prelaunch__button:hover {
+  filter: brightness(0.94);
+}
+
+.mo-prelaunch__success {
+  margin: 0;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background-color: var(--mo-mint);
+  color: var(--mo-deep-green);
+  font-weight: 500;
+  max-width: 480px;
+}
+
+.mo-prelaunch__error {
+  margin: 8px 0 0;
+  font-size: 0.875rem;
+  color: #b00020;
+}
+
+/* ---------- Legal ---------- */
+.mo-prelaunch__legal {
+  font-family: var(--mo-font-body);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  opacity: 0.8;
+  max-width: 44ch;
+}
+
+.mo-prelaunch__legal p {
+  margin: 0;
+}
+
+.mo-prelaunch__legal a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* ---------- Mobile: stacked top ---------- */
+@media screen and (max-width: 749px) {
+  .mo-prelaunch__overlay {
+    align-items: flex-start;     /* mobile: content stacked at the top */
+    justify-content: center;
+    padding: clamp(20px, 6vw, 32px);
+    padding-top: clamp(32px, 10vh, 80px);
+  }
+
+  .mo-prelaunch__content {
+    max-width: 100%;
+    align-items: flex-start;
+    text-align: left;
+    gap: 16px;
+  }
+
+  .mo-prelaunch__field {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .mo-prelaunch__button {
+    width: 100%;
+  }
+}
+
+/* Shared visually-hidden helper (in case Horizon's is unavailable in context). */
+.mo-prelaunch .visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

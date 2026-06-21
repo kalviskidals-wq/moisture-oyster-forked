@@ -1,0 +1,342 @@
+{%- # CUSTOM: net-new pre-launch onepager section (waitlist capture). UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- liquid
+  assign s = section.settings
+
+  # Avatars collected into an array so we only render what's set.
+  assign avatars = ''
+  if s.avatar_1 != blank
+    assign avatars = avatars | append: 'avatar_1,'
+  endif
+  if s.avatar_2 != blank
+    assign avatars = avatars | append: 'avatar_2,'
+  endif
+  if s.avatar_3 != blank
+    assign avatars = avatars | append: 'avatar_3,'
+  endif
+  assign avatar_list = avatars | split: ','
+-%}
+
+{%- # CUSTOM: load custom.css here instead of layout/theme.liquid to keep upstream risk LOW -%}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="mo-prelaunch"
+  id="MoPrelaunch-{{ section.id }}"
+  style="
+    --mo-overlay-text: {{ s.overlay_text_color }};
+    --mo-button-bg: {{ s.button_color }};
+    --mo-button-text: {{ s.button_text_color }};
+    --mo-input-bg: {{ s.input_background_color }};
+    --mo-content-max: {{ s.content_max_width }}px;
+  "
+>
+  {%- # CUSTOM: full-bleed background — desktop + mobile assets, imagery baked into the image -%}
+  <div class="mo-prelaunch__bg" aria-hidden="true">
+    {%- if s.background_desktop != blank or s.background_mobile != blank -%}
+      <picture>
+        {%- if s.background_mobile != blank -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="
+              {{ s.background_mobile | image_url: width: 600 }} 600w,
+              {{ s.background_mobile | image_url: width: 900 }} 900w,
+              {{ s.background_mobile | image_url: width: 1200 }} 1200w,
+              {{ s.background_mobile | image_url: width: 1600 }} 1600w
+            "
+            sizes="100vw"
+            width="{{ s.background_mobile.width }}"
+            height="{{ s.background_mobile.height }}"
+          >
+        {%- endif -%}
+        {%- assign bg_desktop = s.background_desktop | default: s.background_mobile -%}
+        {{
+          bg_desktop
+          | image_url: width: 3840
+          | image_tag:
+            width: bg_desktop.width,
+            height: bg_desktop.height,
+            widths: '1200, 1600, 1920, 2560, 3840',
+            sizes: '100vw',
+            alt: bg_desktop.alt,
+            class: 'mo-prelaunch__bg-img',
+            fetchpriority: 'high'
+        }}
+      </picture>
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'mo-prelaunch__bg-img placeholder' }}
+    {%- endif -%}
+  </div>
+
+  {%- # CUSTOM: editable text + form overlay -%}
+  <div class="mo-prelaunch__overlay">
+    <div class="mo-prelaunch__content">
+      {%- if s.eyebrow != blank -%}
+        <p class="mo-prelaunch__eyebrow">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+
+      {%- if s.logo != blank -%}
+        {{
+          s.logo
+          | image_url: width: 720
+          | image_tag:
+            width: s.logo.width,
+            height: s.logo.height,
+            widths: '240, 360, 480, 720',
+            sizes: '(max-width: 749px) 60vw, 360px',
+            alt: s.logo.alt | default: shop.name,
+            class: 'mo-prelaunch__logo',
+            loading: 'eager'
+        }}
+      {%- elsif s.logo_fallback_text != blank -%}
+        <span class="mo-prelaunch__logo-text">{{ s.logo_fallback_text | escape }}</span>
+      {%- endif -%}
+
+      {%- if s.subhead != blank -%}
+        <div class="mo-prelaunch__subhead">{{ s.subhead }}</div>
+      {%- endif -%}
+
+      {%- if s.credibility_pill != blank -%}
+        <p class="mo-prelaunch__pill">{{ s.credibility_pill | escape }}</p>
+      {%- endif -%}
+
+      {%- if avatar_list.size > 0 or s.waitlist_text != blank -%}
+        <div class="mo-prelaunch__social">
+          {%- if avatar_list.size > 0 -%}
+            <ul class="mo-prelaunch__avatars" role="list">
+              {%- for key in avatar_list -%}
+                {%- assign avatar_img = s[key] -%}
+                <li class="mo-prelaunch__avatar">
+                  {{
+                    avatar_img
+                    | image_url: width: 96
+                    | image_tag:
+                      width: 48,
+                      height: 48,
+                      widths: '48, 96',
+                      sizes: '48px',
+                      alt: '',
+                      loading: 'lazy'
+                  }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if s.waitlist_text != blank -%}
+            <span class="mo-prelaunch__waitlist">{{ s.waitlist_text | escape }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- # CUSTOM: native customer form. Tagging is owned by Shopify Flow (server-side, `prelaunch-subscriber` on customer creation) — no tag field here by design. -%}
+      {%- form 'customer', class: 'mo-prelaunch__form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="mo-prelaunch__success" role="status" tabindex="-1">
+            {{ s.success_message | default: 'You’re on the list. Watch your inbox.' | escape }}
+          </p>
+        {%- else -%}
+          <div class="mo-prelaunch__field">
+            <label class="visually-hidden" for="MoPrelaunchEmail-{{ section.id }}">
+              {{ s.email_placeholder | default: 'Your email address' | escape }}
+            </label>
+            <input
+              id="MoPrelaunchEmail-{{ section.id }}"
+              class="mo-prelaunch__input"
+              type="email"
+              name="contact[email]"
+              placeholder="{{ s.email_placeholder | default: 'Your email address' | escape }}"
+              autocomplete="email"
+              autocorrect="off"
+              autocapitalize="off"
+              required
+              {% if form.errors %}aria-invalid="true" aria-describedby="MoPrelaunchError-{{ section.id }}" autofocus{% endif %}
+            >
+            <button type="submit" class="mo-prelaunch__button">
+              {{ s.button_label | default: 'CLAIM MY FREE CASE' | escape }}
+            </button>
+          </div>
+
+          {%- if form.errors -%}
+            <p class="mo-prelaunch__error" id="MoPrelaunchError-{{ section.id }}" role="alert">
+              {{ form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email }}
+            </p>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endform -%}
+
+      {%- if s.legal != blank -%}
+        <div class="mo-prelaunch__legal">{{ s.legal }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Pre-launch onepager",
+  "tag": "section",
+  "class": "mo-prelaunch-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background image"
+    },
+    {
+      "type": "paragraph",
+      "content": "Full-bleed background. Product, hand, water, case and the free-gift sticker are baked into these images. Upload separate desktop and mobile crops."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_desktop",
+      "label": "Desktop background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_mobile",
+      "label": "Mobile background"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo wordmark (pink)"
+    },
+    {
+      "type": "text",
+      "id": "logo_fallback_text",
+      "label": "Logo fallback text",
+      "info": "Shown only if no logo image is set.",
+      "default": "moisture oyster"
+    },
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "• DROPS COMING"
+    },
+    {
+      "type": "richtext",
+      "id": "subhead",
+      "label": "Subhead",
+      "default": "<p>Preservative-free lubricant eye drops for dry, tired-feeling eyes. No BAK. No blurring. No sting.</p>"
+    },
+    {
+      "type": "text",
+      "id": "credibility_pill",
+      "label": "Credibility pill",
+      "default": "BUILT BY 2 PEOPLE WITH 10H+ DAILY SCREEN TIME"
+    },
+    {
+      "type": "header",
+      "content": "Social proof"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_1",
+      "label": "Avatar 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_2",
+      "label": "Avatar 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_3",
+      "label": "Avatar 3"
+    },
+    {
+      "type": "text",
+      "id": "waitlist_text",
+      "label": "Waitlist text",
+      "default": "Join 4,847 people on the waitlist"
+    },
+    {
+      "type": "header",
+      "content": "Email capture"
+    },
+    {
+      "type": "paragraph",
+      "content": "Submissions create a customer profile. Apply the `prelaunch-subscriber` tag server-side with a Shopify Flow automation on customer creation."
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Your email address"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "CLAIM MY FREE CASE"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "You’re on the list. Watch your inbox."
+    },
+    {
+      "type": "richtext",
+      "id": "legal",
+      "label": "Legal fine print",
+      "default": "<p>By signing up you agree to receive marketing emails. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "overlay_text_color",
+      "label": "Overlay text color",
+      "default": "#0F3D2E"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "input_background_color",
+      "label": "Input background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max-width",
+      "min": 360,
+      "max": 720,
+      "step": 10,
+      "unit": "px",
+      "default": 520
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pre-launch onepager",
+      "category": "Custom"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["index", "page", "password"]
+  }
+}
+{% endschema %}
