@@ -130,6 +130,11 @@
       {%- # CUSTOM: native customer form. Tagging is owned by Shopify Flow (server-side, `prelaunch-subscriber` on customer creation) — no tag field here by design. -%}
       {%- form 'customer', class: 'mo-prelaunch__form' -%}
         {%- if form.posted_successfully? -%}
+          <script>
+  Shopify.analytics.publish('moisture_oyster_lead', {
+    source: 'prelaunch_waitlist'
+  });
+  </script> 
           <p class="mo-prelaunch__success" role="status" tabindex="-1">
             {{ s.success_message | default: 'You’re on the list. Watch your inbox.' | escape }}
           </p>
