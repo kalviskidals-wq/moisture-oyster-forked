@@ -1,7 +1,7 @@
 /* CUSTOM: Moisture Oyster theme overrides. Net-new file, loaded after base.css per-section. UPSTREAM risk LOW. */
 
 /* CUSTOM: brand fonts — only Inter + IBM Plex Mono are used on the pre-launch page. */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Manrope:wght@400;500;700;800&display=swap');
 
 /* CUSTOM: brand tokens (scoped to custom blocks; does not override Horizon globals). */
 .mo-prelaunch {
@@ -14,6 +14,7 @@
   --mo-mint: #b8f3d8;
   --mo-deep-green: #0f3d2e;
   --mo-font-body: 'Inter', sans-serif;
+  --mo-font-heading: 'Manrope', sans-serif;
   --mo-font-mono: 'IBM Plex Mono', monospace;
 
   /* Fallbacks; overridden inline by section settings.
@@ -89,7 +90,7 @@ body {
   max-width: var(--mo-content-max);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 23px;
 }
 
 /* ---------- Eyebrow ---------- */
@@ -98,7 +99,7 @@ body {
   /* Inherits the soft-pink overlay text color like all other overlay copy. */
   font-family: var(--mo-font-mono);
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 20px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -123,7 +124,7 @@ body {
 .mo-prelaunch__subhead {
   font-family: var(--mo-font-body);
   font-weight: 400;
-  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-size: 20px;
   line-height: 1.45;
   max-width: 42ch;
 }
@@ -141,7 +142,7 @@ body {
   border-radius: 999px;
   font-family: var(--mo-font-mono);
   font-weight: 500;
-  font-size: 0.6875rem;
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   line-height: 1.2;
@@ -187,7 +188,7 @@ body {
 .mo-prelaunch__waitlist {
   font-family: var(--mo-font-body);
   font-weight: 500;
-  font-size: 0.9375rem;
+  font-size: 14px;
 }
 
 /* ---------- Email capture ---------- */
@@ -215,7 +216,7 @@ body {
   background-color: var(--mo-input-bg);
   /* Mockup: input text + placeholder are brand Green, not deep green. */
   color: var(--mo-green);
-  font-family: var(--mo-font-body);
+  font-family: var(--mo-font-heading);
   font-size: 1rem;
 }
 
@@ -240,9 +241,9 @@ body {
   border-radius: 0 10px 10px 0;
   background-color: var(--mo-button-bg);
   color: var(--mo-button-text);
-  font-family: var(--mo-font-mono);
+  font-family: var(--mo-font-body);
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 16px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
@@ -324,16 +325,16 @@ body {
     min-height: 100%;     /* fill the overlay so the legal can drop to the bottom */
     align-items: flex-start;
     text-align: left;
-    gap: 12px;
+    gap: 23px;
   }
 
   .mo-prelaunch__subhead {
-    font-size: 1rem;
+    font-size: 20px;
     line-height: 1.4;
   }
 
   .mo-prelaunch__pill {
-    font-size: 0.625rem;
+    font-size: 12px;
     padding: 6px 12px;
     white-space: nowrap;     /* keep the credibility pill on one line */
     letter-spacing: 0.06em;
