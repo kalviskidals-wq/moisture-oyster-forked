@@ -45,10 +45,9 @@
   display: none;
 }
 
-/* Teal page background (matches the image's top tone) so the safe-area / status-bar
-   strip and any overscroll blend in instead of showing as a separate block. */
+/* White page background (body shows around/below the section). */
 body {
-  background-color: #4d6b7a;
+  background-color: #ffffff;
 }
 
 .mo-prelaunch__bg {
@@ -300,6 +299,7 @@ body {
 
   .mo-prelaunch__bg {
     position: relative;   /* in flow → image's natural height defines the section height */
+    margin-top: 12vh;     /* push the image down so the hand/sticker clears the content */
   }
 
   .mo-prelaunch__bg picture,
@@ -334,10 +334,11 @@ body {
   }
 
   .mo-prelaunch__pill {
-    font-size: 12px;
+    /* Scale down on narrow screens so the (longer) pill text stays on one line. */
+    font-size: clamp(8px, 2.6vw, 12px);
     padding: 6px 12px;
-    white-space: nowrap;     /* keep the credibility pill on one line */
-    letter-spacing: 0.06em;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
   }
 
   .mo-prelaunch__social {
