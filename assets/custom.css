@@ -209,7 +209,7 @@ body {
 .mo-prelaunch__input {
   flex: 1 1 auto;
   min-width: 0;
-  min-height: clamp(40px, 10vw, 50px);       /* match the button height (esp. when stacked on mobile) */
+  min-height: clamp(47px, 11vw, 50px);       /* match the button height (esp. when stacked on mobile) */
   padding: 14px 18px;
   border: 1px solid rgba(15, 61, 46, 0.2);
   /* Desktop: round only the left corners so it sits flush against the button. */
@@ -219,6 +219,7 @@ body {
   color: var(--mo-green);
   font-family: var(--mo-font-heading);
   font-size: 1rem;
+  line-height: 1;          /* keep the field's height equal to the button */
 }
 
 .mo-prelaunch__input::placeholder {
@@ -232,10 +233,11 @@ body {
 
 .mo-prelaunch__button {
   flex: 0 0 auto;
-  min-height: clamp(40px, 10vw, 50px);       /* same height as the input */
+  min-height: clamp(47px, 11vw, 50px);       /* same height as the input */
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  line-height: 1;
   padding: 14px 22px;
   border: none;
   /* Desktop: round only the right corners so it sits flush against the input. */
