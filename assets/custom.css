@@ -125,7 +125,7 @@ body {
   font-family: var(--mo-font-body);
   font-weight: 400;
   font-size: 20px;
-  line-height: 1.45;
+  line-height: 1.25;
   max-width: 42ch;
 }
 
@@ -165,8 +165,8 @@ body {
 }
 
 .mo-prelaunch__avatar {
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid #ffffff;
@@ -209,7 +209,7 @@ body {
 .mo-prelaunch__input {
   flex: 1 1 auto;
   min-width: 0;
-  min-height: 50px;       /* match the button height (esp. when stacked on mobile) */
+  min-height: 44px;       /* match the button height (esp. when stacked on mobile) */
   padding: 14px 18px;
   border: 1px solid rgba(15, 61, 46, 0.2);
   /* Desktop: round only the left corners so it sits flush against the button. */
@@ -232,7 +232,7 @@ body {
 
 .mo-prelaunch__button {
   flex: 0 0 auto;
-  min-height: 50px;       /* same height as the input */
+  min-height: 44px;       /* same height as the input */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -327,7 +327,7 @@ body {
     justify-content: flex-start;
     /* Side gutters tuned so the form/pill column width matches the Figma frame (~84%). */
     padding-inline: clamp(24px, 8vw, 40px);
-    padding-top: clamp(6px, 1.5vh, 16px);
+    padding-top: max(70px, env(safe-area-inset-top, 0px));  /* ≥70px breathing room above the eyebrow */
     padding-bottom: clamp(40px, 9vh, 72px);
   }
 
@@ -343,7 +343,7 @@ body {
 
   .mo-prelaunch__subhead {
     font-size: 20px;
-    line-height: 1.4;
+    line-height: 1.25;
   }
 
   .mo-prelaunch__pill {
