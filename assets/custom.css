@@ -89,7 +89,7 @@ body {
   max-width: var(--mo-content-max);
   display: flex;
   flex-direction: column;
-  gap: 23px;
+  gap: clamp(16px, 4.6vw, 23px);
 }
 
 /* ---------- Eyebrow ---------- */
@@ -98,7 +98,7 @@ body {
   /* Inherits the soft-pink overlay text color like all other overlay copy. */
   font-family: var(--mo-font-mono);
   font-weight: 500;
-  font-size: 20px;
+  font-size: clamp(15px, 4vw, 20px);   /* 20px at the 500px Figma frame; scales down on phones */
   line-height: 1;          /* single line: no extra leading → exact 23px gap */
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -124,7 +124,7 @@ body {
 .mo-prelaunch__subhead {
   font-family: var(--mo-font-body);
   font-weight: 400;
-  font-size: 20px;
+  font-size: clamp(15px, 4vw, 20px);   /* 20px at 500px frame; scales down on phones */
   line-height: 1.25;
   max-width: 42ch;
 }
@@ -142,7 +142,7 @@ body {
   border-radius: 999px;
   font-family: var(--mo-font-mono);
   font-weight: 500;
-  font-size: 12px;
+  font-size: clamp(9px, 2.4vw, 12px);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   line-height: 1;          /* single line: no extra leading → exact 23px gap */
@@ -165,8 +165,8 @@ body {
 }
 
 .mo-prelaunch__avatar {
-  width: 34px;
-  height: 34px;
+  width: clamp(28px, 8vw, 40px);
+  height: clamp(28px, 8vw, 40px);
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid #ffffff;
@@ -188,7 +188,7 @@ body {
 .mo-prelaunch__waitlist {
   font-family: var(--mo-font-body);
   font-weight: 500;
-  font-size: 14px;
+  font-size: clamp(11px, 2.8vw, 14px);
   line-height: 1;          /* single line: no extra leading → exact 23px gap */
 }
 
@@ -209,7 +209,7 @@ body {
 .mo-prelaunch__input {
   flex: 1 1 auto;
   min-width: 0;
-  min-height: 44px;       /* match the button height (esp. when stacked on mobile) */
+  min-height: clamp(40px, 10vw, 50px);       /* match the button height (esp. when stacked on mobile) */
   padding: 14px 18px;
   border: 1px solid rgba(15, 61, 46, 0.2);
   /* Desktop: round only the left corners so it sits flush against the button. */
@@ -232,7 +232,7 @@ body {
 
 .mo-prelaunch__button {
   flex: 0 0 auto;
-  min-height: 44px;       /* same height as the input */
+  min-height: clamp(40px, 10vw, 50px);       /* same height as the input */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -244,7 +244,7 @@ body {
   color: var(--mo-button-text);
   font-family: var(--mo-font-body);
   font-weight: 500;
-  font-size: 16px;
+  font-size: clamp(12px, 3.2vw, 16px);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
@@ -314,6 +314,12 @@ body {
     margin-top: 0;        /* no teal block — the image sits fully behind the content */
   }
 
+  /* Logo fills the content column (≈388px at the 500px Figma frame), not 70% of it. */
+  .mo-prelaunch__logo {
+    width: 100%;
+    max-width: 388px;
+  }
+
   .mo-prelaunch__bg picture,
   .mo-prelaunch__bg-img {
     height: auto;         /* show the whole image at its natural aspect ratio */
@@ -326,7 +332,7 @@ body {
     align-items: stretch;
     justify-content: flex-start;
     /* Side gutters tuned so the form/pill column width matches the Figma frame (~84%). */
-    padding-inline: clamp(24px, 8vw, 40px);
+    padding-inline: clamp(30px, 11.7vw, 58px);
     padding-top: max(70px, env(safe-area-inset-top, 0px));  /* ≥70px breathing room above the eyebrow */
     padding-bottom: clamp(40px, 9vh, 72px);
   }
@@ -338,11 +344,11 @@ body {
     min-height: 100%;     /* fill the overlay so the legal can drop to the bottom */
     align-items: flex-start;
     text-align: left;
-    gap: 23px;
+    gap: clamp(16px, 4.6vw, 23px);
   }
 
   .mo-prelaunch__subhead {
-    font-size: 20px;
+    font-size: clamp(15px, 4vw, 20px);
     line-height: 1.25;
   }
 
@@ -361,7 +367,7 @@ body {
 
   .mo-prelaunch__waitlist {
     white-space: nowrap;  /* never wrap the waitlist count to a second line */
-    font-size: 0.875rem;
+    font-size: clamp(11px, 2.8vw, 14px);
   }
 
   .mo-prelaunch__field {
