@@ -275,7 +275,7 @@ body {
 /* ---------- Legal ---------- */
 .mo-prelaunch__legal {
   font-family: var(--mo-font-body);
-  font-size: 0.75rem;
+  font-size: clamp(9px, 2.4vw, 12px);   /* proportional; sits below the waitlist size */
   line-height: 1.4;
   opacity: 0.8;
   max-width: 44ch;
