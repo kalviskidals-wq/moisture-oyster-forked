@@ -99,6 +99,7 @@ body {
   font-family: var(--mo-font-mono);
   font-weight: 500;
   font-size: 20px;
+  line-height: 1;          /* single line: no extra leading → exact 23px gap */
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -144,7 +145,7 @@ body {
   font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  line-height: 1.2;
+  line-height: 1;          /* single line: no extra leading → exact 23px gap */
 }
 
 /* ---------- Social proof ---------- */
@@ -188,6 +189,7 @@ body {
   font-family: var(--mo-font-body);
   font-weight: 500;
   font-size: 14px;
+  line-height: 1;          /* single line: no extra leading → exact 23px gap */
 }
 
 /* ---------- Email capture ---------- */
@@ -207,7 +209,7 @@ body {
 .mo-prelaunch__input {
   flex: 1 1 auto;
   min-width: 0;
-  min-height: 54px;       /* match the button height (esp. when stacked on mobile) */
+  min-height: 50px;       /* match the button height (esp. when stacked on mobile) */
   padding: 14px 18px;
   border: 1px solid rgba(15, 61, 46, 0.2);
   /* Desktop: round only the left corners so it sits flush against the button. */
@@ -230,7 +232,7 @@ body {
 
 .mo-prelaunch__button {
   flex: 0 0 auto;
-  min-height: 54px;       /* same height as the input */
+  min-height: 50px;       /* same height as the input */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -299,7 +301,7 @@ body {
 
   .mo-prelaunch__bg {
     position: relative;   /* in flow → image's natural height defines the section height */
-    margin-top: 6vh;      /* push the image down just enough to clear the (now tighter) content */
+    margin-top: 2vh;      /* sticker sits higher now that the content is shorter */
   }
 
   .mo-prelaunch__bg picture,
