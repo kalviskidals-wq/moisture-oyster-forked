@@ -290,6 +290,16 @@ body {
   text-decoration: underline;
 }
 
+/* Trim each text box to cap-height/baseline so the flex gap (23px) is the exact
+   visible gap — works for single- AND multi-line copy, and reclaims the leading. */
+.mo-prelaunch__eyebrow,
+.mo-prelaunch__subhead,
+.mo-prelaunch__waitlist,
+.mo-prelaunch__legal {
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
 /* ---------- Mobile: stacked top ---------- */
 @media screen and (max-width: 749px) {
   /* Mobile shows the FULL tall background image (not cover-cropped). The section
@@ -301,7 +311,7 @@ body {
 
   .mo-prelaunch__bg {
     position: relative;   /* in flow → image's natural height defines the section height */
-    margin-top: 2vh;      /* sticker sits higher now that the content is shorter */
+    margin-top: 0;        /* no teal block — the image sits fully behind the content */
   }
 
   .mo-prelaunch__bg picture,
@@ -317,7 +327,7 @@ body {
     justify-content: flex-start;
     /* Side gutters tuned so the form/pill column width matches the Figma frame (~84%). */
     padding-inline: clamp(24px, 8vw, 40px);
-    padding-top: clamp(16px, 3vh, 32px);
+    padding-top: clamp(6px, 1.5vh, 16px);
     padding-bottom: clamp(40px, 9vh, 72px);
   }
 
