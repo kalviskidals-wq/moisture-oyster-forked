@@ -218,7 +218,7 @@ body {
   /* Mockup: input text + placeholder are brand Green, not deep green. */
   color: var(--mo-green);
   font-family: var(--mo-font-heading);
-  font-size: 1rem;
+  font-size: clamp(11px, 2.8vw, 14px);   /* match the waitlist text size */
   line-height: 1;          /* keep the field's height equal to the button */
 }
 
