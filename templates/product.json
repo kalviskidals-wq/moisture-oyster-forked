@@ -94,7 +94,7 @@
                 "author_name": "Dr. James K.",
                 "author_role": "Optometrist, Chicago, IL",
                 "quote": "Moisture Oyster checks several important boxes for me: a protected multidose bottle, easy dispensing, immediate comfort, and no blurry vision after instillation. It made a great first impression.",
-                "background_color": "#093d24",
+                "background_color": "#115033",
                 "text_color": "#ffffff",
                 "star_color": "#ffffff",
                 "quote_color": "#ffffff"
@@ -465,7 +465,7 @@
         "limit_details_width": false,
         "gap": 40,
         "enable_sticky_add_to_cart": true,
-        "background_color": "#093D24",
+        "background_color": "#093d24",
         "padding-block-start": 32,
         "padding-block-end": 32
       }
