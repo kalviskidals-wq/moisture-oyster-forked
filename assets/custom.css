@@ -455,8 +455,8 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   color: var(--mo-trustbar-icon, #f2a2ff);
 }
 
