@@ -446,26 +446,28 @@ body {
   min-width: 0;
 }
 
+/* CUSTOM: the ring is baked into each icon (SVG presets draw their own
+   circle; uploaded custom icon images are expected to include it too), so
+   this wrapper is just a sizing box — no border/border-radius of its own —
+   and the icon fills the full space. */
 .mo-trust-bar__icon {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--mo-radius-pill, 999px);
-  border: var(--mo-border-width, 1.5px) solid var(--mo-trustbar-icon, #f2a2ff);
+  width: 48px;
+  height: 48px;
   color: var(--mo-trustbar-icon, #f2a2ff);
 }
 
 .mo-trust-bar__icon svg {
-  width: 22px;
-  height: 22px;
+  width: 100%;
+  height: 100%;
 }
 
 .mo-trust-bar__icon-img {
-  width: 22px;
-  height: 22px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
