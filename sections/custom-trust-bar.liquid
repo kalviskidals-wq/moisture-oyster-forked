@@ -1,0 +1,253 @@
+{%- # CUSTOM: net-new theme section — credibility strip of icon + two-line label "benefit" items. Reusable: PDP key-benefits bar, homepage trust bar, PDP reassurance strips (merchant sets items + count per placement). UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-trust-bar rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign border_style = 'none'
+  if s.segment_border
+    assign border_style = 'solid'
+  endif
+-%}
+
+<section
+  class="mo-trust-bar"
+  id="MoTrustBar-{{ section.id }}"
+  data-mobile-layout="{{ s.mobile_layout }}"
+  style="
+    --mo-trustbar-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-trustbar-segment-bg: {{ s.segment_background_color | default: '#115033' }};
+    --mo-trustbar-label: {{ s.label_color | default: '#FFFFFF' }};
+    --mo-trustbar-icon: {{ s.icon_color | default: '#F2A2FF' }};
+    --mo-trustbar-border-color: {{ s.border_color | default: '#FFFFFF1F' }};
+    --mo-trustbar-border-style: {{ border_style }};
+    --mo-trustbar-columns: {{ s.columns_desktop }};
+    --mo-trustbar-padding-y: {{ s.vertical_padding }}px;
+  "
+>
+  <div class="mo-trust-bar__inner">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'benefit' -%}
+          {%- liquid
+            assign bs = block.settings
+            assign has_icon = false
+            if bs.icon_image != blank
+              assign has_icon = true
+            elsif bs.icon_preset != 'none'
+              assign has_icon = true
+            endif
+          -%}
+          {%- if bs.label_line_1 != blank or bs.label_line_2 != blank -%}
+            <div class="mo-trust-bar__item" {{ block.shopify_attributes }}>
+              {%- if has_icon -%}
+                <span class="mo-trust-bar__icon" aria-hidden="true">
+                  {%- if bs.icon_image != blank -%}
+                    {{
+                      bs.icon_image
+                      | image_url: width: 80
+                      | image_tag:
+                        width: 40,
+                        height: 40,
+                        loading: 'lazy',
+                        alt: '',
+                        class: 'mo-trust-bar__icon-img'
+                    }}
+                  {%- else -%}
+                    {%- render 'mo-benefit-icon', icon: bs.icon_preset -%}
+                  {%- endif -%}
+                </span>
+              {%- endif -%}
+              <span class="mo-trust-bar__label">
+                {%- if bs.label_line_1 != blank -%}
+                  <span class="mo-trust-bar__label-line">{{ bs.label_line_1 | escape }}</span>
+                {%- endif -%}
+                {%- if bs.label_line_2 != blank -%}
+                  <span class="mo-trust-bar__label-line">{{ bs.label_line_2 | escape }}</span>
+                {%- endif -%}
+              </span>
+            </div>
+          {%- endif -%}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Trust Bar",
+  "tag": "section",
+  "class": "mo-trust-bar-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        { "value": "stack", "label": "Stacked list (full-width rows)" },
+        { "value": "grid", "label": "2x2 grid" },
+        { "value": "scroll", "label": "Horizontal scroll" }
+      ],
+      "default": "stack",
+      "info": "Figma mobile frame shows stacked full-width rows."
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Section vertical padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "checkbox",
+      "id": "segment_border",
+      "label": "Show subtle segment border",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "segment_background_color",
+      "label": "Segment background",
+      "default": "#115033"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Segment border color",
+      "default": "#FFFFFF1F",
+      "info": "VERIFY against Figma — subtle light-green/white stroke."
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#F2A2FF",
+      "info": "Applies to built-in line-art icons and custom SVG icon images (uses currentColor). Uploaded raster icon images keep their own baked-in color."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Icon"
+        },
+        {
+          "type": "select",
+          "id": "icon_preset",
+          "label": "Built-in icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "dropper_slash", "label": "Dropper (slashed) — preservative free" },
+            { "value": "test_tube", "label": "Test tube — BAK free" },
+            { "value": "water_drops", "label": "Water drops — drop count" },
+            { "value": "hand_drop", "label": "Hand + drop — GLP tested" },
+            { "value": "shield_check", "label": "Shield check — generic" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon image",
+          "info": "Overrides the built-in icon above if set."
+        },
+        {
+          "type": "header",
+          "content": "Label"
+        },
+        {
+          "type": "text",
+          "id": "label_line_1",
+          "label": "Label line 1",
+          "default": "PRESERVATIVE"
+        },
+        {
+          "type": "text",
+          "id": "label_line_2",
+          "label": "Label line 2",
+          "default": "FREE"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Trust Bar",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_preset": "dropper_slash",
+            "label_line_1": "PRESERVATIVE",
+            "label_line_2": "FREE"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_preset": "test_tube",
+            "label_line_1": "BAK",
+            "label_line_2": "FREE"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_preset": "water_drops",
+            "label_line_1": "~200 DROP",
+            "label_line_2": "BOTTLE"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_preset": "hand_drop",
+            "label_line_1": "GLP",
+            "label_line_2": "TESTED"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["index", "product", "page"]
+  }
+}
+{% endschema %}

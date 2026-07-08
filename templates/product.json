@@ -470,6 +470,60 @@
         "padding-block-end": 32
       }
     },
+    "custom_trust_bar_mopdp1": {
+      "type": "custom-trust-bar",
+      "name": "MO Trust Bar",
+      "blocks": {
+        "benefit_1": {
+          "type": "benefit",
+          "name": "Benefit",
+          "settings": {
+            "icon_preset": "dropper_slash",
+            "label_line_1": "PRESERVATIVE",
+            "label_line_2": "FREE"
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "name": "Benefit",
+          "settings": {
+            "icon_preset": "test_tube",
+            "label_line_1": "BAK",
+            "label_line_2": "FREE"
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "name": "Benefit",
+          "settings": {
+            "icon_preset": "water_drops",
+            "label_line_1": "~200 DROP",
+            "label_line_2": "BOTTLE"
+          }
+        },
+        "benefit_4": {
+          "type": "benefit",
+          "name": "Benefit",
+          "settings": {
+            "icon_preset": "hand_drop",
+            "label_line_1": "GLP",
+            "label_line_2": "TESTED"
+          }
+        }
+      },
+      "block_order": ["benefit_1", "benefit_2", "benefit_3", "benefit_4"],
+      "settings": {
+        "columns_desktop": 4,
+        "mobile_layout": "stack",
+        "vertical_padding": 40,
+        "segment_border": true,
+        "background_color": "#093d24",
+        "segment_background_color": "#115033",
+        "border_color": "#ffffff1f",
+        "label_color": "#ffffff",
+        "icon_color": "#f2a2ff"
+      }
+    },
     "product_recommendations_qggXJq": {
       "type": "product-recommendations",
       "blocks": {
@@ -615,6 +669,7 @@
   },
   "order": [
     "main",
+    "custom_trust_bar_mopdp1",
     "product_recommendations_qggXJq"
   ]
 }

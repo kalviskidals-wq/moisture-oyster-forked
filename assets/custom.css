@@ -410,3 +410,117 @@ body {
   white-space: nowrap;
   border: 0;
 }
+
+/* ============================================================================
+   CUSTOM: MO TRUST BAR — sections/custom-trust-bar.liquid
+   Full-width credibility strip of icon + two-line label "benefit" items.
+   Reusable across the PDP key-benefits bar, homepage trust bar, and PDP
+   reassurance strips. Consumes mo-design-system.css tokens for fonts/spacing,
+   with hardcoded fallbacks so it still renders if that file is ever removed.
+   UPSTREAM risk LOW — net-new, no Horizon file touched.
+   ============================================================================ */
+.mo-trust-bar {
+  background: var(--mo-trustbar-bg, #093d24);
+  padding-block: var(--mo-trustbar-padding-y, 40px);
+}
+
+.mo-trust-bar__inner {
+  display: grid;
+  grid-template-columns: repeat(var(--mo-trustbar-columns, 4), 1fr);
+  gap: var(--mo-space-4, 16px);
+  max-width: var(--page-width, 1280px);
+  margin-inline: auto;
+  padding-inline: var(--mo-space-6, 24px);
+}
+
+.mo-trust-bar__item {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-4, 16px);
+  background: var(--mo-trustbar-segment-bg, #115033);
+  border-width: 1px;
+  border-color: var(--mo-trustbar-border-color, #ffffff1f);
+  border-style: var(--mo-trustbar-border-style, solid);
+  border-radius: var(--mo-radius-md, 10px);
+  padding: var(--mo-space-4, 16px) var(--mo-space-5, 20px);
+  min-width: 0;
+}
+
+.mo-trust-bar__icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--mo-radius-pill, 999px);
+  border: var(--mo-border-width, 1.5px) solid var(--mo-trustbar-icon, #f2a2ff);
+  color: var(--mo-trustbar-icon, #f2a2ff);
+}
+
+.mo-trust-bar__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.mo-trust-bar__icon-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.mo-trust-bar__label {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-family: var(--mo-font-mono, ui-monospace, monospace);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mo-trustbar-label, #ffffff);
+}
+
+.mo-trust-bar__label-line {
+  white-space: nowrap;
+}
+
+/* Desktop: fixed columns set inline via --mo-trustbar-columns; wrap label
+   onto two lines only when the column gets tight (matches the 4-up Figma
+   frame, where "PRESERVATIVE FREE" breaks into two rows). */
+@media screen and (max-width: 989px) {
+  .mo-trust-bar__inner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile layouts — controlled by [data-mobile-layout] on the section. */
+@media screen and (max-width: 749px) {
+  .mo-trust-bar[data-mobile-layout='stack'] .mo-trust-bar__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .mo-trust-bar[data-mobile-layout='stack'] .mo-trust-bar__label-line {
+    white-space: normal;
+  }
+
+  .mo-trust-bar[data-mobile-layout='grid'] .mo-trust-bar__inner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--mo-space-3, 12px);
+  }
+
+  .mo-trust-bar[data-mobile-layout='scroll'] .mo-trust-bar__inner {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-inline: var(--mo-space-4, 16px);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mo-trust-bar[data-mobile-layout='scroll'] .mo-trust-bar__item {
+    flex: 0 0 auto;
+    min-width: 220px;
+    scroll-snap-align: start;
+  }
+}
