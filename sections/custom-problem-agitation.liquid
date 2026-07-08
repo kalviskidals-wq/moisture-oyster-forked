@@ -1,14 +1,5 @@
-{%- # CUSTOM: net-new theme section — PDP "Problem Agitation" block. Full-bleed
-  close-up eye video/poster background with an eyebrow + heading + subhead,
-  a repeatable list of aggravating factors (icon + label), and a citation-backed
-  stat card. Desktop overlays all copy directly on the video; mobile shows a
-  solid deep-green header block first, then the video with the factor list
-  overlaid top and the stat card overlaid bottom. UPSTREAM risk LOW — no
-  Horizon file touched. -%}
-{%- # CUSTOM: load design tokens + the .mo-problem rules here (not
-  layout/theme.liquid) since site-wide inclusion is still pending approval.
-  Every mo-* element also ships hardcoded var() fallbacks so this still
-  renders correctly if either tag is ever removed. -%}
+{%- # CUSTOM: net-new theme section — PDP "Problem Agitation" block. Full-bleed close-up eye video/poster background with an eyebrow + heading + subhead, a repeatable list of aggravating factors (icon + label), and a citation-backed stat card. Desktop overlays all copy directly on the video; mobile shows a solid deep-green header block first, then the video with the factor list overlaid top and the stat card overlaid bottom. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-problem rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
 {{ 'custom.css' | asset_url | stylesheet_tag }}
 
