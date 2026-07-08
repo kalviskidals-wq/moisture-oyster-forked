@@ -1,0 +1,177 @@
+/* ============================================================================
+   MOISTURE OYSTER — GLOBAL DESIGN SYSTEM TOKENS
+   mo-design-system.css — the foundational token layer for the whole theme.
+   Every custom section should consume these tokens instead of hard-coded values.
+
+   LOAD SITE-WIDE (so tokens exist on every page):
+     Add to <head> of layout/theme.liquid, after Horizon's own stylesheets:
+       {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+     // UPSTREAM: MEDIUM | theme.liquid <head> — additive one line, low conflict.
+     (Awaiting your approval before that edit — I don't touch theme.liquid unasked.)
+
+   Relationship to assets/custom.css: custom.css holds section-scoped styles
+   (currently .mo-prelaunch) and its own local token copies. Those keep working;
+   once this file loads globally its @import here makes custom.css's font @import
+   redundant (safe to remove later).
+
+   // UPSTREAM: LOW | No Horizon file touched — net-new asset.
+
+   Colors are confirmed from the official palette export. Remaining  VERIFY  marks
+   (type metrics, radius) were read from the design-system image — confirm before launch.
+
+   Reconciliation notes:
+   - Deep Green here is #093D24 (palette export). The .mo-prelaunch section in
+     custom.css still hardcodes #0F3D2E locally — align it when convenient.
+   - The DS palette lists one "PINK" = #FFD5F7 (mapped to --mo-pink-soft). The
+     saturated wordmark pink #F2A2FF is retained as --mo-pink.
+   ============================================================================ */
+
+/* CUSTOM: brand fonts — Manrope (display), Inter (body/UI), IBM Plex Mono (labels/data). */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  /* --------------------------------------------------------------------------
+     01 · COLOR PALETTE
+     Design-system swatch  ->  token
+       Deep Green   -> --mo-deep-green
+       Green (mid)  -> --mo-green-mid      (NEW darker green added by the DS)
+       Accent Green -> --mo-green  (== --mo-accent-green)  #1FA567, the CTA green
+       Mint / Pink / Grey / Black / White as named.
+     Kept --mo-green = #1FA567 for continuity with existing sections + brand book.
+     -------------------------------------------------------------------------- */
+  --mo-deep-green:   #093D24; /* darkest green — text, dark sections, dark buttons (DS export) */
+  --mo-green-mid:    #115033; /* mid green (DS "Green") (DS export) */
+  --mo-green:        #1FA567; /* bright brand/CTA green (DS "Accent Green") (DS export) */
+  --mo-accent-green: var(--mo-green); /* semantic alias for the DS "Accent Green" name */
+  --mo-mint:         #B8F3D8; /* pale mint — secondary accent (DS export) */
+  --mo-pink:         #F2A2FF; /* saturated brand pink — wordmark, PRIMARY/NOTIFY button (brand book + logo; not in DS 8-swatch grid) */
+  --mo-pink-soft:    #FFD5F7; /* DS palette "PINK" swatch — soft pink; overlay body text / hover (DS export) */
+  --mo-grey:         #E8E7E3; /* neutral grey — disabled states (DS export) */
+  --mo-black:        #0D1B14; /* near-black (green-black) (DS export) */
+  --mo-cream:        #F7F5F0; /* app/page background surface (brand book; not in DS 8-swatch grid) */
+  --mo-white:        #FFFFFF; /* (DS export) */
+
+  /* Semantic aliases — prefer these in sections over raw palette tokens. */
+  --mo-color-text:     var(--mo-deep-green);
+  --mo-color-bg:       var(--mo-cream);
+  --mo-color-bg-dark:  var(--mo-deep-green);
+  --mo-color-on-dark:  var(--mo-white);
+  --mo-color-cta:      var(--mo-green);
+  --mo-color-cta-text: var(--mo-white);
+  --mo-color-accent:   var(--mo-pink);
+  --mo-color-disabled: var(--mo-grey);
+
+  /* --------------------------------------------------------------------------
+     02 · TYPOGRAPHY
+     Manrope = display/headings (ExtraBold). Inter = body/UI. IBM Plex Mono =
+     tags, menu, labels, data (uppercase, positive tracking).
+     -------------------------------------------------------------------------- */
+  --mo-font-heading: 'Manrope', system-ui, -apple-system, sans-serif;
+  --mo-font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --mo-font-mono:    'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* Type scale — size / weight / line-height / letter-spacing.   VERIFY metrics */
+  --mo-h1-size: 3.75rem;   --mo-h1-weight: 800; --mo-h1-lh: 1.0; --mo-h1-ls: -0.03em; /* 60px ExtraBold */
+  --mo-h2-size: 2.5rem;    --mo-h2-weight: 700; --mo-h2-lh: 1.1; --mo-h2-ls: -0.02em; /* 40px Bold */
+  --mo-h3-size: 1.5rem;    --mo-h3-weight: 700; --mo-h3-lh: 1.1; --mo-h3-ls: -0.02em; /* 24px Bold */
+  --mo-h4-size: 1.25rem;   --mo-h4-weight: 700; --mo-h4-lh: 1.0; --mo-h4-ls: 0;       /* 20px Bold */
+  --mo-h5-size: 1.125rem;  --mo-h5-weight: 700; --mo-h5-lh: 1.0; --mo-h5-ls: 0;       /* 18px Bold */
+  --mo-stat-size: 3.75rem; --mo-stat-weight: 700; --mo-stat-lh: 1.1; --mo-stat-ls: -0.02em; /* 60px Bold — e.g. "55%" */
+
+  --mo-body-lg-size: 1rem;     --mo-body-lg-weight: 400; --mo-body-lg-lh: 1.3; /* 16px */
+  --mo-body-size:    0.875rem; --mo-body-weight: 400;    --mo-body-lh: 1.3;    /* 14px */
+
+  --mo-tag-lg-size: 0.875rem; --mo-tag-lg-weight: 500; --mo-tag-lg-lh: 1.1; --mo-tag-lg-ls: 0.1em; /* 14px Medium caps */
+  --mo-menu-size:   0.875rem; --mo-menu-weight: 500;   --mo-menu-lh: 1.1;   --mo-menu-ls: 0.1em;   /* 14px Medium */
+  --mo-tag-sm-size: 0.625rem; --mo-tag-sm-weight: 500; --mo-tag-sm-lh: 1.1; --mo-tag-sm-ls: 0.1em; /* 10px Medium caps */
+
+  /* --------------------------------------------------------------------------
+     03 · SPACING SCALE — 6 / 8 / 12 / 16 / 20 / 24 / 32 / 40
+     -------------------------------------------------------------------------- */
+  --mo-space-1: 6px;
+  --mo-space-2: 8px;
+  --mo-space-3: 12px;
+  --mo-space-4: 16px;
+  --mo-space-5: 20px;
+  --mo-space-6: 24px;
+  --mo-space-7: 32px;
+  --mo-space-8: 40px;
+
+  /* --------------------------------------------------------------------------
+     04 · RADIUS / BORDER — VERIFY (read from button/pill shapes, not specced)
+     -------------------------------------------------------------------------- */
+  --mo-radius-sm: 6px;
+  --mo-radius-md: 10px;
+  --mo-radius-pill: 999px;
+  --mo-border-width: 1.5px;
+}
+
+/* ============================================================================
+   TYPOGRAPHY HELPERS
+   ============================================================================ */
+.mo-h1 { font-family: var(--mo-font-heading); font-size: var(--mo-h1-size); font-weight: var(--mo-h1-weight); line-height: var(--mo-h1-lh); letter-spacing: var(--mo-h1-ls); }
+.mo-h2 { font-family: var(--mo-font-heading); font-size: var(--mo-h2-size); font-weight: var(--mo-h2-weight); line-height: var(--mo-h2-lh); letter-spacing: var(--mo-h2-ls); }
+.mo-h3 { font-family: var(--mo-font-heading); font-size: var(--mo-h3-size); font-weight: var(--mo-h3-weight); line-height: var(--mo-h3-lh); letter-spacing: var(--mo-h3-ls); }
+.mo-h4 { font-family: var(--mo-font-heading); font-size: var(--mo-h4-size); font-weight: var(--mo-h4-weight); line-height: var(--mo-h4-lh); }
+.mo-h5 { font-family: var(--mo-font-heading); font-size: var(--mo-h5-size); font-weight: var(--mo-h5-weight); line-height: var(--mo-h5-lh); }
+.mo-stat { font-family: var(--mo-font-heading); font-size: var(--mo-stat-size); font-weight: var(--mo-stat-weight); line-height: var(--mo-stat-lh); letter-spacing: var(--mo-stat-ls); }
+
+.mo-body-lg { font-family: var(--mo-font-body); font-size: var(--mo-body-lg-size); line-height: var(--mo-body-lg-lh); }
+.mo-body    { font-family: var(--mo-font-body); font-size: var(--mo-body-size); line-height: var(--mo-body-lh); }
+
+.mo-tag     { font-family: var(--mo-font-mono); font-size: var(--mo-tag-lg-size); font-weight: var(--mo-tag-lg-weight); letter-spacing: var(--mo-tag-lg-ls); text-transform: uppercase; }
+.mo-tag--sm { font-size: var(--mo-tag-sm-size); letter-spacing: var(--mo-tag-sm-ls); }
+.mo-menu    { font-family: var(--mo-font-mono); font-size: var(--mo-menu-size); font-weight: var(--mo-menu-weight); letter-spacing: var(--mo-menu-ls); text-transform: uppercase; }
+
+/* ============================================================================
+   04 · BUTTONS — Primary / Shop Now / Add to Bag / Add to Bag+ / Outline
+   Add .mo-btn plus a variant class in any section.
+   ============================================================================ */
+.mo-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--mo-space-2);
+  font-family: var(--mo-font-mono); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  font-size: var(--mo-body-size); line-height: 1;
+  padding: var(--mo-space-3) var(--mo-space-6);
+  border: var(--mo-border-width) solid transparent; border-radius: var(--mo-radius-sm);
+  cursor: pointer; text-decoration: none;
+  transition: background-color .15s ease, color .15s ease, opacity .15s ease;
+}
+.mo-btn:disabled, .mo-btn.is-disabled { background: var(--mo-color-disabled); color: var(--mo-white); cursor: not-allowed; opacity: .85; }
+
+.mo-btn--primary { background: var(--mo-pink); color: var(--mo-deep-green); }        /* pink fill */
+.mo-btn--primary:hover { background: var(--mo-pink-soft); }
+
+.mo-btn--shop { background: var(--mo-mint); color: var(--mo-deep-green); }           /* mint fill */
+.mo-btn--shop:hover { background: var(--mo-green); color: var(--mo-white); }
+
+.mo-btn--bag { background: var(--mo-green); color: var(--mo-white); }                /* accent green */
+.mo-btn--bag:hover { background: var(--mo-deep-green); }
+
+.mo-btn--dark { background: var(--mo-deep-green); color: var(--mo-white); }          /* deep green */
+.mo-btn--dark:hover { background: var(--mo-green); }
+
+.mo-btn--outline { background: transparent; border-color: var(--mo-green); color: var(--mo-green); border-radius: var(--mo-radius-pill); } /* ALL / VERIFIED */
+.mo-btn--outline:hover { background: var(--mo-green); color: var(--mo-white); }
+
+/* ============================================================================
+   05 · FORM ELEMENTS — dark-surface inline capture
+   ============================================================================ */
+.mo-field { display: flex; align-items: center; gap: var(--mo-space-2); background: var(--mo-deep-green); border-radius: var(--mo-radius-md); padding: var(--mo-space-2); }
+.mo-input {
+  font-family: var(--mo-font-mono); font-size: var(--mo-body-size); letter-spacing: 0.04em;
+  background: var(--mo-white); color: var(--mo-deep-green);
+  border: none; border-radius: var(--mo-radius-sm);
+  padding: var(--mo-space-3) var(--mo-space-4); width: 100%;
+}
+.mo-input::placeholder { color: color-mix(in srgb, var(--mo-deep-green) 55%, transparent); }
+
+/* ============================================================================
+   08 · BADGES & TAGS
+   ============================================================================ */
+.mo-badge {
+  display: inline-flex; align-items: center; gap: var(--mo-space-1);
+  font-family: var(--mo-font-mono); font-size: var(--mo-tag-sm-size); letter-spacing: 0.1em; text-transform: uppercase;
+  padding: var(--mo-space-1) var(--mo-space-3);
+  border: var(--mo-border-width) solid var(--mo-pink); border-radius: var(--mo-radius-pill); color: var(--mo-pink);
+}
+.mo-stars { color: var(--mo-green); letter-spacing: 0.1em; }
