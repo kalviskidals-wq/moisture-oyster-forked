@@ -189,7 +189,7 @@
                   "type": "product-description",
                   "name": "t:names.product_description",
                   "settings": {
-                    "text": "{{ closest.product.description }}",
+                    "text": "<p>{{ closest.product.description }}</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -533,28 +533,25 @@
         "icon_color": "#f2a2ff"
       }
     },
-    "custom_problem_agitation_mopdp1": {
+    "custom_problem_agitation_iYrAeg": {
       "type": "custom-problem-agitation",
       "blocks": {
-        "factor_1": {
+        "factor_cKkrEb": {
           "type": "factor",
-          "name": "Factor",
           "settings": {
             "icon_preset": "air_conditioning",
             "label": "AIR CONDITIONING"
           }
         },
-        "factor_2": {
+        "factor_wrFVQP": {
           "type": "factor",
-          "name": "Factor",
           "settings": {
             "icon_preset": "air_travel",
             "label": "AIR TRAVEL"
           }
         },
-        "factor_3": {
+        "factor_6WUNEH": {
           "type": "factor",
-          "name": "Factor",
           "settings": {
             "icon_preset": "contact_lens",
             "label": "CONTACT LENS"
@@ -562,9 +559,9 @@
         }
       },
       "block_order": [
-        "factor_1",
-        "factor_2",
-        "factor_3"
+        "factor_cKkrEb",
+        "factor_wrFVQP",
+        "factor_6WUNEH"
       ],
       "name": "MO Problem Agitation",
       "settings": {
@@ -574,24 +571,27 @@
         "stat_figure": "55%",
         "stat_caption": "DECREASE IN BLINK RATE WHILE ON SCREEN",
         "stat_source": "Graefe's Archive for Clinical & Experimental Ophthalmology, 2021 — 45–55% across digital displays.",
-        "background_color": "#093d24",
-        "scrim_color": "#093d24",
+        "poster_image": "shopify://shop_images/Frame_2147237489.jpg",
+        "video_background": "shopify://files/videos/kling_20260702_VIDEO__SHOT__Sta_6072_0.mp4",
+        "background_color": "#093D24",
+        "scrim_color": "#093D24",
         "scrim_opacity": 35,
-        "eyebrow_color": "#f2a2ff",
-        "heading_color": "#ffffff",
-        "subhead_color": "#ffffff",
-        "factor_icon_color": "#f2a2ff",
-        "factor_label_color": "#f2a2ff",
-        "card_background_color": "#093d24",
-        "card_figure_color": "#f2a2ff",
-        "card_caption_color": "#ffffff",
-        "card_source_color": "#ffffff"
+        "eyebrow_color": "#F2A2FF",
+        "heading_color": "#FFFFFF",
+        "subhead_color": "#FFFFFF",
+        "factor_icon_color": "#F2A2FF",
+        "factor_label_color": "#F2A2FF",
+        "card_background_color": "#093D24",
+        "card_figure_color": "#F2A2FF",
+        "card_caption_color": "#FFFFFF",
+        "card_source_color": "#FFFFFF",
+        "vertical_padding": 0
       }
     }
   },
   "order": [
     "main",
     "custom_trust_bar_mopdp1",
-    "custom_problem_agitation_mopdp1"
+    "custom_problem_agitation_iYrAeg"
   ]
 }
