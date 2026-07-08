@@ -12,6 +12,24 @@
     "main": {
       "type": "custom-main-product",
       "blocks": {
+        "disclosures": {
+          "type": "disclosures",
+          "settings": {
+            "heading": "Disclosures",
+            "heading_preset": "h4",
+            "open_by_default": false,
+            "icon": "caret",
+            "disclosure_heading_preset": "h5",
+            "text_color": "",
+            "dividers": true,
+            "divider_color": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
         "media-gallery": {
           "type": "_product-media-gallery",
           "static": true,
@@ -54,11 +72,13 @@
             "gap": 20,
             "sticky_details_desktop": true,
             "background_media": "none",
+            "background_color": "",
             "video_position": "cover",
             "background_image_position": "cover",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
+            "border_color": "",
             "border_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
@@ -69,7 +89,16 @@
             "mo_testimonial": {
               "type": "mo-pdp-testimonial",
               "name": "MO Testimonial Card",
-              "settings": {},
+              "settings": {
+                "rating": 5,
+                "author_name": "Dr. James K.",
+                "author_role": "Optometrist, Chicago, IL",
+                "quote": "Moisture Oyster checks several important boxes for me: a protected multidose bottle, easy dispensing, immediate comfort, and no blurry vision after instillation. It made a great first impression.",
+                "background_color": "#093d24",
+                "text_color": "#ffffff",
+                "star_color": "#ffffff",
+                "quote_color": "#ffffff"
+              },
               "blocks": {}
             },
             "mo_buybox_card": {
@@ -91,7 +120,7 @@
                 "height": "fit",
                 "custom_height": 100,
                 "background_media": "none",
-                "background_color": "#FFFFFF",
+                "background_color": "#ffffff",
                 "video_position": "cover",
                 "background_image_position": "cover",
                 "toggle_overlay": false,
@@ -101,7 +130,7 @@
                 "border": "solid",
                 "border_width": 1,
                 "border_opacity": 100,
-                "border_color": "#E8E7E3",
+                "border_color": "#e8e7e3",
                 "border_radius": 20,
                 "link": "",
                 "open_in_new_tab": false,
@@ -115,7 +144,10 @@
                 "mo_eyebrow": {
                   "type": "mo-pdp-eyebrow",
                   "name": "MO Eyebrow",
-                  "settings": {},
+                  "settings": {
+                    "text": "Clinical Eye Care",
+                    "text_color": "#1fa567"
+                  },
                   "blocks": {}
                 },
                 "mo_title": {
@@ -125,14 +157,32 @@
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "h2"
+                    "type_preset": "h2",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {}
                 },
                 "mo_glp_badge": {
                   "type": "mo-pdp-badge",
                   "name": "MO Badge Pill",
-                  "settings": {},
+                  "settings": {
+                    "text": "GLP Non-Irritant · OECD 492B",
+                    "background_color": "#b8f3d8",
+                    "text_color": "#093d24"
+                  },
                   "blocks": {}
                 },
                 "mo_description": {
@@ -150,6 +200,7 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
+                    "text_color": "",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -163,13 +214,38 @@
                 "mo_rating_link": {
                   "type": "mo-pdp-rating-link",
                   "name": "MO Rating Link (stub)",
-                  "settings": {},
+                  "settings": {
+                    "rating_text": "4.9",
+                    "rating": 5,
+                    "review_count_text": "580+ Reviews",
+                    "reviews_anchor": "",
+                    "star_color": "#1fa567"
+                  },
                   "blocks": {}
                 },
                 "mo_tier_picker": {
                   "type": "mo-tier-picker",
                   "name": "MO Tier + Sub Picker",
-                  "settings": {},
+                  "settings": {
+                    "quantity_label": "Quantity",
+                    "purchase_label": "Purchase Option",
+                    "subscribe_title": "Subscribe",
+                    "onetime_title": "One-Time",
+                    "deliver_prefix": "Deliver every",
+                    "card_bg_inactive": "#ffffff",
+                    "card_border_inactive": "#e8e7e3",
+                    "card_bg_active": "#1fa567",
+                    "card_border_active": "#1fa567",
+                    "card_text_active": "#ffffff",
+                    "card_text_inactive": "#093d24",
+                    "badge_save_bg": "#1fa567",
+                    "badge_save_text": "#b8f3d8",
+                    "badge_value_bg": "#ffffff",
+                    "badge_value_text": "#0d1b14",
+                    "badge_value_border": "#c4c1ba",
+                    "bubble_bg": "#ffd5f7",
+                    "bubble_text": "#093d24"
+                  },
                   "blocks": {}
                 },
                 "mo_buy_buttons": {
@@ -177,20 +253,57 @@
                   "name": "t:names.product_buy_buttons",
                   "settings": {
                     "stacking": false,
+                    "text_color": "",
                     "show_pickup_availability": false,
                     "gift_card_form": false,
+                    "recipient_button_style": "default",
+                    "recipient_button_background": "{{ settings.color_palette.background }}",
+                    "recipient_button_text": "{{ settings.color_palette.foreground }}",
+                    "recipient_button_border": "{{ settings.color_palette.foreground }}",
+                    "selected_recipient_button_style": "default",
+                    "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
+                    "selected_recipient_button_text": "{{ settings.color_palette.background }}",
+                    "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
+                    "input_style": "default",
+                    "input_background_color": "{{ settings.color_palette.background }}",
+                    "input_text_color": "{{ settings.color_palette.foreground }}",
+                    "input_border_color": "{{ settings.color_palette.foreground }}",
+                    "border_width": 1,
+                    "border_radius": 0,
                     "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
                   "blocks": {
+                    "quantity": {
+                      "type": "quantity",
+                      "static": true,
+                      "settings": {
+                        "input_style": "default",
+                        "input_background_color": "{{ settings.color_palette.background }}",
+                        "input_text_color": "{{ settings.color_palette.foreground }}",
+                        "input_border_color": "{{ settings.color_palette.foreground }}",
+                        "border_width": 1,
+                        "border_radius": 0
+                      },
+                      "blocks": {}
+                    },
                     "add-to-cart": {
                       "type": "add-to-cart",
                       "static": true,
                       "settings": {
-                        "style_class": "button"
+                        "style_class": "button",
+                        "custom_button_background": "{{ settings.color_palette.foreground }}",
+                        "custom_button_text": "{{ settings.color_palette.background }}",
+                        "custom_button_border": "{{ settings.color_palette.background }}"
                       },
+                      "blocks": {}
+                    },
+                    "accelerated-checkout": {
+                      "type": "accelerated-checkout",
+                      "static": true,
+                      "settings": {},
                       "blocks": {}
                     }
                   },
@@ -199,7 +312,10 @@
                 "mo_payment_badges": {
                   "type": "mo-pdp-payment-badges",
                   "name": "MO Payment Badges",
-                  "settings": {},
+                  "settings": {
+                    "text": "Apple Pay · Visa · Mastercard · Klarna",
+                    "text_color": "#093d24"
+                  },
                   "blocks": {}
                 },
                 "mo_accordion": {
@@ -208,8 +324,19 @@
                   "settings": {
                     "icon": "plus",
                     "dividers": true,
-                    "divider_color": "#E8E7E3",
-                    "type_preset": "h6"
+                    "divider_color": "#e8e7e3",
+                    "type_preset": "h6",
+                    "background_color": "",
+                    "text_color": "",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_color": "",
+                    "border_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {
                     "accordion-row-1": {
@@ -217,46 +344,94 @@
                       "settings": {
                         "heading": "Active Ingredient",
                         "open_by_default": false,
-                        "icon": "none"
+                        "icon": "none",
+                        "width": 20
                       },
                       "blocks": {
                         "text-1": {
                           "type": "text",
                           "settings": {
                             "text": "<p>Glycerin 0.9%. Preservative-free, multi-dose Aptar OSD bottle. Full INCI list to be confirmed with Oté Pharma.</p>",
-                            "width": "100%"
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "rte",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
                           },
                           "blocks": {}
                         }
                       },
-                      "block_order": ["text-1"]
+                      "block_order": [
+                        "text-1"
+                      ]
                     },
                     "accordion-row-2": {
                       "type": "_accordion-row",
                       "settings": {
                         "heading": "Uses",
                         "open_by_default": false,
-                        "icon": "none"
+                        "icon": "none",
+                        "width": 20
                       },
                       "blocks": {
                         "text-1": {
                           "type": "text",
                           "settings": {
                             "text": "<p>For the temporary relief of burning, irritation, and discomfort due to dryness of the eye. Safe for daily use with contact lenses.</p>",
-                            "width": "100%"
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "rte",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
                           },
                           "blocks": {}
                         }
                       },
-                      "block_order": ["text-1"]
+                      "block_order": [
+                        "text-1"
+                      ]
                     }
                   },
-                  "block_order": ["accordion-row-1", "accordion-row-2"]
+                  "block_order": [
+                    "accordion-row-1",
+                    "accordion-row-2"
+                  ]
                 },
                 "mo_trust_bullets": {
                   "type": "mo-pdp-trust-bullets",
                   "name": "MO Trust Bullets",
-                  "settings": {},
+                  "settings": {
+                    "bullet_1": "Free shipping on orders over $30",
+                    "bullet_2": "Pause, skip or cancel anytime",
+                    "bullet_3": "30-day money-back guarantee",
+                    "text_color": "#093d24"
+                  },
                   "blocks": {}
                 }
               },
@@ -274,18 +449,15 @@
               ]
             }
           },
-          "block_order": ["mo_testimonial", "mo_buybox_card"]
-        },
-        "disclosures": {
-          "type": "disclosures",
-          "settings": {
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
+          "block_order": [
+            "mo_testimonial",
+            "mo_buybox_card"
+          ]
         }
       },
-      "block_order": ["disclosures"],
+      "block_order": [
+        "disclosures"
+      ],
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
@@ -293,7 +465,7 @@
         "limit_details_width": false,
         "gap": 40,
         "enable_sticky_add_to_cart": true,
-        "background_color": "#F7F5F0",
+        "background_color": "#093D24",
         "padding-block-start": 32,
         "padding-block-end": 32
       }
@@ -316,6 +488,7 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
+            "text_color": "",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -332,9 +505,11 @@
           "static": true,
           "settings": {
             "product_card_gap": 8,
+            "background_color": "",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
+            "border_color": "",
             "border_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 8,
@@ -350,6 +525,7 @@
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
+                "border_color": "",
                 "border_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
@@ -372,6 +548,7 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
+                "text_color": "",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
@@ -396,6 +573,7 @@
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
+                "text_color": "",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -429,6 +607,7 @@
         "icons_shape": "none",
         "section_width": "page-width",
         "gap": 28,
+        "background_color": "",
         "padding-block-start": 48,
         "padding-block-end": 48
       }
