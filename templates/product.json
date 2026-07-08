@@ -584,7 +584,7 @@
         "card_figure_color": "#F2A2FF",
         "card_caption_color": "#FFFFFF",
         "card_source_color": "#FFFFFF",
-        "vertical_padding": 0
+        "vertical_padding": 20
       }
     }
   },
