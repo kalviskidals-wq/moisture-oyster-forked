@@ -525,7 +525,7 @@
         "columns_desktop": 4,
         "mobile_layout": "stack",
         "vertical_padding": 40,
-        "segment_border": true,
+        "segment_border": false,
         "background_color": "#093d24",
         "segment_background_color": "#115033",
         "border_color": "#ffffff1f",
