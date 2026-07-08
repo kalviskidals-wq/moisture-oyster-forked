@@ -478,6 +478,7 @@
           "name": "Benefit",
           "settings": {
             "icon_preset": "dropper_slash",
+            "icon_image": "shopify://shop_images/preservative_free_icon_c83a6b06-9254-4c9e-ba72-09e666ab891e.svg",
             "label_line_1": "PRESERVATIVE",
             "label_line_2": "FREE"
           }
@@ -487,6 +488,7 @@
           "name": "Benefit",
           "settings": {
             "icon_preset": "test_tube",
+            "icon_image": "shopify://shop_images/bak_free_icon_df8027e2-27bd-4ef6-bf7f-0d0a0a5a104c.svg",
             "label_line_1": "BAK",
             "label_line_2": "FREE"
           }
@@ -496,6 +498,7 @@
           "name": "Benefit",
           "settings": {
             "icon_preset": "water_drops",
+            "icon_image": "shopify://shop_images/200_drop_bottle_icon_b69ecbf0-1cc0-4d85-bd2e-35ecf2d07716.svg",
             "label_line_1": "~200 DROP",
             "label_line_2": "BOTTLE"
           }
@@ -505,6 +508,7 @@
           "name": "Benefit",
           "settings": {
             "icon_preset": "hand_drop",
+            "icon_image": "shopify://shop_images/glp_tested_icon_2506021e-49b6-4847-b62b-4ffbb91e02dc.svg",
             "label_line_1": "GLP",
             "label_line_2": "TESTED"
           }
