@@ -1,0 +1,382 @@
+{%- # CUSTOM: net-new theme section — PDP "Problem Agitation" block. Full-bleed
+  close-up eye video/poster background with an eyebrow + heading + subhead,
+  a repeatable list of aggravating factors (icon + label), and a citation-backed
+  stat card. Desktop overlays all copy directly on the video; mobile shows a
+  solid deep-green header block first, then the video with the factor list
+  overlaid top and the stat card overlaid bottom. UPSTREAM risk LOW — no
+  Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-problem rules here (not
+  layout/theme.liquid) since site-wide inclusion is still pending approval.
+  Every mo-* element also ships hardcoded var() fallbacks so this still
+  renders correctly if either tag is ever removed. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign has_video = false
+  if s.video_background != blank
+    assign has_video = true
+  endif
+-%}
+
+<section
+  class="mo-problem"
+  id="MoProblem-{{ section.id }}"
+  style="
+    --mo-problem-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-problem-scrim: {{ s.scrim_color | default: '#093D24' }};
+    --mo-problem-scrim-opacity: {{ s.scrim_opacity | default: 35 | divided_by: 100.0 }};
+    --mo-problem-eyebrow: {{ s.eyebrow_color | default: '#F2A2FF' }};
+    --mo-problem-heading: {{ s.heading_color | default: '#FFFFFF' }};
+    --mo-problem-subhead: {{ s.subhead_color | default: '#FFFFFF' }};
+    --mo-problem-factor-icon: {{ s.factor_icon_color | default: '#F2A2FF' }};
+    --mo-problem-factor-label: {{ s.factor_label_color | default: '#F2A2FF' }};
+    --mo-problem-card-bg: {{ s.card_background_color | default: '#093D24' }};
+    --mo-problem-card-figure: {{ s.card_figure_color | default: '#F2A2FF' }};
+    --mo-problem-card-caption: {{ s.card_caption_color | default: '#FFFFFF' }};
+    --mo-problem-card-source: {{ s.card_source_color | default: '#FFFFFF' }};
+    --mo-problem-padding-y: {{ s.vertical_padding | default: 0 }}px;
+  "
+>
+  <div class="mo-problem__header">
+    {%- if s.eyebrow != blank -%}
+      <p class="mo-problem__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if s.heading != blank -%}
+      <h2 class="mo-problem__heading mo-h1">{{ s.heading | newline_to_br }}</h2>
+    {%- endif -%}
+    {%- if s.subhead != blank -%}
+      <div class="mo-problem__subhead mo-body-lg">{{ s.subhead | newline_to_br }}</div>
+    {%- endif -%}
+  </div>
+
+  <div class="mo-problem__media-wrap">
+    {%- if s.poster_image != blank -%}
+      {{
+        s.poster_image
+        | image_url: width: 1600
+        | image_tag:
+          width: s.poster_image.width,
+          height: s.poster_image.height,
+          alt: s.poster_image.alt,
+          sizes: '100vw',
+          class: 'mo-problem__poster',
+          loading: 'lazy',
+          fetchpriority: 'low'
+      }}
+    {%- endif -%}
+
+    {%- if has_video -%}
+      <div class="mo-problem__video-wrap">
+        {{
+          s.video_background
+          | video_tag:
+            poster: nil,
+            autoplay: true,
+            loop: true,
+            controls: false,
+            muted: true,
+            playsinline: true,
+            preload: 'metadata',
+            class: 'mo-problem__video',
+            data-testid: 'problem-agitation-video'
+        }}
+      </div>
+    {%- endif -%}
+
+    <div class="mo-problem__scrim" aria-hidden="true"></div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="mo-problem__factors">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'factor' -%}
+            {%- liquid
+              assign bs = block.settings
+              assign has_icon = false
+              if bs.icon_image != blank
+                assign has_icon = true
+              elsif bs.icon_preset != 'none'
+                assign has_icon = true
+              endif
+            -%}
+            {%- if bs.label != blank -%}
+              <div class="mo-problem__factor" {{ block.shopify_attributes }}>
+                {%- if has_icon -%}
+                  <span class="mo-problem__factor-icon" aria-hidden="true">
+                    {%- if bs.icon_image != blank -%}
+                      {{
+                        bs.icon_image
+                        | image_url: width: 72
+                        | image_tag:
+                          width: 36,
+                          height: 36,
+                          loading: 'lazy',
+                          alt: '',
+                          class: 'mo-problem__factor-icon-img'
+                      }}
+                    {%- else -%}
+                      {%- render 'mo-factor-icon', icon: bs.icon_preset -%}
+                    {%- endif -%}
+                  </span>
+                {%- endif -%}
+                <span class="mo-problem__factor-label mo-menu">{{ bs.label | escape }}</span>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if s.stat_figure != blank -%}
+      <div class="mo-problem__stat-card">
+        <p class="mo-problem__stat-figure mo-stat">{{ s.stat_figure | escape }}</p>
+        {%- if s.stat_caption != blank -%}
+          <p class="mo-problem__stat-caption mo-menu">{{ s.stat_caption | newline_to_br }}</p>
+        {%- endif -%}
+        {%- if s.stat_source != blank -%}
+          <hr class="mo-problem__stat-divider" aria-hidden="true">
+          <p class="mo-problem__stat-source mo-body">{{ s.stat_source | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Problem Agitation",
+  "tag": "section",
+  "class": "mo-problem-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "ABOUT THIS PRODUCT"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Built for eyes that never get a break"
+    },
+    {
+      "type": "textarea",
+      "id": "subhead",
+      "label": "Subhead",
+      "default": "Screens cut your blink rate dramatically — starving the ocular surface of moisture. Air conditioning, air travel, and contact lens wear compound the damage."
+    },
+    {
+      "type": "header",
+      "content": "Stat card"
+    },
+    {
+      "type": "text",
+      "id": "stat_figure",
+      "label": "Stat figure",
+      "default": "55%"
+    },
+    {
+      "type": "textarea",
+      "id": "stat_caption",
+      "label": "Stat caption",
+      "default": "DECREASE IN BLINK RATE WHILE ON SCREEN"
+    },
+    {
+      "type": "textarea",
+      "id": "stat_source",
+      "label": "Stat source / citation",
+      "default": "Graefe's Archive for Clinical & Experimental Ophthalmology, 2021 — 45–55% across digital displays."
+    },
+    {
+      "type": "header",
+      "content": "Background media"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image",
+      "label": "Poster image",
+      "info": "Always-present base layer — close-up eye photo. Shown alone if no video is set, and whenever the visitor's device has reduced motion enabled."
+    },
+    {
+      "type": "video",
+      "id": "video_background",
+      "label": "Background video",
+      "info": "Optional. Autoplays muted, looped, no controls. Falls back to the poster image above if left blank."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section / header background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "scrim_color",
+      "label": "Video scrim color",
+      "default": "#093D24",
+      "info": "Solid overlay for legibility over any video frame."
+    },
+    {
+      "type": "range",
+      "id": "scrim_opacity",
+      "label": "Video scrim opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 35
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#F2A2FF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "subhead_color",
+      "label": "Subhead color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "factor_icon_color",
+      "label": "Factor icon color",
+      "default": "#F2A2FF"
+    },
+    {
+      "type": "color",
+      "id": "factor_label_color",
+      "label": "Factor label color",
+      "default": "#F2A2FF"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Stat card background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "card_figure_color",
+      "label": "Stat card figure color",
+      "default": "#F2A2FF"
+    },
+    {
+      "type": "color",
+      "id": "card_caption_color",
+      "label": "Stat card caption color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_source_color",
+      "label": "Stat card source color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Extra section vertical padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "factor",
+      "name": "Factor",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Icon"
+        },
+        {
+          "type": "select",
+          "id": "icon_preset",
+          "label": "Built-in icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "air_conditioning", "label": "Air conditioning" },
+            { "value": "air_travel", "label": "Air travel" },
+            { "value": "contact_lens", "label": "Contact lens" },
+            { "value": "screen", "label": "Screen (generic)" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon image",
+          "info": "Overrides the built-in icon above if set."
+        },
+        {
+          "type": "header",
+          "content": "Label"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "AIR CONDITIONING"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Problem Agitation",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "factor",
+          "settings": {
+            "icon_preset": "air_conditioning",
+            "label": "AIR CONDITIONING"
+          }
+        },
+        {
+          "type": "factor",
+          "settings": {
+            "icon_preset": "air_travel",
+            "label": "AIR TRAVEL"
+          }
+        },
+        {
+          "type": "factor",
+          "settings": {
+            "icon_preset": "contact_lens",
+            "label": "CONTACT LENS"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

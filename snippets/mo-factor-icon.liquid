@@ -1,0 +1,37 @@
+{%- # CUSTOM: net-new snippet — small inline line-art SVG set for MO Problem Agitation "aggravating factor" icons (air conditioning, air travel, contact lens). Same ring-baked-in / currentColor convention as mo-benefit-icon.liquid so both icon sets stay visually consistent. Used as the fallback when a block has no uploaded icon image. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # Params: icon (string preset key) -%}
+{%- liquid
+  assign icon = icon | default: 'none'
+-%}
+{%- case icon -%}
+  {%- when 'air_conditioning' -%}
+    {%- # Air conditioning — three stacked wavy air-flow lines, ring baked in -%}
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="24" cy="24" r="22.5" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M11 17C13 15 15 15 17 17C19 19 21 19 23 17C25 15 27 15 29 17C31 19 33 19 35 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M11 24C13 22 15 22 17 24C19 26 21 26 23 24C25 22 27 22 29 24C31 26 33 26 35 24" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M11 31C13 29 15 29 17 31C19 33 21 33 23 31C25 29 27 29 29 31C31 33 33 33 35 31" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+  {%- when 'air_travel' -%}
+    {%- # Air travel — paper-airplane silhouette, ring baked in -%}
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="24" cy="24" r="22.5" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M10 26L38 12L26 40L23 27L10 26Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M23 27L38 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+  {%- when 'contact_lens' -%}
+    {%- # Contact lens — open lens case / cup with a wavy lens resting across the top, ring baked in -%}
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="24" cy="24" r="22.5" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M13 23C13 23 17 27 24 27C31 27 35 23 35 23" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M14 25L16 33.5C16 36.5 19.6 39 24 39C28.4 39 32 36.5 32 33.5L34 25" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+    </svg>
+  {%- when 'screen' -%}
+    {%- # Generic screen/monitor — spare icon for future factor blocks, ring baked in -%}
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="24" cy="24" r="22.5" stroke="currentColor" stroke-width="1.4"/>
+      <rect x="12" y="13" width="24" height="17" rx="2" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M19 35H29" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M24 30V35" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+{%- endcase -%}

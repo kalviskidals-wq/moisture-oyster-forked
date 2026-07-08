@@ -532,10 +532,66 @@
         "label_color": "#ffffff",
         "icon_color": "#f2a2ff"
       }
+    },
+    "custom_problem_agitation_mopdp1": {
+      "type": "custom-problem-agitation",
+      "blocks": {
+        "factor_1": {
+          "type": "factor",
+          "name": "Factor",
+          "settings": {
+            "icon_preset": "air_conditioning",
+            "label": "AIR CONDITIONING"
+          }
+        },
+        "factor_2": {
+          "type": "factor",
+          "name": "Factor",
+          "settings": {
+            "icon_preset": "air_travel",
+            "label": "AIR TRAVEL"
+          }
+        },
+        "factor_3": {
+          "type": "factor",
+          "name": "Factor",
+          "settings": {
+            "icon_preset": "contact_lens",
+            "label": "CONTACT LENS"
+          }
+        }
+      },
+      "block_order": [
+        "factor_1",
+        "factor_2",
+        "factor_3"
+      ],
+      "name": "MO Problem Agitation",
+      "settings": {
+        "eyebrow": "ABOUT THIS PRODUCT",
+        "heading": "Built for eyes that never get a break",
+        "subhead": "Screens cut your blink rate dramatically — starving the ocular surface of moisture. Air conditioning, air travel, and contact lens wear compound the damage.",
+        "stat_figure": "55%",
+        "stat_caption": "DECREASE IN BLINK RATE WHILE ON SCREEN",
+        "stat_source": "Graefe's Archive for Clinical & Experimental Ophthalmology, 2021 — 45–55% across digital displays.",
+        "background_color": "#093d24",
+        "scrim_color": "#093d24",
+        "scrim_opacity": 35,
+        "eyebrow_color": "#f2a2ff",
+        "heading_color": "#ffffff",
+        "subhead_color": "#ffffff",
+        "factor_icon_color": "#f2a2ff",
+        "factor_label_color": "#f2a2ff",
+        "card_background_color": "#093d24",
+        "card_figure_color": "#f2a2ff",
+        "card_caption_color": "#ffffff",
+        "card_source_color": "#ffffff"
+      }
     }
   },
   "order": [
     "main",
-    "custom_trust_bar_mopdp1"
+    "custom_trust_bar_mopdp1",
+    "custom_problem_agitation_mopdp1"
   ]
 }

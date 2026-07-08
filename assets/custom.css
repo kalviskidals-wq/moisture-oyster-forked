@@ -536,3 +536,213 @@ body {
     scroll-snap-align: start;
   }
 }
+
+/* ============================================================================
+   CUSTOM: MO PROBLEM AGITATION — sections/custom-problem-agitation.liquid
+   Full-bleed close-up eye video/poster background with agitation copy, a
+   repeatable "aggravating factor" list, and a citation-backed stat card.
+   Mobile: solid deep-green header block stacked above the video, with the
+   factor list overlaid top of the video and the stat card overlaid bottom.
+   Desktop (>=750px): header, factor list, and stat card all overlay directly
+   on the full-bleed video (top-left / bottom-left / bottom-right per Figma).
+   Consumes mo-design-system.css tokens with hardcoded fallbacks so this still
+   renders if that file is ever removed. UPSTREAM risk LOW — net-new, no
+   Horizon file touched.
+   ============================================================================ */
+.mo-problem {
+  position: relative;
+  background: var(--mo-problem-bg, #093d24);
+  padding-block: var(--mo-problem-padding-y, 0px);
+  overflow: hidden;
+}
+
+.mo-problem__header {
+  position: relative;
+  z-index: 4;
+  background: var(--mo-problem-bg, #093d24);
+  padding: var(--mo-space-8, 40px) var(--mo-space-5, 20px) var(--mo-space-7, 32px);
+}
+
+.mo-problem__eyebrow {
+  color: var(--mo-problem-eyebrow, #f2a2ff);
+  margin: 0 0 var(--mo-space-4, 16px);
+}
+
+.mo-problem__heading {
+  color: var(--mo-problem-heading, #ffffff);
+  margin: 0 0 var(--mo-space-4, 16px);
+}
+
+.mo-problem__subhead {
+  color: var(--mo-problem-subhead, #ffffff);
+  margin: 0;
+  max-width: 46ch;
+  opacity: 0.92;
+}
+
+.mo-problem__media-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  min-height: 520px;
+}
+
+.mo-problem__poster {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mo-problem__video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.mo-problem__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* CUSTOM: poster is the always-present base layer; video is an enhancement
+   layered on top. Reduced-motion visitors get the poster only. */
+@media (prefers-reduced-motion: reduce) {
+  .mo-problem__video-wrap {
+    display: none !important;
+  }
+}
+
+.mo-problem__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--mo-problem-scrim, #093d24);
+  opacity: var(--mo-problem-scrim-opacity, 0.35);
+  pointer-events: none;
+}
+
+.mo-problem__factors {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-4, 16px);
+  top: var(--mo-space-6, 24px);
+  left: var(--mo-space-5, 20px);
+  right: var(--mo-space-5, 20px);
+}
+
+.mo-problem__factor {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-3, 12px);
+}
+
+.mo-problem__factor-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  color: var(--mo-problem-factor-icon, #f2a2ff);
+}
+
+.mo-problem__factor-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.mo-problem__factor-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.mo-problem__factor-label {
+  color: var(--mo-problem-factor-label, #f2a2ff);
+  white-space: nowrap;
+}
+
+.mo-problem__stat-card {
+  position: absolute;
+  z-index: 3;
+  left: var(--mo-space-5, 20px);
+  right: var(--mo-space-5, 20px);
+  bottom: var(--mo-space-5, 20px);
+  background: var(--mo-problem-card-bg, #093d24);
+  border-radius: var(--mo-radius-md, 10px);
+  padding: var(--mo-space-7, 32px) var(--mo-space-6, 24px);
+}
+
+.mo-problem__stat-figure {
+  color: var(--mo-problem-card-figure, #f2a2ff);
+  margin: 0 0 var(--mo-space-4, 16px);
+}
+
+.mo-problem__stat-caption {
+  color: var(--mo-problem-card-caption, #ffffff);
+  margin: 0 0 var(--mo-space-4, 16px);
+}
+
+.mo-problem__stat-divider {
+  border: none;
+  border-top: 1px solid color-mix(in srgb, var(--mo-problem-card-caption, #ffffff) 25%, transparent);
+  margin: 0 0 var(--mo-space-4, 16px);
+}
+
+.mo-problem__stat-source {
+  color: var(--mo-problem-card-source, #ffffff);
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* Desktop (Figma desktop frame): header, factor list, and stat card all
+   overlay the full-bleed video instead of stacking above it. */
+@media screen and (min-width: 750px) {
+  .mo-problem {
+    aspect-ratio: 1200 / 625;
+    min-height: 640px;
+  }
+
+  .mo-problem__header {
+    position: absolute;
+    inset: 0 auto auto 0;
+    max-width: 560px;
+    background: transparent;
+    padding: var(--mo-space-8, 40px);
+  }
+
+  .mo-problem__subhead {
+    opacity: 1;
+  }
+
+  .mo-problem__media-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    aspect-ratio: auto;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .mo-problem__factors {
+    top: auto;
+    right: auto;
+    bottom: var(--mo-space-8, 40px);
+    left: var(--mo-space-8, 40px);
+  }
+
+  .mo-problem__stat-card {
+    left: auto;
+    right: var(--mo-space-8, 40px);
+    bottom: var(--mo-space-8, 40px);
+    max-width: 420px;
+  }
+}
