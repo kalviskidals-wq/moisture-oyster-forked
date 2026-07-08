@@ -30,8 +30,8 @@
 
   assign card_bg_inactive = bs.card_bg_inactive | default: '#ffffff'
   assign card_border_inactive = bs.card_border_inactive | default: '#e8e7e3'
-  assign card_bg_active = bs.card_bg_active | default: '#093d24'
-  assign card_border_active = bs.card_border_active | default: '#093d24'
+  assign card_bg_active = bs.card_bg_active | default: '#1fa567'
+  assign card_border_active = bs.card_border_active | default: '#1fa567'
   assign card_text_active = bs.card_text_active | default: '#ffffff'
   assign card_text_inactive = bs.card_text_inactive | default: '#093d24'
   assign badge_save_bg = bs.badge_save_bg | default: '#1fa567'
@@ -268,8 +268,8 @@
   }
 
   .mo-vpicker__card.is-selected {
-    background: var(--mo-card-bg-active, #093d24);
-    border-color: var(--mo-card-border-active, #093d24);
+    background: var(--mo-card-bg-active, #1fa567);
+    border-color: var(--mo-card-border-active, #1fa567);
     color: var(--mo-card-text-active, #fff);
   }
 
@@ -302,8 +302,8 @@
 
   .mo-vpicker__tier-badge {
     position: absolute;
-    top: -10px;
-    right: -8px;
+    top: -8px;
+    right: 8px;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.625rem;
     font-weight: 600;

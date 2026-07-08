@@ -399,6 +399,14 @@
   #BuyButtons-ProductSubmitButton-add-to-cart .add-to-cart-text::after {
     content: 'Add to Bag +';
   }
+
+  /* CUSTOM: hide Seal Subscriptions' own injected widget — we render our own
+     Subscribe/One-time UI in mo-tier-picker and only use Seal for the
+     underlying native selling plans, not its default storefront widget.
+     UPSTREAM risk LOW — scoped selector, no Horizon file touched. */
+  .sealsubs-target-element {
+    display: none !important;
+  }
 {% endstylesheet %}
 
 {% schema %}
