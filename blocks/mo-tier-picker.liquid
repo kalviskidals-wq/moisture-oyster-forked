@@ -1,0 +1,142 @@
+{%- # CUSTOM: net-new theme block — thin wrapper for the quantity-tier + purchase-option + delivery-frequency picker. All rendering/CSS/JS lives in snippets/mo-variant-main-picker.liquid (kept out of the block file per the established MO pattern so the block stays a thin schema holder). UPSTREAM risk LOW. Naming: "mo-tier-picker" (not "variant-picker") to avoid clobbering Horizon's native blocks/variant-picker.liquid. -%}
+{%- # CRITICAL: block: block must be passed explicitly, otherwise block.settings is empty in the snippet. -%}
+{% render 'mo-variant-main-picker',
+  product_resource: closest.product,
+  section: section,
+  block: block
+%}
+
+{% schema %}
+{
+  "name": "MO Tier + Subscription Picker",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Labels"
+    },
+    {
+      "type": "text",
+      "id": "quantity_label",
+      "label": "Quantity label",
+      "default": "Quantity"
+    },
+    {
+      "type": "text",
+      "id": "purchase_label",
+      "label": "Purchase option label",
+      "default": "Purchase Option"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_title",
+      "label": "Subscribe card title",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "onetime_title",
+      "label": "One-time card title",
+      "default": "One-Time"
+    },
+    {
+      "type": "text",
+      "id": "deliver_prefix",
+      "label": "Delivery frequency prefix",
+      "default": "Deliver every"
+    },
+    {
+      "type": "header",
+      "content": "Card colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_inactive",
+      "label": "Card background (inactive)",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_border_inactive",
+      "label": "Card border (inactive)",
+      "default": "#E8E7E3"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_active",
+      "label": "Card background (selected)",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "card_border_active",
+      "label": "Card border (selected)",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "card_text_active",
+      "label": "Card text (selected)",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_text_inactive",
+      "label": "Card text (inactive)",
+      "default": "#093D24"
+    },
+    {
+      "type": "header",
+      "content": "Discount badges"
+    },
+    {
+      "type": "color",
+      "id": "badge_save_bg",
+      "label": "Subscribe badge background",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "badge_save_text",
+      "label": "Subscribe badge text",
+      "default": "#B8F3D8"
+    },
+    {
+      "type": "color",
+      "id": "badge_value_bg",
+      "label": "Tier badge background (on selected card)",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "badge_value_text",
+      "label": "Tier badge text (on selected card)",
+      "default": "#0D1B14"
+    },
+    {
+      "type": "color",
+      "id": "badge_value_border",
+      "label": "Tier badge border (on selected card)",
+      "default": "#C4C1BA"
+    },
+    {
+      "type": "color",
+      "id": "bubble_bg",
+      "label": "Tier badge background (on inactive card)",
+      "default": "#FFD5F7"
+    },
+    {
+      "type": "color",
+      "id": "bubble_text",
+      "label": "Tier badge text (on inactive card)",
+      "default": "#093D24"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Tier + Subscription Picker",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

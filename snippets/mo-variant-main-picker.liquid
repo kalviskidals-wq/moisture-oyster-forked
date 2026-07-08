@@ -1,0 +1,549 @@
+{%- doc -%}
+  CUSTOM: net-new snippet. Renders the quantity-tier card picker + Subscribe/One-time
+  purchase-option card picker + delivery-frequency select for the MO product page.
+  Pattern documented in "shopify-card-variant-picker-pattern.md" (repo root).
+
+  @param {object} product_resource - the product
+  @param {object} section - the current section
+  @param {object} block - the mo-tier-picker block (settings must be read from here)
+
+  UPSTREAM risk LOW — net-new file, no Horizon snippet touched.
+{%- enddoc -%}
+
+{%- liquid
+  assign bs = block.settings
+  assign product = product_resource
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+
+  assign current_variant = product.selected_or_first_available_variant
+
+  # Does ANY variant have a selling plan allocation? Gates whether we show the
+  # Subscribe/One-time picker + frequency select at all.
+  assign any_selling_plans = false
+  for v in product.variants
+    if v.selling_plan_allocations.size > 0
+      assign any_selling_plans = true
+    endif
+  endfor
+
+  assign card_bg_inactive = bs.card_bg_inactive | default: '#ffffff'
+  assign card_border_inactive = bs.card_border_inactive | default: '#e8e7e3'
+  assign card_bg_active = bs.card_bg_active | default: '#093d24'
+  assign card_border_active = bs.card_border_active | default: '#093d24'
+  assign card_text_active = bs.card_text_active | default: '#ffffff'
+  assign card_text_inactive = bs.card_text_inactive | default: '#093d24'
+  assign badge_save_bg = bs.badge_save_bg | default: '#1fa567'
+  assign badge_save_text = bs.badge_save_text | default: '#b8f3d8'
+  assign badge_value_bg = bs.badge_value_bg | default: '#ffffff'
+  assign badge_value_text = bs.badge_value_text | default: '#0d1b14'
+  assign badge_value_border = bs.badge_value_border | default: '#c4c1ba'
+  assign bubble_bg = bs.bubble_bg | default: '#ffd5f7'
+  assign bubble_text = bs.bubble_text | default: '#093d24'
+
+  assign picker_id = 'mo-vpicker-' | append: block.id
+  assign qty_group = 'mo-qty-' | append: section.id
+  assign purchase_group = 'mo-purchase-' | append: section.id
+-%}
+
+<div
+  id="{{ picker_id }}"
+  class="mo-vpicker"
+  data-section-id="{{ section.id }}"
+  style="
+    --mo-card-bg-inactive: {{ card_bg_inactive }};
+    --mo-card-border-inactive: {{ card_border_inactive }};
+    --mo-card-bg-active: {{ card_bg_active }};
+    --mo-card-border-active: {{ card_border_active }};
+    --mo-card-text-active: {{ card_text_active }};
+    --mo-card-text-inactive: {{ card_text_inactive }};
+    --mo-badge-save-bg: {{ badge_save_bg }};
+    --mo-badge-save-text: {{ badge_save_text }};
+    --mo-badge-value-bg: {{ badge_value_bg }};
+    --mo-badge-value-text: {{ badge_value_text }};
+    --mo-badge-value-border: {{ badge_value_border }};
+    --mo-bubble-bg: {{ bubble_bg }};
+    --mo-bubble-text: {{ bubble_text }};
+  "
+>
+  {%- if product.has_only_default_variant == false -%}
+    <div class="mo-vpicker__section">
+      {%- if bs.quantity_label != blank -%}
+        <p class="mo-vpicker__label">{{ bs.quantity_label | escape }}</p>
+      {%- endif -%}
+      <div
+        class="mo-vpicker__cards mo-vpicker__cards--qty"
+        data-card-group="qty"
+      >
+        {%- for variant in product.variants -%}
+          {%- liquid
+            assign v_title = variant.title
+            assign v_number = v_title | split: ' ' | first
+            assign v_label = v_title | remove_first: v_number | strip
+
+            assign badge_text = variant.metafields.custom.badge_label
+            assign discount_pct = 0
+            if variant.compare_at_price > variant.price
+              assign diff = variant.compare_at_price | minus: variant.price
+              assign discount_pct = diff | times: 100.0 | divided_by: variant.compare_at_price | round
+            endif
+            if badge_text == blank and discount_pct > 0
+              assign badge_text = '-' | append: discount_pct | append: '%'
+            endif
+
+            assign allocs_json = '['
+            for alloc in variant.selling_plan_allocations
+              unless forloop.first
+                assign allocs_json = allocs_json | append: ','
+              endunless
+              assign plan_name_json = alloc.selling_plan.name | json
+              assign allocs_json = allocs_json
+                | append: '{"selling_plan_id":'
+                | append: alloc.selling_plan.id
+                | append: ',"name":'
+                | append: plan_name_json
+                | append: ',"price":'
+                | append: alloc.price
+                | append: '}'
+            endfor
+            assign allocs_json = allocs_json | append: ']'
+
+            assign is_selected = false
+            if variant.id == current_variant.id
+              assign is_selected = true
+            endif
+          -%}
+          <label
+            class="mo-vpicker__card mo-vpicker__card--qty{% if is_selected %} is-selected{% endif %}{% unless variant.available %} is-disabled{% endunless %}"
+            data-card="qty"
+            data-variant-id="{{ variant.id }}"
+          >
+            <input
+              type="radio"
+              name="{{ qty_group }}"
+              value="{{ variant.id }}"
+              class="mo-vpicker__radio-input"
+              data-variant-id="{{ variant.id }}"
+              data-price="{{ variant.price }}"
+              data-compare-at-price="{{ variant.compare_at_price }}"
+              data-allocations='{{ allocs_json }}'
+              {% if is_selected %}checked{% endif %}
+              {% unless variant.available %}disabled{% endunless %}
+            >
+            {%- if badge_text != blank -%}
+              <span class="mo-vpicker__tier-badge">{{ badge_text }}</span>
+            {%- endif -%}
+            <span class="mo-vpicker__qty-number">{{ v_number }}</span>
+            <span class="mo-vpicker__qty-unit">{{ v_label | default: 'Bottle' }}</span>
+          </label>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if any_selling_plans -%}
+    {%- liquid
+      assign first_alloc = current_variant.selling_plan_allocations.first
+      assign onetime_price = current_variant.price | money
+      assign subscribe_price = onetime_price
+      if first_alloc != blank
+        assign subscribe_price = first_alloc.price | money
+      endif
+    -%}
+    <div class="mo-vpicker__section">
+      {%- if bs.purchase_label != blank -%}
+        <p class="mo-vpicker__label">{{ bs.purchase_label | escape }}</p>
+      {%- endif -%}
+      <div
+        class="mo-vpicker__cards mo-vpicker__cards--purchase"
+        data-card-group="purchase"
+      >
+        <label class="mo-vpicker__card mo-vpicker__card--purchase is-selected" data-card="purchase" data-mode="subscribe">
+          <input
+            type="radio"
+            name="{{ purchase_group }}"
+            value="subscribe"
+            class="mo-vpicker__radio-input"
+            checked
+          >
+          <span class="mo-vpicker__purchase-price" data-role="subscribe-price">{{ subscribe_price }}</span>
+          <span class="mo-vpicker__purchase-title">
+            {{ bs.subscribe_title | default: 'Subscribe' }}
+            <span class="mo-vpicker__save-badge" data-role="subscribe-badge" hidden></span>
+          </span>
+        </label>
+        <label class="mo-vpicker__card mo-vpicker__card--purchase" data-card="purchase" data-mode="onetime">
+          <input
+            type="radio"
+            name="{{ purchase_group }}"
+            value="onetime"
+            class="mo-vpicker__radio-input"
+          >
+          <span class="mo-vpicker__purchase-price" data-role="onetime-price">{{ onetime_price }}</span>
+          <span class="mo-vpicker__purchase-title">{{ bs.onetime_title | default: 'One-Time' }}</span>
+        </label>
+      </div>
+    </div>
+
+    {%- liquid
+      assign plan_count = 0
+      for alloc in current_variant.selling_plan_allocations
+        assign plan_count = plan_count | plus: 1
+      endfor
+    -%}
+    {%- if plan_count > 1 -%}
+      <div class="mo-vpicker__frequency" data-role="frequency-row">
+        <label class="mo-vpicker__frequency-label" for="{{ picker_id }}-frequency">
+          {{ bs.deliver_prefix | default: 'Deliver every' }}
+        </label>
+        <select
+          id="{{ picker_id }}-frequency"
+          class="mo-vpicker__frequency-select"
+          data-role="frequency-select"
+        >
+          {%- for alloc in current_variant.selling_plan_allocations -%}
+            <option value="{{ alloc.selling_plan.id }}">{{ alloc.selling_plan.name }}</option>
+          {%- endfor -%}
+        </select>
+      </div>
+    {%- elsif plan_count == 1 -%}
+      <div class="mo-vpicker__frequency" data-role="frequency-row">
+        <span class="mo-vpicker__frequency-label">{{ bs.deliver_prefix | default: 'Deliver every' }}</span>
+        <span class="mo-vpicker__frequency-static" data-role="frequency-static">
+          {{ current_variant.selling_plan_allocations.first.selling_plan.name }}
+        </span>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .mo-vpicker {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-space-5, 20px);
+  }
+
+  .mo-vpicker__label {
+    margin: 0 0 var(--mo-space-2, 8px);
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mo-card-text-inactive, #093d24);
+    opacity: 0.7;
+  }
+
+  .mo-vpicker__cards {
+    display: grid;
+    gap: var(--mo-space-3, 12px);
+  }
+
+  .mo-vpicker__cards--qty {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .mo-vpicker__cards--purchase {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mo-vpicker__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    cursor: pointer;
+    border: 1.5px solid var(--mo-card-border-inactive, #e8e7e3);
+    background: var(--mo-card-bg-inactive, #fff);
+    border-radius: var(--mo-radius-md, 10px);
+    padding: var(--mo-space-4, 16px);
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .mo-vpicker__card.is-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .mo-vpicker__card.is-selected {
+    background: var(--mo-card-bg-active, #093d24);
+    border-color: var(--mo-card-border-active, #093d24);
+    color: var(--mo-card-text-active, #fff);
+  }
+
+  .mo-vpicker__radio-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 1px;
+    height: 1px;
+  }
+
+  .mo-vpicker__qty-number {
+    font-family: var(--mo-font-heading, sans-serif);
+    font-weight: 800;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: inherit;
+  }
+
+  .mo-vpicker__qty-unit {
+    margin-top: 2px;
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: inherit;
+    opacity: 0.8;
+  }
+
+  .mo-vpicker__tier-badge {
+    position: absolute;
+    top: -10px;
+    right: -8px;
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--mo-bubble-bg, #ffd5f7);
+    color: var(--mo-bubble-text, #093d24);
+  }
+
+  .mo-vpicker__card--qty.is-selected .mo-vpicker__tier-badge {
+    background: var(--mo-badge-value-bg, #fff);
+    color: var(--mo-badge-value-text, #0d1b14);
+    border: 1px solid var(--mo-badge-value-border, #c4c1ba);
+  }
+
+  .mo-vpicker__card--purchase {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .mo-vpicker__purchase-price {
+    font-family: var(--mo-font-heading, sans-serif);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: inherit;
+  }
+
+  .mo-vpicker__purchase-title {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--mo-space-2, 8px);
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: inherit;
+    opacity: 0.85;
+  }
+
+  .mo-vpicker__save-badge {
+    display: inline-flex;
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-size: 0.625rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: var(--mo-badge-save-bg, #1fa567);
+    color: var(--mo-badge-save-text, #b8f3d8);
+    text-transform: none;
+    opacity: 1;
+  }
+
+  .mo-vpicker__save-badge[hidden] {
+    display: none;
+  }
+
+  .mo-vpicker__frequency {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--mo-space-3, 12px);
+    border: 1.5px solid var(--mo-card-border-inactive, #e8e7e3);
+    border-radius: var(--mo-radius-md, 10px);
+    padding: var(--mo-space-3, 12px) var(--mo-space-4, 16px);
+  }
+
+  .mo-vpicker__frequency-label,
+  .mo-vpicker__frequency-static {
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mo-card-text-inactive, #093d24);
+  }
+
+  .mo-vpicker__frequency-select {
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mo-card-text-inactive, #093d24);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 389px) {
+    .mo-vpicker__qty-number {
+      font-size: 1.25rem;
+    }
+  }
+{% endstylesheet %}
+
+<script>
+  (function () {
+    var picker = document.getElementById('{{ picker_id }}');
+    if (!picker || picker.dataset.mounted === 'true') return;
+    picker.dataset.mounted = 'true';
+
+    var sectionId = picker.dataset.sectionId;
+
+    function getForm() {
+      var shopifySection = document.getElementById('shopify-section-' + sectionId);
+      if (shopifySection) {
+        var f = shopifySection.querySelector('form[action*="/cart/add"]');
+        if (f) return f;
+      }
+      return document.querySelector('form[action*="/cart/add"]');
+    }
+
+    function writeFormValues(variantId, sellingPlanId) {
+      var form = getForm();
+      if (!form) return;
+
+      var idInput = form.querySelector('input[name="id"]');
+      if (idInput) {
+        idInput.value = variantId;
+        idInput.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+
+      var planInput = form.querySelector('input[name="selling_plan"]');
+      if (!planInput) {
+        planInput = document.createElement('input');
+        planInput.type = 'hidden';
+        planInput.name = 'selling_plan';
+        form.appendChild(planInput);
+      }
+      planInput.value = sellingPlanId || '';
+    }
+
+    function formatMoney(cents) {
+      // CUSTOM: hardcoded USD "$X.XX" — MO is US-launch only (per project notes).
+      // Revisit with a proper shop.money_format parse if/when multi-currency ships.
+      if (cents == null || isNaN(cents)) return '';
+      return '$' + (cents / 100).toFixed(2);
+    }
+
+    function getQtyRadio() {
+      return picker.querySelector('[data-card-group="qty"] input:checked') ||
+        picker.querySelector('[data-card-group="qty"] input');
+    }
+
+    function getPurchaseRadio() {
+      return picker.querySelector('[data-card-group="purchase"] input:checked');
+    }
+
+    function getAllocations(radio) {
+      if (!radio) return [];
+      try {
+        return JSON.parse(radio.dataset.allocations || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function selectCard(card) {
+      var group = card.dataset.card;
+      picker.querySelectorAll('.mo-vpicker__card[data-card="' + group + '"]').forEach(function (c) {
+        c.classList.remove('is-selected');
+      });
+      card.classList.add('is-selected');
+    }
+
+    function rebuildFrequencyOptions(allocations) {
+      var row = picker.querySelector('[data-role="frequency-row"]');
+      var select = picker.querySelector('[data-role="frequency-select"]');
+      var staticEl = picker.querySelector('[data-role="frequency-static"]');
+      if (!row) return;
+      if (allocations.length > 1 && select) {
+        select.innerHTML = allocations.map(function (a) {
+          return '<option value="' + a.selling_plan_id + '">' + a.name + '</option>';
+        }).join('');
+      } else if (allocations.length === 1 && staticEl) {
+        staticEl.textContent = allocations[0].name;
+      }
+    }
+
+    function applyState(writeToForm) {
+      var qtyRadio = getQtyRadio();
+      var purchaseRadio = getPurchaseRadio();
+      if (!qtyRadio) return;
+
+      var variantId = qtyRadio.dataset.variantId;
+      var variantPrice = parseInt(qtyRadio.dataset.price, 10);
+      var allocations = getAllocations(qtyRadio);
+      var mode = purchaseRadio ? purchaseRadio.dataset.mode : 'onetime';
+
+      var onetimeEl = picker.querySelector('[data-role="onetime-price"]');
+      if (onetimeEl) onetimeEl.textContent = formatMoney(variantPrice);
+
+      var subscribeEl = picker.querySelector('[data-role="subscribe-price"]');
+      var badgeEl = picker.querySelector('[data-role="subscribe-badge"]');
+      var chosenPlanId = null;
+
+      if (allocations.length > 0) {
+        var freqSelect = picker.querySelector('[data-role="frequency-select"]');
+        var targetPlanId = freqSelect ? freqSelect.value : null;
+        var alloc = allocations.filter(function (a) {
+          return targetPlanId && String(a.selling_plan_id) === String(targetPlanId);
+        })[0] || allocations[0];
+
+        chosenPlanId = alloc.selling_plan_id;
+        if (subscribeEl) subscribeEl.textContent = formatMoney(alloc.price);
+        if (badgeEl) {
+          if (variantPrice > 0 && alloc.price < variantPrice) {
+            var pct = Math.round((1 - alloc.price / variantPrice) * 100);
+            badgeEl.textContent = '-' + pct + '%';
+            badgeEl.hidden = false;
+          } else {
+            badgeEl.hidden = true;
+          }
+        }
+      }
+
+      if (writeToForm) {
+        writeFormValues(variantId, mode === 'subscribe' ? chosenPlanId : null);
+      }
+    }
+
+    picker.querySelectorAll('.mo-vpicker__card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        selectCard(card);
+        if (card.dataset.card === 'qty') {
+          var radio = card.querySelector('input');
+          rebuildFrequencyOptions(getAllocations(radio));
+        }
+        applyState(true);
+      });
+    });
+
+    var freqSelect = picker.querySelector('[data-role="frequency-select"]');
+    if (freqSelect) {
+      freqSelect.addEventListener('change', function () {
+        applyState(true);
+      });
+    }
+  })();
+</script>

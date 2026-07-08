@@ -1,0 +1,108 @@
+{%- # CUSTOM: net-new theme block — "4.9 ★★★★★ 580+ REVIEWS" line. Reviews platform is TBD (Judge.me / Okendo / Loox / Shopify) per project notes, so this is a manually-edited stub, NOT wired to a reviews-app metafield yet. Swap for the native `review` block (blocks/review.liquid, reads product.metafields.reviews.rating) once an app is chosen. UPSTREAM risk LOW. -%}
+{%- liquid
+  assign bs = block.settings
+  assign rating = bs.rating | default: 5
+  assign full_stars = rating | floor
+%}
+
+<a
+  href="{{ bs.reviews_anchor | default: '#reviews' }}"
+  class="mo-pdp-rating-link"
+  style="--mo-rating-color: {{ bs.star_color | default: '#1FA567' }};"
+  {{ block.shopify_attributes }}
+>
+  {%- if bs.rating_text != blank -%}
+    <span class="mo-pdp-rating-link__number">{{ bs.rating_text }}</span>
+  {%- endif -%}
+  <span class="mo-pdp-rating-link__stars" aria-hidden="true">
+    {%- for i in (1..5) -%}
+      {%- if i <= full_stars -%}★{%- else -%}☆{%- endif -%}
+    {%- endfor -%}
+  </span>
+  {%- if bs.review_count_text != blank -%}
+    <span class="mo-pdp-rating-link__count">{{ bs.review_count_text | escape }}</span>
+  {%- endif -%}
+</a>
+
+{% stylesheet %}
+  .mo-pdp-rating-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--mo-space-2, 8px);
+    text-decoration: none;
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+  }
+
+  .mo-pdp-rating-link__number {
+    font-family: var(--mo-font-heading, sans-serif);
+    font-weight: 800;
+    font-size: 1.125rem;
+    color: var(--mo-color-text, #093d24);
+  }
+
+  .mo-pdp-rating-link__stars {
+    color: var(--mo-rating-color, #1fa567);
+    letter-spacing: 0.1em;
+    font-size: 1rem;
+  }
+
+  .mo-pdp-rating-link__count {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    color: var(--mo-color-text, #093d24);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MO Rating Link (stub)",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Stub until a reviews app is chosen. Swap for the native Review block once wired to Judge.me / Okendo / Loox / Shopify Reviews."
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating number",
+      "default": "4.9"
+    },
+    {
+      "type": "range",
+      "id": "rating",
+      "label": "Stars filled",
+      "min": 1,
+      "max": 5,
+      "step": 0.1,
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "review_count_text",
+      "label": "Review count label",
+      "default": "580+ Reviews"
+    },
+    {
+      "type": "url",
+      "id": "reviews_anchor",
+      "label": "Link to reviews section"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#1FA567"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Rating Link (stub)",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

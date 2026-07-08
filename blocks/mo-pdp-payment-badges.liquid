@@ -1,0 +1,54 @@
+{%- # CUSTOM: net-new theme block — small centered payment-method text line ("Apple Pay · Visa · Mastercard · Klarna"). Text-only per Figma (no logo marks). UPSTREAM risk LOW. -%}
+{%- liquid
+  assign bs = block.settings
+%}
+{%- if bs.text != blank -%}
+  <p
+    class="mo-pdp-payment-badges"
+    style="--mo-payment-color: {{ bs.text_color | default: '#093D24' }};"
+    {{ block.shopify_attributes }}
+  >
+    {{- bs.text | escape -}}
+  </p>
+{%- endif -%}
+
+{% stylesheet %}
+  .mo-pdp-payment-badges {
+    margin: 0;
+    text-align: center;
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mo-payment-color, #093d24);
+    opacity: 0.65;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MO Payment Badges",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Payment methods text",
+      "default": "Apple Pay · Visa · Mastercard · Klarna"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#093D24"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Payment Badges",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

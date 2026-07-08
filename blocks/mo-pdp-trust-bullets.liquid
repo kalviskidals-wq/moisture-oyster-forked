@@ -1,0 +1,90 @@
+{%- # CUSTOM: net-new theme block — 3 fixed trust bullets ("Free shipping over $30 / Pause, skip or cancel anytime / 30-day money-back guarantee"). Fixed-count fields rather than a repeater since Shopify block schema has no list/array setting type. UPSTREAM risk LOW. -%}
+{%- liquid
+  assign bs = block.settings
+  assign bullets = ''
+  if bs.bullet_1 != blank
+    assign bullets = bullets | append: bs.bullet_1 | append: '||'
+  endif
+  if bs.bullet_2 != blank
+    assign bullets = bullets | append: bs.bullet_2 | append: '||'
+  endif
+  if bs.bullet_3 != blank
+    assign bullets = bullets | append: bs.bullet_3 | append: '||'
+  endif
+  assign bullet_list = bullets | split: '||'
+%}
+{%- if bullet_list.size > 0 -%}
+  <ul
+    class="mo-pdp-trust-bullets"
+    style="--mo-trust-color: {{ bs.text_color | default: '#093D24' }};"
+    {{ block.shopify_attributes }}
+  >
+    {%- for bullet in bullet_list -%}
+      <li class="mo-pdp-trust-bullets__item">{{ bullet | escape }}</li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}
+
+{% stylesheet %}
+  .mo-pdp-trust-bullets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .mo-pdp-trust-bullets__item {
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--mo-trust-color, #093d24);
+    opacity: 0.75;
+  }
+
+  .mo-pdp-trust-bullets__item::before {
+    content: '· ';
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MO Trust Bullets",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "bullet_1",
+      "label": "Bullet 1",
+      "default": "Free shipping on orders over $30"
+    },
+    {
+      "type": "text",
+      "id": "bullet_2",
+      "label": "Bullet 2",
+      "default": "Pause, skip or cancel anytime"
+    },
+    {
+      "type": "text",
+      "id": "bullet_3",
+      "label": "Bullet 3",
+      "default": "30-day money-back guarantee"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#093D24"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Trust Bullets",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,52 @@
+{%- # CUSTOM: net-new theme block — small mono uppercase eyebrow label. UPSTREAM risk LOW. Not tied to Horizon's global heading/body font slots since IBM Plex Mono is an MO-only token; self-contained. -%}
+{%- liquid
+  assign bs = block.settings
+%}
+{%- if bs.text != blank -%}
+  <p
+    class="mo-pdp-eyebrow"
+    style="--mo-eyebrow-color: {{ bs.text_color | default: '#1FA567' }};"
+    {{ block.shopify_attributes }}
+  >
+    {{- bs.text | escape -}}
+  </p>
+{%- endif -%}
+
+{% stylesheet %}
+  .mo-pdp-eyebrow {
+    margin: 0;
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mo-eyebrow-color, #1fa567);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MO Eyebrow",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Eyebrow text",
+      "default": "Clinical Eye Care"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#1FA567"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Eyebrow",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

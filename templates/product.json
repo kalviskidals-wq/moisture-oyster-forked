@@ -10,25 +10,26 @@
 {
   "sections": {
     "main": {
-      "type": "product-information",
+      "type": "custom-main-product",
       "blocks": {
         "media-gallery": {
           "type": "_product-media-gallery",
           "static": true,
           "settings": {
-            "media_presentation": "grid",
-            "media_columns": "two",
+            "media_presentation": "carousel",
+            "media_columns": "one",
             "image_gap": 4,
             "large_first_image": false,
-            "icons_style": "arrow",
-            "slideshow_controls_style": "counter",
-            "slideshow_mobile_controls_style": "dots",
-            "thumbnail_position": "right",
-            "thumbnail_width": 44,
-            "aspect_ratio": "adapt",
-            "constrain_to_viewport": true,
-            "media_fit": "contain",
-            "media_radius": 0,
+            "icons_style": "chevron",
+            "slideshow_controls_style": "thumbnails",
+            "slideshow_mobile_controls_style": "thumbnails",
+            "thumbnail_position": "left",
+            "thumbnail_width": 56,
+            "thumbnail_radius": 12,
+            "aspect_ratio": "1",
+            "constrain_to_viewport": false,
+            "media_fit": "cover",
+            "media_radius": 24,
             "extend_media": false,
             "zoom": true,
             "video_loop": false,
@@ -50,7 +51,7 @@
             "custom_width_mobile": 100,
             "height": "fit",
             "details_position": "flex-start",
-            "gap": 28,
+            "gap": 20,
             "sticky_details_desktop": true,
             "background_media": "none",
             "video_position": "cover",
@@ -59,15 +60,21 @@
             "border_width": 1,
             "border_opacity": 100,
             "border_radius": 0,
-            "padding-block-start": 24,
-            "padding-block-end": 24,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
           "blocks": {
-            "group_icgrde": {
+            "mo_testimonial": {
+              "type": "mo-pdp-testimonial",
+              "name": "MO Testimonial Card",
+              "settings": {},
+              "blocks": {}
+            },
+            "mo_buybox_card": {
               "type": "group",
-              "name": "Header",
+              "name": "MO Buy Box Card",
               "settings": {
                 "content_direction": "column",
                 "vertical_on_mobile": true,
@@ -76,7 +83,7 @@
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
+                "gap": 20,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
@@ -84,6 +91,7 @@
                 "height": "fit",
                 "custom_height": 100,
                 "background_media": "none",
+                "background_color": "#FFFFFF",
                 "video_position": "cover",
                 "background_image_position": "cover",
                 "toggle_overlay": false,
@@ -93,27 +101,49 @@
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
-                "border_radius": 0,
+                "border_radius": 20,
                 "link": "",
                 "open_in_new_tab": false,
                 "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-block-start": 28,
+                "padding-block-end": 28,
+                "padding-inline-start": 28,
+                "padding-inline-end": 28
               },
               "blocks": {
-                "text_xpVMaM": {
-                  "type": "text",
-                  "name": "t:names.title",
+                "mo_eyebrow": {
+                  "type": "mo-pdp-eyebrow",
+                  "name": "MO Eyebrow",
+                  "settings": {},
+                  "blocks": {}
+                },
+                "mo_title": {
+                  "type": "product-title",
+                  "name": "t:names.product_title",
                   "settings": {
-                    "text": "<h1>{{ closest.product.title }}</h1>",
-                    "width": "fit-content",
+                    "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "h3",
+                    "type_preset": "h2"
+                  },
+                  "blocks": {}
+                },
+                "mo_glp_badge": {
+                  "type": "mo-pdp-badge",
+                  "name": "MO Badge Pill",
+                  "settings": {},
+                  "blocks": {}
+                },
+                "mo_description": {
+                  "type": "product-description",
+                  "name": "t:names.product_description",
+                  "settings": {
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
                     "font": "var(--font-body--family)",
-                    "font_size": "1rem",
+                    "font_size": "",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
@@ -128,127 +158,119 @@
                   },
                   "blocks": {}
                 },
-                "price_tVjtKg": {
-                  "type": "price",
+                "mo_rating_link": {
+                  "type": "mo-pdp-rating-link",
+                  "name": "MO Rating Link (stub)",
+                  "settings": {},
+                  "blocks": {}
+                },
+                "mo_tier_picker": {
+                  "type": "mo-tier-picker",
+                  "name": "MO Tier + Subscription Picker",
+                  "settings": {},
+                  "blocks": {}
+                },
+                "mo_buy_buttons": {
+                  "type": "buy-buttons",
+                  "name": "t:names.product_buy_buttons",
                   "settings": {
-                    "show_sale_price_first": true,
-                    "show_installments": true,
-                    "show_tax_info": true,
-                    "type_preset": "paragraph",
-                    "width": "100%",
-                    "alignment": "left",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "padding-block-start": 4,
+                    "stacking": false,
+                    "show_pickup_availability": false,
+                    "gift_card_form": false,
+                    "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
+                  "blocks": {
+                    "add-to-cart": {
+                      "type": "mo-pdp-add-to-cart",
+                      "name": "MO Add to Bag Button",
+                      "settings": {},
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": []
+                },
+                "mo_payment_badges": {
+                  "type": "mo-pdp-payment-badges",
+                  "name": "MO Payment Badges",
+                  "settings": {},
+                  "blocks": {}
+                },
+                "mo_accordion": {
+                  "type": "accordion",
+                  "name": "t:names.accordion",
+                  "settings": {
+                    "icon": "plus",
+                    "dividers": true,
+                    "divider_color": "#E8E7E3",
+                    "type_preset": "h6"
+                  },
+                  "blocks": {
+                    "accordion-row-1": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "Active Ingredient",
+                        "open_by_default": false,
+                        "icon": "none"
+                      },
+                      "blocks": {
+                        "text-1": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Glycerin 0.9%. Preservative-free, multi-dose Aptar OSD bottle. Full INCI list to be confirmed with Oté Pharma.</p>",
+                            "width": "100%"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text-1"]
+                    },
+                    "accordion-row-2": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "Uses",
+                        "open_by_default": false,
+                        "icon": "none"
+                      },
+                      "blocks": {
+                        "text-1": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>For the temporary relief of burning, irritation, and discomfort due to dryness of the eye. Safe for daily use with contact lenses.</p>",
+                            "width": "100%"
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": ["text-1"]
+                    }
+                  },
+                  "block_order": ["accordion-row-1", "accordion-row-2"]
+                },
+                "mo_trust_bullets": {
+                  "type": "mo-pdp-trust-bullets",
+                  "name": "MO Trust Bullets",
+                  "settings": {},
                   "blocks": {}
                 }
               },
               "block_order": [
-                "text_xpVMaM",
-                "price_tVjtKg"
+                "mo_eyebrow",
+                "mo_title",
+                "mo_glp_badge",
+                "mo_description",
+                "mo_rating_link",
+                "mo_tier_picker",
+                "mo_buy_buttons",
+                "mo_payment_badges",
+                "mo_accordion",
+                "mo_trust_bullets"
               ]
-            },
-            "divider_VJhene": {
-              "type": "_divider",
-              "name": "t:names.divider",
-              "settings": {
-                "thickness": 1,
-                "corner_radius": "square",
-                "divider_color": "{{ settings.color_palette.color3 }}",
-                "width_percent": 100,
-                "padding-block-start": 0,
-                "padding-block-end": 0
-              },
-              "blocks": {}
-            },
-            "variant_picker_R3rGDr": {
-              "type": "variant-picker",
-              "settings": {
-                "variant_style": "buttons",
-                "show_swatches": false,
-                "alignment": "left",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "buy_buttons_eYQEYi": {
-              "type": "buy-buttons",
-              "settings": {
-                "stacking": true,
-                "show_pickup_availability": false,
-                "gift_card_form": true,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "quantity": {
-                  "type": "quantity",
-                  "static": true,
-                  "settings": {},
-                  "blocks": {}
-                },
-                "add-to-cart": {
-                  "type": "add-to-cart",
-                  "static": true,
-                  "settings": {
-                    "style_class": "button"
-                  },
-                  "blocks": {}
-                },
-                "accelerated-checkout": {
-                  "type": "accelerated-checkout",
-                  "static": true,
-                  "settings": {},
-                  "blocks": {}
-                }
-              },
-              "block_order": []
-            },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "Product description",
-              "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-primary--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
             }
           },
-          "block_order": [
-            "group_icgrde",
-            "divider_VJhene",
-            "variant_picker_R3rGDr",
-            "buy_buttons_eYQEYi",
-            "text_aEtTtq"
-          ]
+          "block_order": ["mo_testimonial", "mo_buybox_card"]
         },
         "disclosures": {
           "type": "disclosures",
@@ -259,17 +281,16 @@
           "blocks": {}
         }
       },
-      "block_order": [
-        "disclosures"
-      ],
+      "block_order": ["disclosures"],
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
-        "equal_columns": false,
+        "equal_columns": true,
         "limit_details_width": false,
-        "gap": 48,
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "gap": 40,
+        "enable_sticky_add_to_cart": true,
+        "padding-block-start": 32,
+        "padding-block-end": 32
       }
     },
     "product_recommendations_qggXJq": {

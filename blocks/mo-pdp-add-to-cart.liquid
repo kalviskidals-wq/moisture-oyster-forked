@@ -1,0 +1,112 @@
+{%- doc -%}
+  CUSTOM: net-new theme block — full-width dark-green "Add to Bag +" pill.
+  Registered as the "add-to-cart" child block inside buy-buttons in
+  templates/product.json (buy-buttons.liquid does
+  `content_for 'block', type: 'add-to-cart', id: 'add-to-cart', can_add_to_cart:, add_to_cart_text:`
+  — swapping the block TYPE assigned to that id lets us render our own markup
+  while staying inside Horizon's native product-form / add-to-cart-component
+  JS, so cart AJAX + loading state still work). UPSTREAM risk LOW.
+
+  @param {string} can_add_to_cart - Whether the product can be added to the cart
+  @param {string} add_to_cart_text - Horizon's own computed text (ignored — we use our own label so we're not dependent on the site-wide "Add to cart" / "Sold out" locale strings, matching the Figma "Add to Bag +" copy exactly)
+{%- enddoc -%}
+
+{%- liquid
+  assign bs = block.settings
+  assign label = bs.label | default: 'Add to Bag +'
+  assign sold_out_label = bs.sold_out_label | default: 'Sold Out'
+  assign button_text = label
+  unless can_add_to_cart
+    assign button_text = sold_out_label
+  endunless
+  assign id = 'BuyButtons-ProductSubmitButton-' | append: block.id
+-%}
+
+<span
+  class="mo-pdp-add-to-cart"
+  style="
+    --mo-atc-bg: {{ bs.background_color | default: '#093D24' }};
+    --mo-atc-text: {{ bs.text_color | default: '#FFFFFF' }};
+    --mo-atc-disabled-bg: {{ bs.disabled_background_color | default: '#E8E7E3' }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {% render 'add-to-cart-button',
+    id: id,
+    class: 'mo-pdp-add-to-cart__button',
+    can_add_to_cart: can_add_to_cart,
+    product: closest.product,
+    add_to_cart_text: button_text,
+    data_testid: 'mo-pdp-add-to-cart'
+  %}
+</span>
+
+{% stylesheet %}
+  .mo-pdp-add-to-cart {
+    display: block;
+    width: 100%;
+  }
+
+  .mo-pdp-add-to-cart__button.button {
+    width: 100%;
+    background: var(--mo-atc-bg, #093d24);
+    color: var(--mo-atc-text, #fff);
+    border: none;
+    border-radius: var(--mo-radius-sm, 6px);
+    padding: 16px 24px;
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-weight: 500;
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .mo-pdp-add-to-cart__button.button:hover:not(:disabled) {
+    background: var(--mo-green-mid, #115033);
+  }
+
+  .mo-pdp-add-to-cart__button.button:disabled {
+    background: var(--mo-atc-disabled-bg, #e8e7e3);
+    color: var(--mo-color-text, #093d24);
+    cursor: not-allowed;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MO Add to Bag Button",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Button label",
+      "default": "Add to Bag +"
+    },
+    {
+      "type": "text",
+      "id": "sold_out_label",
+      "label": "Sold out label",
+      "default": "Sold Out"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "disabled_background_color",
+      "label": "Disabled background color",
+      "default": "#E8E7E3"
+    }
+  ]
+}
+{% endschema %}

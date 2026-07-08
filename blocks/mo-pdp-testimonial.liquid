@@ -1,0 +1,168 @@
+{%- # CUSTOM: net-new theme block — verified-professional testimonial card, right-rail on PDP, above the buy box. UPSTREAM risk LOW (no Horizon file touched). -%}
+{%- liquid
+  assign bs = block.settings
+  assign rating = bs.rating | default: 5
+  assign full_stars = rating | floor
+%}
+
+<div
+  class="mo-pdp-testimonial"
+  style="
+    --mo-testimonial-bg: {{ bs.background_color | default: '#093D24' }};
+    --mo-testimonial-text: {{ bs.text_color | default: '#FFFFFF' }};
+    --mo-testimonial-star: {{ bs.star_color | default: '#FFFFFF' }};
+    --mo-testimonial-quote: {{ bs.quote_color | default: '#FFFFFF' }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {%- if bs.rating != blank -%}
+    <div class="mo-pdp-testimonial__rating">
+      <span class="mo-pdp-testimonial__rating-number">{{ bs.rating }}</span>
+      <span class="mo-pdp-testimonial__stars" aria-hidden="true">
+        {%- for i in (1..5) -%}
+          {%- if i <= full_stars -%}★{%- else -%}☆{%- endif -%}
+        {%- endfor -%}
+      </span>
+    </div>
+  {%- endif -%}
+
+  {%- if bs.author_name != blank -%}
+    <p class="mo-pdp-testimonial__author">
+      {{- bs.author_name | escape -}}
+      {%- if bs.author_role != blank -%}
+        <span class="mo-pdp-testimonial__role"> — {{ bs.author_role | escape }}</span>
+      {%- endif -%}
+    </p>
+  {%- endif -%}
+
+  {%- if bs.quote != blank -%}
+    <p class="mo-pdp-testimonial__quote">&ldquo;{{ bs.quote | escape }}&rdquo;</p>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .mo-pdp-testimonial {
+    background: var(--mo-testimonial-bg, #093d24);
+    border-radius: var(--mo-radius-md, 10px);
+    padding: var(--mo-space-6, 24px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-space-2, 8px);
+  }
+
+  .mo-pdp-testimonial__rating {
+    display: flex;
+    align-items: center;
+    gap: var(--mo-space-2, 8px);
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-weight: 500;
+    color: var(--mo-testimonial-text, #fff);
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+  }
+
+  .mo-pdp-testimonial__stars {
+    color: var(--mo-testimonial-star, #fff);
+    letter-spacing: 0.1em;
+  }
+
+  .mo-pdp-testimonial__author {
+    margin: 0;
+    font-family: var(--mo-font-body, sans-serif);
+    font-weight: 600;
+    color: var(--mo-testimonial-text, #fff);
+    font-size: 0.9375rem;
+  }
+
+  .mo-pdp-testimonial__role {
+    font-weight: 400;
+    opacity: 0.85;
+  }
+
+  .mo-pdp-testimonial__quote {
+    margin: 0;
+    font-family: var(--mo-font-body, sans-serif);
+    color: var(--mo-testimonial-quote, #fff);
+    opacity: 0.9;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MO Testimonial Card",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Rating"
+    },
+    {
+      "type": "range",
+      "id": "rating",
+      "label": "Rating",
+      "min": 1,
+      "max": 5,
+      "step": 0.1,
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Author"
+    },
+    {
+      "type": "text",
+      "id": "author_name",
+      "label": "Author name",
+      "default": "Dr. James K."
+    },
+    {
+      "type": "text",
+      "id": "author_role",
+      "label": "Author role / location",
+      "default": "Optometrist, Chicago, IL"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote",
+      "default": "Moisture Oyster checks several important boxes for me: a protected multidose bottle, easy dispensing, immediate comfort, and no blurry vision after instillation. It made a great first impression."
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Author text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Quote text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Testimonial Card",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

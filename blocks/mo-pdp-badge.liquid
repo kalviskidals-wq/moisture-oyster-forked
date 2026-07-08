@@ -1,0 +1,65 @@
+{%- # CUSTOM: net-new theme block — mint pill badge (e.g. "GLP NON-IRRITANT · OECD 492B"). UPSTREAM risk LOW. -%}
+{%- liquid
+  assign bs = block.settings
+%}
+{%- if bs.text != blank -%}
+  <span
+    class="mo-pdp-badge"
+    style="
+      --mo-badge-bg: {{ bs.background_color | default: '#B8F3D8' }};
+      --mo-badge-text: {{ bs.text_color | default: '#093D24' }};
+    "
+    {{ block.shopify_attributes }}
+  >
+    {{- bs.text | escape -}}
+  </span>
+{%- endif -%}
+
+{% stylesheet %}
+  .mo-pdp-badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-weight: 500;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--mo-badge-bg, #b8f3d8);
+    color: var(--mo-badge-text, #093d24);
+    border-radius: 999px;
+    padding: 6px 14px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MO Badge Pill",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Badge text",
+      "default": "GLP Non-Irritant · OECD 492B"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#B8F3D8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#093D24"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Badge Pill",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
