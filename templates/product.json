@@ -166,7 +166,7 @@
                 },
                 "mo_tier_picker": {
                   "type": "mo-tier-picker",
-                  "name": "MO Tier + Subscription Picker",
+                  "name": "MO Tier + Sub Picker",
                   "settings": {},
                   "blocks": {}
                 },
@@ -184,9 +184,11 @@
                   },
                   "blocks": {
                     "add-to-cart": {
-                      "type": "mo-pdp-add-to-cart",
-                      "name": "MO Add to Bag Button",
-                      "settings": {},
+                      "type": "add-to-cart",
+                      "static": true,
+                      "settings": {
+                        "style_class": "button"
+                      },
                       "blocks": {}
                     }
                   },

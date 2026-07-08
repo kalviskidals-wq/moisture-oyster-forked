@@ -1,11 +1,19 @@
 {%- doc -%}
   CUSTOM: net-new theme block — full-width dark-green "Add to Bag +" pill.
-  Registered as the "add-to-cart" child block inside buy-buttons in
-  templates/product.json (buy-buttons.liquid does
-  `content_for 'block', type: 'add-to-cart', id: 'add-to-cart', can_add_to_cart:, add_to_cart_text:`
-  — swapping the block TYPE assigned to that id lets us render our own markup
-  while staying inside Horizon's native product-form / add-to-cart-component
-  JS, so cart AJAX + loading state still work). UPSTREAM risk LOW.
+
+  STATUS: currently UNUSED in templates/product.json. Originally intended to
+  swap in as the "add-to-cart" child block inside buy-buttons, but Shopify's
+  theme validator rejects custom block types in that content_for slot
+  ("Blocks are not allowed in this context") — those slots must stay the
+  native block type. The PDP now gets the same "Add to Bag +" look by
+  restyling the native add-to-cart block via CSS in
+  sections/custom-main-product.liquid instead (targets its deterministic id
+  #BuyButtons-ProductSubmitButton-add-to-cart).
+
+  Kept in the repo since the markup/schema is still valid and reusable
+  anywhere a plain `group` block accepts "@theme" children (i.e. NOT inside
+  a buy-buttons/quantity/accelerated-checkout content_for slot) — e.g. a
+  standalone CTA elsewhere on the page. UPSTREAM risk LOW.
 
   @param {string} can_add_to_cart - Whether the product can be added to the cart
   @param {string} add_to_cart_text - Horizon's own computed text (ignored — we use our own label so we're not dependent on the site-wide "Add to cart" / "Sold out" locale strings, matching the Figma "Add to Bag +" copy exactly)

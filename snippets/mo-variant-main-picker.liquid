@@ -98,14 +98,13 @@
                 assign allocs_json = allocs_json | append: ','
               endunless
               assign plan_name_json = alloc.selling_plan.name | json
-              assign allocs_json = allocs_json
-                | append: '{"selling_plan_id":'
-                | append: alloc.selling_plan.id
-                | append: ',"name":'
-                | append: plan_name_json
-                | append: ',"price":'
-                | append: alloc.price
-                | append: '}'
+              assign allocs_json = allocs_json | append: '{"selling_plan_id":'
+              assign allocs_json = allocs_json | append: alloc.selling_plan.id
+              assign allocs_json = allocs_json | append: ',"name":'
+              assign allocs_json = allocs_json | append: plan_name_json
+              assign allocs_json = allocs_json | append: ',"price":'
+              assign allocs_json = allocs_json | append: alloc.price
+              assign allocs_json = allocs_json | append: '}'
             endfor
             assign allocs_json = allocs_json | append: ']'
 

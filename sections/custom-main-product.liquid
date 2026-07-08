@@ -361,6 +361,44 @@
       white-space: nowrap;
     }
   }
+
+  /* CUSTOM: reskin + relabel the native add-to-cart button as "Add to Bag +".
+     Shopify's content_for 'block' slots inside buy-buttons.liquid (quantity /
+     add-to-cart / accelerated-checkout) require the block TYPE to stay as the
+     native type — swapping in a custom block type there fails theme
+     validation ("Blocks are not allowed in this context"). So we keep the
+     native `add-to-cart` block (see templates/product.json) and restyle +
+     relabel it here via its deterministic id instead. UPSTREAM risk LOW —
+     scoped entirely to this one button id, no Horizon file touched. */
+  #BuyButtons-ProductSubmitButton-add-to-cart {
+    width: 100%;
+    background: var(--mo-deep-green, #093d24);
+    color: var(--mo-white, #ffffff);
+    border: none;
+    border-radius: var(--mo-radius-sm, 6px);
+    padding: 16px 24px;
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-weight: 500;
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  #BuyButtons-ProductSubmitButton-add-to-cart:hover:not(:disabled) {
+    background: var(--mo-green-mid, #115033);
+  }
+
+  #BuyButtons-ProductSubmitButton-add-to-cart .add-to-cart-icon {
+    display: none;
+  }
+
+  #BuyButtons-ProductSubmitButton-add-to-cart .add-to-cart-text__content {
+    display: none;
+  }
+
+  #BuyButtons-ProductSubmitButton-add-to-cart .add-to-cart-text::after {
+    content: 'Add to Bag +';
+  }
 {% endstylesheet %}
 
 {% schema %}
