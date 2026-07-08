@@ -424,13 +424,23 @@ body {
   padding-block: var(--mo-trustbar-padding-y, 40px);
 }
 
+/* CUSTOM: padding-inline matches Horizon's own page-margin breakpoints
+   (16px under 750px, 40px at/above) so this section's edges line up with
+   the page-width container used by the product section above it, instead
+   of drifting narrower/wider on its own fixed value. */
 .mo-trust-bar__inner {
   display: grid;
   grid-template-columns: repeat(var(--mo-trustbar-columns, 4), 1fr);
   gap: var(--mo-space-4, 16px);
-  max-width: var(--page-width, 1280px);
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
   margin-inline: auto;
-  padding-inline: var(--mo-space-6, 24px);
+  padding-inline: var(--page-margin, 16px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-trust-bar__inner {
+    padding-inline: var(--page-margin, 40px);
+  }
 }
 
 .mo-trust-bar__item {
