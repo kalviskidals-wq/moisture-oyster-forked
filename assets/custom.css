@@ -1318,27 +1318,55 @@ tbody tr:last-child .mo-compare__cell {
   }
 }
 
-/* ---------- Tabs ---------- */
+/* ---------- Tabs ----------
+   CUSTOM (2026-07-09, mobile fix): the original brief said tabs should wrap
+   on mobile, but Kalvis wants all 4 to stay on one row ("squeeze in") instead
+   of wrapping to a second line. Mobile uses tighter padding/gap/font so the 4
+   pills fit; `flex-wrap: nowrap` + `overflow-x: auto` is a safety net so
+   longer merchant-edited tab labels scroll horizontally instead of wrapping
+   or overflowing the card. Desktop keeps the roomier original sizing. */
 .mo-ingredients__tablist {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--mo-space-3, 12px);
+  flex-wrap: nowrap;
+  gap: var(--mo-space-2, 8px);
   margin-block-end: var(--mo-space-6, 24px);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.mo-ingredients__tablist::-webkit-scrollbar {
+  display: none;
 }
 
 .mo-ingredients__tab {
   font-family: var(--mo-font-mono);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: var(--mo-space-2, 8px) var(--mo-space-5, 20px);
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding: 6px var(--mo-space-3, 12px);
   border-radius: var(--mo-radius-pill, 999px);
   border: 1.5px solid var(--mo-ingredients-tab-border, #1fa567);
   background: transparent;
   color: var(--mo-ingredients-tab-text, #1fa567);
   cursor: pointer;
   transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredients__tablist {
+    gap: var(--mo-space-3, 12px);
+    overflow-x: visible;
+  }
+
+  .mo-ingredients__tab {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    padding: var(--mo-space-2, 8px) var(--mo-space-5, 20px);
+  }
 }
 
 .mo-ingredients__tab.is-active,
