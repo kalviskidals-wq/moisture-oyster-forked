@@ -92,7 +92,7 @@
               assign label_2 = s.tab_2_label | default: 'INACTIVE'
               assign label_3 = s.tab_3_label | default: 'FREE FROM'
               assign label_4 = s.tab_4_label | default: 'SPECS'
-              assign tab_labels = '' | split: ''
+              assign tab_labels = '' | split: ','
               assign tab_labels = tab_labels | push: label_1
               assign tab_labels = tab_labels | push: label_2
               assign tab_labels = tab_labels | push: label_3
