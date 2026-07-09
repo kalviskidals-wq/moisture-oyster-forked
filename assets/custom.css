@@ -724,14 +724,26 @@ body {
   .mo-problem {
     aspect-ratio: 1200 / 625;
     min-height: 640px;
+    /* CUSTOM: the video/poster stays true full-bleed (edge to edge), but
+       overlaid copy should line up with the same page-width/page-margin
+       column every other section (e.g. the trust bar above) uses — not
+       sit flush against the raw viewport edge on wide screens. Reuses the
+       same var()+fallback chain as .mo-trust-bar__inner's max-width. */
+    --mo-problem-inset: max(
+      var(--mo-space-8, 40px),
+      calc((100% - var(--page-width, var(--normal-page-width, 1280px))) / 2)
+    );
   }
 
   .mo-problem__header {
     position: absolute;
-    inset: 0 auto auto 0;
+    top: 0;
+    left: var(--mo-problem-inset);
+    right: auto;
+    bottom: auto;
     max-width: 560px;
     background: transparent;
-    padding: var(--mo-space-8, 40px);
+    padding: var(--mo-space-8, 40px) 0;
   }
 
   .mo-problem__subhead {
@@ -751,12 +763,12 @@ body {
     top: auto;
     right: auto;
     bottom: var(--mo-space-8, 40px);
-    left: var(--mo-space-8, 40px);
+    left: var(--mo-problem-inset);
   }
 
   .mo-problem__stat-card {
     left: auto;
-    right: var(--mo-space-8, 40px);
+    right: var(--mo-problem-inset);
     bottom: var(--mo-space-8, 40px);
     max-width: 420px;
   }
