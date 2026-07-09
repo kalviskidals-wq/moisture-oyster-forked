@@ -880,13 +880,18 @@ body {
 }
 
 /* Reuses .mo-trust-bar__inner's exact max-width/margin-inline/padding-inline
-   rule (see the 2026-07-09 alignment-fix note above) so this section's
-   content column lines up with the trust bar / problem agitation sections
-   above it, rather than re-deriving the centering math independently. */
+   rule on desktop (see the 2026-07-09 alignment-fix note above, verified
+   pixel-perfect via devtools against the live site) so this section's content
+   column lines up with the trust bar / problem agitation sections above it.
+   On mobile, .mo-problem__header/__factors/__stat-bounds all use a hardcoded
+   var(--mo-space-5, 20px) side inset rather than var(--page-margin) — this
+   matches that value (not the trust bar's mobile var(--page-margin, 16px))
+   since problem agitation is the section directly above this one and its
+   20px inset is used consistently throughout that section, not a one-off. */
 .mo-compare__inner {
   max-width: var(--page-width, var(--normal-page-width, 1280px));
   margin-inline: auto;
-  padding-inline: var(--page-margin, 16px);
+  padding-inline: var(--mo-space-5, 20px);
 }
 
 @media screen and (min-width: 750px) {
