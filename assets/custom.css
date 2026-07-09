@@ -867,9 +867,9 @@ body {
    column's highlighted panel is a real <table> column: every cell in that
    column shares one background color, with border-radius only on the header
    cell's top corners and the last row's bottom corners, so it reads as one
-   continuous rounded panel. `border-spacing` (not padding/margin) creates the
-   gutter between columns, which is what lets each cell's background render as
-   an independent rounded box instead of one edge-to-edge fill.
+   continuous rounded panel. Cells are directly adjacent (border-spacing: 0)
+   so the row-divider border-bottom on the Feature/OTC cells runs flush into
+   the highlighted column with no gap, reading as one continuous line.
    Consumes mo-design-system.css tokens with hardcoded fallbacks so this still
    renders if that file is ever removed. UPSTREAM risk LOW — net-new, no
    Horizon file touched.
@@ -924,7 +924,7 @@ body {
   width: 100%;
   table-layout: fixed;
   border-collapse: separate;
-  border-spacing: var(--mo-space-2, 8px) 0;
+  border-spacing: 0;
 }
 
 .mo-compare__th {
@@ -955,6 +955,7 @@ body {
 
 .mo-compare__th--otc {
   width: 30%;
+  text-align: center;
 }
 
 .mo-compare__logo {
@@ -1004,11 +1005,18 @@ tbody tr:last-child .mo-compare__cell--mo {
   border-bottom-right-radius: var(--mo-radius-md, 10px);
 }
 
+/* CUSTOM: the check/cross icon must land in the exact same horizontal spot in
+   every row, whether or not that row also has an info tooltip. Only the icon
+   itself is a flex child of .mo-compare__value (so the value box's width —
+   and therefore its centered position within the cell — is always just the
+   icon's width); the tooltip trigger is taken out of flow with
+   position:absolute and appended to the right of the icon, so its presence
+   never shifts the icon off-center. */
 .mo-compare__value {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--mo-space-2, 8px);
 }
 
 .mo-compare__cell--mo,
@@ -1029,8 +1037,12 @@ tbody tr:last-child .mo-compare__cell--mo {
 }
 
 .mo-compare__tooltip {
-  position: relative;
+  position: absolute;
+  left: 100%;
+  top: 50%;
   display: inline-flex;
+  margin-left: var(--mo-space-2, 8px);
+  transform: translateY(-50%);
 }
 
 .mo-compare__tooltip-trigger {
@@ -1071,12 +1083,16 @@ tbody tr:last-child .mo-compare__cell--mo {
   translate: 0 8px;
 }
 
+/* CUSTOM: clamped on both axes (not just anchor(bottom)/anchor(left) directly)
+   so tooltips triggered from the rightmost (OTC) column — close to the
+   viewport's right edge — stay fully on-screen next to their icon instead of
+   overflowing off the right side. */
 .mo-compare__tooltip-popover {
   inset: unset;
   top: calc(anchor(bottom) + var(--mo-compare-tooltip-spacing));
   left: max(
     var(--mo-compare-tooltip-viewport-margin),
-    min(anchor(center), calc(100vw - var(--mo-compare-tooltip-max-width) - var(--mo-compare-tooltip-viewport-margin)))
+    min(anchor(left), calc(100vw - var(--mo-compare-tooltip-max-width) - var(--mo-compare-tooltip-viewport-margin)))
   );
 }
 
@@ -1114,6 +1130,10 @@ tbody tr:last-child .mo-compare__cell--mo {
 }
 
 @media screen and (min-width: 750px) {
+  .mo-compare__eyebrow {
+    font-size: 14px;
+  }
+
   .mo-compare__heading {
     font-size: 40px;
   }
