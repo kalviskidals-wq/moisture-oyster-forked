@@ -862,9 +862,9 @@ body {
 /* ============================================================================
    CUSTOM: MO COMPARISON TABLE — sections/custom-comparison-table.liquid
    "How We Compare" table: Moisture Oyster vs. a generic "Typical OTC Drop"
-   across clinical features, with optional per-cell info tooltips (native
-   Horizon anchored-popover-component — no custom JS). The Moisture Oyster
-   column's highlighted panel is a real <table> column: every cell in that
+   across clinical features, with optional per-cell info tooltips (plain CSS
+   hover/focus reveal — no Popover API, no JS; see the tooltip rules below for
+   why). The Moisture Oyster column's highlighted panel is a real <table> column: every cell in that
    column shares one background color, with border-radius only on the header
    cell's top corners and the last row's bottom corners, so it reads as one
    continuous rounded panel. Cells are directly adjacent (border-spacing: 0)
@@ -916,8 +916,14 @@ body {
   letter-spacing: -0.02em;
 }
 
+/* CUSTOM: no horizontal scroll — the brief specs the same 3-column layout at
+   every breakpoint (table-layout:fixed + percentage widths already keep this
+   fitting any viewport), and `overflow-x: auto` here would have silently
+   forced `overflow-y: auto` too (a well-known CSS quirk), clipping the
+   absolutely-positioned tooltip popovers whenever they'd render past this
+   wrapper's own box. */
 .mo-compare__table-wrap {
-  overflow-x: auto;
+  overflow: visible;
 }
 
 .mo-compare__table {
@@ -1005,6 +1011,15 @@ tbody tr:last-child .mo-compare__cell--mo {
   border-bottom-right-radius: var(--mo-radius-md, 10px);
 }
 
+/* CUSTOM: the last row shouldn't draw a trailing divider below it — there's
+   no next row to separate from, and that stray line was rendering past the
+   highlighted column's rounded bottom corner instead of stopping flush with
+   it. */
+tbody tr:last-child .mo-compare__feature,
+tbody tr:last-child .mo-compare__cell {
+  border-bottom: none;
+}
+
 /* CUSTOM: the check/cross icon must land in the exact same horizontal spot in
    every row, whether or not that row also has an info tooltip. Only the icon
    itself is a flex child of .mo-compare__value (so the value box's width —
@@ -1036,6 +1051,18 @@ tbody tr:last-child .mo-compare__cell--mo {
   height: 100%;
 }
 
+/* CUSTOM (2026-07-09, round 3): rebuilt as a plain CSS hover/focus-reveal
+   tooltip — no Popover API, no CSS anchor positioning, no JS. An earlier
+   version used Horizon's native `anchored-popover-component` (`[popover]` +
+   `anchor()`/`position-anchor`), but showing a `[popover]` element promotes
+   it to the browser's top layer, and the anchor-positioning + JS-fallback
+   combo that repositions it turned out unreliable in this context (tooltips
+   rendered in seemingly random spots, disconnected from their icon). This
+   version stays in normal DOM flow the whole time: the popover text is just
+   an absolutely-positioned child of its own trigger wrapper, which is exactly
+   as reliable as any ordinary dropdown — it can never end up anywhere other
+   than right next to its icon, in any browser, including the theme editor's
+   preview iframe. See [[moisture-oyster-project]] memory for the full note. */
 .mo-compare__tooltip {
   position: absolute;
   left: 100%;
@@ -1046,6 +1073,7 @@ tbody tr:last-child .mo-compare__cell--mo {
 }
 
 .mo-compare__tooltip-trigger {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1062,11 +1090,13 @@ tbody tr:last-child .mo-compare__cell--mo {
 }
 
 .mo-compare__tooltip-popover {
-  --mo-compare-tooltip-max-width: 260px;
-  --mo-compare-tooltip-spacing: 8px;
-  --mo-compare-tooltip-viewport-margin: 16px;
+  --mo-compare-tooltip-max-width: 220px;
 
-  min-inline-size: 180px;
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + var(--mo-space-2, 8px));
+  left: 50%;
+  inline-size: max-content;
   max-inline-size: var(--mo-compare-tooltip-max-width);
   padding: var(--mo-space-3, 12px) var(--mo-space-4, 16px);
   margin: 0;
@@ -1075,58 +1105,45 @@ tbody tr:last-child .mo-compare__cell--mo {
   border: 1px solid var(--mo-compare-divider, #ffffff1f);
   border-radius: var(--mo-radius-sm, 6px);
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
-  opacity: 0;
-  transition-property: display, opacity, translate;
-  transition-duration: 0.2s;
-  transition-timing-function: ease-out;
-  transition-behavior: allow-discrete;
-  translate: 0 8px;
-}
-
-/* CUSTOM: clamped on both axes (not just anchor(bottom)/anchor(left) directly)
-   so tooltips triggered from the rightmost (OTC) column — close to the
-   viewport's right edge — stay fully on-screen next to their icon instead of
-   overflowing off the right side. */
-.mo-compare__tooltip-popover {
-  inset: unset;
-  top: calc(anchor(bottom) + var(--mo-compare-tooltip-spacing));
-  left: max(
-    var(--mo-compare-tooltip-viewport-margin),
-    min(anchor(left), calc(100vw - var(--mo-compare-tooltip-max-width) - var(--mo-compare-tooltip-viewport-margin)))
-  );
-}
-
-@supports not (position-anchor: --mo-compare-trigger) {
-  .mo-compare__tooltip-popover {
-    position: fixed;
-    top: calc(var(--anchor-bottom) * 1px + var(--mo-compare-tooltip-spacing));
-    left: max(
-      var(--mo-compare-tooltip-viewport-margin),
-      min(
-        var(--anchor-left) * 1px,
-        100vw - var(--mo-compare-tooltip-max-width) - var(--mo-compare-tooltip-viewport-margin)
-      )
-    );
-  }
-}
-
-.mo-compare__tooltip-popover:popover-open {
-  opacity: 1;
-  translate: 0 0;
-}
-
-@starting-style {
-  .mo-compare__tooltip-popover:popover-open {
-    opacity: 0;
-    translate: 0 8px;
-  }
-}
-
-.mo-compare__tooltip-text {
-  margin: 0;
   font-family: var(--mo-font-body, 'Inter', sans-serif);
   font-size: 13px;
   line-height: 1.4;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: normal;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+/* Flip to a right-edge anchor for the rightmost (OTC) column so the tooltip
+   opens toward the center of the page instead of overflowing off the right
+   side of the viewport. */
+.mo-compare__cell--otc .mo-compare__tooltip-popover {
+  left: auto;
+  right: 50%;
+  transform: translateX(50%) translateY(-4px);
+}
+
+.mo-compare__tooltip-trigger:hover ~ .mo-compare__tooltip-popover,
+.mo-compare__tooltip-trigger:focus-visible ~ .mo-compare__tooltip-popover,
+.mo-compare__tooltip:focus-within .mo-compare__tooltip-popover {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.mo-compare__cell--otc
+  .mo-compare__tooltip-trigger:hover
+  ~ .mo-compare__tooltip-popover,
+.mo-compare__cell--otc
+  .mo-compare__tooltip-trigger:focus-visible
+  ~ .mo-compare__tooltip-popover,
+.mo-compare__cell--otc .mo-compare__tooltip:focus-within .mo-compare__tooltip-popover {
+  transform: translateX(50%) translateY(0);
 }
 
 @media screen and (min-width: 750px) {
