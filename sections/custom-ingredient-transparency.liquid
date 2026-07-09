@@ -92,11 +92,8 @@
               assign label_2 = s.tab_2_label | default: 'INACTIVE'
               assign label_3 = s.tab_3_label | default: 'FREE FROM'
               assign label_4 = s.tab_4_label | default: 'SPECS'
-              assign tab_labels = '' | split: ','
-              assign tab_labels = tab_labels | push: label_1
-              assign tab_labels = tab_labels | push: label_2
-              assign tab_labels = tab_labels | push: label_3
-              assign tab_labels = tab_labels | push: label_4
+              assign tab_labels_joined = label_1 | append: '||' | append: label_2 | append: '||' | append: label_3 | append: '||' | append: label_4
+              assign tab_labels = tab_labels_joined | split: '||'
             -%}
             {%- for tab_label in tab_labels -%}
               {%- liquid

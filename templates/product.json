@@ -916,7 +916,7 @@
       ],
       "name": "MO Ingredient Detail",
       "settings": {
-        "eyebrow": "WHAT'S INSIDE — DEPLOY TEST 0714",
+        "eyebrow": "WHAT'S INSIDE",
         "heading": "What's in your \ndrops",
         "tab_1_label": "ACTIVE",
         "tab_2_label": "INACTIVE",
