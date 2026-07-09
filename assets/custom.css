@@ -1173,3 +1173,333 @@ tbody tr:last-child .mo-compare__cell {
     height: 32px;
   }
 }
+
+/* ============================================================================
+   CUSTOM: MO INGREDIENT TRANSPARENCY — sections/custom-ingredient-transparency.liquid
+   White rounded card (on the deep-green page bg) with a gel-video/poster left
+   column (desktop) and a 4-tab data sheet on the right (Active / Inactive /
+   Free From / Specs), built on <mo-tabs> (assets/mo-tabs.js) + native
+   <details>/<summary> ingredient accordions (snippets/mo-ingredient-item.liquid).
+   Both layers work with no JS: all 4 tabpanels render un-hidden by default
+   (mo-tabs.js only hides inactive ones once it confirms it's running), and the
+   accordions are native <details> elements. The +/x toggle is a single plus
+   SVG (snippets/mo-accordion-icon.liquid) rotated 45deg via CSS on [open] — no
+   separate icon asset or JS needed for that swap.
+   Consumes mo-design-system.css tokens with hardcoded fallbacks so this still
+   renders if that file is ever removed. UPSTREAM risk LOW — net-new, no
+   Horizon file touched.
+   ============================================================================ */
+.mo-ingredients {
+  background: var(--mo-ingredients-bg, #093d24);
+  padding-block: var(--mo-ingredients-padding-y, 40px);
+}
+
+/* Reuses the trust bar / problem agitation / comparison table's exact
+   max-width/margin-inline/padding-inline rule on desktop (see the 2026-07-09
+   alignment-fix note in the comparison-table block above) so this section's
+   content column lines up with its neighbors; mobile matches the comparison
+   table's var(--mo-space-5, 20px) inset for the same reason. */
+.mo-ingredients__inner {
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredients__inner {
+    padding-inline: var(--page-margin, 40px);
+  }
+}
+
+.mo-ingredients__card {
+  background: var(--mo-ingredients-card-bg, #ffffff);
+  border-radius: var(--mo-ingredients-radius, 32px);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredients__card {
+    grid-template-columns: minmax(240px, 38%) 1fr;
+    align-items: stretch;
+  }
+}
+
+/* ---------- Media (left column) ---------- */
+.mo-ingredients__media {
+  position: relative;
+  display: none;
+  min-height: 320px;
+}
+
+/* CUSTOM: mobile Figma frames show no media at all — hidden by default and
+   only shown if the merchant explicitly opts in via the "Show media on
+   mobile" setting (data-show-video-mobile on the section root). Desktop
+   always shows it. */
+[data-show-video-mobile='true'] .mo-ingredients__media {
+  display: block;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredients__media {
+    display: block;
+  }
+}
+
+.mo-ingredients__poster,
+.mo-ingredients__video-wrap,
+.mo-ingredients__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mo-ingredients__poster {
+  position: absolute;
+}
+
+.mo-ingredients__video-wrap {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mo-ingredients__video-wrap {
+    display: none;
+  }
+}
+
+/* ---------- Content (right column) ---------- */
+.mo-ingredients__content {
+  padding: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredients__content {
+    padding: var(--mo-space-8, 40px);
+  }
+}
+
+.mo-ingredients__eyebrow {
+  color: var(--mo-ingredients-eyebrow, #1fa567);
+  margin-block-end: var(--mo-space-2, 8px);
+}
+
+.mo-ingredients__heading {
+  color: var(--mo-ingredients-heading, #093d24);
+  margin-block-end: var(--mo-space-6, 24px);
+  font-size: 28px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredients__heading {
+    font-size: 40px;
+  }
+}
+
+/* ---------- Tabs ---------- */
+.mo-ingredients__tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mo-space-3, 12px);
+  margin-block-end: var(--mo-space-6, 24px);
+}
+
+.mo-ingredients__tab {
+  font-family: var(--mo-font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--mo-space-2, 8px) var(--mo-space-5, 20px);
+  border-radius: var(--mo-radius-pill, 999px);
+  border: 1.5px solid var(--mo-ingredients-tab-border, #1fa567);
+  background: transparent;
+  color: var(--mo-ingredients-tab-text, #1fa567);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.mo-ingredients__tab.is-active,
+.mo-ingredients__tab[aria-selected='true'] {
+  background: var(--mo-ingredients-tab-active-bg, #1fa567);
+  border-color: var(--mo-ingredients-tab-active-bg, #1fa567);
+  color: var(--mo-ingredients-tab-active-text, #ffffff);
+}
+
+.mo-ingredients__tab:focus-visible {
+  outline: 2px solid var(--mo-ingredients-tab-active-bg, #1fa567);
+  outline-offset: 2px;
+}
+
+/* No-JS fallback: every panel renders visible/stacked in document order.
+   mo-tabs.js hides all-but-the-active one as soon as it confirms it's
+   running (see #activate in assets/mo-tabs.js) — nothing here depends on
+   [hidden], so content is never lost if the script fails to load. */
+.mo-ingredients__panel + .mo-ingredients__panel {
+  margin-block-start: var(--mo-space-6, 24px);
+}
+
+/* ---------- Ingredient accordion rows ---------- */
+.mo-ingredient {
+  border-top: 1px solid var(--mo-ingredients-divider, #1fa56733);
+}
+
+.mo-ingredient:first-child {
+  border-top: none;
+}
+
+.mo-ingredient__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-4, 16px);
+  padding-block: var(--mo-space-5, 20px);
+  cursor: pointer;
+  list-style: none;
+}
+
+.mo-ingredient__summary::marker,
+.mo-ingredient__summary::-webkit-details-marker {
+  display: none;
+  content: '';
+}
+
+.mo-ingredient__number {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mo-ingredients-number-bg, #ffd5f7);
+  color: var(--mo-ingredients-heading, #093d24);
+  font-size: 11px;
+}
+
+.mo-ingredient__name-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.mo-ingredient__name,
+.mo-ingredient__subtitle {
+  color: var(--mo-ingredients-heading, #093d24);
+  font-size: 20px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredient__name,
+  .mo-ingredient__subtitle {
+    font-size: 28px;
+  }
+}
+
+.mo-ingredient__subtitle {
+  margin-inline-start: 0.4em;
+}
+
+.mo-ingredient__toggle {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--mo-ingredients-tab-border, #1fa567);
+  color: var(--mo-ingredients-tab-border, #1fa567);
+  background: transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.mo-ingredient[open] .mo-ingredient__toggle {
+  background: var(--mo-ingredients-toggle-open-bg, #e7f5ec);
+  border-color: transparent;
+}
+
+.mo-ingredient__toggle svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s ease;
+}
+
+.mo-ingredient[open] .mo-ingredient__toggle svg {
+  transform: rotate(45deg);
+}
+
+.mo-ingredient__body {
+  display: grid;
+  gap: var(--mo-space-4, 16px);
+  padding-block-end: var(--mo-space-6, 24px);
+}
+
+.mo-ingredient__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--mo-space-2, 8px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredient__row {
+    grid-template-columns: 180px 1fr;
+    gap: var(--mo-space-6, 24px);
+  }
+}
+
+.mo-ingredient__row-label {
+  color: var(--mo-ingredients-heading, #093d24);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.mo-ingredient__row-value {
+  color: var(--mo-ingredients-heading, #093d24);
+}
+
+/* ---------- Free From panel ---------- */
+.mo-free-from__item {
+  padding-block: var(--mo-space-5, 20px);
+  border-top: 1px solid var(--mo-ingredients-divider, #1fa56733);
+}
+
+.mo-free-from__item:first-child {
+  border-top: none;
+  padding-block-start: 0;
+}
+
+.mo-free-from__title {
+  color: var(--mo-ingredients-heading, #093d24);
+}
+
+.mo-free-from__desc {
+  color: var(--mo-ingredients-heading, #093d24);
+  margin-block-start: var(--mo-space-2, 8px);
+}
+
+/* ---------- Specs panel ---------- */
+.mo-specs__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--mo-space-4, 16px);
+  padding-block: var(--mo-space-4, 16px);
+  border-top: 1px solid var(--mo-ingredients-divider, #1fa56733);
+}
+
+.mo-specs__row:first-child {
+  border-top: none;
+  padding-block-start: 0;
+}
+
+.mo-specs__label {
+  color: var(--mo-ingredients-heading, #093d24);
+  font-size: 12px;
+}
+
+.mo-specs__value {
+  color: var(--mo-ingredients-heading, #093d24);
+  text-align: right;
+}

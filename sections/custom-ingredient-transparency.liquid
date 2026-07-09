@@ -1,0 +1,649 @@
+{%- # CUSTOM: net-new theme section — PDP "Ingredient Transparency" data sheet. White rounded card (on the deep-green page bg) with a hydrating-gel video/poster on the left (desktop) and, on the right, an eyebrow + heading followed by a 4-tab data sheet (Active / Inactive / Free From / Specs). Active + Inactive tabs render repeatable ingredient accordions (number pill, name, subtitle, up to 5 label/value detail rows); Free From renders a flat title+description list; Specs renders a flat metric/value list. Tabs + accordions both work without JS (all 4 panels render stacked in the DOM; native <details>/<summary> handles expand/collapse) — assets/mo-tabs.js progressively enhances the tablist into a real ARIA tablist with roving tabindex + arrow-key nav and hides inactive panels. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-ingredients rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mo-tabs.js' | asset_url }}" type="module"></script>
+
+{%- liquid
+  assign s = section.settings
+  assign has_video = false
+  if s.video_background != blank
+    assign has_video = true
+  endif
+  assign has_poster = false
+  if s.poster_image != blank
+    assign has_poster = true
+  endif
+  assign show_video_mobile = false
+  if s.show_video_mobile
+    assign show_video_mobile = true
+  endif
+-%}
+
+<section
+  class="mo-ingredients"
+  id="MoIngredients-{{ section.id }}"
+  data-show-video-mobile="{{ show_video_mobile }}"
+  style="
+    --mo-ingredients-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-ingredients-card-bg: {{ s.card_background_color | default: '#FFFFFF' }};
+    --mo-ingredients-radius: {{ s.card_radius | default: 32 }}px;
+    --mo-ingredients-eyebrow: {{ s.eyebrow_color | default: '#1FA567' }};
+    --mo-ingredients-heading: {{ s.heading_color | default: '#093D24' }};
+    --mo-ingredients-tab-border: {{ s.tab_color | default: '#1FA567' }};
+    --mo-ingredients-tab-text: {{ s.tab_color | default: '#1FA567' }};
+    --mo-ingredients-tab-active-bg: {{ s.tab_active_color | default: '#1FA567' }};
+    --mo-ingredients-tab-active-text: {{ s.tab_active_text_color | default: '#FFFFFF' }};
+    --mo-ingredients-number-bg: {{ s.number_pill_color | default: '#FFD5F7' }};
+    --mo-ingredients-toggle-open-bg: {{ s.toggle_open_color | default: '#E7F5EC' }};
+    --mo-ingredients-divider: {{ s.divider_color | default: '#1FA56733' }};
+    --mo-ingredients-padding-y: {{ s.vertical_padding | default: 40 }}px;
+  "
+>
+  <div class="mo-ingredients__inner">
+    <div class="mo-ingredients__card">
+      {%- if has_video or has_poster -%}
+        <div class="mo-ingredients__media">
+          {%- if has_poster -%}
+            {{
+              s.poster_image
+              | image_url: width: 1200
+              | image_tag:
+                width: s.poster_image.width,
+                height: s.poster_image.height,
+                alt: s.poster_image.alt,
+                sizes: '(min-width: 750px) 40vw, 100vw',
+                class: 'mo-ingredients__poster',
+                loading: 'lazy'
+            }}
+          {%- endif -%}
+          {%- if has_video -%}
+            <div class="mo-ingredients__video-wrap">
+              {{
+                s.video_background
+                | video_tag:
+                  poster: nil,
+                  autoplay: true,
+                  loop: true,
+                  controls: false,
+                  muted: true,
+                  playsinline: true,
+                  preload: 'metadata',
+                  class: 'mo-ingredients__video',
+                  data-testid: 'ingredient-transparency-video'
+              }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="mo-ingredients__content">
+        {%- if s.eyebrow != blank -%}
+          <p class="mo-ingredients__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if s.heading != blank -%}
+          <h2 class="mo-ingredients__heading mo-h2">{{ s.heading | newline_to_br }}</h2>
+        {%- endif -%}
+
+        <mo-tabs class="mo-ingredients__tabs">
+          <div class="mo-ingredients__tablist" role="tablist" aria-label="{{ s.heading | strip_newlines | escape }}">
+            {%- liquid
+              assign label_1 = s.tab_1_label | default: 'ACTIVE'
+              assign label_2 = s.tab_2_label | default: 'INACTIVE'
+              assign label_3 = s.tab_3_label | default: 'FREE FROM'
+              assign label_4 = s.tab_4_label | default: 'SPECS'
+              assign tab_labels = '' | split: ''
+              assign tab_labels = tab_labels | push: label_1
+              assign tab_labels = tab_labels | push: label_2
+              assign tab_labels = tab_labels | push: label_3
+              assign tab_labels = tab_labels | push: label_4
+            -%}
+            {%- for tab_label in tab_labels -%}
+              {%- liquid
+                assign tab_index = forloop.index
+                assign tab_id = 'MoIngredientsTab-' | append: section.id | append: '-' | append: tab_index
+                assign panel_id = 'MoIngredientsPanel-' | append: section.id | append: '-' | append: tab_index
+                assign is_first = false
+                if forloop.first
+                  assign is_first = true
+                endif
+              -%}
+              <button
+                type="button"
+                class="mo-ingredients__tab{% if is_first %} is-active{% endif %}"
+                id="{{ tab_id }}"
+                role="tab"
+                aria-selected="{{ is_first }}"
+                aria-controls="{{ panel_id }}"
+                tabindex="{% if is_first %}0{% else %}-1{% endif %}"
+              >
+                {{ tab_label | escape }}
+              </button>
+            {%- endfor -%}
+          </div>
+
+          <div class="mo-ingredients__panels">
+            {%- comment -%} Panel 1 — Active ingredients {%- endcomment -%}
+            <section
+              class="mo-ingredients__panel"
+              id="MoIngredientsPanel-{{ section.id }}-1"
+              role="tabpanel"
+              aria-labelledby="MoIngredientsTab-{{ section.id }}-1"
+              tabindex="0"
+            >
+              <h3 class="visually-hidden">{{ tab_labels[0] | escape }}</h3>
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'ingredient' and block.settings.tab == '1' -%}
+                  {%- render 'mo-ingredient-item', block: block, section: section -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </section>
+
+            {%- comment -%} Panel 2 — Inactive ingredients {%- endcomment -%}
+            <section
+              class="mo-ingredients__panel"
+              id="MoIngredientsPanel-{{ section.id }}-2"
+              role="tabpanel"
+              aria-labelledby="MoIngredientsTab-{{ section.id }}-2"
+              tabindex="0"
+            >
+              <h3 class="visually-hidden">{{ tab_labels[1] | escape }}</h3>
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'ingredient' and block.settings.tab == '2' -%}
+                  {%- render 'mo-ingredient-item', block: block, section: section -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </section>
+
+            {%- comment -%} Panel 3 — Free From {%- endcomment -%}
+            <section
+              class="mo-ingredients__panel"
+              id="MoIngredientsPanel-{{ section.id }}-3"
+              role="tabpanel"
+              aria-labelledby="MoIngredientsTab-{{ section.id }}-3"
+              tabindex="0"
+            >
+              <h3 class="visually-hidden">{{ tab_labels[2] | escape }}</h3>
+              <div class="mo-free-from">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'free_from' and block.settings.tab == '3' and block.settings.title != blank -%}
+                    <div class="mo-free-from__item" {{ block.shopify_attributes }}>
+                      <p class="mo-free-from__title mo-h4">{{ block.settings.title | escape }}</p>
+                      {%- if block.settings.description != blank -%}
+                        <p class="mo-free-from__desc mo-body-lg">{{ block.settings.description | escape }}</p>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </section>
+
+            {%- comment -%} Panel 4 — Specs {%- endcomment -%}
+            <section
+              class="mo-ingredients__panel"
+              id="MoIngredientsPanel-{{ section.id }}-4"
+              role="tabpanel"
+              aria-labelledby="MoIngredientsTab-{{ section.id }}-4"
+              tabindex="0"
+            >
+              <h3 class="visually-hidden">{{ tab_labels[3] | escape }}</h3>
+              <div class="mo-specs">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'spec' and block.settings.tab == '4' and block.settings.label != blank -%}
+                    <div class="mo-specs__row" {{ block.shopify_attributes }}>
+                      <span class="mo-specs__label mo-menu">{{ block.settings.label | escape }}</span>
+                      <span class="mo-specs__value mo-body-lg">{{ block.settings.value | escape }}</span>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </section>
+          </div>
+        </mo-tabs>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Ingredient Detail",
+  "tag": "section",
+  "class": "mo-ingredients-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "WHAT'S INSIDE",
+      "info": "Figma frame text read \"HOW WE COMPARE\" — looks like a leftover from the comparison-table section above. Flagged, not assumed; set the real copy here."
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What's in your\ndrops"
+    },
+    {
+      "type": "header",
+      "content": "Tab labels"
+    },
+    {
+      "type": "text",
+      "id": "tab_1_label",
+      "label": "Tab 1 label",
+      "default": "ACTIVE"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_label",
+      "label": "Tab 2 label",
+      "default": "INACTIVE"
+    },
+    {
+      "type": "text",
+      "id": "tab_3_label",
+      "label": "Tab 3 label",
+      "default": "FREE FROM"
+    },
+    {
+      "type": "text",
+      "id": "tab_4_label",
+      "label": "Tab 4 label",
+      "default": "SPECS"
+    },
+    {
+      "type": "header",
+      "content": "Media (left column, desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image",
+      "label": "Poster image",
+      "info": "Always-present base layer — hydrating gel bubble photo. Shown alone if no video is set."
+    },
+    {
+      "type": "video",
+      "id": "video_background",
+      "label": "Background video",
+      "info": "Optional. Autoplays muted, looped, no controls. Falls back to the poster image above if left blank."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_video_mobile",
+      "label": "Show media on mobile",
+      "default": false,
+      "info": "VERIFY with Kalvis — the mobile Figma frames show no video/image at all, only the eyebrow/heading/tabs. Defaulted to hidden on mobile to match; flip this on once confirmed."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Page background (visible at card corners)",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading + body text color",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "tab_color",
+      "label": "Unselected tab border + text",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_color",
+      "label": "Selected tab fill",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_text_color",
+      "label": "Selected tab text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "number_pill_color",
+      "label": "Ingredient number pill background",
+      "default": "#FFD5F7"
+    },
+    {
+      "type": "color",
+      "id": "toggle_open_color",
+      "label": "Expanded accordion toggle background",
+      "default": "#E7F5EC",
+      "info": "VERIFY against Figma — estimated pale mint fill for the open (×) state."
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Row divider color",
+      "default": "#1FA56733",
+      "info": "VERIFY against Figma — estimated subtle green divider."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Section vertical padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        {
+          "type": "select",
+          "id": "tab",
+          "label": "Tab",
+          "options": [
+            { "value": "1", "label": "1 — Active" },
+            { "value": "2", "label": "2 — Inactive" },
+            { "value": "3", "label": "3 — Free From" },
+            { "value": "4", "label": "4 — Specs" }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "1"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Ingredient name",
+          "default": "Ingredient Name"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle (e.g. concentration)",
+          "info": "Optional — shown next to the name, e.g. \"0.25%\"."
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Detail rows (up to 5, label + value)"
+        },
+        {
+          "type": "text",
+          "id": "detail_1_label",
+          "label": "Row 1 label",
+          "default": "FUNCTION"
+        },
+        {
+          "type": "textarea",
+          "id": "detail_1_value",
+          "label": "Row 1 value"
+        },
+        {
+          "type": "text",
+          "id": "detail_2_label",
+          "label": "Row 2 label"
+        },
+        {
+          "type": "textarea",
+          "id": "detail_2_value",
+          "label": "Row 2 value"
+        },
+        {
+          "type": "text",
+          "id": "detail_3_label",
+          "label": "Row 3 label"
+        },
+        {
+          "type": "textarea",
+          "id": "detail_3_value",
+          "label": "Row 3 value"
+        },
+        {
+          "type": "text",
+          "id": "detail_4_label",
+          "label": "Row 4 label"
+        },
+        {
+          "type": "textarea",
+          "id": "detail_4_value",
+          "label": "Row 4 value"
+        },
+        {
+          "type": "text",
+          "id": "detail_5_label",
+          "label": "Row 5 label"
+        },
+        {
+          "type": "textarea",
+          "id": "detail_5_value",
+          "label": "Row 5 value"
+        }
+      ]
+    },
+    {
+      "type": "free_from",
+      "name": "Free From item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "tab",
+          "label": "Tab",
+          "options": [
+            { "value": "1", "label": "1 — Active" },
+            { "value": "2", "label": "2 — Inactive" },
+            { "value": "3", "label": "3 — Free From" },
+            { "value": "4", "label": "4 — Specs" }
+          ],
+          "default": "3"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "No BAK"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Add description here",
+          "info": "Placeholder pending real copy."
+        }
+      ]
+    },
+    {
+      "type": "spec",
+      "name": "Spec row",
+      "settings": [
+        {
+          "type": "select",
+          "id": "tab",
+          "label": "Tab",
+          "options": [
+            { "value": "1", "label": "1 — Active" },
+            { "value": "2", "label": "2 — Inactive" },
+            { "value": "3", "label": "3 — Free From" },
+            { "value": "4", "label": "4 — Specs" }
+          ],
+          "default": "4"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Metric",
+          "default": "pH"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "~7.5"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Ingredient Detail",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "ingredient",
+          "settings": {
+            "tab": "1",
+            "number": "1",
+            "name": "Glycerin",
+            "open_by_default": true,
+            "detail_1_label": "FUNCTION",
+            "detail_1_value": "Eye lubricant — FDA OTC monograph demulcent per 21 CFR 349.12",
+            "detail_2_label": "WHY 0.25%",
+            "detail_2_value": "Clinically effective within the 0.2–1.0% monograph range. Low enough for sensitive eyes, high enough for immediate relief."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "tab": "2",
+            "number": "1",
+            "name": "Sodium Hyaluronate",
+            "subtitle": "0.25%",
+            "open_by_default": true,
+            "detail_1_label": "FUNCTION",
+            "detail_1_value": "Long-acting mucomimetic lubricant; binds up to 1,000× its weight in water",
+            "detail_2_label": "WHY IT MATTERS",
+            "detail_2_value": "Non-Newtonian behavior keeps it on the ocular surface longer than standard lubricants",
+            "detail_3_label": "ORIGIN",
+            "detail_3_value": "Non-animal-derived fermentation process"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "tab": "2",
+            "number": "2",
+            "name": "L-Carnitine",
+            "subtitle": "0.25%",
+            "detail_1_label": "FUNCTION",
+            "detail_1_value": "Add detail copy here"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "tab": "2",
+            "number": "3",
+            "name": "Balanced Saline",
+            "detail_1_label": "FUNCTION",
+            "detail_1_value": "Add detail copy here"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "tab": "2",
+            "number": "4",
+            "name": "Borate Buffer",
+            "detail_1_label": "FUNCTION",
+            "detail_1_value": "Add detail copy here"
+          }
+        },
+        {
+          "type": "free_from",
+          "settings": { "tab": "3", "title": "No BAK", "description": "Add description here" }
+        },
+        {
+          "type": "free_from",
+          "settings": { "tab": "3", "title": "No Preservatives", "description": "Add description here" }
+        },
+        {
+          "type": "free_from",
+          "settings": { "tab": "3", "title": "No Artificial Thickeners", "description": "Add description here" }
+        },
+        {
+          "type": "free_from",
+          "settings": { "tab": "3", "title": "No Artificial Colorants", "description": "Add description here" }
+        },
+        {
+          "type": "spec",
+          "settings": { "tab": "4", "label": "pH", "value": "~7.5" }
+        },
+        {
+          "type": "spec",
+          "settings": { "tab": "4", "label": "Osmolality", "value": "272 mOsm/kg" }
+        },
+        {
+          "type": "spec",
+          "settings": { "tab": "4", "label": "Preservatives", "value": "0" }
+        },
+        {
+          "type": "spec",
+          "settings": { "tab": "4", "label": "Volume", "value": "10 mL" }
+        },
+        {
+          "type": "spec",
+          "settings": { "tab": "4", "label": "Shelf life", "value": "24 months" }
+        },
+        {
+          "type": "spec",
+          "settings": { "tab": "4", "label": "Mfg standard", "value": "cGMP 21 CFR 210/211" }
+        },
+        {
+          "type": "spec",
+          "settings": { "tab": "4", "label": "Safety testing", "value": "OECD TG 492B" }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,54 @@
+{%- # CUSTOM: net-new snippet — one ingredient accordion row for MO Ingredient Transparency (sections/custom-ingredient-transparency.liquid), used by both the Active and Inactive tab panels. Native <details>/<summary> so expand/collapse works with zero JS (progressive enhancement); assets/mo-tabs.js only enhances the surrounding tablist, it does not touch these. Renders a number pill, name (+ optional subtitle), a +/x toggle (snippets/mo-accordion-icon.liquid, rotated via CSS on [open]), and up to 5 label/value detail rows — blank rows are skipped so merchants can use fewer than 5. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # Params: block (the 'ingredient' block instance), section (parent section, for id namespacing) -%}
+{%- liquid
+  assign bs = block.settings
+  assign row_base_id = 'MoIngredient-' | append: section.id | append: '-' | append: block.id
+-%}
+{%- if bs.name != blank -%}
+  <details class="mo-ingredient" id="{{ row_base_id }}" {% if bs.open_by_default %}open{% endif %} {{ block.shopify_attributes }}>
+    <summary class="mo-ingredient__summary">
+      {%- if bs.number != blank -%}
+        <span class="mo-ingredient__number mo-menu" aria-hidden="true">{{ bs.number | escape }}</span>
+      {%- endif -%}
+      <span class="mo-ingredient__name-wrap">
+        <span class="mo-ingredient__name mo-h3">{{ bs.name | escape }}</span>
+        {%- if bs.subtitle != blank -%}
+          <span class="mo-ingredient__subtitle mo-h3">{{ bs.subtitle | escape }}</span>
+        {%- endif -%}
+      </span>
+      <span class="mo-ingredient__toggle" aria-hidden="true">
+        {%- render 'mo-accordion-icon' -%}
+      </span>
+    </summary>
+
+    <div class="mo-ingredient__body">
+      {%- for i in (1..5) -%}
+        {%- liquid
+          case i
+            when 1
+              assign detail_label = bs.detail_1_label
+              assign detail_value = bs.detail_1_value
+            when 2
+              assign detail_label = bs.detail_2_label
+              assign detail_value = bs.detail_2_value
+            when 3
+              assign detail_label = bs.detail_3_label
+              assign detail_value = bs.detail_3_value
+            when 4
+              assign detail_label = bs.detail_4_label
+              assign detail_value = bs.detail_4_value
+            when 5
+              assign detail_label = bs.detail_5_label
+              assign detail_value = bs.detail_5_value
+          endcase
+        -%}
+        {%- if detail_label != blank and detail_value != blank -%}
+          <div class="mo-ingredient__row">
+            <span class="mo-ingredient__row-label mo-menu">{{ detail_label | escape }}</span>
+            <span class="mo-ingredient__row-value mo-body-lg">{{ detail_value | escape }}</span>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </details>
+{%- endif -%}

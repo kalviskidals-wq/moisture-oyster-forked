@@ -715,12 +715,236 @@
         "info_color": "#ffffff",
         "vertical_padding": 40
       }
+    },
+    "custom_ingredient_transparency_mopdp1": {
+      "type": "custom-ingredient-transparency",
+      "blocks": {
+        "ingredient_1": {
+          "type": "ingredient",
+          "name": "Ingredient",
+          "settings": {
+            "tab": "1",
+            "number": "1",
+            "name": "Glycerin",
+            "subtitle": "",
+            "open_by_default": true,
+            "detail_1_label": "FUNCTION",
+            "detail_1_value": "Eye lubricant — FDA OTC monograph demulcent per 21 CFR 349.12",
+            "detail_2_label": "WHY 0.25%",
+            "detail_2_value": "Clinically effective within the 0.2–1.0% monograph range. Low enough for sensitive eyes, high enough for immediate relief.",
+            "detail_3_label": "",
+            "detail_3_value": "",
+            "detail_4_label": "",
+            "detail_4_value": "",
+            "detail_5_label": "",
+            "detail_5_value": ""
+          }
+        },
+        "ingredient_2": {
+          "type": "ingredient",
+          "name": "Ingredient",
+          "settings": {
+            "tab": "2",
+            "number": "1",
+            "name": "Sodium Hyaluronate",
+            "subtitle": "0.25%",
+            "open_by_default": true,
+            "detail_1_label": "FUNCTION",
+            "detail_1_value": "Long-acting mucomimetic lubricant; binds up to 1,000× its weight in water",
+            "detail_2_label": "WHY IT MATTERS",
+            "detail_2_value": "Non-Newtonian behavior keeps it on the ocular surface longer than standard lubricants",
+            "detail_3_label": "ORIGIN",
+            "detail_3_value": "Non-animal-derived fermentation process",
+            "detail_4_label": "",
+            "detail_4_value": "",
+            "detail_5_label": "",
+            "detail_5_value": ""
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "name": "Ingredient",
+          "settings": {
+            "tab": "2",
+            "number": "2",
+            "name": "L-Carnitine",
+            "subtitle": "0.25%",
+            "open_by_default": false,
+            "detail_1_label": "FUNCTION",
+            "detail_1_value": "Add detail copy here",
+            "detail_2_label": "",
+            "detail_2_value": "",
+            "detail_3_label": "",
+            "detail_3_value": "",
+            "detail_4_label": "",
+            "detail_4_value": "",
+            "detail_5_label": "",
+            "detail_5_value": ""
+          }
+        },
+        "ingredient_4": {
+          "type": "ingredient",
+          "name": "Ingredient",
+          "settings": {
+            "tab": "2",
+            "number": "3",
+            "name": "Balanced Saline",
+            "subtitle": "",
+            "open_by_default": false,
+            "detail_1_label": "FUNCTION",
+            "detail_1_value": "Add detail copy here",
+            "detail_2_label": "",
+            "detail_2_value": "",
+            "detail_3_label": "",
+            "detail_3_value": "",
+            "detail_4_label": "",
+            "detail_4_value": "",
+            "detail_5_label": "",
+            "detail_5_value": ""
+          }
+        },
+        "ingredient_5": {
+          "type": "ingredient",
+          "name": "Ingredient",
+          "settings": {
+            "tab": "2",
+            "number": "4",
+            "name": "Borate Buffer",
+            "subtitle": "",
+            "open_by_default": false,
+            "detail_1_label": "FUNCTION",
+            "detail_1_value": "Add detail copy here",
+            "detail_2_label": "",
+            "detail_2_value": "",
+            "detail_3_label": "",
+            "detail_3_value": "",
+            "detail_4_label": "",
+            "detail_4_value": "",
+            "detail_5_label": "",
+            "detail_5_value": ""
+          }
+        },
+        "free_from_1": {
+          "type": "free_from",
+          "name": "Free From item",
+          "settings": {
+            "tab": "3",
+            "title": "No BAK",
+            "description": "Add description here"
+          }
+        },
+        "free_from_2": {
+          "type": "free_from",
+          "name": "Free From item",
+          "settings": {
+            "tab": "3",
+            "title": "No Preservatives",
+            "description": "Add description here"
+          }
+        },
+        "free_from_3": {
+          "type": "free_from",
+          "name": "Free From item",
+          "settings": {
+            "tab": "3",
+            "title": "No Artificial Thickeners",
+            "description": "Add description here"
+          }
+        },
+        "free_from_4": {
+          "type": "free_from",
+          "name": "Free From item",
+          "settings": {
+            "tab": "3",
+            "title": "No Artificial Colorants",
+            "description": "Add description here"
+          }
+        },
+        "spec_1": {
+          "type": "spec",
+          "name": "Spec row",
+          "settings": { "tab": "4", "label": "pH", "value": "~7.5" }
+        },
+        "spec_2": {
+          "type": "spec",
+          "name": "Spec row",
+          "settings": { "tab": "4", "label": "Osmolality", "value": "272 mOsm/kg" }
+        },
+        "spec_3": {
+          "type": "spec",
+          "name": "Spec row",
+          "settings": { "tab": "4", "label": "Preservatives", "value": "0" }
+        },
+        "spec_4": {
+          "type": "spec",
+          "name": "Spec row",
+          "settings": { "tab": "4", "label": "Volume", "value": "10 mL" }
+        },
+        "spec_5": {
+          "type": "spec",
+          "name": "Spec row",
+          "settings": { "tab": "4", "label": "Shelf life", "value": "24 months" }
+        },
+        "spec_6": {
+          "type": "spec",
+          "name": "Spec row",
+          "settings": { "tab": "4", "label": "Mfg standard", "value": "cGMP 21 CFR 210/211" }
+        },
+        "spec_7": {
+          "type": "spec",
+          "name": "Spec row",
+          "settings": { "tab": "4", "label": "Safety testing", "value": "OECD TG 492B" }
+        }
+      },
+      "block_order": [
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3",
+        "ingredient_4",
+        "ingredient_5",
+        "free_from_1",
+        "free_from_2",
+        "free_from_3",
+        "free_from_4",
+        "spec_1",
+        "spec_2",
+        "spec_3",
+        "spec_4",
+        "spec_5",
+        "spec_6",
+        "spec_7"
+      ],
+      "name": "MO Ingredient Detail",
+      "settings": {
+        "eyebrow": "WHAT'S INSIDE",
+        "heading": "What's in your \ndrops",
+        "tab_1_label": "ACTIVE",
+        "tab_2_label": "INACTIVE",
+        "tab_3_label": "FREE FROM",
+        "tab_4_label": "SPECS",
+        "poster_image": "",
+        "video_background": "",
+        "show_video_mobile": false,
+        "background_color": "#093d24",
+        "card_background_color": "#ffffff",
+        "eyebrow_color": "#1fa567",
+        "heading_color": "#093d24",
+        "tab_color": "#1fa567",
+        "tab_active_color": "#1fa567",
+        "tab_active_text_color": "#ffffff",
+        "number_pill_color": "#ffd5f7",
+        "toggle_open_color": "#e7f5ec",
+        "divider_color": "#1fa56733",
+        "card_radius": 32,
+        "vertical_padding": 40
+      }
     }
   },
   "order": [
     "main",
     "custom_trust_bar_mopdp1",
     "custom_problem_agitation_iYrAeg",
-    "custom_comparison_table_mopdp1"
+    "custom_comparison_table_mopdp1",
+    "custom_ingredient_transparency_mopdp1"
   ]
 }
