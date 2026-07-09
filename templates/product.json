@@ -462,7 +462,7 @@
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
-        "equal_columns": false,
+        "equal_columns": true,
         "limit_details_width": false,
         "gap": 40,
         "enable_sticky_add_to_cart": true,
@@ -541,6 +541,7 @@
           "type": "factor",
           "settings": {
             "icon_preset": "air_conditioning",
+            "icon_image": "shopify://shop_images/Air_Conditioning.svg",
             "label": "AIR CONDITIONING"
           }
         },
@@ -548,6 +549,7 @@
           "type": "factor",
           "settings": {
             "icon_preset": "air_travel",
+            "icon_image": "shopify://shop_images/Air_Travel.svg",
             "label": "AIR TRAVEL"
           }
         },
@@ -555,6 +557,7 @@
           "type": "factor",
           "settings": {
             "icon_preset": "contact_lens",
+            "icon_image": "shopify://shop_images/Contact_lens.svg",
             "label": "CONTACT LENS"
           }
         }
