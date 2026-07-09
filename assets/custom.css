@@ -564,7 +564,7 @@ body {
 }
 
 .mo-problem__eyebrow {
-  color: var(--mo-problem-eyebrow, #f2a2ff);
+  color: var(--mo-problem-eyebrow, #ffd5f7);
   margin: 0 0 var(--mo-space-4, 16px);
 }
 
@@ -666,7 +666,7 @@ body {
   display: inline-flex;
   width: 36px;
   height: 36px;
-  color: var(--mo-problem-factor-icon, #f2a2ff);
+  color: var(--mo-problem-factor-icon, #ffd5f7);
 }
 
 .mo-problem__factor-icon svg {
@@ -681,7 +681,7 @@ body {
 }
 
 .mo-problem__factor-label {
-  color: var(--mo-problem-factor-label, #f2a2ff);
+  color: var(--mo-problem-factor-label, #ffd5f7);
   white-space: nowrap;
 }
 
@@ -700,7 +700,7 @@ body {
 }
 
 .mo-problem__stat-figure {
-  color: var(--mo-problem-card-figure, #f2a2ff);
+  color: var(--mo-problem-card-figure, #ffd5f7);
   margin: 0 0 var(--mo-space-4, 16px);
 }
 
