@@ -863,37 +863,65 @@
         "spec_1": {
           "type": "spec",
           "name": "Spec row",
-          "settings": { "tab": "4", "label": "pH", "value": "~7.5" }
+          "settings": {
+            "tab": "4",
+            "label": "pH",
+            "value": "~7.5"
+          }
         },
         "spec_2": {
           "type": "spec",
           "name": "Spec row",
-          "settings": { "tab": "4", "label": "Osmolality", "value": "272 mOsm/kg" }
+          "settings": {
+            "tab": "4",
+            "label": "Osmolality",
+            "value": "272 mOsm/kg"
+          }
         },
         "spec_3": {
           "type": "spec",
           "name": "Spec row",
-          "settings": { "tab": "4", "label": "Preservatives", "value": "0" }
+          "settings": {
+            "tab": "4",
+            "label": "Preservatives",
+            "value": "0"
+          }
         },
         "spec_4": {
           "type": "spec",
           "name": "Spec row",
-          "settings": { "tab": "4", "label": "Volume", "value": "10 mL" }
+          "settings": {
+            "tab": "4",
+            "label": "Volume",
+            "value": "10 mL"
+          }
         },
         "spec_5": {
           "type": "spec",
           "name": "Spec row",
-          "settings": { "tab": "4", "label": "Shelf life", "value": "24 months" }
+          "settings": {
+            "tab": "4",
+            "label": "Shelf life",
+            "value": "24 months"
+          }
         },
         "spec_6": {
           "type": "spec",
           "name": "Spec row",
-          "settings": { "tab": "4", "label": "Mfg standard", "value": "cGMP 21 CFR 210/211" }
+          "settings": {
+            "tab": "4",
+            "label": "Mfg standard",
+            "value": "cGMP 21 CFR 210/211"
+          }
         },
         "spec_7": {
           "type": "spec",
           "name": "Spec row",
-          "settings": { "tab": "4", "label": "Safety testing", "value": "OECD TG 492B" }
+          "settings": {
+            "tab": "4",
+            "label": "Safety testing",
+            "value": "OECD TG 492B"
+          }
         }
       },
       "block_order": [
@@ -922,8 +950,7 @@
         "tab_2_label": "INACTIVE",
         "tab_3_label": "FREE FROM",
         "tab_4_label": "SPECS",
-        "poster_image": "",
-        "video_background": "",
+        "video_background": "shopify://files/videos/Whats in your drops ingredients section video.mp4",
         "show_video_mobile": false,
         "background_color": "#093d24",
         "card_background_color": "#ffffff",
