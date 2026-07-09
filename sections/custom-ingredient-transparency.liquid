@@ -42,49 +42,51 @@
 >
   <div class="mo-ingredients__inner">
     <div class="mo-ingredients__card">
-      {%- if has_video or has_poster -%}
-        <div class="mo-ingredients__media">
-          {%- if has_poster -%}
-            {{
-              s.poster_image
-              | image_url: width: 1200
-              | image_tag:
-                width: s.poster_image.width,
-                height: s.poster_image.height,
-                alt: s.poster_image.alt,
-                sizes: '(min-width: 750px) 40vw, 100vw',
-                class: 'mo-ingredients__poster',
-                loading: 'lazy'
-            }}
-          {%- endif -%}
-          {%- if has_video -%}
-            <div class="mo-ingredients__video-wrap">
-              {{
-                s.video_background
-                | video_tag:
-                  poster: nil,
-                  autoplay: true,
-                  loop: true,
-                  controls: false,
-                  muted: true,
-                  playsinline: true,
-                  preload: 'metadata',
-                  class: 'mo-ingredients__video',
-                  data-testid: 'ingredient-transparency-video'
-              }}
-            </div>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
-
-      <div class="mo-ingredients__content">
+      {%- # CUSTOM (2026-07-09, layout fix): eyebrow + heading live in the LEFT column with the media, per the actual Figma reference (the master prompt's text description said eyebrow/heading go with the tabs on the right, but the provided frames clearly show them stacked above a bounded, non-full-bleed video box on the left — went with what the frames show). Tabs + panels are the entire right column. -%}
+      <div class="mo-ingredients__media-col">
         {%- if s.eyebrow != blank -%}
           <p class="mo-ingredients__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
         {%- endif -%}
         {%- if s.heading != blank -%}
           <h2 class="mo-ingredients__heading mo-h2">{{ s.heading | newline_to_br }}</h2>
         {%- endif -%}
+        {%- if has_video or has_poster -%}
+          <div class="mo-ingredients__media">
+            {%- if has_poster -%}
+              {{
+                s.poster_image
+                | image_url: width: 900
+                | image_tag:
+                  width: s.poster_image.width,
+                  height: s.poster_image.height,
+                  alt: s.poster_image.alt,
+                  sizes: '(min-width: 750px) 40vw, 100vw',
+                  class: 'mo-ingredients__poster',
+                  loading: 'lazy'
+              }}
+            {%- endif -%}
+            {%- if has_video -%}
+              <div class="mo-ingredients__video-wrap">
+                {{
+                  s.video_background
+                  | video_tag:
+                    poster: nil,
+                    autoplay: true,
+                    loop: true,
+                    controls: false,
+                    muted: true,
+                    playsinline: true,
+                    preload: 'metadata',
+                    class: 'mo-ingredients__video',
+                    data-testid: 'ingredient-transparency-video'
+                }}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
 
+      <div class="mo-ingredients__content">
         <mo-tabs class="mo-ingredients__tabs">
           <div class="mo-ingredients__tablist" role="tablist" aria-label="{{ s.heading | strip_newlines | escape }}">
             {%- liquid

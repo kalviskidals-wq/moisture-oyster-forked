@@ -1222,15 +1222,38 @@ tbody tr:last-child .mo-compare__cell {
 @media screen and (min-width: 750px) {
   .mo-ingredients__card {
     grid-template-columns: minmax(240px, 38%) 1fr;
-    align-items: stretch;
+    align-items: start;
   }
 }
 
-/* ---------- Media (left column) ---------- */
+/* ---------- Left column: eyebrow + heading + bounded media box ----------
+   CUSTOM (2026-07-09, layout fix): the initial build made the media a
+   full-bleed panel spanning the entire left column height, with eyebrow/
+   heading moved to the right column next to the tabs. The actual Figma
+   reference (re-confirmed against an annotated frame showing the video's
+   intrinsic box size, ~439x395) shows the opposite: eyebrow + heading sit at
+   the top of the LEFT column, with a small fixed-aspect-ratio video/image box
+   below them (inset within the column's normal padding, not edge-to-edge),
+   and the right column is tabs + panel content only. Rebuilt to match. */
+.mo-ingredients__media-col {
+  padding: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredients__media-col {
+    padding: var(--mo-space-8, 40px);
+  }
+}
+
 .mo-ingredients__media {
   position: relative;
   display: none;
-  min-height: 320px;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 439 / 395;
+  border-radius: var(--mo-radius-md, 10px);
+  overflow: hidden;
+  margin-block-start: var(--mo-space-6, 24px);
 }
 
 /* CUSTOM: mobile Figma frames show no media at all — hidden by default and
@@ -1257,10 +1280,6 @@ tbody tr:last-child .mo-compare__cell {
   object-fit: cover;
 }
 
-.mo-ingredients__poster {
-  position: absolute;
-}
-
 .mo-ingredients__video-wrap {
   overflow: hidden;
 }
@@ -1271,7 +1290,7 @@ tbody tr:last-child .mo-compare__cell {
   }
 }
 
-/* ---------- Content (right column) ---------- */
+/* ---------- Content (right column: tabs + panels only) ---------- */
 .mo-ingredients__content {
   padding: var(--mo-space-5, 20px);
 }
@@ -1289,7 +1308,7 @@ tbody tr:last-child .mo-compare__cell {
 
 .mo-ingredients__heading {
   color: var(--mo-ingredients-heading, #093d24);
-  margin-block-end: var(--mo-space-6, 24px);
+  margin-block-end: 0;
   font-size: 28px;
 }
 
