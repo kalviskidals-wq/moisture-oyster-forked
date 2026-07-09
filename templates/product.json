@@ -962,7 +962,7 @@
         "number_pill_color": "#ffd5f7",
         "toggle_open_color": "#e7f5ec",
         "divider_color": "#1fa56733",
-        "card_radius": 32,
+        "card_radius": 10,
         "vertical_padding": 40
       }
     }
