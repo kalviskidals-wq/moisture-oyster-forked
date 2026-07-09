@@ -120,15 +120,17 @@
     {%- endif -%}
 
     {%- if s.stat_figure != blank -%}
-      <div class="mo-problem__stat-card">
-        <p class="mo-problem__stat-figure mo-stat">{{ s.stat_figure | escape }}</p>
-        {%- if s.stat_caption != blank -%}
-          <p class="mo-problem__stat-caption mo-menu">{{ s.stat_caption | newline_to_br }}</p>
-        {%- endif -%}
-        {%- if s.stat_source != blank -%}
-          <hr class="mo-problem__stat-divider" aria-hidden="true">
-          <p class="mo-problem__stat-source mo-body">{{ s.stat_source | escape }}</p>
-        {%- endif -%}
+      <div class="mo-problem__stat-bounds">
+        <div class="mo-problem__stat-card">
+          <p class="mo-problem__stat-figure mo-stat">{{ s.stat_figure | escape }}</p>
+          {%- if s.stat_caption != blank -%}
+            <p class="mo-problem__stat-caption mo-menu">{{ s.stat_caption | newline_to_br }}</p>
+          {%- endif -%}
+          {%- if s.stat_source != blank -%}
+            <hr class="mo-problem__stat-divider" aria-hidden="true">
+            <p class="mo-problem__stat-source mo-body">{{ s.stat_source | escape }}</p>
+          {%- endif -%}
+        </div>
       </div>
     {%- endif -%}
   </div>
