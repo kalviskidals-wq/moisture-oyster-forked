@@ -563,21 +563,46 @@ body {
   padding: var(--mo-space-8, 40px) var(--mo-space-5, 20px) var(--mo-space-7, 32px);
 }
 
+/* CUSTOM: typography per Figma spec (2026-07-09) — deliberately overrides
+   the shared .mo-tag/.mo-h1/.mo-body-lg helper classes still present on
+   these elements in the markup (kept as a baseline fallback; these rules
+   win the cascade since custom.css loads after mo-design-system.css).
+   Mobile-first: base rules below are the mobile values, desktop media
+   query further down overrides size/line-height where they differ. */
 .mo-problem__eyebrow {
   color: var(--mo-problem-eyebrow, #ffd5f7);
   margin: 0 0 var(--mo-space-4, 16px);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 1.1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .mo-problem__heading {
   color: var(--mo-problem-heading, #ffffff);
   margin: 0 0 var(--mo-space-4, 16px);
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.02em;
 }
 
+/* CUSTOM: Figma specs this as Manrope (not Inter/--mo-font-body like the
+   shared .mo-body-lg helper), Medium 500 — a deliberate exception for this
+   section's subhead, not a mo-design-system typo. */
 .mo-problem__subhead {
   color: var(--mo-problem-subhead, #ffffff);
   margin: 0;
   max-width: 46ch;
   opacity: 0.92;
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.3;
+  letter-spacing: 0;
 }
 
 /* CUSTOM: sized by viewport height (not aspect-ratio) so the media area
@@ -683,6 +708,12 @@ body {
 .mo-problem__factor-label {
   color: var(--mo-problem-factor-label, #ffd5f7);
   white-space: nowrap;
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .mo-problem__stat-bounds {
@@ -702,11 +733,23 @@ body {
 .mo-problem__stat-figure {
   color: var(--mo-problem-card-figure, #ffd5f7);
   margin: 0 0 var(--mo-space-4, 16px);
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
 }
 
 .mo-problem__stat-caption {
   color: var(--mo-problem-card-caption, #ffffff);
   margin: 0 0 var(--mo-space-4, 16px);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .mo-problem__stat-divider {
@@ -761,8 +804,31 @@ body {
     max-width: 560px;
   }
 
+  /* CUSTOM: desktop typography per Figma spec (2026-07-09) — mobile sizes
+     are the base rules above; these are the properties that differ at the
+     desktop breakpoint (font-family/weight/letter-spacing stay the same
+     across both, so they're not repeated here). */
+  .mo-problem__eyebrow {
+    font-size: 14px;
+  }
+
+  .mo-problem__heading {
+    font-size: 40px;
+    line-height: 1.1;
+  }
+
   .mo-problem__subhead {
     opacity: 1;
+    font-size: 16px;
+  }
+
+  .mo-problem__factor-label,
+  .mo-problem__stat-caption {
+    font-size: 16px;
+  }
+
+  .mo-problem__stat-figure {
+    font-size: 80px;
   }
 
   .mo-problem__media-wrap {
