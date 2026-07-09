@@ -580,21 +580,34 @@ body {
   opacity: 0.92;
 }
 
+/* CUSTOM: sized by viewport height (not aspect-ratio) so the media area
+   reliably fills most of the mobile screen — matches the Figma mobile frame,
+   where the video occupies roughly two-thirds of the page. aspect-ratio
+   alone made this box too short on narrow viewports, cutting the poster/
+   video off before it "covered" the section. */
 .mo-problem__media-wrap {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4 / 5;
-  min-height: 520px;
+  min-height: 70vh;
+  min-height: 70dvh;
 }
 
+/* CUSTOM: Horizon's base.css resets `img { width: 100%; height: auto; }`
+   and `img, picture, video, canvas, svg { max-width: 100%; }`. Those are
+   tag selectors (lower specificity than these classes) so they shouldn't
+   win, but !important removes any doubt so the poster/video reliably fill
+   and crop to their wrapper instead of sizing to their own intrinsic
+   aspect ratio. */
 .mo-problem__poster {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
   object-fit: cover;
   display: block;
+  z-index: 0;
 }
 
 .mo-problem__video-wrap {
@@ -604,10 +617,12 @@ body {
 }
 
 .mo-problem__video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
   object-fit: cover;
   display: block;
 }
