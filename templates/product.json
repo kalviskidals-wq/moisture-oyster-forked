@@ -590,11 +590,137 @@
         "card_source_color": "#ffffff",
         "vertical_padding": 0
       }
+    },
+    "custom_comparison_table_mopdp1": {
+      "type": "custom-comparison-table",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "name": "Comparison Row",
+          "settings": {
+            "feature": "Preservative System",
+            "mo_value": "check",
+            "mo_show_info": true,
+            "mo_tooltip_text": "Add text here",
+            "otc_value": "cross",
+            "otc_show_info": false,
+            "otc_tooltip_text": "Add text here"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "name": "Comparison Row",
+          "settings": {
+            "feature": "Hydration Agents",
+            "mo_value": "check",
+            "mo_show_info": true,
+            "mo_tooltip_text": "Add text here",
+            "otc_value": "cross",
+            "otc_show_info": true,
+            "otc_tooltip_text": "Add text here"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "name": "Comparison Row",
+          "settings": {
+            "feature": "L-Carnitine Cell Support",
+            "mo_value": "check",
+            "mo_show_info": false,
+            "mo_tooltip_text": "Add text here",
+            "otc_value": "cross",
+            "otc_show_info": false,
+            "otc_tooltip_text": "Add text here"
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "name": "Comparison Row",
+          "settings": {
+            "feature": "pH Matched to Natural Tears",
+            "mo_value": "check",
+            "mo_show_info": false,
+            "mo_tooltip_text": "Add text here",
+            "otc_value": "cross",
+            "otc_show_info": true,
+            "otc_tooltip_text": "Add text here"
+          }
+        },
+        "row_5": {
+          "type": "row",
+          "name": "Comparison Row",
+          "settings": {
+            "feature": "Won't Blur Vision",
+            "mo_value": "check",
+            "mo_show_info": false,
+            "mo_tooltip_text": "Add text here",
+            "otc_value": "cross",
+            "otc_show_info": true,
+            "otc_tooltip_text": "Add text here"
+          }
+        },
+        "row_6": {
+          "type": "row",
+          "name": "Comparison Row",
+          "settings": {
+            "feature": "Designed for Daily Use",
+            "mo_value": "check",
+            "mo_show_info": false,
+            "mo_tooltip_text": "Add text here",
+            "otc_value": "cross",
+            "otc_show_info": true,
+            "otc_tooltip_text": "Add text here"
+          }
+        },
+        "row_7": {
+          "type": "row",
+          "name": "Comparison Row",
+          "settings": {
+            "feature": "Made for Digital-Age Eyes",
+            "mo_value": "check",
+            "mo_show_info": false,
+            "mo_tooltip_text": "Add text here",
+            "otc_value": "cross",
+            "otc_show_info": true,
+            "otc_tooltip_text": "Add text here"
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4",
+        "row_5",
+        "row_6",
+        "row_7"
+      ],
+      "name": "MO Comparison Table",
+      "settings": {
+        "eyebrow": "HOW WE COMPARE",
+        "heading": "Not all eye drops are equal",
+        "feature_column_label": "FEATURE",
+        "mo_column_label": "MOISTURE OYSTER",
+        "otc_column_label": "TYPICAL OTC DROP",
+        "background_color": "#0d1b14",
+        "mo_column_background": "#093d24",
+        "eyebrow_color": "#ffd5f7",
+        "heading_color": "#ffffff",
+        "label_color": "#ffffff",
+        "divider_color": "#ffffff1f",
+        "check_bg": "#ffffff",
+        "check_mark_color": "#093d24",
+        "cross_bg": "#12261c",
+        "cross_mark_color": "#5c7a6c",
+        "info_color": "#ffffff",
+        "vertical_padding": 40
+      }
     }
   },
   "order": [
     "main",
     "custom_trust_bar_mopdp1",
-    "custom_problem_agitation_iYrAeg"
+    "custom_problem_agitation_iYrAeg",
+    "custom_comparison_table_mopdp1"
   ]
 }

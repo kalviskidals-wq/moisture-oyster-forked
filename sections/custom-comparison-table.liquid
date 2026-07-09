@@ -1,0 +1,349 @@
+{%- # CUSTOM: net-new theme section — PDP "How We Compare" comparison table pitting Moisture Oyster against a generic "Typical OTC Drop" across clinical features, with optional per-cell explainer tooltips. Semantic <table> markup (th scope=col for column headers, th scope=row for each feature) so screen readers get real table semantics; the MO column's highlighted panel is achieved by giving the header cell + every body cell in that column a shared background with radius only on the outermost corners (top corners on the header cell, bottom corners on the last row's cell) — this reads as one continuous rounded panel without any absolutely-positioned decorative overlay, and works identically on mobile's 3-column layout. Tooltips reuse Horizon's native `anchored-popover-component` (already loaded site-wide via snippets/scripts.liquid) — no new JS asset was needed. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-compare rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign mo_column_label = s.mo_column_label | default: 'MOISTURE OYSTER'
+  assign otc_column_label = s.otc_column_label | default: 'TYPICAL OTC DROP'
+-%}
+
+<section
+  class="mo-compare"
+  id="MoCompare-{{ section.id }}"
+  style="
+    --mo-compare-bg: {{ s.background_color | default: '#0D1B14' }};
+    --mo-compare-mo-col-bg: {{ s.mo_column_background | default: '#093D24' }};
+    --mo-compare-eyebrow: {{ s.eyebrow_color | default: '#FFD5F7' }};
+    --mo-compare-heading: {{ s.heading_color | default: '#FFFFFF' }};
+    --mo-compare-label: {{ s.label_color | default: '#FFFFFF' }};
+    --mo-compare-divider: {{ s.divider_color | default: '#FFFFFF1F' }};
+    --mo-compare-check-bg: {{ s.check_bg | default: '#FFFFFF' }};
+    --mo-compare-check-mark: {{ s.check_mark_color | default: '#093D24' }};
+    --mo-compare-cross-bg: {{ s.cross_bg | default: '#12261C' }};
+    --mo-compare-cross-mark: {{ s.cross_mark_color | default: '#5C7A6C' }};
+    --mo-compare-info: {{ s.info_color | default: '#FFFFFF' }};
+    --mo-compare-padding-y: {{ s.vertical_padding | default: 40 }}px;
+  "
+>
+  <div class="mo-compare__inner">
+    {%- if s.eyebrow != blank -%}
+      <p class="mo-compare__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if s.heading != blank -%}
+      <h2 class="mo-compare__heading mo-h1">{{ s.heading | newline_to_br }}</h2>
+    {%- endif -%}
+
+    <div class="mo-compare__table-wrap">
+      <table class="mo-compare__table">
+        {%- if s.heading != blank -%}
+          <caption class="visually-hidden">{{ s.heading | strip_newlines }}</caption>
+        {%- endif -%}
+        <thead>
+          <tr>
+            <th scope="col" class="mo-compare__th mo-compare__th--feature">{{ s.feature_column_label | default: 'FEATURE' | escape }}</th>
+            <th scope="col" class="mo-compare__th mo-compare__th--mo">
+              {%- if s.mo_logo != blank -%}
+                {{
+                  s.mo_logo
+                  | image_url: width: 240
+                  | image_tag:
+                    width: s.mo_logo.width,
+                    height: s.mo_logo.height,
+                    alt: s.mo_logo.alt | default: mo_column_label,
+                    loading: 'lazy',
+                    class: 'mo-compare__logo'
+                }}
+              {%- else -%}
+                <span class="mo-compare__logo-text">{{ mo_column_label | escape }}</span>
+              {%- endif -%}
+            </th>
+            <th scope="col" class="mo-compare__th mo-compare__th--otc">{{ otc_column_label | escape }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'row' -%}
+                {%- liquid
+                  assign bs = block.settings
+                  assign row_id = 'MoCompareRow-' | append: section.id | append: '-' | append: block.id
+                  assign mo_state = 'No'
+                  if bs.mo_value == 'check'
+                    assign mo_state = 'Yes'
+                  endif
+                  assign otc_state = 'No'
+                  if bs.otc_value == 'check'
+                    assign otc_state = 'Yes'
+                  endif
+                  assign mo_aria = mo_column_label | append: ': ' | append: mo_state
+                  assign otc_aria = otc_column_label | append: ': ' | append: otc_state
+                  assign mo_tip_label = 'More info: ' | append: bs.feature | append: ', ' | append: mo_column_label
+                  assign otc_tip_label = 'More info: ' | append: bs.feature | append: ', ' | append: otc_column_label
+                -%}
+                {%- if bs.feature != blank -%}
+                  <tr {{ block.shopify_attributes }}>
+                    <th scope="row" class="mo-compare__feature">{{ bs.feature | escape }}</th>
+                    <td class="mo-compare__cell mo-compare__cell--mo">
+                      <span class="mo-compare__value">
+                        <span class="mo-compare__icon" role="img" aria-label="{{ mo_aria | escape }}">
+                          {%- render 'mo-compare-icons', icon: bs.mo_value -%}
+                        </span>
+                        {%- if bs.mo_show_info and bs.mo_tooltip_text != blank -%}
+                          {%- render 'mo-compare-tooltip', id: row_id | append: '-mo', text: bs.mo_tooltip_text, label: mo_tip_label -%}
+                        {%- endif -%}
+                      </span>
+                    </td>
+                    <td class="mo-compare__cell mo-compare__cell--otc">
+                      <span class="mo-compare__value">
+                        <span class="mo-compare__icon" role="img" aria-label="{{ otc_aria | escape }}">
+                          {%- render 'mo-compare-icons', icon: bs.otc_value -%}
+                        </span>
+                        {%- if bs.otc_show_info and bs.otc_tooltip_text != blank -%}
+                          {%- render 'mo-compare-tooltip', id: row_id | append: '-otc', text: bs.otc_tooltip_text, label: otc_tip_label -%}
+                        {%- endif -%}
+                      </span>
+                    </td>
+                  </tr>
+                {%- endif -%}
+            {%- endcase -%}
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Comparison Table",
+  "tag": "section",
+  "class": "mo-compare-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "HOW WE COMPARE"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Not all eye drops are equal"
+    },
+    {
+      "type": "header",
+      "content": "Columns"
+    },
+    {
+      "type": "text",
+      "id": "feature_column_label",
+      "label": "Feature column label",
+      "default": "FEATURE"
+    },
+    {
+      "type": "image_picker",
+      "id": "mo_logo",
+      "label": "Moisture Oyster column logo",
+      "info": "Shown instead of the text label below if set."
+    },
+    {
+      "type": "text",
+      "id": "mo_column_label",
+      "label": "Moisture Oyster column label",
+      "default": "MOISTURE OYSTER",
+      "info": "Shown only if no logo image is set above. Also used in accessible labels for the check/cross icons in this column."
+    },
+    {
+      "type": "text",
+      "id": "otc_column_label",
+      "label": "Comparison column label",
+      "default": "TYPICAL OTC DROP",
+      "info": "Kept generic — no competitor brand names (legal)."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#0D1B14"
+    },
+    {
+      "type": "color",
+      "id": "mo_column_background",
+      "label": "Moisture Oyster column highlight",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#FFD5F7",
+      "info": "VERIFY against Figma — estimated soft pink."
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Feature + column header label color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Row divider color",
+      "default": "#FFFFFF1F",
+      "info": "VERIFY against Figma — subtle light-green/white stroke."
+    },
+    {
+      "type": "color",
+      "id": "check_bg",
+      "label": "Check icon: circle fill",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "check_mark_color",
+      "label": "Check icon: mark color",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "cross_bg",
+      "label": "Cross icon: circle fill",
+      "default": "#12261C",
+      "info": "VERIFY against Figma — estimated muted dark circle."
+    },
+    {
+      "type": "color",
+      "id": "cross_mark_color",
+      "label": "Cross icon: mark color",
+      "default": "#5C7A6C",
+      "info": "VERIFY against Figma — estimated muted mark."
+    },
+    {
+      "type": "color",
+      "id": "info_color",
+      "label": "Info icon color",
+      "default": "#FFFFFF",
+      "info": "VERIFY — Figma brief suggests white or mint."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Section vertical padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Comparison Row",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Feature"
+        },
+        {
+          "type": "text",
+          "id": "feature",
+          "label": "Feature label",
+          "default": "Feature"
+        },
+        {
+          "type": "header",
+          "content": "Moisture Oyster"
+        },
+        {
+          "type": "select",
+          "id": "mo_value",
+          "label": "Moisture Oyster value",
+          "options": [
+            { "value": "check", "label": "Yes (check)" },
+            { "value": "cross", "label": "No (cross)" }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "checkbox",
+          "id": "mo_show_info",
+          "label": "Show info tooltip",
+          "default": false
+        },
+        {
+          "type": "textarea",
+          "id": "mo_tooltip_text",
+          "label": "Moisture Oyster tooltip text",
+          "default": "Add text here"
+        },
+        {
+          "type": "header",
+          "content": "Typical OTC Drop"
+        },
+        {
+          "type": "select",
+          "id": "otc_value",
+          "label": "Typical OTC Drop value",
+          "options": [
+            { "value": "check", "label": "Yes (check)" },
+            { "value": "cross", "label": "No (cross)" }
+          ],
+          "default": "cross"
+        },
+        {
+          "type": "checkbox",
+          "id": "otc_show_info",
+          "label": "Show info tooltip",
+          "default": false
+        },
+        {
+          "type": "textarea",
+          "id": "otc_tooltip_text",
+          "label": "Typical OTC Drop tooltip text",
+          "default": "Add text here"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Comparison Table",
+      "category": "Custom",
+      "blocks": [
+        { "type": "row", "settings": { "feature": "Preservative System", "mo_value": "check", "otc_value": "cross" } },
+        { "type": "row", "settings": { "feature": "Hydration Agents", "mo_value": "check", "otc_value": "cross" } },
+        { "type": "row", "settings": { "feature": "L-Carnitine Cell Support", "mo_value": "check", "otc_value": "cross" } },
+        { "type": "row", "settings": { "feature": "pH Matched to Natural Tears", "mo_value": "check", "otc_value": "cross" } },
+        { "type": "row", "settings": { "feature": "Won't Blur Vision", "mo_value": "check", "otc_value": "cross" } },
+        { "type": "row", "settings": { "feature": "Designed for Daily Use", "mo_value": "check", "otc_value": "cross" } },
+        { "type": "row", "settings": { "feature": "Made for Digital-Age Eyes", "mo_value": "check", "otc_value": "cross" } }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

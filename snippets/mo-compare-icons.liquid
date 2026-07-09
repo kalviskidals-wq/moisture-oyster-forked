@@ -1,0 +1,26 @@
+{%- # CUSTOM: net-new snippet — inline SVG icon set (check / cross / info) for the MO Comparison Table section. check/cross use solid circle fills (not ring-only like mo-benefit-icon) so they read as filled badges per the Figma reference; info reuses the ring-baked-in / currentColor convention already used by mo-benefit-icon.liquid and mo-factor-icon.liquid. All colors are driven by CSS custom properties set on the section, with hardcoded fallbacks. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # Params: icon (string: 'check' | 'cross' | 'info') -%}
+{%- liquid
+  assign icon = icon | default: 'check'
+-%}
+{%- case icon -%}
+  {%- when 'check' -%}
+    {%- # Filled circle + checkmark — affirmative value -%}
+    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="16" cy="16" r="16" fill="var(--mo-compare-check-bg, #ffffff)"/>
+      <path d="M9.5 16.8L13.6 20.9L22.5 11.5" stroke="var(--mo-compare-check-mark, #093d24)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  {%- when 'cross' -%}
+    {%- # Filled muted circle + x mark — negative value -%}
+    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="16" cy="16" r="16" fill="var(--mo-compare-cross-bg, #12261c)"/>
+      <path d="M12 12L20 20M20 12L12 20" stroke="var(--mo-compare-cross-mark, #5c7a6c)" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  {%- when 'info' -%}
+    {%- # Outlined ring + "i" glyph — tooltip trigger, ring baked in (currentColor) -%}
+    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="16" cy="16" r="14.5" stroke="currentColor" stroke-width="1.4"/>
+      <circle cx="16" cy="10.5" r="1.4" fill="currentColor"/>
+      <path d="M16 15V22" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+{%- endcase -%}

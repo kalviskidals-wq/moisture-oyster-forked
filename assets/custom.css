@@ -858,3 +858,276 @@ body {
     max-width: 420px;
   }
 }
+
+/* ============================================================================
+   CUSTOM: MO COMPARISON TABLE — sections/custom-comparison-table.liquid
+   "How We Compare" table: Moisture Oyster vs. a generic "Typical OTC Drop"
+   across clinical features, with optional per-cell info tooltips (native
+   Horizon anchored-popover-component — no custom JS). The Moisture Oyster
+   column's highlighted panel is a real <table> column: every cell in that
+   column shares one background color, with border-radius only on the header
+   cell's top corners and the last row's bottom corners, so it reads as one
+   continuous rounded panel. `border-spacing` (not padding/margin) creates the
+   gutter between columns, which is what lets each cell's background render as
+   an independent rounded box instead of one edge-to-edge fill.
+   Consumes mo-design-system.css tokens with hardcoded fallbacks so this still
+   renders if that file is ever removed. UPSTREAM risk LOW — net-new, no
+   Horizon file touched.
+   ============================================================================ */
+.mo-compare {
+  background: var(--mo-compare-bg, #0d1b14);
+  padding-block: var(--mo-compare-padding-y, 40px);
+}
+
+/* Reuses .mo-trust-bar__inner's exact max-width/margin-inline/padding-inline
+   rule (see the 2026-07-09 alignment-fix note above) so this section's
+   content column lines up with the trust bar / problem agitation sections
+   above it, rather than re-deriving the centering math independently. */
+.mo-compare__inner {
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: var(--page-margin, 16px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-compare__inner {
+    padding-inline: var(--page-margin, 40px);
+  }
+}
+
+.mo-compare__eyebrow {
+  color: var(--mo-compare-eyebrow, #ffd5f7);
+  margin: 0 0 var(--mo-space-4, 16px);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 1.1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mo-compare__heading {
+  color: var(--mo-compare-heading, #ffffff);
+  margin: 0 0 var(--mo-space-7, 32px);
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.mo-compare__table-wrap {
+  overflow-x: auto;
+}
+
+.mo-compare__table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: var(--mo-space-2, 8px) 0;
+}
+
+.mo-compare__th {
+  padding: 0 0 var(--mo-space-4, 16px);
+  text-align: left;
+  vertical-align: bottom;
+  color: var(--mo-compare-label, #ffffff);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mo-compare__th--feature {
+  width: 38%;
+}
+
+.mo-compare__th--mo {
+  width: 32%;
+  background: var(--mo-compare-mo-col-bg, #093d24);
+  border-top-left-radius: var(--mo-radius-md, 10px);
+  border-top-right-radius: var(--mo-radius-md, 10px);
+  padding: var(--mo-space-4, 16px);
+  text-align: center;
+}
+
+.mo-compare__th--otc {
+  width: 30%;
+}
+
+.mo-compare__logo {
+  display: inline-block;
+  max-width: 120px;
+  height: auto;
+}
+
+.mo-compare__logo-text {
+  color: var(--mo-pink, #f2a2ff);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
+.mo-compare__feature {
+  padding: var(--mo-space-4, 16px) var(--mo-space-2, 8px) var(--mo-space-4, 16px) 0;
+  text-align: left;
+  vertical-align: middle;
+  color: var(--mo-compare-label, #ffffff);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--mo-compare-divider, #ffffff1f);
+}
+
+.mo-compare__cell {
+  padding: var(--mo-space-4, 16px);
+  vertical-align: middle;
+  border-bottom: 1px solid var(--mo-compare-divider, #ffffff1f);
+}
+
+.mo-compare__cell--mo {
+  background: var(--mo-compare-mo-col-bg, #093d24);
+  border-bottom: none;
+}
+
+/* Only the last row's Moisture Oyster cell gets bottom radius, so the
+   highlighted column reads as one continuous rounded panel from the header
+   cell through every row. */
+tbody tr:last-child .mo-compare__cell--mo {
+  border-bottom-left-radius: var(--mo-radius-md, 10px);
+  border-bottom-right-radius: var(--mo-radius-md, 10px);
+}
+
+.mo-compare__value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mo-space-2, 8px);
+}
+
+.mo-compare__cell--mo,
+.mo-compare__cell--otc {
+  text-align: center;
+}
+
+.mo-compare__icon {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.mo-compare__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.mo-compare__tooltip {
+  position: relative;
+  display: inline-flex;
+}
+
+.mo-compare__tooltip-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--mo-compare-info, #ffffff);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.mo-compare__tooltip-trigger svg {
+  width: 100%;
+  height: 100%;
+}
+
+.mo-compare__tooltip-popover {
+  --mo-compare-tooltip-max-width: 260px;
+  --mo-compare-tooltip-spacing: 8px;
+  --mo-compare-tooltip-viewport-margin: 16px;
+
+  min-inline-size: 180px;
+  max-inline-size: var(--mo-compare-tooltip-max-width);
+  padding: var(--mo-space-3, 12px) var(--mo-space-4, 16px);
+  margin: 0;
+  color: var(--mo-white, #ffffff);
+  background: var(--mo-deep-green, #093d24);
+  border: 1px solid var(--mo-compare-divider, #ffffff1f);
+  border-radius: var(--mo-radius-sm, 6px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
+  opacity: 0;
+  transition-property: display, opacity, translate;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+  translate: 0 8px;
+}
+
+.mo-compare__tooltip-popover {
+  inset: unset;
+  top: calc(anchor(bottom) + var(--mo-compare-tooltip-spacing));
+  left: max(
+    var(--mo-compare-tooltip-viewport-margin),
+    min(anchor(center), calc(100vw - var(--mo-compare-tooltip-max-width) - var(--mo-compare-tooltip-viewport-margin)))
+  );
+}
+
+@supports not (position-anchor: --mo-compare-trigger) {
+  .mo-compare__tooltip-popover {
+    position: fixed;
+    top: calc(var(--anchor-bottom) * 1px + var(--mo-compare-tooltip-spacing));
+    left: max(
+      var(--mo-compare-tooltip-viewport-margin),
+      min(
+        var(--anchor-left) * 1px,
+        100vw - var(--mo-compare-tooltip-max-width) - var(--mo-compare-tooltip-viewport-margin)
+      )
+    );
+  }
+}
+
+.mo-compare__tooltip-popover:popover-open {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@starting-style {
+  .mo-compare__tooltip-popover:popover-open {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+
+.mo-compare__tooltip-text {
+  margin: 0;
+  font-family: var(--mo-font-body, 'Inter', sans-serif);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-compare__heading {
+    font-size: 40px;
+  }
+
+  .mo-compare__th {
+    font-size: 12px;
+  }
+
+  .mo-compare__feature {
+    font-size: 14px;
+  }
+
+  .mo-compare__icon {
+    width: 32px;
+    height: 32px;
+  }
+}

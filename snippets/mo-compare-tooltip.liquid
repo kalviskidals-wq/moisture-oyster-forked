@@ -1,0 +1,56 @@
+{% doc %}
+  Renders a small outlined "i" info-icon trigger + tap-toggle tooltip popover for
+  the MO Comparison Table. Reuses Horizon's native `anchored-popover-component`
+  (already loaded site-wide via snippets/scripts.liquid — no new JS asset needed).
+  The underlying `popover` attribute is native browser behavior (HTML Popover API),
+  so tap/click-to-toggle, ESC-to-close, and outside-click-to-close all work without
+  any custom JS; `anchored-popover-component` only adds position-calculation glue
+  for browsers without native CSS anchor positioning. A `title` attribute on the
+  trigger is included as a defensive fallback for browsers without Popover API
+  support, so the text is still reachable (native hover tooltip).
+
+  @param {string} id - Unique id for this tooltip instance (must be unique per page)
+  @param {string} text - Tooltip body text
+  @param {string} [label] - Accessible label for the trigger button (defaults to "More information")
+
+  @example
+  {% render 'mo-compare-tooltip', id: 'MoCompareTip-abc-mo', text: block.settings.mo_tooltip_text, label: 'More info: Preservative System, Moisture Oyster' %}
+{% enddoc %}
+
+{%- liquid
+  assign id = id | default: 'MoCompareTip'
+  assign text = text | default: blank
+  assign label = label | default: 'More information'
+-%}
+
+{%- if text != blank -%}
+  {%- liquid
+    assign popover_id = id | append: '-popover'
+    assign anchor_name = '--' | append: id | append: '-trigger'
+  -%}
+  <anchored-popover-component data-hover-triggered="true" class="mo-compare__tooltip" id="{{ id }}-anchor">
+    <button
+      type="button"
+      class="mo-compare__tooltip-trigger"
+      aria-label="{{ label | escape }}"
+      aria-haspopup="true"
+      title="{{ text | escape }}"
+      ref="trigger"
+      popovertarget="{{ popover_id }}"
+      style="anchor-name: {{ anchor_name }};"
+    >
+      {%- render 'mo-compare-icons', icon: 'info' -%}
+    </button>
+
+    <div
+      id="{{ popover_id }}"
+      class="mo-compare__tooltip-popover"
+      ref="popover"
+      popover="auto"
+      role="tooltip"
+      style="position-anchor: {{ anchor_name }};"
+    >
+      <p class="mo-compare__tooltip-text">{{ text | escape }}</p>
+    </div>
+  </anchored-popover-component>
+{%- endif -%}
