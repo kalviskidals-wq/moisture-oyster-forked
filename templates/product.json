@@ -189,7 +189,7 @@
                   "type": "product-description",
                   "name": "t:names.product_description",
                   "settings": {
-                    "text": "{{ closest.product.description }}",
+                    "text": "<p>{{ closest.product.description }}</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -252,7 +252,7 @@
                   "type": "buy-buttons",
                   "name": "t:names.product_buy_buttons",
                   "settings": {
-                    "stacking": false,
+                    "stacking": true,
                     "text_color": "",
                     "show_pickup_availability": false,
                     "gift_card_form": false,
