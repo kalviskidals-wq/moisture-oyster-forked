@@ -2020,3 +2020,232 @@ tbody tr:last-child .mo-compare__cell {
 .mo-science__badge-text {
   color: var(--mo-science-badge-text, #ffffff);
 }
+
+/* ============================================================================
+   MO REVIEWS — sections/custom-reviews.liquid
+   Aggregate header + tag-filter pills + horizontal-scroll review cards
+   (desktop 3-up, mobile 1-up). Filtering is powered by assets/mo-review-filter.js;
+   this file only handles layout/visuals — .mo-reviews__card[hidden] (set by the
+   JS) uses the browser's native hidden behavior, no extra CSS needed for it.
+   ============================================================================ */
+.mo-reviews {
+  background: var(--mo-reviews-bg, #093d24);
+  padding-block: var(--mo-reviews-padding-y, 64px);
+}
+
+/* Reuses the trust bar / problem agitation / comparison table / ingredient
+   transparency / how-to-use section's exact max-width/margin-inline/padding-inline
+   rule (see the 2026-07-09 alignment-fix note above) so this section's content
+   column lines up with its neighbors. */
+.mo-reviews__inner {
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-reviews__inner {
+    padding-inline: var(--page-margin, 40px);
+  }
+}
+
+/* ---------- Aggregate header ---------- */
+.mo-reviews__header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--mo-space-5, 20px);
+  margin-bottom: var(--mo-space-6, 24px);
+}
+
+.mo-reviews__rating-number {
+  color: var(--mo-reviews-rating, #f2a2ff);
+  line-height: 1;
+  margin: 0;
+}
+
+.mo-reviews__rating-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-2, 8px);
+  color: var(--mo-reviews-header-star, #f2a2ff);
+}
+
+.mo-reviews__count-link {
+  color: var(--mo-reviews-count-link, #ffffff);
+  text-decoration: underline;
+  width: fit-content;
+}
+
+/* ---------- Star rating (snippets/mo-stars.liquid) ----------
+   Sized generically here (only consumer today is this section); color comes
+   from the wrapping element's `color` via SVG fill="currentColor". */
+.mo-stars {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.mo-stars__star {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.mo-stars__star--empty {
+  opacity: 0.3;
+}
+
+.mo-reviews__rating-meta .mo-stars__star {
+  width: 20px;
+  height: 20px;
+}
+
+/* ---------- Filter pills ---------- */
+.mo-reviews__filters {
+  display: flex;
+  gap: var(--mo-space-3, 12px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: var(--mo-space-2, 8px);
+  margin-bottom: var(--mo-space-6, 24px);
+}
+
+.mo-reviews__filters::-webkit-scrollbar {
+  display: none;
+}
+
+.mo-reviews__filter-pill {
+  flex: 0 0 auto;
+  font-family: var(--mo-font-mono);
+  font-size: var(--mo-tag-lg-size, 0.875rem);
+  font-weight: var(--mo-tag-lg-weight, 500);
+  letter-spacing: var(--mo-tag-lg-ls, 0.1em);
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: transparent;
+  border: 1px solid var(--mo-reviews-pill-border, #1fa567);
+  color: var(--mo-reviews-pill-text, #1fa567);
+  border-radius: var(--mo-radius-pill, 999px);
+  padding: var(--mo-space-2, 8px) var(--mo-space-4, 16px);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.mo-reviews__filter-pill:hover:not(.is-active) {
+  background: color-mix(in srgb, var(--mo-reviews-pill-border, #1fa567) 12%, transparent);
+}
+
+.mo-reviews__filter-pill.is-active {
+  background: var(--mo-reviews-pill-active-bg, #1fa567);
+  border-color: var(--mo-reviews-pill-active-bg, #1fa567);
+  color: var(--mo-reviews-pill-active-text, #ffffff);
+}
+
+/* ---------- Review cards: mobile 1-up / desktop 3-up scroll-snap carousel ----------
+   Same bleed-to-edge + hidden-scrollbar technique as .mo-howto__steps. */
+.mo-reviews__scroller {
+  display: flex;
+  gap: var(--mo-space-4, 16px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin-inline: calc(var(--mo-space-5, 20px) * -1);
+  padding-inline: var(--mo-space-5, 20px);
+  padding-block-end: var(--mo-space-2, 8px);
+}
+
+.mo-reviews__scroller::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-reviews__scroller {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
+
+.mo-reviews__card {
+  flex: 0 0 85vw;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-5, 20px);
+  background: var(--mo-reviews-card-bg, #ffffff);
+  border-radius: var(--mo-reviews-card-radius, 20px);
+  padding: var(--mo-space-6, 24px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-reviews__card {
+    flex: 0 0 calc((100% - 2 * var(--mo-space-4, 16px)) / 3);
+  }
+}
+
+.mo-reviews__card-head {
+  text-align: center;
+}
+
+.mo-reviews__name,
+.mo-reviews__location {
+  margin: 0;
+  color: var(--mo-reviews-name, #093d24);
+}
+
+.mo-reviews__meta {
+  text-align: center;
+  margin: 0;
+  color: var(--mo-reviews-meta, #093d24);
+  opacity: 0.7;
+}
+
+.mo-reviews__pro-badge {
+  align-self: center;
+  font-family: var(--mo-font-mono);
+  font-size: var(--mo-tag-sm-size, 0.625rem);
+  font-weight: var(--mo-tag-sm-weight, 500);
+  letter-spacing: var(--mo-tag-sm-ls, 0.1em);
+  text-transform: uppercase;
+  background: var(--mo-reviews-pro-bg, #b8f3d8);
+  color: var(--mo-reviews-pro-text, #093d24);
+  padding: var(--mo-space-1, 6px) var(--mo-space-4, 16px);
+  border-radius: var(--mo-radius-pill, 999px);
+}
+
+.mo-reviews__photo {
+  border-radius: var(--mo-radius-md, 10px);
+  overflow: hidden;
+  aspect-ratio: 4 / 2.8;
+}
+
+.mo-reviews__photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mo-reviews__rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mo-space-2, 8px);
+}
+
+.mo-reviews__rating-value {
+  margin: 0;
+  color: var(--mo-reviews-rating-value, #093d24);
+}
+
+.mo-reviews__rating .mo-stars {
+  color: var(--mo-reviews-card-star, #093d24);
+}
+
+.mo-reviews__quote {
+  margin: 0;
+  text-align: left;
+  color: var(--mo-reviews-quote, #093d24);
+}

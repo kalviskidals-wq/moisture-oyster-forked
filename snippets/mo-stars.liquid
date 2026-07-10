@@ -1,0 +1,13 @@
+{%- # CUSTOM: net-new snippet — renders a row of 5 star SVGs (solid fill up to the rounded rating, dimmed beyond it) for sections/custom-reviews.liquid. Used both by the aggregate header (larger) and by mo-review-card.liquid (smaller) — size/color are controlled entirely by the parent's font-size/color via em-sized SVGs and currentColor, so no extra params are needed for that. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # Params: rating (number, e.g. 4.9 or 5), label (optional accessible label override) -%}
+{%- liquid
+  assign filled = rating | round
+  assign star_label = label | default: rating | append: ' out of 5 stars'
+-%}
+<span class="mo-stars" role="img" aria-label="{{ star_label }}">
+  {%- for i in (1..5) -%}
+    <svg class="mo-stars__star{% if i > filled %} mo-stars__star--empty{% endif %}" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 1.2L9.9 5.7L14.8 6.2L11.1 9.5L12.1 14.4L8 11.9L3.9 14.4L4.9 9.5L1.2 6.2L6.1 5.7L8 1.2Z" fill="currentColor"/>
+    </svg>
+  {%- endfor -%}
+</span>

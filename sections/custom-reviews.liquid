@@ -1,0 +1,425 @@
+{%- # CUSTOM: net-new theme section — PDP "Reviews" credibility block: a custom, manually-curated reviews section (no third-party review app) providing peer validation with filterable, use-case-tagged testimonials. Placeholder social proof until a real reviews app/data source is adopted (see [[moisture-oyster-project]] memory — this section can be swapped or fed real data later). UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-reviews rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mo-review-filter.js' | asset_url }}" type="module"></script>
+
+{%- liquid
+  assign s = section.settings
+  assign rating_number = s.rating_number | default: '4.9'
+  assign rating_stars = s.rating_stars | default: 5
+-%}
+
+<section
+  class="mo-reviews"
+  id="MoReviews-{{ section.id }}"
+  style="
+    --mo-reviews-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-reviews-rating: {{ s.rating_color | default: '#F2A2FF' }};
+    --mo-reviews-header-star: {{ s.header_star_color | default: '#F2A2FF' }};
+    --mo-reviews-count-link: {{ s.count_link_color | default: '#FFFFFF' }};
+    --mo-reviews-pill-border: {{ s.filter_border_color | default: '#1FA567' }};
+    --mo-reviews-pill-text: {{ s.filter_text_color | default: '#1FA567' }};
+    --mo-reviews-pill-active-bg: {{ s.filter_active_bg | default: '#1FA567' }};
+    --mo-reviews-pill-active-text: {{ s.filter_active_text | default: '#FFFFFF' }};
+    --mo-reviews-card-bg: {{ s.card_background_color | default: '#FFFFFF' }};
+    --mo-reviews-card-radius: {{ s.card_radius | default: 20 }}px;
+    --mo-reviews-name: {{ s.name_color | default: '#093D24' }};
+    --mo-reviews-meta: {{ s.meta_color | default: '#093D24' }};
+    --mo-reviews-pro-bg: {{ s.pro_badge_background | default: '#B8F3D8' }};
+    --mo-reviews-pro-text: {{ s.pro_badge_text | default: '#093D24' }};
+    --mo-reviews-card-star: {{ s.card_star_color | default: '#093D24' }};
+    --mo-reviews-rating-value: {{ s.rating_value_color | default: '#093D24' }};
+    --mo-reviews-quote: {{ s.quote_color | default: '#093D24' }};
+    --mo-reviews-padding-y: {{ s.vertical_padding | default: 64 }}px;
+  "
+>
+  <div class="mo-reviews__inner">
+    <div class="mo-reviews__header">
+      <span class="mo-reviews__rating-number mo-h1">{{ rating_number }}</span>
+      <div class="mo-reviews__rating-meta">
+        {%- render 'mo-stars', rating: rating_stars -%}
+        {%- if s.review_count_text != blank -%}
+          <a
+            {% if s.reviews_link != blank %}
+              href="{{ s.reviews_link }}"
+            {% else %}
+              href="#MoReviews-{{ section.id }}"
+            {% endif %}
+            class="mo-reviews__count-link mo-tag"
+          >{{ s.review_count_text | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <mo-review-filter class="mo-reviews__filter-root">
+      {%- liquid
+        assign has_filters = false
+        for block in section.blocks
+          if block.type == 'filter'
+            assign has_filters = true
+          endif
+        endfor
+      -%}
+      {%- if has_filters -%}
+        <div class="mo-reviews__filters" data-mo-reviews-filters role="group" aria-label="{{ s.filter_group_label | default: 'Filter reviews' | escape }}" hidden>
+          <button type="button" class="mo-reviews__filter-pill is-active" data-filter="all" aria-pressed="true">{{ s.all_filter_label | default: 'All' | escape }}</button>
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'filter' -%}
+              {%- liquid
+                assign fs = block.settings
+                assign tag_key = fs.tag_key | strip | downcase | remove: ' '
+              -%}
+              {%- if fs.label != blank and tag_key != blank -%}
+                <button type="button" class="mo-reviews__filter-pill" data-filter="{{ tag_key }}" aria-pressed="false" {{ block.shopify_attributes }}>{{ fs.label | escape }}</button>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="mo-reviews__scroller" tabindex="0" aria-label="{{ s.heading | default: 'Customer reviews' | escape }}">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'review' -%}
+            {%- render 'mo-review-card', block: block -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </mo-review-filter>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Reviews",
+  "tag": "section",
+  "class": "mo-reviews-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Aggregate rating"
+    },
+    {
+      "type": "text",
+      "id": "rating_number",
+      "label": "Rating number",
+      "default": "4.9"
+    },
+    {
+      "type": "range",
+      "id": "rating_stars",
+      "label": "Header stars (rounds to nearest star)",
+      "min": 0,
+      "max": 5,
+      "step": 0.1,
+      "default": 4.9
+    },
+    {
+      "type": "text",
+      "id": "review_count_text",
+      "label": "Review count text",
+      "default": "580+ Verified Reviews"
+    },
+    {
+      "type": "url",
+      "id": "reviews_link",
+      "label": "Review count link",
+      "info": "Leave blank to link to this section (e.g. once a full reviews page/app exists)."
+    },
+    {
+      "type": "text",
+      "id": "all_filter_label",
+      "label": "\"All\" filter label",
+      "default": "All"
+    },
+    {
+      "type": "text",
+      "id": "filter_group_label",
+      "label": "Filter group accessible label",
+      "default": "Filter reviews"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Section vertical padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "rating_color",
+      "label": "Rating number color",
+      "default": "#F2A2FF"
+    },
+    {
+      "type": "color",
+      "id": "header_star_color",
+      "label": "Header star color",
+      "default": "#F2A2FF"
+    },
+    {
+      "type": "color",
+      "id": "count_link_color",
+      "label": "Review count link color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "filter_border_color",
+      "label": "Filter pill border/text (unselected)",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "filter_text_color",
+      "label": "Filter pill text (unselected)",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "filter_active_bg",
+      "label": "Filter pill background (selected)",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "filter_active_text",
+      "label": "Filter pill text (selected)",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "name_color",
+      "label": "Name / location color",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "meta_color",
+      "label": "\"Verified subscriber\" meta color",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "pro_badge_background",
+      "label": "Pro badge background",
+      "default": "#B8F3D8"
+    },
+    {
+      "type": "color",
+      "id": "pro_badge_text",
+      "label": "Pro badge text",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "card_star_color",
+      "label": "Card star color",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "rating_value_color",
+      "label": "Card rating value color (e.g. \"5.0\")",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Quote text color",
+      "default": "#093D24"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "filter",
+      "name": "Filter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Pill label",
+          "default": "Verified"
+        },
+        {
+          "type": "text",
+          "id": "tag_key",
+          "label": "Tag key",
+          "info": "Lowercase, no spaces (e.g. lens_wearer). Must match a review's Tags field exactly to filter it in.",
+          "default": "verified"
+        }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Reviewer"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Sarah M."
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "New York, NY"
+        },
+        {
+          "type": "select",
+          "id": "meta_type",
+          "label": "Reviewer type",
+          "options": [
+            { "value": "subscriber", "label": "Verified Subscriber (mono meta line)" },
+            { "value": "professional", "label": "Verified Eye Care Professional (mint badge)" }
+          ],
+          "default": "subscriber"
+        },
+        {
+          "type": "text",
+          "id": "duration",
+          "label": "Subscriber duration",
+          "info": "Only shown for \"Verified Subscriber\" type (e.g. \"3 months\").",
+          "default": "3 months"
+        },
+        {
+          "type": "header",
+          "content": "Review"
+        },
+        {
+          "type": "image_picker",
+          "id": "photo",
+          "label": "Photo",
+          "info": "Optional. Automatically tags this review \"has_photos\" for filtering when set."
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 0.5,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "Add review quote here"
+        },
+        {
+          "type": "text",
+          "id": "tags",
+          "label": "Tags",
+          "info": "Comma-separated, must match filter block Tag Key values exactly (e.g. verified,lens_wearer).",
+          "default": "verified"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Reviews",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "filter",
+          "settings": { "label": "Verified", "tag_key": "verified" }
+        },
+        {
+          "type": "filter",
+          "settings": { "label": "Most Helpful", "tag_key": "most_helpful" }
+        },
+        {
+          "type": "filter",
+          "settings": { "label": "Lens Wearer", "tag_key": "lens_wearer" }
+        },
+        {
+          "type": "filter",
+          "settings": { "label": "Screen Worker", "tag_key": "screen_worker" }
+        },
+        {
+          "type": "filter",
+          "settings": { "label": "Has Photos", "tag_key": "has_photos" }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Sarah M.",
+            "location": "New York, NY",
+            "meta_type": "subscriber",
+            "duration": "3 months",
+            "rating": 5,
+            "quote": "Finally, eye drops I actually enjoy using. The case makes it so easy to keep in my bag — and my eyes feel genuinely better after two weeks.",
+            "tags": "verified,lens_wearer"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Dr. James K.",
+            "location": "Chicago, IL",
+            "meta_type": "professional",
+            "rating": 5,
+            "quote": "As an optometrist I'm selective about what I recommend. Preservative-free, pH-correct — the case gets patients to actually use it consistently.",
+            "tags": "verified,most_helpful"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Priya L.",
+            "location": "Austin, TX",
+            "meta_type": "subscriber",
+            "duration": "5 months",
+            "rating": 5,
+            "quote": "My optometrist recommended these and they've changed my daily routine. Elegant packaging, serious formula. I'm a subscriber for life.",
+            "tags": "verified,screen_worker,most_helpful"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

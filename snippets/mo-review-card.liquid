@@ -1,0 +1,52 @@
+{%- # CUSTOM: net-new snippet — renders one review card for sections/custom-reviews.liquid's horizontal-scroll list. Computes the card's data-tags attribute (merchant-entered comma tags + an auto "has_photos" tag when a photo is set) which assets/mo-review-filter.js reads to decide visibility per active filter pill. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # Params: block (a section.blocks entry of type 'review') -%}
+{%- liquid
+  assign bs = block.settings
+  assign tags_final = bs.tags | strip | downcase | remove: ' '
+  if bs.photo != blank
+    assign tags_final = tags_final | append: ',has_photos'
+  endif
+  assign tags_final = tags_final | split: ',' | join: ','
+  assign rating_display = bs.rating | round: 1
+-%}
+<article class="mo-reviews__card" data-tags="{{ tags_final }}" {{ block.shopify_attributes }}>
+  <div class="mo-reviews__card-head">
+    {%- if bs.name != blank -%}
+      <h3 class="mo-reviews__name mo-h4">{{ bs.name | escape }}</h3>
+    {%- endif -%}
+    {%- if bs.location != blank -%}
+      <p class="mo-reviews__location mo-h4">{{ bs.location | escape }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- if bs.meta_type == 'professional' -%}
+    <span class="mo-reviews__pro-badge mo-tag--sm">VERIFIED EYE CARE PROFESSIONAL</span>
+  {%- else -%}
+    <p class="mo-reviews__meta mo-tag--sm">
+      VERIFIED SUBSCRIBER{% if bs.duration != blank %} · {{ bs.duration | escape | upcase }}{% endif %}
+    </p>
+  {%- endif -%}
+
+  {%- if bs.photo != blank -%}
+    <div class="mo-reviews__photo">
+      {{
+        bs.photo
+        | image_url: width: 800
+        | image_tag:
+          widths: '400, 600, 800',
+          loading: 'lazy',
+          alt: bs.photo.alt | default: bs.name,
+          class: 'mo-reviews__photo-img'
+      }}
+    </div>
+  {%- endif -%}
+
+  <div class="mo-reviews__rating">
+    <span class="mo-reviews__rating-value mo-h5">{{ rating_display }}</span>
+    {%- render 'mo-stars', rating: bs.rating -%}
+  </div>
+
+  {%- if bs.quote != blank -%}
+    <p class="mo-reviews__quote mo-body-lg">&ldquo;{{ bs.quote | escape }}&rdquo;</p>
+  {%- endif -%}
+</article>

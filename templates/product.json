@@ -1124,6 +1124,126 @@
         "badge_text_color": "#ffffff",
         "badge_check_color": "#ffd5f7"
       }
+    },
+    "custom_reviews_mopdp1": {
+      "type": "custom-reviews",
+      "blocks": {
+        "filter_1": {
+          "type": "filter",
+          "name": "Filter",
+          "settings": {
+            "label": "Verified",
+            "tag_key": "verified"
+          }
+        },
+        "filter_2": {
+          "type": "filter",
+          "name": "Filter",
+          "settings": {
+            "label": "Most Helpful",
+            "tag_key": "most_helpful"
+          }
+        },
+        "filter_3": {
+          "type": "filter",
+          "name": "Filter",
+          "settings": {
+            "label": "Lens Wearer",
+            "tag_key": "lens_wearer"
+          }
+        },
+        "filter_4": {
+          "type": "filter",
+          "name": "Filter",
+          "settings": {
+            "label": "Screen Worker",
+            "tag_key": "screen_worker"
+          }
+        },
+        "filter_5": {
+          "type": "filter",
+          "name": "Filter",
+          "settings": {
+            "label": "Has Photos",
+            "tag_key": "has_photos"
+          }
+        },
+        "review_1": {
+          "type": "review",
+          "name": "Review",
+          "settings": {
+            "name": "Sarah M.",
+            "location": "New York, NY",
+            "meta_type": "subscriber",
+            "duration": "3 months",
+            "rating": 5,
+            "quote": "Finally, eye drops I actually enjoy using. The case makes it so easy to keep in my bag — and my eyes feel genuinely better after two weeks.",
+            "tags": "verified,lens_wearer"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "name": "Review",
+          "settings": {
+            "name": "Dr. James K.",
+            "location": "Chicago, IL",
+            "meta_type": "professional",
+            "rating": 5,
+            "quote": "As an optometrist I'm selective about what I recommend. Preservative-free, pH-correct — the case gets patients to actually use it consistently.",
+            "tags": "verified,most_helpful"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "name": "Review",
+          "settings": {
+            "name": "Priya L.",
+            "location": "Austin, TX",
+            "meta_type": "subscriber",
+            "duration": "5 months",
+            "rating": 5,
+            "quote": "My optometrist recommended these and they've changed my daily routine. Elegant packaging, serious formula. I'm a subscriber for life.",
+            "tags": "verified,screen_worker,most_helpful"
+          }
+        }
+      },
+      "block_order": [
+        "filter_1",
+        "filter_2",
+        "filter_3",
+        "filter_4",
+        "filter_5",
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "name": "MO Reviews",
+      "settings": {
+        "rating_number": "4.9",
+        "rating_stars": 4.9,
+        "review_count_text": "580+ Verified Reviews",
+        "reviews_link": "",
+        "all_filter_label": "All",
+        "filter_group_label": "Filter reviews",
+        "card_radius": 20,
+        "vertical_padding": 64,
+        "background_color": "#093d24",
+        "rating_color": "#f2a2ff",
+        "header_star_color": "#f2a2ff",
+        "count_link_color": "#ffffff",
+        "filter_border_color": "#1fa567",
+        "filter_text_color": "#1fa567",
+        "filter_active_bg": "#1fa567",
+        "filter_active_text": "#ffffff",
+        "card_background_color": "#ffffff",
+        "name_color": "#093d24",
+        "meta_color": "#093d24",
+        "pro_badge_background": "#b8f3d8",
+        "pro_badge_text": "#093d24",
+        "card_star_color": "#093d24",
+        "rating_value_color": "#093d24",
+        "quote_color": "#093d24"
+      }
     }
   },
   "order": [
@@ -1133,6 +1253,7 @@
     "custom_comparison_table_mopdp1",
     "custom_ingredient_transparency_mopdp1",
     "custom_how_to_use_8X9BU3",
-    "custom_clinical_science_mopdp1"
+    "custom_clinical_science_mopdp1",
+    "custom_reviews_mopdp1"
   ]
 }
