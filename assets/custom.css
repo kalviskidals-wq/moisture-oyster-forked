@@ -2179,7 +2179,12 @@ mo-review-filter {
 }
 
 .mo-reviews__card {
-  flex: 0 0 85vw;
+  /* Sized relative to the (now unbled) scroll container's own width, not the
+     viewport, so the leftover space reliably shows a peek of the next card —
+     a straight 85vw basis left ~0px of peek once the container itself was
+     already inset by .mo-reviews__inner's padding on both sides. The 56px
+     subtracted leaves ~40px of peek (56px minus the 16px gap before it). */
+  flex: 0 0 calc(100% - 56px);
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
