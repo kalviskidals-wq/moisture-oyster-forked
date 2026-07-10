@@ -2100,6 +2100,15 @@ tbody tr:last-child .mo-compare__cell {
   height: 20px;
 }
 
+/* Custom elements default to `display: inline` with no CSS rule of their own,
+   which breaks the negative-margin bleed math below (it needs a normal
+   block-level parent, same as the plain <div> wrapper mo-howto__steps sits
+   in) — first review card was rendering flush to the viewport edge instead
+   of matching the section's left inset because of this. */
+mo-review-filter {
+  display: block;
+}
+
 /* ---------- Filter pills ---------- */
 .mo-reviews__filters {
   display: flex;
