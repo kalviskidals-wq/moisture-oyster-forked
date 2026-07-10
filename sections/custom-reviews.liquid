@@ -81,7 +81,18 @@
       <div class="mo-reviews__scroller" tabindex="0" aria-label="{{ s.heading | default: 'Customer reviews' | escape }}">
         {%- for block in section.blocks -%}
           {%- if block.type == 'review' -%}
-            {%- render 'mo-review-card', block: block -%}
+            {%- # CUSTOM: mo-review-card.liquid takes explicit named params (not a block/settings bundle) so it can also be called from custom-subscribe-benefits.liquid's plain section settings — see that snippet's header comment. -%}
+            {%- render 'mo-review-card',
+              name: block.settings.name,
+              location: block.settings.location,
+              meta_type: block.settings.meta_type,
+              duration: block.settings.duration,
+              photo: block.settings.photo,
+              rating: block.settings.rating,
+              quote: block.settings.quote,
+              tags: block.settings.tags,
+              shopify_attributes: block.shopify_attributes
+            -%}
           {%- endif -%}
         {%- endfor -%}
       </div>

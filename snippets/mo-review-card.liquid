@@ -1,41 +1,44 @@
-{%- # CUSTOM: net-new snippet — renders one review card for sections/custom-reviews.liquid's horizontal-scroll list. Computes the card's data-tags attribute (merchant-entered comma tags + an auto "has_photos" tag when a photo is set) which assets/mo-review-filter.js reads to decide visibility per active filter pill. UPSTREAM risk LOW — no Horizon file touched. -%}
-{%- # Params: block (a section.blocks entry of type 'review') -%}
+{%- # CUSTOM: net-new snippet — renders one review card. Accepts explicit named params (not a bundled settings/block object) so it can be called either from a repeatable block (sections/custom-reviews.liquid) or from plain section settings (sections/custom-subscribe-benefits.liquid's single testimonial) without needing matching field ids in both places. Computes the card's data-tags attribute (merchant-entered comma tags + an auto "has_photos" tag when a photo is set) which assets/mo-review-filter.js reads to decide visibility per active filter pill. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # Params: name, location, meta_type ('subscriber' or 'professional'), duration, photo, rating, quote, tags (comma-separated string), shopify_attributes (optional, pass block.shopify_attributes when rendering from a block), badge_style (optional: 'auto' [default] shows a mint pill only for meta_type 'professional' and mono meta text for 'subscriber'; 'pill' always renders a mint pill, used by custom-subscribe-benefits.liquid per its Figma reference) -%}
 {%- liquid
-  assign bs = block.settings
-  assign tags_final = bs.tags | strip | downcase | remove: ' '
-  if bs.photo != blank
+  assign shopify_attributes = shopify_attributes | default: ''
+  assign badge_style = badge_style | default: 'auto'
+  assign tags_final = tags | strip | downcase | remove: ' '
+  if photo != blank
     assign tags_final = tags_final | append: ',has_photos'
   endif
   assign tags_final = tags_final | split: ',' | join: ','
-  assign rating_display = bs.rating | round: 1
+  assign rating_display = rating | round: 1
 -%}
-<article class="mo-reviews__card" data-tags="{{ tags_final }}" {{ block.shopify_attributes }}>
+<article class="mo-reviews__card" data-tags="{{ tags_final }}" {{ shopify_attributes }}>
   <div class="mo-reviews__card-head">
-    {%- if bs.name != blank -%}
-      <h3 class="mo-reviews__name mo-h4">{{ bs.name | escape }}</h3>
+    {%- if name != blank -%}
+      <h3 class="mo-reviews__name mo-h4">{{ name | escape }}</h3>
     {%- endif -%}
-    {%- if bs.location != blank -%}
-      <p class="mo-reviews__location mo-h4">{{ bs.location | escape }}</p>
+    {%- if location != blank -%}
+      <p class="mo-reviews__location mo-h4">{{ location | escape }}</p>
     {%- endif -%}
   </div>
 
-  {%- if bs.meta_type == 'professional' -%}
+  {%- if meta_type == 'professional' -%}
     <span class="mo-reviews__pro-badge mo-tag--sm">VERIFIED EYE CARE PROFESSIONAL</span>
+  {%- elsif badge_style == 'pill' -%}
+    <span class="mo-reviews__pro-badge mo-tag--sm">VERIFIED SUBSCRIBER</span>
   {%- else -%}
     <p class="mo-reviews__meta mo-tag--sm">
-      VERIFIED SUBSCRIBER{% if bs.duration != blank %} · {{ bs.duration | escape | upcase }}{% endif %}
+      VERIFIED SUBSCRIBER{% if duration != blank %} · {{ duration | escape | upcase }}{% endif %}
     </p>
   {%- endif -%}
 
-  {%- if bs.photo != blank -%}
+  {%- if photo != blank -%}
     <div class="mo-reviews__photo">
       {{
-        bs.photo
+        photo
         | image_url: width: 800
         | image_tag:
           widths: '400, 600, 800',
           loading: 'lazy',
-          alt: bs.photo.alt | default: bs.name,
+          alt: photo.alt | default: name,
           class: 'mo-reviews__photo-img'
       }}
     </div>
@@ -43,10 +46,10 @@
 
   <div class="mo-reviews__rating">
     <span class="mo-reviews__rating-value mo-h5">{{ rating_display }}</span>
-    {%- render 'mo-stars', rating: bs.rating -%}
+    {%- render 'mo-stars', rating: rating -%}
   </div>
 
-  {%- if bs.quote != blank -%}
-    <p class="mo-reviews__quote mo-body-lg">&ldquo;{{ bs.quote | escape }}&rdquo;</p>
+  {%- if quote != blank -%}
+    <p class="mo-reviews__quote mo-body-lg">&ldquo;{{ quote | escape }}&rdquo;</p>
   {%- endif -%}
 </article>

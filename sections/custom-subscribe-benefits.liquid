@@ -1,0 +1,416 @@
+{%- # CUSTOM: net-new theme section — PDP "Subscription Deep-Dive": post-reviews subscription pitch pairing a peer-validated testimonial card with three reasons recurring delivery wins, framed as a supported programme. Desktop: eyebrow/heading overlay top-left directly on a full-bleed lifestyle image, a review card overlays lower-left, benefit cards stack in a column on the right. Mobile: eyebrow/heading render first in a solid light block above the image (not overlaid — same position:absolute→static breakpoint switch as .mo-problem__header in custom-problem-agitation.liquid), then the review card + a horizontal scroll-snap benefit-card carousel overlay the bottom of the image. UPSTREAM risk LOW — net-new, no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-sub-benefits / .mo-icon-card rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign has_video = false
+  if s.background_video != blank
+    assign has_video = true
+  endif
+  assign has_poster = false
+  if s.background_image != blank
+    assign has_poster = true
+  endif
+  assign has_review = false
+  if s.review_name != blank or s.review_quote != blank
+    assign has_review = true
+  endif
+-%}
+
+<section
+  class="mo-sub-benefits"
+  id="MoSubBenefits-{{ section.id }}"
+  style="
+    --mo-sub-header-bg: {{ s.header_background_color | default: '#E8E7E3' }};
+    --mo-sub-eyebrow: {{ s.eyebrow_color | default: '#1FA567' }};
+    --mo-sub-heading: {{ s.heading_color | default: '#093D24' }};
+    --mo-sub-scrim: {{ s.scrim_color | default: '#093D24' }};
+    --mo-sub-scrim-opacity: {{ s.scrim_opacity | default: 0 | divided_by: 100.0 }};
+    --mo-icon-card-bg: {{ s.card_background_color | default: '#093D24' }};
+    --mo-icon-card-radius: {{ s.card_radius | default: 10 }}px;
+    --mo-icon-card-icon: {{ s.icon_color | default: '#FFD5F7' }};
+    --mo-icon-card-title: {{ s.title_color | default: '#FFFFFF' }};
+    --mo-icon-card-desc: {{ s.description_color | default: '#FFFFFF' }};
+    --mo-sub-padding-y: {{ s.vertical_padding | default: 0 }}px;
+  "
+>
+  <div class="mo-sub-benefits__header">
+    {%- if s.eyebrow != blank -%}
+      <p class="mo-sub-benefits__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if s.heading != blank -%}
+      <h2 class="mo-sub-benefits__heading mo-h2">{{ s.heading | newline_to_br }}</h2>
+    {%- endif -%}
+  </div>
+
+  <div class="mo-sub-benefits__media">
+    {%- if has_poster -%}
+      {{
+        s.background_image
+        | image_url: width: 1600
+        | image_tag:
+          width: s.background_image.width,
+          height: s.background_image.height,
+          alt: s.background_image.alt,
+          sizes: '100vw',
+          class: 'mo-sub-benefits__poster',
+          loading: 'lazy',
+          fetchpriority: 'low'
+      }}
+    {%- endif -%}
+
+    {%- if has_video -%}
+      <div class="mo-sub-benefits__video-wrap">
+        {{
+          s.background_video
+          | video_tag:
+            poster: nil,
+            autoplay: true,
+            loop: true,
+            controls: false,
+            muted: true,
+            playsinline: true,
+            preload: 'metadata',
+            class: 'mo-sub-benefits__video',
+            data-testid: 'subscribe-benefits-video'
+        }}
+      </div>
+    {%- endif -%}
+
+    <div class="mo-sub-benefits__scrim" aria-hidden="true"></div>
+
+    <div class="mo-sub-benefits__overlay">
+      {%- if has_review -%}
+        <div class="mo-sub-benefits__review">
+          {%- render 'mo-review-card',
+            name: s.review_name,
+            location: s.review_location,
+            meta_type: s.review_meta_type,
+            duration: s.review_duration,
+            photo: s.review_photo,
+            rating: s.review_rating,
+            quote: s.review_quote,
+            tags: s.review_tags,
+            badge_style: 'pill'
+          -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="mo-sub-benefits__benefits" role="list" aria-label="{{ s.eyebrow | strip_newlines | escape }}">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'benefit' -%}
+              {%- liquid
+                assign bs = block.settings
+                assign has_icon = false
+                if bs.icon_image != blank
+                  assign has_icon = true
+                elsif bs.icon_preset != 'none'
+                  assign has_icon = true
+                endif
+              -%}
+              {%- capture icon_markup -%}
+                {%- if bs.icon_image != blank -%}
+                  {{
+                    bs.icon_image
+                    | image_url: width: 64
+                    | image_tag:
+                      width: 32,
+                      height: 32,
+                      loading: 'lazy',
+                      alt: '',
+                      class: 'mo-icon-card__icon-img'
+                  }}
+                {%- elsif has_icon -%}
+                  {%- render 'mo-subscribe-icon', icon: bs.icon_preset -%}
+                {%- endif -%}
+              {%- endcapture -%}
+              {%- render 'mo-icon-card',
+                icon_html: icon_markup,
+                title: bs.title,
+                description: bs.description,
+                extra_class: 'mo-sub-benefits__card',
+                list_item: true,
+                shopify_attributes: block.shopify_attributes
+              -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Subscribe Benefits",
+  "tag": "section",
+  "class": "mo-sub-benefits-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "SUBSCRIBE & SAVE"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why subscribers love it more"
+    },
+    {
+      "type": "header",
+      "content": "Background media (full-bleed)"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image",
+      "info": "Always-present base layer — lifestyle photo. Shown alone if no video is set, and whenever the visitor's device has reduced motion enabled."
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Background video",
+      "info": "Optional, included for consistency with other PDP sections. Autoplays muted, looped, no controls. Falls back to the background image above if left blank — this frame shows an image, not a video."
+    },
+    {
+      "type": "header",
+      "content": "Review card (single testimonial)"
+    },
+    {
+      "type": "text",
+      "id": "review_name",
+      "label": "Name",
+      "default": "Priya L."
+    },
+    {
+      "type": "text",
+      "id": "review_location",
+      "label": "Location",
+      "default": "Austin, TX"
+    },
+    {
+      "type": "select",
+      "id": "review_meta_type",
+      "label": "Reviewer type",
+      "options": [
+        { "value": "subscriber", "label": "Verified Subscriber (mint badge)" },
+        { "value": "professional", "label": "Verified Eye Care Professional (mint badge)" }
+      ],
+      "default": "subscriber"
+    },
+    {
+      "type": "text",
+      "id": "review_duration",
+      "label": "Subscriber duration",
+      "info": "Not shown on this card — this section always displays the mint badge style. Kept for consistency with the Reviews section's fields.",
+      "default": "5 months"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_photo",
+      "label": "Photo",
+      "info": "Optional close-up photo shown on the card."
+    },
+    {
+      "type": "range",
+      "id": "review_rating",
+      "label": "Rating",
+      "min": 1,
+      "max": 5,
+      "step": 0.5,
+      "default": 5
+    },
+    {
+      "type": "textarea",
+      "id": "review_quote",
+      "label": "Quote",
+      "default": "I set it to 60 days and completely forget about it. My eyes have never felt better."
+    },
+    {
+      "type": "text",
+      "id": "review_tags",
+      "label": "Tags",
+      "info": "Comma-separated. Only relevant if this card is ever cross-referenced with the Reviews section's filters.",
+      "default": "verified,subscriber"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "header_background_color",
+      "label": "Mobile header background",
+      "default": "#E8E7E3",
+      "info": "VERIFY — estimated light grey/lavender backdrop color from the mobile reference frame, not color-picked."
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "scrim_color",
+      "label": "Image/video scrim color",
+      "default": "#093D24",
+      "info": "Solid overlay for legibility. Defaults to 0% opacity since the review card and benefit cards already carry their own opaque backgrounds — raise it only if a merchant swaps in a busier photo."
+    },
+    {
+      "type": "range",
+      "id": "scrim_opacity",
+      "label": "Image/video scrim opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Benefit card background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Benefit icon color",
+      "default": "#FFD5F7"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Benefit title color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Benefit description color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Benefit card corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Extra section vertical padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Icon"
+        },
+        {
+          "type": "select",
+          "id": "icon_preset",
+          "label": "Built-in icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "frequency", "label": "Frequency (document/list)" },
+            { "value": "delivery", "label": "Delivery (box)" },
+            { "value": "guide", "label": "Guide (heart)" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon image",
+          "info": "Overrides the built-in icon above if set."
+        },
+        {
+          "type": "header",
+          "content": "Copy"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Benefit title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Add description here"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Subscribe Benefits",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_preset": "frequency",
+            "title": "Choose your frequency",
+            "description": "After your first order we send a guide to building a daily eye care habit."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_preset": "delivery",
+            "title": "Free delivery, always",
+            "description": "Every subscription ships free across the US. No threshold, no conditions."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_preset": "guide",
+            "title": "Your eye care guide",
+            "description": "After your first order we send a guide to building a daily eye care habit."
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

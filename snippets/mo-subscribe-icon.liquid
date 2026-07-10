@@ -1,0 +1,30 @@
+{%- # CUSTOM: net-new snippet — small inline line-art SVG set for MO Subscription Deep-Dive benefit icons. Used as the fallback when a block has no uploaded icon image, so the icon color token (--mo-icon-card-icon / currentColor) can tint it. The outer ring circle is baked into each SVG (not drawn separately in CSS), same ring-baked-in/currentColor convention as mo-benefit-icon.liquid / mo-factor-icon.liquid / mo-step-icon.liquid. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # Params: icon (string preset key) -%}
+{%- liquid
+  assign icon = icon | default: 'none'
+-%}
+{%- case icon -%}
+  {%- when 'frequency' -%}
+    {%- # Choose your frequency — a small document/list icon, ring baked in -%}
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="24" cy="24" r="22.5" stroke="currentColor" stroke-width="1.4"/>
+      <rect x="15" y="10" width="18" height="28" rx="2" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M19 18H29" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M19 24H29" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M19 30H25" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+  {%- when 'delivery' -%}
+    {%- # Free delivery, always — a shipping box, ring baked in -%}
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="24" cy="24" r="22.5" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M24 12L36 18V30L24 36L12 30V18L24 12Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M12 18L24 24L36 18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M24 24V36" stroke="currentColor" stroke-width="1.6"/>
+    </svg>
+  {%- when 'guide' -%}
+    {%- # Your eye care guide — a heart, ring baked in -%}
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="24" cy="24" r="22.5" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M24 34C24 34 12 27 12 19.5C12 15.4 15.2 12.5 19 12.5C21.2 12.5 23 13.6 24 15.2C25 13.6 26.8 12.5 29 12.5C32.8 12.5 36 15.4 36 19.5C36 27 24 34 24 34Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+    </svg>
+{%- endcase -%}

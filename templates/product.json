@@ -1347,6 +1347,66 @@
         "divider_color": "#b8f3d833",
         "vertical_padding": 64
       }
+    },
+    "custom_subscribe_benefits_mopdp1": {
+      "type": "custom-subscribe-benefits",
+      "blocks": {
+        "benefit_1": {
+          "type": "benefit",
+          "name": "Benefit",
+          "settings": {
+            "icon_preset": "frequency",
+            "title": "Choose your frequency",
+            "description": "After your first order we send a guide to building a daily eye care habit."
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "name": "Benefit",
+          "settings": {
+            "icon_preset": "delivery",
+            "title": "Free delivery, always",
+            "description": "Every subscription ships free across the US. No threshold, no conditions."
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "name": "Benefit",
+          "settings": {
+            "icon_preset": "guide",
+            "title": "Your eye care guide",
+            "description": "After your first order we send a guide to building a daily eye care habit."
+          }
+        }
+      },
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3"
+      ],
+      "name": "MO Subscribe Benefits",
+      "settings": {
+        "eyebrow": "SUBSCRIBE & SAVE",
+        "heading": "Why subscribers love it more",
+        "review_name": "Priya L.",
+        "review_location": "Austin, TX",
+        "review_meta_type": "subscriber",
+        "review_duration": "5 months",
+        "review_rating": 5,
+        "review_quote": "I set it to 60 days and completely forget about it. My eyes have never felt better.",
+        "review_tags": "verified,subscriber",
+        "header_background_color": "#e8e7e3",
+        "eyebrow_color": "#1fa567",
+        "heading_color": "#093d24",
+        "scrim_color": "#093d24",
+        "scrim_opacity": 0,
+        "card_background_color": "#093d24",
+        "icon_color": "#ffd5f7",
+        "title_color": "#ffffff",
+        "description_color": "#ffffff",
+        "card_radius": 10,
+        "vertical_padding": 0
+      }
     }
   },
   "order": [
@@ -1358,6 +1418,7 @@
     "custom_how_to_use_8X9BU3",
     "custom_clinical_science_mopdp1",
     "custom_reviews_mopdp1",
-    "custom_faq_mopdp1"
+    "custom_faq_mopdp1",
+    "custom_subscribe_benefits_mopdp1"
   ]
 }

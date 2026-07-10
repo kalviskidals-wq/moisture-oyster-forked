@@ -1,0 +1,22 @@
+{%- # CUSTOM: net-new snippet — generic icon + title + description card. Deliberately layout-agnostic (no positioning/sizing rules of its own beyond internal spacing) so it is genuinely reusable: sections/custom-subscribe-benefits.liquid is the first consumer, and it was designed to also be able to replace the inline step-card markup in sections/custom-how-to-use.liquid (not retrofitted this round — that section was already pixel-verified against Figma, so it's left untouched to avoid regression risk; flag to Kalvis if he wants it migrated to this snippet too). Colors/radius are read from --mo-icon-card-* custom properties, which the CALLING section sets on its own wrapper (see .mo-sub-benefits inline style in custom-subscribe-benefits.liquid) — this snippet's own CSS rule (.mo-icon-card in custom.css) only defines the generic property names + safe fallbacks, no section-specific values. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # Params: icon_html (optional, pre-rendered/safe icon markup — an SVG render or an image_tag output), title (plain string), description (plain string, newlines preserved), extra_class (optional, additional class(es) for section-specific layout/sizing), list_item (optional boolean, wraps the card with role="listitem"), shopify_attributes (optional, pass block.shopify_attributes when rendering from a block) -%}
+{%- liquid
+  assign card_class = 'mo-icon-card'
+  if extra_class != blank
+    assign card_class = card_class | append: ' ' | append: extra_class
+  endif
+  assign shopify_attributes = shopify_attributes | default: ''
+-%}
+<div class="{{ card_class }}"{% if list_item %} role="listitem"{% endif %} {{ shopify_attributes }}>
+  <div class="mo-icon-card__head">
+    {%- if icon_html != blank -%}
+      <span class="mo-icon-card__icon" aria-hidden="true">{{ icon_html }}</span>
+    {%- endif -%}
+    {%- if title != blank -%}
+      <p class="mo-icon-card__title mo-h4">{{ title | escape }}</p>
+    {%- endif -%}
+  </div>
+  {%- if description != blank -%}
+    <p class="mo-icon-card__desc mo-body-lg">{{ description | escape | newline_to_br }}</p>
+  {%- endif -%}
+</div>
