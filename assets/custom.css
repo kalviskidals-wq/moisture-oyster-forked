@@ -2543,30 +2543,50 @@ mo-review-filter {
   pointer-events: none;
 }
 
-/* ---------- Overlay: review card + benefit-card list ----------
-   Mobile: stacked column, benefit list is a horizontal scroll-snap carousel.
-   Desktop: row, review card left / benefit column right (see media query). */
+/* ---------- Review card ----------
+   CUSTOM (2026-07-10 fix): rendered as a normal-flow sibling of .header/.media,
+   NOT layered on the photo, on mobile — a photo-bearing card is tall enough
+   that overlaying it (as the original build did) collided with the header
+   text above it. Mobile = position:static, sits on the section's own light
+   background right after the header, before the image. Desktop switches to
+   position:absolute and overlays the image lower-left, matching the Figma
+   desktop frame (see media query below). Reuses .mo-reviews__card/
+   .mo-reviews__* classes verbatim (rendered via snippets/mo-review-card.liquid)
+   so the testimonial card matches the Reviews section pixel-for-pixel with
+   zero extra CSS — those rules default to a white card / deep-green text /
+   mint "verified" pill via their var(--mo-reviews-*, fallback) pattern, and
+   this section never sets the --mo-reviews-* custom properties, so the
+   fallbacks are what render. */
+.mo-sub-benefits__review {
+  position: static;
+  z-index: 3;
+  padding-inline: var(--mo-space-5, 20px);
+  padding-block-end: var(--mo-space-6, 24px);
+}
+
+/* CUSTOM: caps the photo to a fixed height (instead of the Reviews section's
+   aspect-ratio: 4/2.8, which scales height with the card's own width) so an
+   uploaded photo can never balloon the card's total height — the card stays
+   a bounded, predictable size on both mobile (in-flow) and desktop (overlay,
+   where an oversized card would otherwise creep up and collide with the
+   header). Width still scales fully responsively to the card. */
+.mo-sub-benefits__review .mo-reviews__photo {
+  aspect-ratio: auto;
+  height: 220px;
+}
+
+/* ---------- Overlay: benefit-card list ----------
+   Mobile: horizontal scroll-snap carousel over the bottom of the image.
+   Desktop: stacked column, right-aligned over the bottom of the image (see
+   media query). */
 .mo-sub-benefits__overlay {
   position: absolute;
   z-index: 3;
   left: var(--mo-space-5, 20px);
   right: var(--mo-space-5, 20px);
   bottom: var(--mo-space-5, 20px);
-  display: flex;
-  flex-direction: column;
-  gap: var(--mo-space-4, 16px);
 }
 
-.mo-sub-benefits__review {
-  width: 100%;
-}
-
-/* CUSTOM: reuses .mo-reviews__card/.mo-reviews__* classes verbatim (rendered
-   via snippets/mo-review-card.liquid) so the testimonial card matches the
-   Reviews section pixel-for-pixel with zero extra CSS — those rules already
-   default to a white card / deep-green text / mint "verified" pill via their
-   var(--mo-reviews-*, fallback) pattern, and this section never sets the
-   --mo-reviews-* custom properties, so the fallbacks are what render. */
 .mo-sub-benefits__benefits {
   display: flex;
   gap: var(--mo-space-4, 16px);
@@ -2588,8 +2608,8 @@ mo-review-filter {
 }
 
 /* Desktop (Figma desktop frame): header overlays the full-bleed image
-   instead of stacking above it; review card + benefit column sit lower-left
-   / lower-right, both bottom-aligned. */
+   instead of stacking above it; review card lower-left, benefit column
+   lower-right, both bottom-aligned. */
 @media screen and (min-width: 750px) {
   .mo-sub-benefits {
     aspect-ratio: 1600 / 835;
@@ -2598,9 +2618,10 @@ mo-review-filter {
 
   /* Reuses .mo-trust-bar__inner's exact max-width + margin-inline:auto +
      padding-inline rule set (see the 2026-07-09 alignment-fix note above) so
-     the overlaid header/content column lines up with every other PDP
-     section's column boundary by construction. */
+     the overlaid header/review/benefits column lines up with every other
+     PDP section's column boundary by construction. */
   .mo-sub-benefits__header,
+  .mo-sub-benefits__review,
   .mo-sub-benefits__overlay {
     left: 0;
     right: 0;
@@ -2634,26 +2655,37 @@ mo-review-filter {
     height: 100%;
   }
 
-  .mo-sub-benefits__overlay {
-    bottom: var(--mo-space-8, 40px);
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: var(--mo-space-7, 32px);
-  }
-
+  /* CUSTOM: right/left set to auto (not 0) here so the inherited page-width
+     centering box above only supplies the padding-inline inset; the card
+     itself is sized by its own max-width and pinned to the left edge of
+     that inset column via right:auto, instead of stretching full width. */
   .mo-sub-benefits__review {
-    flex: 0 0 auto;
+    position: absolute;
+    right: auto;
+    bottom: var(--mo-space-8, 40px);
+    padding-inline-end: 0;
+    padding-block-end: 0;
     width: 100%;
     max-width: 420px;
   }
 
+  .mo-sub-benefits__review .mo-reviews__photo {
+    height: 150px;
+  }
+
+  .mo-sub-benefits__overlay {
+    bottom: var(--mo-space-8, 40px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--mo-space-4, 16px);
+  }
+
   .mo-sub-benefits__benefits {
-    flex: 1 1 auto;
     flex-direction: column;
     overflow: visible;
+    width: 100%;
     max-width: 460px;
-    margin-inline-start: auto;
   }
 
   .mo-sub-benefits__card {

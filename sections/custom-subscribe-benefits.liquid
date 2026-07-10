@@ -45,6 +45,23 @@
     {%- endif -%}
   </div>
 
+  {%- # CUSTOM (2026-07-10 fix): review card is a normal-flow sibling of header/media, not nested inside the image overlay — on mobile it renders in document order (after the header, before the image) instead of being layered on the photo, since a photo-bearing card is tall enough to collide with the header when overlaid. Desktop switches it to position:absolute via CSS (see .mo-sub-benefits__review in custom.css) so it still overlays the image lower-left there, matching Figma. -%}
+  {%- if has_review -%}
+    <div class="mo-sub-benefits__review">
+      {%- render 'mo-review-card',
+        name: s.review_name,
+        location: s.review_location,
+        meta_type: s.review_meta_type,
+        duration: s.review_duration,
+        photo: s.review_photo,
+        rating: s.review_rating,
+        quote: s.review_quote,
+        tags: s.review_tags,
+        badge_style: 'pill'
+      -%}
+    </div>
+  {%- endif -%}
+
   <div class="mo-sub-benefits__media">
     {%- if has_poster -%}
       {{
@@ -82,22 +99,6 @@
     <div class="mo-sub-benefits__scrim" aria-hidden="true"></div>
 
     <div class="mo-sub-benefits__overlay">
-      {%- if has_review -%}
-        <div class="mo-sub-benefits__review">
-          {%- render 'mo-review-card',
-            name: s.review_name,
-            location: s.review_location,
-            meta_type: s.review_meta_type,
-            duration: s.review_duration,
-            photo: s.review_photo,
-            rating: s.review_rating,
-            quote: s.review_quote,
-            tags: s.review_tags,
-            badge_style: 'pill'
-          -%}
-        </div>
-      {%- endif -%}
-
       {%- if section.blocks.size > 0 -%}
         <div class="mo-sub-benefits__benefits" role="list" aria-label="{{ s.eyebrow | strip_newlines | escape }}">
           {%- for block in section.blocks -%}
