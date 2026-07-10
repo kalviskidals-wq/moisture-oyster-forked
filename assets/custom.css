@@ -2152,7 +2152,17 @@ mo-review-filter {
 }
 
 /* ---------- Review cards: mobile 1-up / desktop 3-up scroll-snap carousel ----------
-   Same bleed-to-edge + hidden-scrollbar technique as .mo-howto__steps. */
+   Deliberately does NOT use the negative-margin bleed-to-edge trick that
+   .mo-howto__steps uses — that trick relies on cancelling out one specific
+   ancestor's padding, and here the scroller sits inside the <mo-review-filter>
+   custom element rather than a plain <div>, which made the first card's left
+   edge land flush at the viewport edge instead of matching the header/filter
+   pills' inset. Simpler and more robust: no margin/padding surgery at all, so
+   the scroller just inherits .mo-reviews__inner's padding-inline like any
+   other child — guarantees the first card's left edge is pixel-identical to
+   the header and filter pills above it. Trade-off: the peek of the next card
+   stops at .mo-reviews__inner's right padding rather than bleeding to the
+   true viewport edge — acceptable, matches the reference frames closely. */
 .mo-reviews__scroller {
   display: flex;
   gap: var(--mo-space-4, 16px);
@@ -2161,20 +2171,11 @@ mo-review-filter {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  margin-inline: calc(var(--mo-space-5, 20px) * -1);
-  padding-inline: var(--mo-space-5, 20px);
   padding-block-end: var(--mo-space-2, 8px);
 }
 
 .mo-reviews__scroller::-webkit-scrollbar {
   display: none;
-}
-
-@media screen and (min-width: 750px) {
-  .mo-reviews__scroller {
-    margin-inline: 0;
-    padding-inline: 0;
-  }
 }
 
 .mo-reviews__card {
