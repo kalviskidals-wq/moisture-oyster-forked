@@ -1,0 +1,311 @@
+{%- # CUSTOM: net-new theme section — PDP "How to Use" three-step usage guide paired with a real demo video. Desktop: step cards stacked in a left column, video fills the right column (same media-column technique as custom-ingredient-transparency.liquid). Mobile: eyebrow, then step cards in a CSS-only horizontal scroll-snap carousel (no JS), video stacked below. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-howto rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign has_video = false
+  if s.video != blank
+    assign has_video = true
+  endif
+  assign has_poster = false
+  if s.poster_image != blank
+    assign has_poster = true
+  endif
+-%}
+
+<section
+  class="mo-howto"
+  id="MoHowto-{{ section.id }}"
+  style="
+    --mo-howto-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-howto-card-bg: {{ s.card_background_color | default: '#115033' }};
+    --mo-howto-card-radius: {{ s.card_radius | default: 10 }}px;
+    --mo-howto-video-radius: {{ s.video_radius | default: 10 }}px;
+    --mo-howto-eyebrow: {{ s.eyebrow_color | default: '#FFFFFF' }};
+    --mo-howto-icon: {{ s.icon_color | default: '#FFD5F7' }};
+    --mo-howto-title: {{ s.title_color | default: '#FFFFFF' }};
+    --mo-howto-desc: {{ s.description_color | default: '#FFFFFF' }};
+    --mo-howto-padding-y: {{ s.vertical_padding | default: 40 }}px;
+  "
+>
+  <div class="mo-howto__inner">
+    {%- if s.eyebrow != blank -%}
+      <p class="mo-howto__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+
+    <div class="mo-howto__layout">
+      <div class="mo-howto__steps" role="list" aria-label="{{ s.eyebrow | strip_newlines | escape }}">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'step' -%}
+            {%- liquid
+              assign bs = block.settings
+              assign has_icon = false
+              if bs.icon_image != blank
+                assign has_icon = true
+              elsif bs.icon_preset != 'none'
+                assign has_icon = true
+              endif
+            -%}
+            <div class="mo-howto__step" role="listitem" {{ block.shopify_attributes }}>
+              <div class="mo-howto__step-head">
+                {%- if has_icon -%}
+                  <span class="mo-howto__step-icon" aria-hidden="true">
+                    {%- if bs.icon_image != blank -%}
+                      {{
+                        bs.icon_image
+                        | image_url: width: 64
+                        | image_tag:
+                          width: 32,
+                          height: 32,
+                          loading: 'lazy',
+                          alt: '',
+                          class: 'mo-howto__step-icon-img'
+                      }}
+                    {%- else -%}
+                      {%- render 'mo-step-icon', icon: bs.icon_preset -%}
+                    {%- endif -%}
+                  </span>
+                {%- endif -%}
+                {%- if bs.title != blank -%}
+                  <p class="mo-howto__step-title mo-h4">{{ bs.title | escape }}</p>
+                {%- endif -%}
+              </div>
+              {%- if bs.description != blank -%}
+                <p class="mo-howto__step-desc mo-body-lg">{{ bs.description | newline_to_br }}</p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if has_video or has_poster -%}
+        <div class="mo-howto__media">
+          {%- if has_poster -%}
+            {{
+              s.poster_image
+              | image_url: width: 900
+              | image_tag:
+                width: s.poster_image.width,
+                height: s.poster_image.height,
+                alt: s.poster_image.alt,
+                sizes: '(min-width: 750px) 40vw, 100vw',
+                class: 'mo-howto__poster',
+                loading: 'lazy'
+            }}
+          {%- endif -%}
+          {%- if has_video -%}
+            <div class="mo-howto__video-wrap">
+              {{
+                s.video
+                | video_tag:
+                  poster: nil,
+                  autoplay: true,
+                  loop: true,
+                  controls: false,
+                  muted: true,
+                  playsinline: true,
+                  preload: 'metadata',
+                  class: 'mo-howto__video',
+                  data-testid: 'how-to-use-video'
+              }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO How to Use",
+  "tag": "section",
+  "class": "mo-howto-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "HOW TO USE"
+    },
+    {
+      "type": "header",
+      "content": "Video (right column, desktop / below cards, mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image",
+      "label": "Poster image",
+      "info": "Always-present base layer — demo photo/frame. Shown alone if no video is set, and whenever the visitor's device has reduced motion enabled."
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Demo video",
+      "info": "Optional. Autoplays muted, looped, no controls. Falls back to the poster image above if left blank."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Step card background",
+      "default": "#115033",
+      "info": "VERIFY against Figma — matches the DS Green(mid) token used for cards elsewhere in this project."
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Step icon color",
+      "default": "#FFD5F7"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Step title color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Step description color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Step card corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "video_radius",
+      "label": "Video corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Section vertical padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Icon"
+        },
+        {
+          "type": "select",
+          "id": "icon_preset",
+          "label": "Built-in icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "tilt_head", "label": "Tilt head (eye)" },
+            { "value": "droplet", "label": "Droplet" },
+            { "value": "clock", "label": "Clock" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon image",
+          "info": "Overrides the built-in icon above if set."
+        },
+        {
+          "type": "header",
+          "content": "Copy"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Step title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Add description here"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO How to Use",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "icon_preset": "tilt_head",
+            "title": "Tilt head back",
+            "description": "Hold the bottle above your eye."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon_preset": "droplet",
+            "title": "Apply 1–2 drops per eye",
+            "description": "Blink to distribute. Safe with contact lenses in place."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon_preset": "clock",
+            "title": "Use as needed",
+            "description": "Repeat throughout the day."
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

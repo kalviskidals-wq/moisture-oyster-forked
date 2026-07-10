@@ -1,0 +1,27 @@
+{%- # CUSTOM: net-new snippet — small inline line-art SVG set for MO How to Use step icons (tilt head, apply drop, use as needed). Same ring-baked-in / currentColor convention as mo-benefit-icon.liquid / mo-factor-icon.liquid so all three icon sets stay visually consistent. Used as the fallback when a step block has no uploaded icon image. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # Params: icon (string preset key) -%}
+{%- liquid
+  assign icon = icon | default: 'none'
+-%}
+{%- case icon -%}
+  {%- when 'tilt_head' -%}
+    {%- # Tilt head back — open eye (almond outline + pupil), ring baked in -%}
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="24" cy="24" r="22.5" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M11 24C11 24 16.5 16 24 16C31.5 16 37 24 37 24C37 24 31.5 32 24 32C16.5 32 11 24 11 24Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <circle cx="24" cy="24" r="4.5" stroke="currentColor" stroke-width="1.6"/>
+    </svg>
+  {%- when 'droplet' -%}
+    {%- # Apply drop — single water-drop silhouette, ring baked in -%}
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="24" cy="24" r="22.5" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M24 12C24 12 32 22.5 32 29C32 33.4183 28.4183 37 24 37C19.5817 37 16 33.4183 16 29C16 22.5 24 12 24 12Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+    </svg>
+  {%- when 'clock' -%}
+    {%- # Use as needed — clock face with hands, ring baked in -%}
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="24" cy="24" r="22.5" stroke="currentColor" stroke-width="1.4"/>
+      <circle cx="24" cy="24" r="11" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M24 18V24L28.5 27" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+{%- endcase -%}

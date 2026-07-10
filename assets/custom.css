@@ -1549,3 +1549,174 @@ tbody tr:last-child .mo-compare__cell {
   color: var(--mo-ingredients-heading, #093d24);
   text-align: right;
 }
+
+/* ============================================================================
+   MO HOW TO USE — sections/custom-how-to-use.liquid
+   Net-new theme section — PDP three-step usage guide + demo video.
+   Mobile (base): eyebrow, then step cards in a CSS-only horizontal
+   scroll-snap carousel, video stacked full-width below.
+   Desktop (>=750px): step cards stacked in a left column, video fills the
+   right column at equal height (flex `align-items: stretch`).
+   UPSTREAM risk LOW — no Horizon file touched.
+   ============================================================================ */
+.mo-howto {
+  background: var(--mo-howto-bg, #093d24);
+  padding-block: var(--mo-howto-padding-y, 40px);
+}
+
+/* Reuses the trust bar / problem agitation / comparison table / ingredient
+   transparency section's exact max-width/margin-inline/padding-inline rule
+   (see the 2026-07-09 alignment-fix note above) so this section's content
+   column lines up with its neighbors. */
+.mo-howto__inner {
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-howto__inner {
+    padding-inline: var(--page-margin, 40px);
+  }
+}
+
+.mo-howto__eyebrow {
+  color: var(--mo-howto-eyebrow, #ffffff);
+  margin: 0 0 var(--mo-space-5, 20px);
+}
+
+.mo-howto__layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-6, 24px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-howto__layout {
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--mo-space-8, 40px);
+  }
+}
+
+/* ---------- Steps: mobile scroll-snap carousel -> desktop stacked column ----------
+   CSS-only (no JS): the carousel is just overflow-x + scroll-snap on the base
+   layout, so it degrades to a plain stacked list if either is unsupported. */
+.mo-howto__steps {
+  display: flex;
+  flex-direction: row;
+  gap: var(--mo-space-4, 16px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin-inline: calc(var(--mo-space-5, 20px) * -1);
+  padding-inline: var(--mo-space-5, 20px);
+  padding-block-end: var(--mo-space-2, 8px);
+}
+
+.mo-howto__steps::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-howto__steps {
+    flex-direction: column;
+    flex: 0 0 380px;
+    overflow-x: visible;
+    scroll-snap-type: none;
+    margin-inline: 0;
+    padding-inline: 0;
+    padding-block-end: 0;
+  }
+}
+
+.mo-howto__step {
+  flex: 0 0 85vw;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--mo-space-6, 24px);
+  min-height: 200px;
+  background: var(--mo-howto-card-bg, #115033);
+  border-radius: var(--mo-howto-card-radius, 10px);
+  padding: var(--mo-space-6, 24px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-howto__step {
+    flex: 1 1 auto;
+    max-width: none;
+  }
+}
+
+.mo-howto__step-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-4, 16px);
+}
+
+.mo-howto__step-icon {
+  display: inline-flex;
+  color: var(--mo-howto-icon, #ffd5f7);
+  width: 40px;
+  height: 40px;
+}
+
+.mo-howto__step-icon svg,
+.mo-howto__step-icon-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.mo-howto__step-title {
+  color: var(--mo-howto-title, #ffffff);
+  margin: 0;
+}
+
+.mo-howto__step-desc {
+  color: var(--mo-howto-desc, #ffffff);
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* ---------- Media: video/poster, right column on desktop ---------- */
+.mo-howto__media {
+  position: relative;
+  width: 100%;
+  min-height: 320px;
+  border-radius: var(--mo-howto-video-radius, 10px);
+  overflow: hidden;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-howto__media {
+    flex: 1 1 auto;
+    min-height: 480px;
+  }
+}
+
+.mo-howto__poster,
+.mo-howto__video-wrap,
+.mo-howto__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mo-howto__video {
+  object-position: center;
+}
+
+/* Video layers over the poster; poster remains the always-present fallback
+   base layer (no video asset yet, or video fails to load). */
+@media (prefers-reduced-motion: reduce) {
+  .mo-howto__video-wrap {
+    display: none;
+  }
+}

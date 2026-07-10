@@ -965,6 +965,56 @@
         "card_radius": 10,
         "vertical_padding": 40
       }
+    },
+    "custom_how_to_use_mopdp1": {
+      "type": "custom-how-to-use",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "name": "Step",
+          "settings": {
+            "icon_preset": "tilt_head",
+            "title": "Tilt head back",
+            "description": "Hold the bottle above your eye."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "name": "Step",
+          "settings": {
+            "icon_preset": "droplet",
+            "title": "Apply 1–2 drops per eye",
+            "description": "Blink to distribute. Safe with contact lenses in place."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "name": "Step",
+          "settings": {
+            "icon_preset": "clock",
+            "title": "Use as needed",
+            "description": "Repeat throughout the day."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "name": "MO How to Use",
+      "settings": {
+        "eyebrow": "HOW TO USE",
+        "background_color": "#093d24",
+        "card_background_color": "#115033",
+        "eyebrow_color": "#ffffff",
+        "icon_color": "#ffd5f7",
+        "title_color": "#ffffff",
+        "description_color": "#ffffff",
+        "card_radius": 10,
+        "video_radius": 10,
+        "vertical_padding": 40
+      }
     }
   },
   "order": [
@@ -972,6 +1022,7 @@
     "custom_trust_bar_mopdp1",
     "custom_problem_agitation_iYrAeg",
     "custom_comparison_table_mopdp1",
-    "custom_ingredient_transparency_mopdp1"
+    "custom_ingredient_transparency_mopdp1",
+    "custom_how_to_use_mopdp1"
   ]
 }
