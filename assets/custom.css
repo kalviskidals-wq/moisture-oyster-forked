@@ -1745,12 +1745,32 @@ tbody tr:last-child .mo-compare__cell {
 .mo-science__eyebrow {
   color: var(--mo-science-eyebrow, #ffffff);
   margin: 0 0 var(--mo-space-4, 16px);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 1.1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .mo-science__heading {
   color: var(--mo-science-heading, #ffffff);
   margin: 0 0 var(--mo-space-7, 32px);
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.1;
   max-width: 46ch;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-science__eyebrow {
+    font-size: 14px;
+  }
+
+  .mo-science__heading {
+    font-size: 40px;
+  }
 }
 
 .mo-science__grid {
