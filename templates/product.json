@@ -1007,12 +1007,12 @@
       "settings": {
         "eyebrow": "HOW TO USE",
         "video": "shopify://files/videos/0707(2).mp4",
-        "background_color": "#093D24",
+        "background_color": "#093d24",
         "card_background_color": "#115033",
-        "eyebrow_color": "#FFFFFF",
-        "icon_color": "#FFD5F7",
-        "title_color": "#FFFFFF",
-        "description_color": "#FFFFFF",
+        "eyebrow_color": "#ffffff",
+        "icon_color": "#ffd5f7",
+        "title_color": "#ffffff",
+        "description_color": "#ffffff",
         "card_radius": 10,
         "video_radius": 10,
         "vertical_padding": 40
@@ -1188,6 +1188,7 @@
             "name": "Dr. James K.",
             "location": "Chicago, IL",
             "meta_type": "professional",
+            "duration": "3 months",
             "rating": 5,
             "quote": "As an optometrist I'm selective about what I recommend. Preservative-free, pH-correct — the case gets patients to actually use it consistently.",
             "tags": "verified,most_helpful"
@@ -1388,10 +1389,12 @@
       "settings": {
         "eyebrow": "SUBSCRIBE & SAVE",
         "heading": "Why subscribers love it more",
+        "background_image": "shopify://shop_images/Why_Subscribers_love_it_more_hero_image_1.jpg",
         "review_name": "Priya L.",
         "review_location": "Austin, TX",
         "review_meta_type": "subscriber",
         "review_duration": "5 months",
+        "review_photo": "shopify://shop_images/image_1926988520.jpg",
         "review_rating": 5,
         "review_quote": "I set it to 60 days and completely forget about it. My eyes have never felt better.",
         "review_tags": "verified,subscriber",
