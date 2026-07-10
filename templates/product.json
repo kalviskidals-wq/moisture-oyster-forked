@@ -1017,6 +1017,113 @@
         "video_radius": 10,
         "vertical_padding": 40
       }
+    },
+    "custom_clinical_science_mopdp1": {
+      "type": "custom-clinical-science",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "name": "Stat",
+          "settings": {
+            "figure": "0.25%",
+            "unit": "SODIUM HYALURONATE",
+            "description": "Disclosed, clinically meaningful concentration for a stable ocular film."
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "name": "Stat",
+          "settings": {
+            "figure": "0.25%",
+            "unit": "L-CARNITINE",
+            "description": "Osmoprotectant shown to reduce hyperosmolar inflammatory stress on corneal cells."
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "name": "Stat",
+          "settings": {
+            "figure": "272",
+            "unit": "MOSM/KG",
+            "description": "Isotonic, matched to healthy human tears."
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "name": "Stat",
+          "settings": {
+            "figure": "7.5",
+            "unit": "PH",
+            "description": "Buffered to physiologic tear pH — no sting."
+          }
+        },
+        "bar_1": {
+          "type": "bar",
+          "name": "Bar",
+          "settings": {
+            "value": 97.6,
+            "x_axis_label": "5 MIN\nEXPOSURE"
+          }
+        },
+        "bar_2": {
+          "type": "bar",
+          "name": "Bar",
+          "settings": {
+            "value": 93.8,
+            "x_axis_label": "16 MIN\nEXPOSURE"
+          }
+        },
+        "bar_3": {
+          "type": "bar",
+          "name": "Bar",
+          "settings": {
+            "value": 96.2,
+            "x_axis_label": "120 MIN\nEXPOSURE"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4",
+        "bar_1",
+        "bar_2",
+        "bar_3"
+      ],
+      "name": "MO Clinical & Science",
+      "settings": {
+        "eyebrow": "THE SCIENCE",
+        "heading": "Engineered for tear-film support — validated by GLP testing",
+        "chart_eyebrow": "INDEPENDENT GLP TESTING",
+        "chart_title": "GLP Non-Irritant",
+        "chart_description": "Tissue viability at 5 / 16 / 120-minute exposures — far above the 50% irritation threshold.",
+        "threshold_value": 50,
+        "threshold_label": "IRRITATION THRESHOLD",
+        "caption": "Reconstructed human cornea · Tissue viability",
+        "badge_text": "No UN GHS Eye Irritation Category",
+        "card_radius": 24,
+        "chart_height": 220,
+        "vertical_padding": 64,
+        "background_color": "#093d24",
+        "card_background_color": "#115033",
+        "divider_color": "#ffffff1f",
+        "eyebrow_color": "#ffffff",
+        "heading_color": "#ffffff",
+        "figure_color": "#ffd5f7",
+        "unit_color": "#ffffff",
+        "description_color": "#ffffff",
+        "bar_color": "#1fa567",
+        "bar_cap_color": "#b8f3d8",
+        "bar_label_color": "#ffffff",
+        "threshold_color": "#ffd5f7",
+        "threshold_pill_bg": "#ffd5f7",
+        "threshold_pill_text": "#093d24",
+        "caption_color": "#ffffff",
+        "badge_border_color": "#ffffff66",
+        "badge_text_color": "#ffffff",
+        "badge_check_color": "#ffd5f7"
+      }
     }
   },
   "order": [
@@ -1025,6 +1132,7 @@
     "custom_problem_agitation_iYrAeg",
     "custom_comparison_table_mopdp1",
     "custom_ingredient_transparency_mopdp1",
-    "custom_how_to_use_8X9BU3"
+    "custom_how_to_use_8X9BU3",
+    "custom_clinical_science_mopdp1"
   ]
 }

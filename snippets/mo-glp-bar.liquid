@@ -1,0 +1,12 @@
+{%- # CUSTOM: net-new snippet — renders one vertical CSS-only bar column (value label + track/fill) for the MO Clinical & Science GLP chart. X-axis label is rendered separately by the parent section in its own flex row so it stays in normal document flow beneath the absolutely-positioned chart area. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # Params: block (a section.blocks entry of type 'bar') -%}
+{%- liquid
+  assign bs = block.settings
+  assign v = bs.value | default: 0
+-%}
+<div class="mo-science__bar-col" {{ block.shopify_attributes }}>
+  <span class="mo-science__bar-value mo-tag">{{ v }}%</span>
+  <span class="mo-science__bar-track" style="--v: {{ v }};">
+    <span class="mo-science__bar-fill" style="--v: {{ v }};"></span>
+  </span>
+</div>

@@ -1720,3 +1720,283 @@ tbody tr:last-child .mo-compare__cell {
     display: none;
   }
 }
+
+/* ============================================================================
+   MO CLINICAL & SCIENCE — sections/custom-clinical-science.liquid
+   Stats card (2x2 desktop / stacked mobile) + CSS-only GLP bar chart card.
+   ============================================================================ */
+.mo-science {
+  background: var(--mo-science-bg, #093d24);
+  padding-block: var(--mo-science-padding-y, 64px);
+}
+
+.mo-science__inner {
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-science__inner {
+    padding-inline: var(--page-margin, 40px);
+  }
+}
+
+.mo-science__eyebrow {
+  color: var(--mo-science-eyebrow, #ffffff);
+  margin: 0 0 var(--mo-space-4, 16px);
+}
+
+.mo-science__heading {
+  color: var(--mo-science-heading, #ffffff);
+  margin: 0 0 var(--mo-space-7, 32px);
+  max-width: 46ch;
+}
+
+.mo-science__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-science__grid {
+    grid-template-columns: 1.7fr 1fr;
+    align-items: stretch;
+    gap: var(--mo-space-6, 24px);
+  }
+}
+
+.mo-science__stats-card,
+.mo-science__chart-card {
+  background: var(--mo-science-card-bg, #115033);
+  border-radius: var(--mo-science-card-radius, 24px);
+  padding: var(--mo-space-7, 32px);
+}
+
+/* ---------- Stats card ---------- */
+.mo-science__stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: var(--mo-space-6, 24px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-science__stats-grid {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--mo-space-7, 32px);
+  }
+}
+
+.mo-science__stat {
+  padding-bottom: var(--mo-space-6, 24px);
+  border-bottom: 1px solid var(--mo-science-divider, #ffffff1f);
+}
+
+.mo-science__stat:nth-last-child(-n + 2) {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-science__stat {
+    padding-right: var(--mo-space-7, 32px);
+  }
+
+  .mo-science__stat:nth-child(2n + 1) {
+    border-right: 1px solid var(--mo-science-divider, #ffffff1f);
+  }
+
+  .mo-science__stat:nth-child(2n) {
+    padding-left: var(--mo-space-7, 32px);
+    padding-right: 0;
+  }
+}
+
+.mo-science__stat-top {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: var(--mo-space-4, 16px);
+  row-gap: var(--mo-space-2, 8px);
+  margin-bottom: var(--mo-space-4, 16px);
+}
+
+.mo-science__stat-figure {
+  color: var(--mo-science-figure, #ffd5f7);
+  line-height: 1;
+}
+
+.mo-science__stat-unit {
+  color: var(--mo-science-unit, #ffffff);
+}
+
+.mo-science__stat-desc {
+  color: var(--mo-science-desc, #ffffff);
+  opacity: 0.75;
+  margin: 0;
+  max-width: 32ch;
+}
+
+/* ---------- Chart card ---------- */
+.mo-science__chart-eyebrow {
+  color: var(--mo-science-unit, #ffffff);
+  opacity: 0.7;
+  margin: 0 0 var(--mo-space-2, 8px);
+}
+
+.mo-science__chart-title {
+  color: var(--mo-science-heading, #ffffff);
+  margin: 0 0 var(--mo-space-3, 12px);
+}
+
+.mo-science__chart-desc {
+  color: var(--mo-science-desc, #ffffff);
+  opacity: 0.75;
+  margin: 0;
+  max-width: 40ch;
+}
+
+.mo-science__chart-area {
+  position: relative;
+  height: var(--mo-science-chart-h, 220px);
+  margin-top: var(--mo-space-8, 40px);
+}
+
+.mo-science__threshold {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--t, 50) * 1%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mo-science__threshold-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 2px dashed var(--mo-science-threshold-line, #ffd5f7);
+}
+
+.mo-science__threshold-pill {
+  position: relative;
+  background: var(--mo-science-threshold-bg, #ffd5f7);
+  color: var(--mo-science-threshold-text, #093d24);
+  padding: var(--mo-space-1, 6px) var(--mo-space-4, 16px);
+  border-radius: var(--mo-radius-pill, 999px);
+  white-space: nowrap;
+}
+
+.mo-science__bars {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--mo-space-4, 16px);
+}
+
+.mo-science__bar-col {
+  flex: 1 1 0;
+  height: 100%;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.mo-science__bar-value {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(var(--v, 0) * 1% + var(--mo-space-2, 8px));
+  color: var(--mo-science-bar-label, #ffffff);
+  white-space: nowrap;
+}
+
+.mo-science__bar-track {
+  position: relative;
+  width: 56px;
+  max-width: 70%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.mo-science__bar-fill {
+  position: relative;
+  width: 100%;
+  height: calc(var(--v, 0) * 1%);
+  background: var(--mo-science-bar, #1fa567);
+  border-radius: var(--mo-radius-sm, 6px) var(--mo-radius-sm, 6px) 0 0;
+  overflow: hidden;
+}
+
+.mo-science__bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: var(--mo-science-bar-cap, #b8f3d8);
+}
+
+.mo-science__bar-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--mo-space-4, 16px);
+  margin-top: var(--mo-space-4, 16px);
+}
+
+.mo-science__bar-label {
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+  color: var(--mo-science-bar-label, #ffffff);
+  opacity: 0.7;
+  line-height: 1.3;
+}
+
+.mo-science__caption {
+  color: var(--mo-science-caption, #ffffff);
+  opacity: 0.6;
+  margin: var(--mo-space-6, 24px) 0 var(--mo-space-4, 16px);
+  text-align: center;
+}
+
+.mo-science__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mo-space-2, 8px);
+  padding: var(--mo-space-2, 8px) var(--mo-space-5, 20px);
+  border: 1px solid var(--mo-science-badge-border, #ffffff66);
+  border-radius: var(--mo-radius-pill, 999px);
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.mo-science__badge-check {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.mo-science__badge-check svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.mo-science__badge-text {
+  color: var(--mo-science-badge-text, #ffffff);
+}

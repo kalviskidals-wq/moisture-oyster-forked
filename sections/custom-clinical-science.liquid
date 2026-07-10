@@ -1,0 +1,485 @@
+{%- # CUSTOM: net-new theme section — PDP "Clinical & Science" credibility block placed below How to Use. Left: stats card, repeatable `stat` block (figure + unit + description), 2x2 on desktop / stacked on mobile. Right: GLP chart card, repeatable `bar` block (value % + x-axis label) rendered as CSS-only vertical bars with a dashed "50% irritation threshold" line + pill overlay and a checkmark badge. No charting library and no JS — bar heights are pure CSS via a --v custom property. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-science rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign threshold_value = s.threshold_value | default: 50
+  assign bar_summary = ''
+  for block in section.blocks
+    if block.type == 'bar'
+      assign bar_label = block.settings.x_axis_label | strip_newlines | replace: '  ', ' '
+      assign bar_summary = bar_summary | append: block.settings.value | append: '% at ' | append: bar_label | append: '; '
+    endif
+  endfor
+  assign chart_desc_flat = s.chart_description | strip_newlines
+  assign chart_aria_label = s.chart_title | append: '. ' | append: chart_desc_flat | append: ' Results: ' | append: bar_summary
+-%}
+
+<section
+  class="mo-science"
+  id="MoScience-{{ section.id }}"
+  style="
+    --mo-science-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-science-card-bg: {{ s.card_background_color | default: '#115033' }};
+    --mo-science-card-radius: {{ s.card_radius | default: 24 }}px;
+    --mo-science-divider: {{ s.divider_color | default: '#FFFFFF1F' }};
+    --mo-science-eyebrow: {{ s.eyebrow_color | default: '#FFFFFF' }};
+    --mo-science-heading: {{ s.heading_color | default: '#FFFFFF' }};
+    --mo-science-figure: {{ s.figure_color | default: '#FFD5F7' }};
+    --mo-science-unit: {{ s.unit_color | default: '#FFFFFF' }};
+    --mo-science-desc: {{ s.description_color | default: '#FFFFFF' }};
+    --mo-science-bar: {{ s.bar_color | default: '#1FA567' }};
+    --mo-science-bar-cap: {{ s.bar_cap_color | default: '#B8F3D8' }};
+    --mo-science-bar-label: {{ s.bar_label_color | default: '#FFFFFF' }};
+    --mo-science-threshold-line: {{ s.threshold_color | default: '#FFD5F7' }};
+    --mo-science-threshold-bg: {{ s.threshold_pill_bg | default: '#FFD5F7' }};
+    --mo-science-threshold-text: {{ s.threshold_pill_text | default: '#093D24' }};
+    --mo-science-caption: {{ s.caption_color | default: '#FFFFFF' }};
+    --mo-science-badge-border: {{ s.badge_border_color | default: '#FFFFFF66' }};
+    --mo-science-badge-text: {{ s.badge_text_color | default: '#FFFFFF' }};
+    --mo-science-badge-check-bg: {{ s.badge_check_color | default: '#FFD5F7' }};
+    --mo-science-chart-h: {{ s.chart_height | default: 220 }}px;
+    --mo-science-padding-y: {{ s.vertical_padding | default: 64 }}px;
+  "
+>
+  <div class="mo-science__inner">
+    {%- if s.eyebrow != blank -%}
+      <p class="mo-science__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if s.heading != blank -%}
+      <h2 class="mo-science__heading mo-h2">{{ s.heading | escape }}</h2>
+    {%- endif -%}
+
+    <div class="mo-science__grid">
+      <div class="mo-science__stats-card">
+        <div class="mo-science__stats-grid">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'stat' -%}
+              {%- liquid
+                assign bs = block.settings
+              -%}
+              <div class="mo-science__stat" {{ block.shopify_attributes }}>
+                <div class="mo-science__stat-top">
+                  {%- if bs.figure != blank -%}
+                    <span class="mo-science__stat-figure mo-stat">{{ bs.figure | escape }}</span>
+                  {%- endif -%}
+                  {%- if bs.unit != blank -%}
+                    <span class="mo-science__stat-unit mo-tag">{{ bs.unit | escape }}</span>
+                  {%- endif -%}
+                </div>
+                {%- if bs.description != blank -%}
+                  <p class="mo-science__stat-desc mo-body">{{ bs.description | newline_to_br }}</p>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="mo-science__chart-card">
+        {%- if s.chart_eyebrow != blank -%}
+          <p class="mo-science__chart-eyebrow mo-tag--sm">{{ s.chart_eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if s.chart_title != blank -%}
+          <h3 class="mo-science__chart-title mo-h3">{{ s.chart_title | escape }}</h3>
+        {%- endif -%}
+        {%- if s.chart_description != blank -%}
+          <p class="mo-science__chart-desc mo-body">{{ s.chart_description | newline_to_br }}</p>
+        {%- endif -%}
+
+        <div class="mo-science__chart-area" role="img" aria-label="{{ chart_aria_label | strip_html | escape }}">
+          <div class="mo-science__threshold" style="--t: {{ threshold_value }};">
+            <span class="mo-science__threshold-line" aria-hidden="true"></span>
+            <span class="mo-science__threshold-pill mo-tag--sm">{{ threshold_value }}% {{ s.threshold_label | default: 'IRRITATION THRESHOLD' | escape }}</span>
+          </div>
+          <div class="mo-science__bars">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'bar' -%}
+                {%- render 'mo-glp-bar', block: block -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <div class="mo-science__bar-labels" aria-hidden="true">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'bar' -%}
+              <span class="mo-science__bar-label mo-tag--sm">{{ block.settings.x_axis_label | newline_to_br }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <table class="visually-hidden">
+          <caption>{{ s.chart_title | escape }} — exposure duration and tissue viability</caption>
+          <thead>
+            <tr>
+              <th scope="col">Exposure</th>
+              <th scope="col">Tissue viability</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'bar' -%}
+                <tr>
+                  <th scope="row">{{ block.settings.x_axis_label | strip_newlines }}</th>
+                  <td>{{ block.settings.value }}%</td>
+                </tr>
+              {%- endif -%}
+            {%- endfor -%}
+          </tbody>
+        </table>
+
+        {%- if s.caption != blank -%}
+          <p class="mo-science__caption mo-tag--sm">{{ s.caption | escape }}</p>
+        {%- endif -%}
+        {%- if s.badge_text != blank -%}
+          <span class="mo-science__badge">
+            <span class="mo-science__badge-check" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="8" cy="8" r="8" fill="var(--mo-science-badge-check-bg, #FFD5F7)"/>
+                <path d="M4.5 8.2L6.8 10.5L11.5 5.5" stroke="var(--mo-science-card-bg, #115033)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="mo-science__badge-text mo-tag--sm">{{ s.badge_text | escape }}</span>
+          </span>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Clinical & Science",
+  "tag": "section",
+  "class": "mo-science-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE SCIENCE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Engineered for tear-film support — validated by GLP testing"
+    },
+    {
+      "type": "header",
+      "content": "Chart card"
+    },
+    {
+      "type": "text",
+      "id": "chart_eyebrow",
+      "label": "Chart eyebrow",
+      "default": "INDEPENDENT GLP TESTING"
+    },
+    {
+      "type": "text",
+      "id": "chart_title",
+      "label": "Chart title",
+      "default": "GLP Non-Irritant"
+    },
+    {
+      "type": "textarea",
+      "id": "chart_description",
+      "label": "Chart description",
+      "default": "Tissue viability at 5 / 16 / 120-minute exposures — far above the 50% irritation threshold."
+    },
+    {
+      "type": "range",
+      "id": "threshold_value",
+      "label": "Irritation threshold (%)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "text",
+      "id": "threshold_label",
+      "label": "Threshold pill label",
+      "default": "IRRITATION THRESHOLD"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Chart caption",
+      "default": "Reconstructed human cornea · Tissue viability"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "No UN GHS Eye Irritation Category"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "chart_height",
+      "label": "Chart bar area height",
+      "min": 120,
+      "max": 360,
+      "step": 10,
+      "unit": "px",
+      "default": 220
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Section vertical padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background",
+      "default": "#115033",
+      "info": "VERIFY against Figma — estimated as DS Green(mid), same token used for cards elsewhere in this project."
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider line color",
+      "default": "#FFFFFF1F",
+      "info": "VERIFY — subtle line between stat cells, matches the trust bar's estimated segment border."
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "figure_color",
+      "label": "Stat figure color",
+      "default": "#FFD5F7",
+      "info": "VERIFY — soft pink, matching the stat-figure convention used in the Problem Agitation section."
+    },
+    {
+      "type": "color",
+      "id": "unit_color",
+      "label": "Stat unit label color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Stat description color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "bar_color",
+      "label": "Bar fill color",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "bar_cap_color",
+      "label": "Bar cap color",
+      "default": "#B8F3D8"
+    },
+    {
+      "type": "color",
+      "id": "bar_label_color",
+      "label": "Bar value/x-axis label color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "threshold_color",
+      "label": "Threshold line color",
+      "default": "#FFD5F7"
+    },
+    {
+      "type": "color",
+      "id": "threshold_pill_bg",
+      "label": "Threshold pill background",
+      "default": "#FFD5F7"
+    },
+    {
+      "type": "color",
+      "id": "threshold_pill_text",
+      "label": "Threshold pill text",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Caption color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "badge_border_color",
+      "label": "Badge outline color",
+      "default": "#FFFFFF66",
+      "info": "VERIFY — subtle light outline, estimated from screenshot."
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "badge_check_color",
+      "label": "Badge checkmark circle color",
+      "default": "#FFD5F7"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "figure",
+          "label": "Figure",
+          "default": "0.25%"
+        },
+        {
+          "type": "text",
+          "id": "unit",
+          "label": "Unit label",
+          "default": "UNIT LABEL"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Add description here"
+        }
+      ]
+    },
+    {
+      "type": "bar",
+      "name": "Bar",
+      "settings": [
+        {
+          "type": "number",
+          "id": "value",
+          "label": "Value (%)",
+          "default": 90
+        },
+        {
+          "type": "textarea",
+          "id": "x_axis_label",
+          "label": "X-axis label",
+          "info": "Use a line break for a two-line label (e.g. \"5 MIN\" / \"EXPOSURE\").",
+          "default": "5 MIN\nEXPOSURE"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Clinical & Science",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "figure": "0.25%",
+            "unit": "SODIUM HYALURONATE",
+            "description": "Disclosed, clinically meaningful concentration for a stable ocular film."
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "figure": "0.25%",
+            "unit": "L-CARNITINE",
+            "description": "Osmoprotectant shown to reduce hyperosmolar inflammatory stress on corneal cells."
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "figure": "272",
+            "unit": "MOSM/KG",
+            "description": "Isotonic, matched to healthy human tears."
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "figure": "7.5",
+            "unit": "PH",
+            "description": "Buffered to physiologic tear pH — no sting."
+          }
+        },
+        {
+          "type": "bar",
+          "settings": {
+            "value": 97.6,
+            "x_axis_label": "5 MIN\nEXPOSURE"
+          }
+        },
+        {
+          "type": "bar",
+          "settings": {
+            "value": 93.8,
+            "x_axis_label": "16 MIN\nEXPOSURE"
+          }
+        },
+        {
+          "type": "bar",
+          "settings": {
+            "value": 96.2,
+            "x_axis_label": "120 MIN\nEXPOSURE"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}
