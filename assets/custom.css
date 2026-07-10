@@ -2421,3 +2421,20 @@ mo-review-filter {
   margin: var(--mo-space-3, 12px) 0 0;
   padding-inline-end: var(--mo-space-8, 40px);
 }
+
+/* CUSTOM: mobile answer text override, per Figma dev-mode spec (2026-07-10)
+   — Manrope Medium 500 (a deliberate exception to the shared .mo-body-lg
+   helper's Inter/400, same pattern as .mo-problem__subhead's Manrope
+   override) at 12px, smaller/lighter than the 14px Bold question heading
+   above it so the heading reads as the more prominent element. Was
+   previously inheriting mo-body-lg's 16px, which made the answer look
+   bigger than the question. */
+@media screen and (max-width: 749px) {
+  .mo-faq__answer {
+    font-family: var(--mo-font-heading);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 130%;
+    letter-spacing: -0.02em;
+  }
+}
