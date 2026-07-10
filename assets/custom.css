@@ -2362,6 +2362,19 @@ mo-review-filter {
   margin: 0;
 }
 
+/* CUSTOM: mobile question text override — the shared .mo-h3 helper (24px) was
+   too large for the accordion row heading on mobile and didn't fit the
+   design; sized to spec independently of .mo-h3's desktop-tuned metrics. */
+@media screen and (max-width: 749px) {
+  .mo-faq__question {
+    font-family: var(--mo-font-heading);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 120%;
+    letter-spacing: -0.02em;
+  }
+}
+
 .mo-faq__toggle {
   flex-shrink: 0;
   display: inline-flex;
