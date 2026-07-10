@@ -2311,9 +2311,27 @@ mo-review-filter {
   color: var(--mo-faq-eyebrow, #b8f3d8);
 }
 
+/* CUSTOM: matches the exact heading typography convention shared by every
+   other custom PDP section (problem agitation / comparison table /
+   ingredient transparency / clinical science) — 28px mobile, 40px desktop,
+   Manrope 700, lh 1.1, ls -2%. The .mo-h1 helper class left in the markup is
+   60px/800 and was overriding nothing here before; this rule now explicitly
+   matches the sibling sections instead of relying on .mo-h1's mismatched
+   defaults. */
 .mo-faq__heading {
   color: var(--mo-faq-heading, #ffffff);
   margin: 0;
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-faq__heading {
+    font-size: 40px;
+  }
 }
 
 .mo-faq__support {
