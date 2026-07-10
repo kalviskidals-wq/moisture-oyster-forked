@@ -973,6 +973,7 @@
           "type": "step",
           "settings": {
             "icon_preset": "tilt_head",
+            "icon_image": "shopify://shop_images/Tilt_Head_Back.svg",
             "title": "Tilt head back",
             "description": "Hold the bottle above your eye."
           }
@@ -981,6 +982,7 @@
           "type": "step",
           "settings": {
             "icon_preset": "droplet",
+            "icon_image": "shopify://shop_images/Apply_1-2_drops.svg",
             "title": "Apply 1–2 drops per eye",
             "description": "Blink to distribute. Safe with contact lenses in place."
           }
@@ -989,6 +991,7 @@
           "type": "step",
           "settings": {
             "icon_preset": "clock",
+            "icon_image": "shopify://shop_images/Use_as_needed.svg",
             "title": "Use as needed",
             "description": "Repeat throughout the day."
           }
