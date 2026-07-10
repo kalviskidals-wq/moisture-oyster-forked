@@ -1,0 +1,286 @@
+{%- # CUSTOM: net-new theme section — PDP "FAQ" conversion safety net. Left column: eyebrow + heading + support note (richtext, merchant-editable mailto link). Right column: repeatable faq blocks rendered as native <details>/<summary> accordions (zero JS, works with progressive enhancement) with a +/− toggle built from snippets/mo-accordion-icon.liquid (the vertical bar of the shared plus SVG is hidden via CSS on [open], turning it into a minus — no separate icon asset needed). Optional FAQPage JSON-LD emitted from the same blocks when enabled. UPSTREAM risk LOW — net-new, no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-faq rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval, per this project's established per-section pattern. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign emit_schema = s.enable_faq_schema
+-%}
+
+<section
+  class="mo-faq"
+  id="MoFaq-{{ section.id }}"
+  style="
+    --mo-faq-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-faq-eyebrow: {{ s.eyebrow_color | default: '#B8F3D8' }};
+    --mo-faq-heading: {{ s.heading_color | default: '#FFFFFF' }};
+    --mo-faq-support: {{ s.support_text_color | default: '#FFFFFF' }};
+    --mo-faq-question: {{ s.question_color | default: '#FFFFFF' }};
+    --mo-faq-answer: {{ s.answer_color | default: '#FFFFFF' }};
+    --mo-faq-toggle: {{ s.toggle_color | default: '#FFFFFF' }};
+    --mo-faq-divider: {{ s.divider_color | default: '#B8F3D833' }};
+    --mo-faq-padding-y: {{ s.vertical_padding | default: 64 }}px;
+  "
+>
+  <div class="mo-faq__inner">
+    <div class="mo-faq__meta">
+      {%- if s.eyebrow != blank -%}
+        <p class="mo-faq__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="mo-faq__heading mo-h1">{{ s.heading | newline_to_br }}</h2>
+      {%- endif -%}
+      {%- if s.support_text != blank -%}
+        <div class="mo-faq__support mo-body-lg">{{ s.support_text }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="mo-faq__list">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'faq' and block.settings.question != blank -%}
+          <details class="mo-faq__item" id="MoFaqItem-{{ section.id }}-{{ block.id }}" {% if block.settings.open_by_default %}open{% endif %} {{ block.shopify_attributes }}>
+            <summary class="mo-faq__summary">
+              <span class="mo-faq__question mo-h3">{{ block.settings.question | escape }}</span>
+              <span class="mo-faq__toggle" aria-hidden="true">
+                {%- render 'mo-accordion-icon' -%}
+              </span>
+            </summary>
+            {%- if block.settings.answer != blank -%}
+              <div class="mo-faq__answer mo-body-lg">{{ block.settings.answer }}</div>
+            {%- endif -%}
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- if emit_schema -%}
+  {%- liquid
+    assign faq_pairs = ''
+    assign faq_count = 0
+    for block in section.blocks
+      if block.type == 'faq' and block.settings.question != blank and block.settings.answer != blank
+        assign faq_count = faq_count | plus: 1
+        assign q_json = block.settings.question | strip_html | strip_newlines | json
+        assign a_json = block.settings.answer | strip_html | strip_newlines | json
+        assign one_pair = '{"@type":"Question","name":' | append: q_json | append: ',"acceptedAnswer":{"@type":"Answer","text":' | append: a_json | append: '}}'
+        if faq_count > 1
+          assign faq_pairs = faq_pairs | append: ',' | append: one_pair
+        else
+          assign faq_pairs = one_pair
+        endif
+      endif
+    endfor
+  -%}
+  {%- if faq_count > 0 -%}
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{ faq_pairs }}]}
+    </script>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MO FAQ",
+  "tag": "section",
+  "class": "mo-faq-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "FAQ"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Questions,\nanswered"
+    },
+    {
+      "type": "richtext",
+      "id": "support_text",
+      "label": "Support note",
+      "default": "<p>Anything else? Write to <a href=\"mailto:care@moistureoyster.com\">care@moistureoyster.com</a> — a human replies within a day.</p>"
+    },
+    {
+      "type": "header",
+      "content": "SEO"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_faq_schema",
+      "label": "Emit FAQPage structured data",
+      "default": true,
+      "info": "Adds valid schema.org FAQPage JSON-LD from the FAQ blocks below. Harmless to leave on even though Google has narrowed rich-result eligibility for FAQ markup."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#B8F3D8",
+      "info": "VERIFY against Figma — estimated pale mint, matching the muted tone in the reference frame."
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "support_text_color",
+      "label": "Support note color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "question_color",
+      "label": "Question text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "answer_color",
+      "label": "Answer text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "toggle_color",
+      "label": "Toggle icon + circle outline color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Row divider color",
+      "default": "#B8F3D833",
+      "info": "VERIFY against Figma — estimated subtle light-green divider."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Section vertical padding",
+      "min": 0,
+      "max": 96,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Add answer here</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO FAQ",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Can I use Moisture Oyster with contact lenses?",
+            "answer": "<p>Yes — preservative-free and BAK-free, safe with all soft contact lens types. Apply with lenses in place.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How does the preservative-free multi-dose bottle work?",
+            "answer": "<p>Our bottle uses the Aptar OSD (Ophthalmic Squeeze Dispenser) — a one-way-valve system that prevents contamination without chemical preservatives. FDA-cleared technology.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Will my subscription price ever increase?",
+            "answer": "<p>Your price is locked at sign-up. We never increase subscription prices without 30 days' notice and an opt-out window.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "What if I forget a delivery is coming?",
+            "answer": "<p>We send a reminder 3 days before every delivery — time to skip, delay, or adjust before it ships.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "What if I use it up too slowly?",
+            "answer": "<p>Switch to 60-day delivery from your account dashboard. Change frequency anytime, no fees.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How do I pause or cancel?",
+            "answer": "<p>One tap in your account dashboard. No forms, no phone calls.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Is Moisture Oyster safe for daily use?",
+            "answer": "<p>Yes. BAK-free, preservative-free, and independently tested as non-irritant under OECD TG 492B. Follow the directions on the Drug Facts panel.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Where is Moisture Oyster made?",
+            "answer": "<p>Manufactured in the Netherlands by Oté Pharma SOL B.V. according to US FDA 21 CFR 210 & 211 cGMP standards.</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

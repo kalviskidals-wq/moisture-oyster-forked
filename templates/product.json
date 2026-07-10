@@ -1244,6 +1244,109 @@
         "rating_value_color": "#093d24",
         "quote_color": "#093d24"
       }
+    },
+    "custom_faq_mopdp1": {
+      "type": "custom-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq",
+          "name": "FAQ",
+          "settings": {
+            "question": "Can I use Moisture Oyster with contact lenses?",
+            "answer": "<p>Yes — preservative-free and BAK-free, safe with all soft contact lens types. Apply with lenses in place.</p>",
+            "open_by_default": false
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "name": "FAQ",
+          "settings": {
+            "question": "How does the preservative-free multi-dose bottle work?",
+            "answer": "<p>Our bottle uses the Aptar OSD (Ophthalmic Squeeze Dispenser) — a one-way-valve system that prevents contamination without chemical preservatives. FDA-cleared technology.</p>",
+            "open_by_default": false
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "name": "FAQ",
+          "settings": {
+            "question": "Will my subscription price ever increase?",
+            "answer": "<p>Your price is locked at sign-up. We never increase subscription prices without 30 days' notice and an opt-out window.</p>",
+            "open_by_default": false
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "name": "FAQ",
+          "settings": {
+            "question": "What if I forget a delivery is coming?",
+            "answer": "<p>We send a reminder 3 days before every delivery — time to skip, delay, or adjust before it ships.</p>",
+            "open_by_default": false
+          }
+        },
+        "faq_5": {
+          "type": "faq",
+          "name": "FAQ",
+          "settings": {
+            "question": "What if I use it up too slowly?",
+            "answer": "<p>Switch to 60-day delivery from your account dashboard. Change frequency anytime, no fees.</p>",
+            "open_by_default": false
+          }
+        },
+        "faq_6": {
+          "type": "faq",
+          "name": "FAQ",
+          "settings": {
+            "question": "How do I pause or cancel?",
+            "answer": "<p>One tap in your account dashboard. No forms, no phone calls.</p>",
+            "open_by_default": false
+          }
+        },
+        "faq_7": {
+          "type": "faq",
+          "name": "FAQ",
+          "settings": {
+            "question": "Is Moisture Oyster safe for daily use?",
+            "answer": "<p>Yes. BAK-free, preservative-free, and independently tested as non-irritant under OECD TG 492B. Follow the directions on the Drug Facts panel.</p>",
+            "open_by_default": false
+          }
+        },
+        "faq_8": {
+          "type": "faq",
+          "name": "FAQ",
+          "settings": {
+            "question": "Where is Moisture Oyster made?",
+            "answer": "<p>Manufactured in the Netherlands by Oté Pharma SOL B.V. according to US FDA 21 CFR 210 & 211 cGMP standards.</p>",
+            "open_by_default": false
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6",
+        "faq_7",
+        "faq_8"
+      ],
+      "name": "MO FAQ",
+      "settings": {
+        "eyebrow": "FAQ",
+        "heading": "Questions,\nanswered",
+        "support_text": "<p>Anything else? Write to <a href=\"mailto:care@moistureoyster.com\">care@moistureoyster.com</a> — a human replies within a day.</p>",
+        "enable_faq_schema": true,
+        "background_color": "#093d24",
+        "eyebrow_color": "#b8f3d8",
+        "heading_color": "#ffffff",
+        "support_text_color": "#ffffff",
+        "question_color": "#ffffff",
+        "answer_color": "#ffffff",
+        "toggle_color": "#ffffff",
+        "divider_color": "#b8f3d833",
+        "vertical_padding": 64
+      }
     }
   },
   "order": [
@@ -1254,6 +1357,7 @@
     "custom_ingredient_transparency_mopdp1",
     "custom_how_to_use_8X9BU3",
     "custom_clinical_science_mopdp1",
-    "custom_reviews_mopdp1"
+    "custom_reviews_mopdp1",
+    "custom_faq_mopdp1"
   ]
 }

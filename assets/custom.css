@@ -2264,3 +2264,129 @@ mo-review-filter {
   text-align: left;
   color: var(--mo-reviews-quote, #093d24);
 }
+
+/* ============================================================================
+   MO FAQ — sections/custom-faq.liquid
+   Conversion safety-net FAQ. Two-column on desktop (left: eyebrow/heading/
+   support note; right: repeatable faq accordions), stacked on mobile (meta on
+   top). Accordions are native <details>/<summary> — zero JS. The +/− toggle
+   reuses snippets/mo-accordion-icon.liquid (a single "+" SVG, two <path>
+   strokes) and hides the vertical stroke via CSS on [open], turning it into a
+   "−" with no separate icon asset or JS needed (same reuse-not-duplicate
+   approach as the ingredient transparency section's "+"→"×" rotate trick).
+   .mo-faq__inner reuses the established page-width/margin-inline/padding-inline
+   convention verbatim (see the trust bar alignment-fix note above) so this
+   section's content column lines up with every other PDP section above it.
+   ============================================================================ */
+.mo-faq {
+  background: var(--mo-faq-bg, #093d24);
+  padding-block: var(--mo-faq-padding-y, 64px);
+}
+
+.mo-faq__inner {
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: var(--mo-space-5, 20px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--mo-space-7, 32px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-faq__inner {
+    padding-inline: var(--page-margin, 40px);
+    grid-template-columns: minmax(280px, 420px) 1fr;
+    gap: var(--mo-space-8, 40px);
+    align-items: start;
+  }
+}
+
+.mo-faq__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-4, 16px);
+}
+
+.mo-faq__eyebrow {
+  color: var(--mo-faq-eyebrow, #b8f3d8);
+}
+
+.mo-faq__heading {
+  color: var(--mo-faq-heading, #ffffff);
+  margin: 0;
+}
+
+.mo-faq__support {
+  color: var(--mo-faq-support, #ffffff);
+  margin: 0;
+}
+
+.mo-faq__support a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- Accordion list ---------- */
+.mo-faq__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.mo-faq__item {
+  border-top: 1px solid var(--mo-faq-divider, #b8f3d833);
+  padding-block: var(--mo-space-5, 20px);
+}
+
+.mo-faq__item:first-child {
+  border-top: none;
+  padding-block-start: 0;
+}
+
+.mo-faq__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mo-space-4, 16px);
+  cursor: pointer;
+  list-style: none;
+}
+
+.mo-faq__summary::marker,
+.mo-faq__summary::-webkit-details-marker {
+  display: none;
+}
+
+.mo-faq__question {
+  color: var(--mo-faq-question, #ffffff);
+  margin: 0;
+}
+
+.mo-faq__toggle {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--mo-radius-pill, 999px);
+  border: 1.5px solid var(--mo-faq-toggle, #ffffff);
+  color: var(--mo-faq-toggle, #ffffff);
+}
+
+.mo-faq__toggle svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Turns the shared "+" glyph into a "−" on open by hiding only its vertical
+   stroke (the icon's first <path>) — no separate close-state asset. */
+.mo-faq__item[open] .mo-faq__toggle svg path:first-child {
+  opacity: 0;
+}
+
+.mo-faq__answer {
+  color: var(--mo-faq-answer, #ffffff);
+  margin: var(--mo-space-3, 12px) 0 0;
+  padding-inline-end: var(--mo-space-8, 40px);
+}
