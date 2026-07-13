@@ -1,10 +1,9 @@
 {%- doc -%}
   Renders one card for the MO Range Grid (sections/custom-range-grid.liquid):
-  either a live product (real image/price/Add to Bag form) or a manual
-  "Coming Soon" placeholder card.
+  either a live product (real image/price/CTA linking to the product page) or
+  a manual "Coming Soon" placeholder card.
 
   @param {object} block - The product_card block
-  @param {object} section - The parent section (needed for the product form)
 {%- enddoc -%}
 
 {%- liquid
@@ -49,20 +48,10 @@
   </div>
 
   {%- if is_live -%}
-    {%- liquid
-      assign product_form_id = 'MoRangeForm-' | append: block.id
-      assign variant = product.selected_or_first_available_variant
-    -%}
-    <product-form-component data-section-id="{{ section.id }}" data-product-id="{{ product.id }}" class="mo-range__form-component">
-      {%- form 'product', product, id: product_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-        <input type="hidden" name="id" value="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %}>
-        <input type="hidden" name="quantity" value="1">
-        <button type="submit" name="add" class="mo-btn mo-btn--bag mo-range__cta" {% unless variant.available %}disabled{% endunless %}>
-          <span>{{ cta_label | upcase }}</span>
-          <span class="mo-range__cta-icon" aria-hidden="true">+</span>
-        </button>
-      {%- endform -%}
-    </product-form-component>
+    <a href="{{ product.url }}" class="mo-btn mo-btn--bag mo-range__cta">
+      <span>{{ cta_label | upcase }}</span>
+      <span class="mo-range__cta-icon" aria-hidden="true">+</span>
+    </a>
   {%- else -%}
     <button type="button" class="mo-btn mo-range__cta mo-range__cta--soon" disabled>
       <span>{{ 'Coming Soon' | upcase }}</span>

@@ -1,4 +1,4 @@
-{%- # CUSTOM: net-new homepage section — product range grid (live product + Coming Soon placeholders), establishes category architecture ahead of catalog growth. Reuses Horizon's native product-form-component + {% form 'product' %} pattern for real cart wiring (AJAX-enhanced, works without JS) rather than any new JS. UPSTREAM risk LOW — net-new section, no Horizon file touched. -%}
+{%- # CUSTOM: net-new homepage section — product range grid (live product + Coming Soon placeholders), establishes category architecture ahead of catalog growth. Reuses Horizon's native product-form-component and product form pattern for real cart wiring (AJAX-enhanced, works without JS) rather than any new JS. UPSTREAM risk LOW — net-new section, no Horizon file touched. -%}
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
 {{ 'custom.css' | asset_url | stylesheet_tag }}
 
@@ -31,7 +31,7 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'product_card' -%}
-            {%- render 'mo-product-card', block: block, section: section -%}
+            {%- render 'mo-product-card', block: block -%}
         {%- endcase -%}
       {%- endfor -%}
     </div>
