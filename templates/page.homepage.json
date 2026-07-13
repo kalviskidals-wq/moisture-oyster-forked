@@ -169,7 +169,8 @@
           "settings": {
             "figure": "55%",
             "caption": "Decrease in blink rate while on screen",
-            "body": "<p>Staring at screens suppresses your natural blink reflex, reducing tear film renewal and leaving eyes dry, gritty, and fatigued by midday.</p>"
+            "body": "<p>Staring at screens suppresses your natural blink reflex, reducing tear film renewal and leaving eyes dry, gritty, and fatigued by midday.</p>",
+            "open_by_default": false
           }
         },
         "stat_screentime": {
@@ -177,7 +178,8 @@
           "settings": {
             "figure": "10h+",
             "caption": "Average American screen time",
-            "body": "<p>Phones, laptops, and TVs add up fast — more hours on screen means more time your eyes spend under-blinking and under-hydrated.</p>"
+            "body": "<p>Phones, laptops, and TVs add up fast — more hours on screen means more time your eyes spend under-blinking and under-hydrated.</p>",
+            "open_by_default": false
           }
         },
         "stat_dryeye": {
@@ -185,7 +187,8 @@
           "settings": {
             "figure": "16m",
             "caption": "Americans diagnosed with dry eye",
-            "body": "<p>Dry eye disease affects roughly 16 million adults in the US, and screen-driven blink suppression is accelerating diagnoses every year.</p>"
+            "body": "<p>Dry eye disease affects roughly 16 million adults in the US, and screen-driven blink suppression is accelerating diagnoses every year.</p>",
+            "open_by_default": false
           }
         }
       },
@@ -199,7 +202,22 @@
         "eyebrow": "WHY EYE CARE MATTERS",
         "heading": "The silent crisis\nin eye health",
         "subhead": "Triple-action hydration with Glycerin, Hyaluronate, and L-Carnitine. Preservative-free. Multi-dose bottle via Aptar OSD technology. Safe for daily use with contact lenses. Made in the Netherlands by Oté Pharma.",
-        "background_image": "shopify://shop_images/Moisture_Oyster_Front_Page_Hero_Image.jpg"
+        "background_image": "shopify://shop_images/The_Silent_Crisi_In_Eye_Health_Hero_image_1.jpg",
+        "single_open": false,
+        "header_background_color": "#f7f5f0",
+        "eyebrow_color": "#1fa567",
+        "heading_color": "#093d24",
+        "subhead_color": "#093d24",
+        "scrim_color": "#f7f5f0",
+        "scrim_opacity": 0,
+        "card_background_color": "#093d24",
+        "figure_color": "#ffd5f7",
+        "caption_color": "#ffffff",
+        "body_color": "#ffffff",
+        "toggle_color": "#ffffff",
+        "divider_color": "#ffffff33",
+        "card_radius": 10,
+        "vertical_padding": 0
       }
     },
     "main": {
