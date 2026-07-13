@@ -3611,3 +3611,296 @@ mo-review-filter {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* ============================================================================
+   CUSTOM: MO EYE HEALTH EDUCATION — sections/custom-eye-health.liquid
+   Homepage problem-agitation block: eyebrow/heading/subhead over (mobile:
+   above) a full-bleed lifestyle image with a light/cream studio backdrop,
+   plus a repeatable row of expandable US dry-eye stat cards along the
+   bottom. Mobile: header stacks first (position:static, own light bg — same
+   breakpoint-switch technique as .mo-problem__header/.mo-sub-benefits__header
+   above), stat cards become a horizontal scroll-snap carousel overlaid on
+   the image. Desktop: header switches to position:absolute and overlays the
+   image top-left, stat cards sit in a 3-up row along the bottom. Each card
+   is a native <details>/<summary> — no JS. Tapping/clicking a card grows it
+   via plain flexbox (flex-grow on [open]; siblings share the remaining
+   space automatically, no :has() or JS required) and reveals its body via
+   the browser's native <details> content model. Consumes mo-design-system.css
+   tokens with hardcoded fallbacks so this still renders if that file is ever
+   removed. UPSTREAM risk LOW — net-new, no Horizon file touched.
+   ============================================================================ */
+.mo-eye-health {
+  position: relative;
+  background: var(--mo-eye-header-bg, #f7f5f0);
+  padding-block: var(--mo-eye-padding-y, 0px);
+  overflow: hidden;
+}
+
+.mo-eye-health__header {
+  position: relative;
+  z-index: 4;
+  background: var(--mo-eye-header-bg, #f7f5f0);
+  padding: var(--mo-space-8, 40px) var(--mo-space-5, 20px) var(--mo-space-7, 32px);
+}
+
+.mo-eye-health__eyebrow {
+  color: var(--mo-eye-eyebrow, #1fa567);
+  margin: 0 0 var(--mo-space-4, 16px);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 1.1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mo-eye-health__heading {
+  color: var(--mo-eye-heading, #093d24);
+  margin: 0 0 var(--mo-space-4, 16px);
+  max-width: 480px;
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Brand-token spec keeps this on --mo-font-body (Inter) — no font-family
+   override needed, .mo-body-lg already provides it. */
+.mo-eye-health__subhead {
+  color: var(--mo-eye-subhead, #093d24);
+  margin: 0;
+  max-width: 480px;
+  opacity: 0.85;
+}
+
+/* CUSTOM: sized by viewport height (not aspect-ratio) on mobile — matches
+   the established .mo-problem__media-wrap / .mo-sub-benefits__media
+   technique so the image reliably fills most of the screen regardless of
+   its intrinsic aspect ratio. */
+.mo-eye-health__media {
+  position: relative;
+  overflow: hidden;
+  min-height: 55vh;
+  min-height: 55dvh;
+}
+
+.mo-eye-health__bg {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover;
+  display: block;
+  z-index: 0;
+}
+
+.mo-eye-health__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--mo-eye-scrim, #f7f5f0);
+  opacity: var(--mo-eye-scrim-opacity, 0);
+  pointer-events: none;
+}
+
+.mo-eye-health__cards-wrap {
+  position: absolute;
+  z-index: 2;
+  left: var(--mo-space-5, 20px);
+  right: var(--mo-space-5, 20px);
+  bottom: var(--mo-space-5, 20px);
+}
+
+/* ---------- Stat cards: mobile scroll-snap carousel -> desktop 3-up row ----------
+   CSS-only carousel (overflow-x + scroll-snap), matching the established
+   .mo-howto__steps / .mo-reviews__scroller technique. Keyboard-scrollable
+   and momentum-scrolling by default; aria-label set in markup. */
+.mo-eye-health__cards {
+  display: flex;
+  gap: var(--mo-space-4, 16px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-block-end: var(--mo-space-2, 8px);
+}
+
+.mo-eye-health__cards::-webkit-scrollbar {
+  display: none;
+}
+
+.mo-eye-health__card {
+  flex: 0 0 82vw;
+  min-width: 0;
+  box-sizing: border-box;
+  scroll-snap-align: start;
+  background: var(--mo-eye-card-bg, #093d24);
+  border-radius: var(--mo-eye-card-radius, 10px);
+  padding: var(--mo-space-6, 24px) var(--mo-space-5, 20px);
+  overflow: hidden;
+  transition: flex-basis 0.25s ease, flex-grow 0.25s ease;
+}
+
+/* CUSTOM: grows the open card and shrinks the rest — plain flexbox math
+   (flex-grow: 2 vs. the default 1 on siblings), no :has() or JS needed. On
+   mobile this instead grows the card toward full carousel width; the
+   collapsed siblings simply scroll off-screen (see desktop override below
+   for the 3-up row behavior). */
+.mo-eye-health__card[open] {
+  flex: 0 0 92vw;
+}
+
+.mo-eye-health__card-summary {
+  display: block;
+  cursor: pointer;
+  list-style: none;
+}
+
+.mo-eye-health__card-summary::marker,
+.mo-eye-health__card-summary::-webkit-details-marker {
+  display: none;
+  content: '';
+}
+
+.mo-eye-health__card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--mo-space-3, 12px);
+  margin: 0 0 var(--mo-space-3, 12px);
+}
+
+.mo-eye-health__figure {
+  color: var(--mo-eye-figure, #ffd5f7);
+  margin: 0;
+}
+
+.mo-eye-health__toggle {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--mo-eye-toggle, #ffffff);
+  color: var(--mo-eye-toggle, #ffffff);
+  background: transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.mo-eye-health__toggle svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s ease;
+}
+
+/* Turns the shared "+" glyph into a "×" on open — same rotate(45deg)
+   technique as .mo-ingredient__toggle. */
+.mo-eye-health__card[open] .mo-eye-health__toggle svg {
+  transform: rotate(45deg);
+}
+
+.mo-eye-health__caption {
+  color: var(--mo-eye-caption, #ffffff);
+  margin: 0 0 var(--mo-space-4, 16px);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mo-eye-health__divider {
+  border: none;
+  border-top: 1px solid var(--mo-eye-divider, #ffffff33);
+  margin: 0;
+}
+
+.mo-eye-health__body {
+  color: var(--mo-eye-body, #ffffff);
+  opacity: 0.85;
+  margin: 0;
+  padding-top: var(--mo-space-4, 16px);
+  font-family: var(--mo-font-body, 'Inter', sans-serif);
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+/* Desktop (Figma desktop frame): header overlays the full-bleed image
+   top-left instead of stacking above it; stat cards sit in a 3-up row
+   along the bottom, no scroll-snap needed since all 3 fit. */
+@media screen and (min-width: 750px) {
+  .mo-eye-health {
+    aspect-ratio: 1600 / 835;
+    min-height: 640px;
+  }
+
+  /* Reuses .mo-trust-bar__inner's exact max-width + margin-inline:auto +
+     padding-inline rule set so the overlaid header/cards column lines up
+     with every other homepage section's column boundary by construction. */
+  .mo-eye-health__header,
+  .mo-eye-health__cards-wrap {
+    left: 0;
+    right: 0;
+    max-width: var(--page-width, var(--normal-page-width, 1280px));
+    margin-inline: auto;
+    padding-inline: var(--page-margin, 40px);
+    box-sizing: border-box;
+  }
+
+  .mo-eye-health__header {
+    position: absolute;
+    top: 0;
+    background: transparent;
+    padding-block: var(--mo-space-8, 40px) 0;
+  }
+
+  .mo-eye-health__eyebrow {
+    font-size: 14px;
+  }
+
+  .mo-eye-health__heading {
+    font-size: 40px;
+    line-height: 1.1;
+  }
+
+  .mo-eye-health__subhead {
+    opacity: 1;
+    font-size: 16px;
+  }
+
+  .mo-eye-health__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .mo-eye-health__cards-wrap {
+    position: absolute;
+    bottom: var(--mo-space-8, 40px);
+  }
+
+  .mo-eye-health__cards {
+    flex-wrap: nowrap;
+    overflow: visible;
+    scroll-snap-type: none;
+    padding-block-end: 0;
+  }
+
+  .mo-eye-health__card {
+    flex: 1 1 0%;
+    scroll-snap-align: none;
+  }
+
+  .mo-eye-health__card[open] {
+    flex: 2 1 0%;
+  }
+}

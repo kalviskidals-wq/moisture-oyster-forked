@@ -1,0 +1,332 @@
+{%- # CUSTOM: net-new theme section — Homepage "Eye Health Education" problem-agitation block. Full-bleed lifestyle image (light/cream studio backdrop) with eyebrow + heading + subhead overlaid top-left on desktop (static, stacked above the image on mobile — same position:absolute→static breakpoint switch as .mo-problem__header / .mo-sub-benefits__header), and a repeatable row of expandable US dry-eye stat cards along the bottom. Desktop: 3 cards side-by-side, full width; tapping one grows it via CSS (:has()) while the others shrink to make room, no JS. Mobile: cards become a horizontal scroll-snap carousel; tapping still grows the open card, no JS. Each card is a native <details>/<summary> (zero-JS, keyboard/ARIA accessible out of the box) with a +/× toggle built from snippets/mo-accordion-icon.liquid (rotated 45deg on [open], same technique as .mo-ingredient__toggle). Optional single-open behavior uses the native <details name="..."> exclusive-accordion group (no JS). UPSTREAM risk LOW — net-new, no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-eye-health rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval, per this project's established per-section pattern. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign has_bg = false
+  if s.background_image != blank
+    assign has_bg = true
+  endif
+  assign group_name = ''
+  if s.single_open
+    assign group_name = 'MoEyeHealth-' | append: section.id
+  endif
+-%}
+
+<section
+  class="mo-eye-health"
+  id="MoEyeHealth-{{ section.id }}"
+  style="
+    --mo-eye-header-bg: {{ s.header_background_color | default: '#F7F5F0' }};
+    --mo-eye-eyebrow: {{ s.eyebrow_color | default: '#1FA567' }};
+    --mo-eye-heading: {{ s.heading_color | default: '#093D24' }};
+    --mo-eye-subhead: {{ s.subhead_color | default: '#093D24' }};
+    --mo-eye-scrim: {{ s.scrim_color | default: '#F7F5F0' }};
+    --mo-eye-scrim-opacity: {{ s.scrim_opacity | default: 0 | divided_by: 100.0 }};
+    --mo-eye-card-bg: {{ s.card_background_color | default: '#093D24' }};
+    --mo-eye-card-radius: {{ s.card_radius | default: 10 }}px;
+    --mo-eye-figure: {{ s.figure_color | default: '#FFD5F7' }};
+    --mo-eye-caption: {{ s.caption_color | default: '#FFFFFF' }};
+    --mo-eye-body: {{ s.body_color | default: '#FFFFFF' }};
+    --mo-eye-toggle: {{ s.toggle_color | default: '#FFFFFF' }};
+    --mo-eye-divider: {{ s.divider_color | default: '#FFFFFF33' }};
+    --mo-eye-padding-y: {{ s.vertical_padding | default: 0 }}px;
+  "
+>
+  <div class="mo-eye-health__header">
+    {%- if s.eyebrow != blank -%}
+      <p class="mo-eye-health__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if s.heading != blank -%}
+      <h2 class="mo-eye-health__heading mo-h1">{{ s.heading | newline_to_br }}</h2>
+    {%- endif -%}
+    {%- if s.subhead != blank -%}
+      <div class="mo-eye-health__subhead mo-body-lg">{{ s.subhead | newline_to_br }}</div>
+    {%- endif -%}
+  </div>
+
+  <div class="mo-eye-health__media">
+    {%- if has_bg -%}
+      {{
+        s.background_image
+        | image_url: width: 1600
+        | image_tag:
+          width: s.background_image.width,
+          height: s.background_image.height,
+          alt: s.background_image.alt,
+          sizes: '100vw',
+          class: 'mo-eye-health__bg',
+          loading: 'lazy',
+          fetchpriority: 'low'
+      }}
+    {%- endif -%}
+
+    <div class="mo-eye-health__scrim" aria-hidden="true"></div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="mo-eye-health__cards-wrap">
+        <div class="mo-eye-health__cards" aria-label="{{ s.eyebrow | strip_newlines | escape }}">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'stat' -%}
+              {%- liquid
+                assign bs = block.settings
+              -%}
+              <details
+                class="mo-eye-health__card"
+                id="MoEyeHealthCard-{{ section.id }}-{{ block.id }}"
+                {% if group_name != blank %}name="{{ group_name }}"{% endif %}
+                {% if bs.open_by_default %}open{% endif %}
+                {{ block.shopify_attributes }}
+              >
+                <summary class="mo-eye-health__card-summary">
+                  <div class="mo-eye-health__card-top">
+                    {%- if bs.figure != blank -%}
+                      <p class="mo-eye-health__figure mo-stat">{{ bs.figure | escape }}</p>
+                    {%- endif -%}
+                    <span class="mo-eye-health__toggle" aria-hidden="true">
+                      {%- render 'mo-accordion-icon' -%}
+                    </span>
+                  </div>
+                  {%- if bs.caption != blank -%}
+                    <p class="mo-eye-health__caption mo-menu">{{ bs.caption | newline_to_br }}</p>
+                  {%- endif -%}
+                  <hr class="mo-eye-health__divider" aria-hidden="true">
+                </summary>
+                {%- if bs.body != blank -%}
+                  <div class="mo-eye-health__body mo-body">{{ bs.body }}</div>
+                {%- endif -%}
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Eye Health Education",
+  "tag": "section",
+  "class": "mo-eye-health-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "WHY EYE CARE MATTERS"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The silent crisis\nin eye health"
+    },
+    {
+      "type": "textarea",
+      "id": "subhead",
+      "label": "Subhead",
+      "default": "Triple-action hydration with Glycerin, Hyaluronate, and L-Carnitine. Preservative-free. Multi-dose bottle via Aptar OSD technology. Safe for daily use with contact lenses. Made in the Netherlands by Oté Pharma."
+    },
+    {
+      "type": "header",
+      "content": "Background image (full-bleed)"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image",
+      "info": "Lifestyle photo — a light/cream studio backdrop reads best since the eyebrow/heading overlay it directly on desktop."
+    },
+    {
+      "type": "header",
+      "content": "Behavior"
+    },
+    {
+      "type": "checkbox",
+      "id": "single_open",
+      "label": "Only allow one stat card open at a time",
+      "default": false,
+      "info": "Uses the native browser exclusive-accordion behavior (no JS)."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "header_background_color",
+      "label": "Mobile header background",
+      "default": "#F7F5F0"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "subhead_color",
+      "label": "Subhead color",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "scrim_color",
+      "label": "Image scrim color",
+      "default": "#F7F5F0",
+      "info": "Solid overlay for heading legibility. Defaults to 0% opacity since the reference photo already has a light/cream backdrop — raise it only if a merchant swaps in a busier image."
+    },
+    {
+      "type": "range",
+      "id": "scrim_opacity",
+      "label": "Image scrim opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Stat card background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "figure_color",
+      "label": "Stat figure color",
+      "default": "#FFD5F7"
+    },
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Stat caption color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Stat body color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "toggle_color",
+      "label": "Toggle icon + circle outline color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Card divider color",
+      "default": "#FFFFFF33"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Stat card corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Extra section vertical padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "figure",
+          "label": "Figure",
+          "default": "55%"
+        },
+        {
+          "type": "textarea",
+          "id": "caption",
+          "label": "Caption",
+          "default": "Decrease in blink rate while on screen"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body (revealed on expand)",
+          "default": "<p>Add supporting context here.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Eye Health Education",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "figure": "55%",
+            "caption": "Decrease in blink rate while on screen",
+            "body": "<p>Staring at screens suppresses your natural blink reflex, reducing tear film renewal and leaving eyes dry, gritty, and fatigued by midday.</p>"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "figure": "10h+",
+            "caption": "Average American screen time",
+            "body": "<p>Phones, laptops, and TVs add up fast — more hours on screen means more time your eyes spend under-blinking and under-hydrated.</p>"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "figure": "16m",
+            "caption": "Americans diagnosed with dry eye",
+            "body": "<p>Dry eye disease affects roughly 16 million adults in the US, and screen-driven blink suppression is accelerating diagnoses every year.</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["index", "page"]
+  }
+}
+{% endschema %}

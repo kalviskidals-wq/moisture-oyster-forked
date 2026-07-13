@@ -161,6 +161,47 @@
         "padding_y": 64
       }
     },
+    "custom_eye_health_mohp1": {
+      "type": "custom-eye-health",
+      "blocks": {
+        "stat_blink": {
+          "type": "stat",
+          "settings": {
+            "figure": "55%",
+            "caption": "Decrease in blink rate while on screen",
+            "body": "<p>Staring at screens suppresses your natural blink reflex, reducing tear film renewal and leaving eyes dry, gritty, and fatigued by midday.</p>"
+          }
+        },
+        "stat_screentime": {
+          "type": "stat",
+          "settings": {
+            "figure": "10h+",
+            "caption": "Average American screen time",
+            "body": "<p>Phones, laptops, and TVs add up fast — more hours on screen means more time your eyes spend under-blinking and under-hydrated.</p>"
+          }
+        },
+        "stat_dryeye": {
+          "type": "stat",
+          "settings": {
+            "figure": "16m",
+            "caption": "Americans diagnosed with dry eye",
+            "body": "<p>Dry eye disease affects roughly 16 million adults in the US, and screen-driven blink suppression is accelerating diagnoses every year.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "stat_blink",
+        "stat_screentime",
+        "stat_dryeye"
+      ],
+      "name": "Eye Health Education",
+      "settings": {
+        "eyebrow": "WHY EYE CARE MATTERS",
+        "heading": "The silent crisis\nin eye health",
+        "subhead": "Triple-action hydration with Glycerin, Hyaluronate, and L-Carnitine. Preservative-free. Multi-dose bottle via Aptar OSD technology. Safe for daily use with contact lenses. Made in the Netherlands by Oté Pharma.",
+        "background_image": "shopify://shop_images/Moisture_Oyster_Front_Page_Hero_Image.jpg"
+      }
+    },
     "main": {
       "type": "main-page",
       "blocks": {
@@ -216,6 +257,7 @@
     "custom_home_hero_mohp1",
     "custom_marquee_bar_mohp1",
     "custom_range_grid_mohp1",
+    "custom_eye_health_mohp1",
     "main"
   ]
 }
