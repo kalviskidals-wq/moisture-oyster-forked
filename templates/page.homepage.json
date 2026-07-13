@@ -11,25 +11,12 @@
   "sections": {
     "custom_home_hero_mohp1": {
       "type": "custom-home-hero",
-      "name": "Hero",
-      "settings": {
-        "rating_value": "4.9",
-        "review_count_label": "580+ VERIFIED REVIEWS",
-        "heading": "See the world more clearly",
-        "subhead": "Premium preservative-free eye drops with Glycerin, Hyaluronate, and L-Carnitine. Made in the Netherlands. Designed for the modern, screen-driven eye.",
-        "background_color": "#093D24",
-        "scrim_color": "#093D24",
-        "scrim_opacity": 0,
-        "rating_color": "#F2A2FF",
-        "reviews_link_color": "#FFFFFF",
-        "heading_color": "#F2A2FF",
-        "subhead_color": "#FFFFFF"
-      },
       "blocks": {
         "cta_shop": {
           "type": "cta",
           "settings": {
             "label": "SHOP NOW",
+            "link": "",
             "style": "shop"
           }
         },
@@ -37,11 +24,37 @@
           "type": "cta",
           "settings": {
             "label": "HOW IT WORKS",
+            "link": "",
             "style": "primary"
           }
         }
       },
-      "block_order": ["cta_shop", "cta_how"]
+      "block_order": [
+        "cta_shop",
+        "cta_how"
+      ],
+      "name": "Hero",
+      "settings": {
+        "rating_value": "4.9",
+        "review_count_label": "580+ VERIFIED REVIEWS",
+        "reviews_link": "",
+        "heading": "See the world more clearly",
+        "subhead": "Premium preservative-free eye drops with Glycerin, Hyaluronate, and L-Carnitine. Made in the Netherlands. Designed for the modern, screen-driven eye.",
+        "background_image": "shopify://shop_images/Moisture_Oyster_Front_Page_Hero_Image.jpg",
+        "background_image_mobile": "shopify://shop_images/Moisture_Oyster_Front_Page_Hero_Image_Mobile.jpg",
+        "image_aspect_ratio_desktop": 1.9,
+        "image_aspect_ratio_mobile": 0.6,
+        "object_position_desktop": "center center",
+        "object_position_mobile": "center top",
+        "background_color": "#093d24",
+        "scrim_color": "#093d24",
+        "scrim_opacity": 0,
+        "rating_color": "#f2a2ff",
+        "reviews_link_color": "#ffffff",
+        "heading_color": "#f2a2ff",
+        "subhead_color": "#ffffff",
+        "vertical_padding": 0
+      }
     },
     "main": {
       "type": "main-page",
