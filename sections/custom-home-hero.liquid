@@ -115,36 +115,39 @@
       {%- endif -%}
     </div>
 
-    {%- if s.subhead != blank -%}
-      <div class="mo-home-hero__subhead">
-        <div class="mo-home-hero__subhead-text mo-body-lg">{{ s.subhead | newline_to_br }}</div>
-      </div>
-    {%- endif -%}
-
-    {%- if section.blocks.size > 0 -%}
-      <div class="mo-home-hero__overlay">
-        <div class="mo-home-hero__ctas">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'cta' -%}
-              {%- liquid
-                assign bs = block.settings
-                assign btn_class = 'mo-btn--shop'
-                if bs.style == 'primary'
-                  assign btn_class = 'mo-btn--primary'
-                endif
-              -%}
-              {%- if bs.label != blank -%}
-                <a
-                  href="{{ bs.link | default: '#' }}"
-                  class="mo-btn {{ btn_class }} mo-home-hero__cta"
-                  {{ block.shopify_attributes }}
-                >{{ bs.label | escape }}</a>
-              {%- endif -%}
-            {%- endif -%}
-          {%- endfor -%}
+    {%- # CUSTOM (2026-07-13 round 4): subhead + CTA overlay grouped under .mo-home-hero__side — on mobile this wrapper is display:contents (a no-op box, preserves the exact prior independent position:absolute stacking for each child); on desktop it becomes a flex column so the CTA row sits directly below the subhead instead of below the shared grid row's full height (which was driven by the much-taller header column) — see custom.css. -%}
+    <div class="mo-home-hero__side">
+      {%- if s.subhead != blank -%}
+        <div class="mo-home-hero__subhead">
+          <div class="mo-home-hero__subhead-text mo-body-lg">{{ s.subhead | newline_to_br }}</div>
         </div>
-      </div>
-    {%- endif -%}
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="mo-home-hero__overlay">
+          <div class="mo-home-hero__ctas">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'cta' -%}
+                {%- liquid
+                  assign bs = block.settings
+                  assign btn_class = 'mo-btn--shop'
+                  if bs.style == 'primary'
+                    assign btn_class = 'mo-btn--primary'
+                  endif
+                -%}
+                {%- if bs.label != blank -%}
+                  <a
+                    href="{{ bs.link | default: '#' }}"
+                    class="mo-btn {{ btn_class }} mo-home-hero__cta"
+                    {{ block.shopify_attributes }}
+                  >{{ bs.label | escape }}</a>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
   </div>
 </section>
 

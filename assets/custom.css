@@ -3145,6 +3145,18 @@ mo-review-filter {
   z-index: 3;
 }
 
+/* CUSTOM (2026-07-13 round 4): mobile no-op — display:contents means this
+   wrapper generates no box of its own, so .mo-home-hero__subhead and
+   .mo-home-hero__overlay behave exactly as if they were direct children of
+   .mo-home-hero__content (their position:absolute below resolves against
+   .mo-home-hero__content, skipping over this wrapper entirely) — identical
+   mobile stacking to before this wrapper was introduced. Desktop overrides
+   this to display:flex (see media query) so the two stack as a tight
+   column instead. */
+.mo-home-hero__side {
+  display: contents;
+}
+
 .mo-home-hero__header {
   position: absolute;
   z-index: 4;
@@ -3230,25 +3242,28 @@ mo-review-filter {
    top-left, subhead + CTA row overlay mid-right. Section height is the
    shared 95vh/95dvh rule above (no desktop-specific override needed). */
 @media screen and (min-width: 750px) {
-  /* CUSTOM (2026-07-13 round 3): grid-template-areas puts header + subhead
-     in row 1 (columns 1 and 2) and the CTA row in row 2 under subhead.
-     align-items:start top-aligns everything placed in row 1 — this is what
-     guarantees the header/subhead tops match exactly, regardless of the
-     heading's actual rendered height. align-content:center then centers the
-     whole 2-row block vertically inside the 95vh section. Reuses
-     .mo-trust-bar__inner's exact max-width + margin-inline:auto +
-     padding-inline rule set (see the 2026-07-09 alignment-fix note earlier
-     in this file) so the column lines up with every other custom section's
-     column boundary by construction. */
+  /* CUSTOM (2026-07-13 round 4 — fixes round 3's CTA gap): grid is now a
+     SINGLE row, "header side" — .mo-home-hero__side (wrapping subhead + the
+     CTA overlay) is the one grid item in the right column, not subhead and
+     cta as two separate grid areas. Round 3 put subhead/cta in their own
+     grid row, but a shared grid row's height is the tallest item in EITHER
+     column — since header (big heading) is much taller than subhead alone,
+     the CTA row (row 2) started far below subhead's actual bottom, leaving
+     a large unwanted gap. Now subhead+CTA stack internally via the wrapper's
+     own flex column (tight, real gap — see .mo-home-hero__side below), and
+     that single wrapper is what align-items:start top-aligns against the
+     header — its top is subhead's top, since subhead is the wrapper's first
+     child. align-content:center still centers the one-row block vertically
+     inside the 95vh section. Reuses .mo-trust-bar__inner's exact max-width +
+     margin-inline:auto + padding-inline rule set (see the 2026-07-09
+     alignment-fix note earlier in this file) so the column lines up with
+     every other custom section's column boundary by construction. */
   .mo-home-hero__content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "header  subhead"
-      ".       cta";
+    grid-template-areas: "header side";
     align-items: start;
     align-content: center;
-    row-gap: var(--mo-space-4, 16px);
     inset: 0;
     max-width: var(--page-width, var(--normal-page-width, 1280px));
     margin-inline: auto;
@@ -3264,9 +3279,18 @@ mo-review-filter {
     padding: 0;
   }
 
+  /* CUSTOM (2026-07-13 round 4): per Kalvis's exact type spec for this
+     frame — Manrope ExtraBold, 80px / 90% line-height / -2% letter-spacing.
+     No max-width override — the grid column's own width (roughly half the
+     1280px content area) is what forces the natural wrap into "See the
+     world more" / "clearly", so this stays correct if the column width
+     ever changes instead of fighting a hardcoded ch value. */
   .mo-home-hero__heading {
-    font-size: 64px;
-    max-width: 14ch;
+    font-family: var(--mo-font-heading);
+    font-weight: 800;
+    font-size: 80px;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
   }
 
   .mo-home-hero__poster,
@@ -3274,14 +3298,24 @@ mo-review-filter {
     object-position: var(--mo-home-hero-object-position-desktop, center center);
   }
 
+  /* CUSTOM (2026-07-13 round 4): the wrapper — not subhead/cta individually
+     — is now the grid item (grid-area: side), stacking subhead + CTA row
+     as a tight flex column so the CTA sits directly below the subhead. */
+  .mo-home-hero__side {
+    grid-area: side;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--mo-space-4, 16px);
+  }
+
   .mo-home-hero__subhead {
     position: static;
-    grid-area: subhead;
-    justify-self: end;
     padding: 0;
     background: transparent;
     display: flex;
     justify-content: flex-end;
+    width: 100%;
   }
 
   .mo-home-hero__subhead-text {
@@ -3291,10 +3325,9 @@ mo-review-filter {
 
   .mo-home-hero__overlay {
     position: static;
-    grid-area: cta;
-    justify-self: end;
     display: flex;
     justify-content: flex-end;
+    width: 100%;
   }
 
   .mo-home-hero__ctas {
