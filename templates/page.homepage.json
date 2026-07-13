@@ -113,25 +113,31 @@
         "card_vitamins": {
           "type": "product_card",
           "settings": {
+            "product": "lubricating-eye-drops",
+            "coming_soon": false,
             "category_eyebrow": "Daily Eye Supplement",
             "title": "Moisture eye vitamins",
-            "coming_soon": true
+            "cta_label": "Add to Bag"
           }
         },
         "card_oyster": {
           "type": "product_card",
           "settings": {
+            "product": "",
+            "coming_soon": false,
             "category_eyebrow": "Lubricant Eye Drops",
             "title": "Moisture oyster",
-            "coming_soon": false
+            "cta_label": "Add to Bag"
           }
         },
         "card_patches": {
           "type": "product_card",
           "settings": {
+            "product": "",
+            "coming_soon": true,
             "category_eyebrow": "Daily Eye Supplement",
             "title": "Eye patches",
-            "coming_soon": true
+            "cta_label": "Add to Bag"
           }
         }
       },
@@ -142,7 +148,17 @@
       ],
       "name": "Product Range",
       "settings": {
-        "heading": "The moisture oyster range"
+        "heading": "The moisture oyster range",
+        "background_color": "#093d24",
+        "card_background_color": "#115033",
+        "heading_color": "#ffffff",
+        "eyebrow_color": "#b8f3d8",
+        "title_color": "#ffffff",
+        "price_color": "#f2a2ff",
+        "coming_soon_text_color": "#e8e7e3",
+        "columns_desktop": 3,
+        "card_radius": 10,
+        "padding_y": 64
       }
     },
     "main": {
