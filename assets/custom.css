@@ -3622,12 +3622,14 @@ mo-review-filter {
    above), stat cards become a horizontal scroll-snap carousel overlaid on
    the image. Desktop: header switches to position:absolute and overlays the
    image top-left, stat cards sit in a 3-up row along the bottom. Each card
-   is a native <details>/<summary> — no JS. Tapping/clicking a card grows it
-   via plain flexbox (flex-grow on [open]; siblings share the remaining
-   space automatically, no :has() or JS required) and reveals its body via
-   the browser's native <details> content model. Consumes mo-design-system.css
-   tokens with hardcoded fallbacks so this still renders if that file is ever
-   removed. UPSTREAM risk LOW — net-new, no Horizon file touched.
+   is a native <details>/<summary> — no JS. Cards keep a fixed, equal width
+   whether open or closed; tapping/clicking one only grows it vertically as
+   its body reveals via the browser's native <details> content model —
+   .mo-eye-health__cards uses align-items: flex-start so the open card's
+   extra height doesn't stretch its closed siblings to match. Consumes
+   mo-design-system.css tokens with hardcoded fallbacks so this still renders
+   if that file is ever removed. UPSTREAM risk LOW — net-new, no Horizon
+   file touched.
    ============================================================================ */
 .mo-eye-health {
   position: relative;
@@ -3717,9 +3719,15 @@ mo-review-filter {
 /* ---------- Stat cards: mobile scroll-snap carousel -> desktop 3-up row ----------
    CSS-only carousel (overflow-x + scroll-snap), matching the established
    .mo-howto__steps / .mo-reviews__scroller technique. Keyboard-scrollable
-   and momentum-scrolling by default; aria-label set in markup. */
+   and momentum-scrolling by default; aria-label set in markup.
+   CUSTOM: align-items: flex-start (not the flex default of stretch) so each
+   card sizes to its own content height independently — the open card grows
+   taller from its revealed body text, closed siblings stay at their own
+   compact height instead of being stretched to match. Cards keep a fixed
+   width whether open or closed (set below); only height changes. */
 .mo-eye-health__cards {
   display: flex;
+  align-items: flex-start;
   gap: var(--mo-space-4, 16px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -3742,16 +3750,6 @@ mo-review-filter {
   border-radius: var(--mo-eye-card-radius, 10px);
   padding: var(--mo-space-6, 24px) var(--mo-space-5, 20px);
   overflow: hidden;
-  transition: flex-basis 0.25s ease, flex-grow 0.25s ease;
-}
-
-/* CUSTOM: grows the open card and shrinks the rest — plain flexbox math
-   (flex-grow: 2 vs. the default 1 on siblings), no :has() or JS needed. On
-   mobile this instead grows the card toward full carousel width; the
-   collapsed siblings simply scroll off-screen (see desktop override below
-   for the 3-up row behavior). */
-.mo-eye-health__card[open] {
-  flex: 0 0 92vw;
 }
 
 .mo-eye-health__card-summary {
@@ -3898,9 +3896,5 @@ mo-review-filter {
   .mo-eye-health__card {
     flex: 1 1 0%;
     scroll-snap-align: none;
-  }
-
-  .mo-eye-health__card[open] {
-    flex: 2 1 0%;
   }
 }
