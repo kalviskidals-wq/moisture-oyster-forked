@@ -56,6 +56,57 @@
         "vertical_padding": 0
       }
     },
+    "custom_marquee_bar_mohp1": {
+      "type": "custom-marquee-bar",
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "text": "BAK-Free & Preservative-Free"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "text": "GLP Non-Irritant Tested (OECD 492B)"
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "text": "US FDA cGMP 21 CFR 210 & 211 Manufacturing"
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "text": "Made in the Netherlands"
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "text": "Free Shipping on Subscriptions"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4",
+        "item_5"
+      ],
+      "name": "Marquee Bar",
+      "settings": {
+        "background_color": "#1fa567",
+        "text_color": "#ffffff",
+        "scroll_speed": 30,
+        "pause_on_hover": true,
+        "separator_style": "gap",
+        "vertical_padding": 14
+      }
+    },
     "main": {
       "type": "main-page",
       "blocks": {
@@ -109,6 +160,7 @@
   },
   "order": [
     "custom_home_hero_mohp1",
+    "custom_marquee_bar_mohp1",
     "main"
   ]
 }

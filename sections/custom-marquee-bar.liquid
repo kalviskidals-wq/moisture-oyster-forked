@@ -1,0 +1,154 @@
+{%- # CUSTOM: net-new theme section — continuously scrolling credibility strip (trust-claim marquee), reusable across templates, placed below the homepage hero. CSS-only scroll animation (no JS). UPSTREAM risk LOW — net-new section, no Horizon file touched. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign pause_class = ''
+  if s.pause_on_hover
+    assign pause_class = ' mo-marquee--pause-hover'
+  endif
+-%}
+
+<section
+  class="mo-marquee{{ pause_class }}"
+  id="MoMarqueeBar-{{ section.id }}"
+  data-separator="{{ s.separator_style }}"
+  style="
+    --mo-marquee-bg: {{ s.background_color | default: '#1FA567' }};
+    --mo-marquee-text: {{ s.text_color | default: '#FFFFFF' }};
+    --mo-marquee-duration: {{ s.scroll_speed | default: 30 }}s;
+    --mo-marquee-padding-y: {{ s.vertical_padding | default: 14 }}px;
+  "
+>
+  <div class="mo-marquee__inner">
+    <div class="mo-marquee__viewport">
+      <div class="mo-marquee__track">
+        <div class="mo-marquee__group">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'item' -%}
+                {%- if block.settings.text != blank -%}
+                  <span class="mo-marquee__item" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</span>
+                  <span class="mo-marquee__sep" aria-hidden="true"></span>
+                {%- endif -%}
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+        <div class="mo-marquee__group" aria-hidden="true">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'item' -%}
+                {%- if block.settings.text != blank -%}
+                  <span class="mo-marquee__item">{{ block.settings.text | escape }}</span>
+                  <span class="mo-marquee__sep" aria-hidden="true"></span>
+                {%- endif -%}
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Marquee Bar",
+  "tag": "section",
+  "class": "mo-marquee-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Motion"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "label": "Scroll duration (seconds)",
+      "info": "Lower = faster scroll. One full loop takes this many seconds.",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "separator_style",
+      "label": "Separator style",
+      "options": [
+        { "value": "gap", "label": "Gap only" },
+        { "value": "dot", "label": "Dot" }
+      ],
+      "default": "gap",
+      "info": "VERIFY against Figma — reference frame reads as gap-only, dot offered as an alternate."
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust Claim",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Claim text",
+          "default": "TRUST CLAIM HERE"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Marquee Bar",
+      "category": "Custom",
+      "blocks": [
+        { "type": "item", "settings": { "text": "BAK-Free & Preservative-Free" } },
+        { "type": "item", "settings": { "text": "GLP Non-Irritant Tested (OECD 492B)" } },
+        { "type": "item", "settings": { "text": "US FDA cGMP 21 CFR 210 & 211 Manufacturing" } },
+        { "type": "item", "settings": { "text": "Made in the Netherlands" } },
+        { "type": "item", "settings": { "text": "Free Shipping on Subscriptions" } }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["index", "product", "page"]
+  }
+}
+{% endschema %}

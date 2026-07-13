@@ -3339,3 +3339,119 @@ mo-review-filter {
     flex: 0 0 auto;
   }
 }
+
+/* ============================================================================
+   CUSTOM: MO MARQUEE BAR — sections/custom-marquee-bar.liquid
+   Full-width, continuously scrolling credibility strip. CSS-only loop:
+   the track renders the item list twice (second copy aria-hidden) and
+   animates translateX(-50%) — since both groups are identical width, this
+   shifts exactly one group's worth and loops seamlessly with no JS.
+   Reusable across templates (homepage, PDP, etc). UPSTREAM risk LOW —
+   net-new, no Horizon file touched.
+
+   Figma desktop spec (2026-07-13): padding 14px 80px, bg #1FA567, on a
+   1440px frame — the 80px inset yields exactly the site's own 1280px
+   normal-page-width, so `.mo-marquee__inner` reuses that same max-width +
+   centered-inset technique as the trust bar / problem agitation instead of
+   a bare hardcoded 80px, for consistency with the rest of the site.
+   Figma's pasted mobile spec also showed padding: 12px 80px on a 320px
+   frame — that 80px looks like a copy-paste leftover from the desktop
+   value (would leave ~160px for the scrolling text) and was NOT carried
+   over; Kalvis confirmed mobile should be edge-to-edge (0 horizontal
+   inset) instead, matching the section's original "full-width band" brief.
+   ============================================================================ */
+.mo-marquee {
+  background: var(--mo-marquee-bg, #1fa567);
+  padding-block: calc(var(--mo-marquee-padding-y, 14px) - 2px);
+  overflow: hidden;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-marquee {
+    padding-block: var(--mo-marquee-padding-y, 14px);
+  }
+}
+
+.mo-marquee__inner {
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-marquee__inner {
+    padding-inline: 80px;
+  }
+}
+
+.mo-marquee__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.mo-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: mo-marquee-scroll var(--mo-marquee-duration, 30s) linear infinite;
+}
+
+.mo-marquee--pause-hover:hover .mo-marquee__track,
+.mo-marquee--pause-hover:focus-within .mo-marquee__track {
+  animation-play-state: paused;
+}
+
+.mo-marquee__group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.mo-marquee__item {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: var(--mo-font-mono, ui-monospace, monospace);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mo-marquee-text, #ffffff);
+}
+
+/* CUSTOM: item gap is a visual-rhythm estimate (not pixel-measured against
+   Figma) — reference frame reads as generous whitespace, no visible glyph. */
+.mo-marquee__sep {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  flex-shrink: 0;
+}
+
+.mo-marquee[data-separator='dot'] .mo-marquee__sep::after {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--mo-marquee-text, #ffffff);
+  opacity: 0.6;
+}
+
+@keyframes mo-marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mo-marquee__track {
+    animation: none;
+  }
+
+  .mo-marquee__viewport {
+    overflow-x: auto;
+  }
+
+  .mo-marquee__group[aria-hidden='true'] {
+    display: none;
+  }
+}
