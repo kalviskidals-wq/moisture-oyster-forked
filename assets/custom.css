@@ -2655,17 +2655,25 @@ mo-review-filter {
     height: 100%;
   }
 
-  /* CUSTOM: right/left set to auto (not 0) here so the inherited page-width
-     centering box above only supplies the padding-inline inset; the card
-     itself is sized by its own max-width and pinned to the left edge of
-     that inset column via right:auto, instead of stretching full width. */
+  /* CUSTOM (2026-07-10 fix): deliberately does NOT override left/right/width
+     here — .mo-sub-benefits__review inherits the exact same page-width +
+     margin-inline:auto + padding-inline box as .mo-sub-benefits__header
+     from the shared rule above, so its column starts at the identical inset
+     as the heading text. An earlier version set `right: auto; width: 100%`
+     on this element directly, which broke the left:0/right:0/margin:auto
+     centering math (with right unset, margin-inline:auto no longer resolves
+     to centering, so left:0 pinned the box to the section's true edge
+     instead of the page-margin-inset column — the card visibly stuck out
+     past the heading's left edge). The card is capped to 420px on the CARD
+     itself below, not the wrapper, so the wrapper keeps doing the alignment
+     job and the card just left-aligns inside it like any normal block box. */
   .mo-sub-benefits__review {
     position: absolute;
-    right: auto;
     bottom: var(--mo-space-8, 40px);
-    padding-inline-end: 0;
     padding-block-end: 0;
-    width: 100%;
+  }
+
+  .mo-sub-benefits__review .mo-reviews__card {
     max-width: 420px;
   }
 
