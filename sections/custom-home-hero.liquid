@@ -37,34 +37,6 @@
     --mo-home-hero-padding-y: {{ s.vertical_padding | default: 0 }}px;
   "
 >
-  <div class="mo-home-hero__header">
-    {%- if s.rating_value != blank or s.review_count_label != blank -%}
-      <div class="mo-home-hero__rating">
-        {%- if s.rating_value != blank -%}
-          <span class="mo-home-hero__rating-value mo-menu">{{ s.rating_value }}</span>
-        {%- endif -%}
-        {%- render 'mo-stars', rating: s.rating_value -%}
-        {%- if s.review_count_label != blank -%}
-          {%- if s.reviews_link != blank -%}
-            <a href="{{ s.reviews_link }}" class="mo-home-hero__reviews-link mo-menu">{{ s.review_count_label | escape }}</a>
-          {%- else -%}
-            <span class="mo-home-hero__reviews-link mo-menu">{{ s.review_count_label | escape }}</span>
-          {%- endif -%}
-        {%- endif -%}
-      </div>
-    {%- endif -%}
-    {%- if s.heading != blank -%}
-      <h1 class="mo-home-hero__heading mo-h1">{{ s.heading | newline_to_br }}</h1>
-    {%- endif -%}
-  </div>
-
-  {%- # CUSTOM: subhead is a normal-flow sibling of header/media (same technique as .mo-sub-benefits__review in custom-subscribe-benefits.liquid) — mobile: renders in document order right after the heading, on the same solid bg, before the image. Desktop: CSS switches it to position:absolute (mid-right over the image, paired visually with the CTA row below it) via the media query in custom.css. -%}
-  {%- if s.subhead != blank -%}
-    <div class="mo-home-hero__subhead">
-      <div class="mo-home-hero__subhead-text mo-body-lg">{{ s.subhead | newline_to_br }}</div>
-    </div>
-  {%- endif -%}
-
   <div class="mo-home-hero__media">
     {%- # CUSTOM: separate vertical mobile crop, same <picture>+<source media=(max-width:749px)> pattern as custom-prelaunch.liquid's background_desktop/background_mobile handling — falls back to the desktop image below 750px if no mobile image is set. -%}
     {%- if has_image -%}
@@ -118,6 +90,36 @@
     {%- endif -%}
 
     <div class="mo-home-hero__scrim" aria-hidden="true"></div>
+  </div>
+
+  {%- # CUSTOM (2026-07-13 round 3): header/subhead/CTA overlay grouped under one wrapper — .mo-home-hero__content — instead of the CTA row living inside .mo-home-hero__media. Media is now purely the background layer (image/video/scrim); all foreground text/buttons live here so desktop can lay them out as CSS Grid items (align-items: start guarantees the header/subhead columns' TOP edges match exactly, with no guessed pixel offset — see custom.css) while mobile keeps the previous position:absolute stacking. -%}
+  <div class="mo-home-hero__content">
+    <div class="mo-home-hero__header">
+      {%- if s.rating_value != blank or s.review_count_label != blank -%}
+        <div class="mo-home-hero__rating">
+          {%- if s.rating_value != blank -%}
+            <span class="mo-home-hero__rating-value mo-menu">{{ s.rating_value }}</span>
+          {%- endif -%}
+          {%- render 'mo-stars', rating: s.rating_value -%}
+          {%- if s.review_count_label != blank -%}
+            {%- if s.reviews_link != blank -%}
+              <a href="{{ s.reviews_link }}" class="mo-home-hero__reviews-link mo-menu">{{ s.review_count_label | escape }}</a>
+            {%- else -%}
+              <span class="mo-home-hero__reviews-link mo-menu">{{ s.review_count_label | escape }}</span>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h1 class="mo-home-hero__heading mo-h1">{{ s.heading | newline_to_br }}</h1>
+      {%- endif -%}
+    </div>
+
+    {%- if s.subhead != blank -%}
+      <div class="mo-home-hero__subhead">
+        <div class="mo-home-hero__subhead-text mo-body-lg">{{ s.subhead | newline_to_br }}</div>
+      </div>
+    {%- endif -%}
 
     {%- if section.blocks.size > 0 -%}
       <div class="mo-home-hero__overlay">

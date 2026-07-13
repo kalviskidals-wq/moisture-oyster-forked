@@ -3042,96 +3042,35 @@ mo-review-filter {
 
 /* ============================================================================
    MO HOMEPAGE HERO (sections/custom-home-hero.liquid)
-   CUSTOM (2026-07-13 revision): full-bleed overlay at EVERY breakpoint now —
-   the vertical mobile image (.mo-home-hero__media) covers the whole section
-   just like desktop does, and header/subhead/CTA row are all
-   position:absolute text layered on top of it (no more "solid bg block above
-   the image" mobile layout). Mobile: header top-left, subhead top-anchored
-   below it (both anchored from the top — a fixed pixel offset stacks the
-   subhead under the header, flagged VERIFY below since it doesn't reflow if
-   the heading wraps to more lines), CTA row bottom, full-width. Desktop:
-   section height is an explicit 90vh; header top-left, subhead + CTA row
-   bottom-anchored mid-right (bottom-anchoring here — not top — lets the
-   subhead grow upward with copy length without colliding with the CTAs
-   below it, same rationale as the 2026-07-10 subscribe-benefits review-card
-   fix). Consumes mo-design-system.css tokens with hardcoded fallbacks so
-   this still renders if that file is ever removed. UPSTREAM risk LOW —
-   net-new, no Horizon file touched.
+   CUSTOM (2026-07-13 round 3 — replaces the fixed-pixel-offset approach from
+   rounds 1-2, which broke once the real heading rendered taller than
+   estimated): .mo-home-hero__media is now purely the background layer
+   (image/video/scrim), and ALL foreground text/buttons — header, subhead,
+   CTA row — live inside one new wrapper, .mo-home-hero__content, layered on
+   top of it. Mobile: content's children stay independently
+   position:absolute (header top, subhead below it at a fixed offset, CTA
+   row pinned to the bottom), same as before. Desktop: .mo-home-hero__content
+   becomes a CSS GRID (2 columns × 2 rows via grid-template-areas) with
+   `align-items: start` — this guarantees the header and subhead columns'
+   TOP edges match EXACTLY, by construction, regardless of how tall the
+   heading actually renders (no more guessing a pixel offset) — and
+   `align-content: center` centers the whole 2-row block vertically within
+   the 95vh section. The CTA row sits in the row below subhead in the same
+   grid column, spaced by `row-gap`. Consumes mo-design-system.css tokens
+   with hardcoded fallbacks so this still renders if that file is ever
+   removed. UPSTREAM risk LOW — net-new, no Horizon file touched.
    ============================================================================ */
-/* CUSTOM (2026-07-13): fixed 95vh/95dvh section height at every breakpoint
-   (was aspect-ratio-driven on mobile, 90vh on desktop) — the background
-   image always covers this box via object-fit:cover regardless of its own
-   aspect ratio, so image_aspect_ratio_mobile/desktop no longer drive layout
-   sizing (left in the schema in case Kalvis wants to switch back). */
 .mo-home-hero {
   position: relative;
   background: var(--mo-home-hero-bg, #093d24);
   padding-block: var(--mo-home-hero-padding-y, 0px);
   overflow: hidden;
+  /* Fixed 95vh/95dvh section height at every breakpoint — the background
+     image always covers this box via object-fit:cover regardless of its own
+     aspect ratio, so image_aspect_ratio_mobile/desktop no longer drive
+     layout sizing (left in the schema in case Kalvis wants to switch back). */
   height: 95vh;
   height: 95dvh;
-}
-
-.mo-home-hero__header {
-  position: absolute;
-  z-index: 4;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: transparent;
-  padding: var(--mo-space-6, 24px) var(--mo-space-5, 20px) 0;
-}
-
-.mo-home-hero__rating {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--mo-space-3, 12px);
-  color: var(--mo-home-hero-rating, #f2a2ff);
-  margin: 0 0 var(--mo-space-4, 16px);
-}
-
-.mo-home-hero__rating-value {
-  font-size: 14px;
-}
-
-.mo-home-hero__rating .mo-stars {
-  color: var(--mo-home-hero-rating, #f2a2ff);
-  font-size: 14px;
-}
-
-.mo-home-hero__reviews-link {
-  color: var(--mo-home-hero-reviews-link, #ffffff);
-  text-decoration: underline;
-  font-size: 12px;
-}
-
-.mo-home-hero__heading {
-  color: var(--mo-home-hero-heading, #f2a2ff);
-  margin: 0;
-  font-size: 32px;
-}
-
-/* ---------- Subhead ----------
-   CUSTOM: mobile top-anchors below the header at a fixed pixel offset (not
-   bottom-anchored like desktop) since the CTA row already owns the bottom
-   edge on mobile and the header owns the top — VERIFY this offset once real
-   copy/heading line-count is confirmed, it can collide with a 3-line
-   heading. Desktop switches to bottom-anchored mid-right (see media query
-   below). */
-.mo-home-hero__subhead {
-  position: absolute;
-  z-index: 3;
-  top: 190px;
-  left: 0;
-  right: 0;
-  padding: 0 var(--mo-space-5, 20px);
-  background: transparent;
-}
-
-.mo-home-hero__subhead-text {
-  color: var(--mo-home-hero-subhead, #ffffff);
-  max-width: 46ch;
 }
 
 .mo-home-hero__media {
@@ -3196,10 +3135,79 @@ mo-review-filter {
   pointer-events: none;
 }
 
+/* ---------- Content wrapper ----------
+   Mobile: plain block box, children independently position:absolute
+   (unchanged stacking behavior from before). Desktop: becomes a CSS Grid
+   (see media query) so header/subhead align without guessed offsets. */
+.mo-home-hero__content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+.mo-home-hero__header {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: transparent;
+  padding: var(--mo-space-6, 24px) var(--mo-space-5, 20px) 0;
+}
+
+.mo-home-hero__rating {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--mo-space-3, 12px);
+  color: var(--mo-home-hero-rating, #f2a2ff);
+  margin: 0 0 var(--mo-space-4, 16px);
+}
+
+.mo-home-hero__rating-value {
+  font-size: 14px;
+}
+
+.mo-home-hero__rating .mo-stars {
+  color: var(--mo-home-hero-rating, #f2a2ff);
+  font-size: 14px;
+}
+
+.mo-home-hero__reviews-link {
+  color: var(--mo-home-hero-reviews-link, #ffffff);
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+.mo-home-hero__heading {
+  color: var(--mo-home-hero-heading, #f2a2ff);
+  margin: 0;
+  font-size: 32px;
+}
+
+/* ---------- Subhead ----------
+   CUSTOM: mobile top-anchors below the header at a fixed pixel offset —
+   VERIFY this offset once real copy/heading line-count is confirmed, it can
+   collide with a 3-line heading. Desktop drops this entirely in favor of
+   grid alignment (see media query below). */
+.mo-home-hero__subhead {
+  position: absolute;
+  z-index: 3;
+  top: 190px;
+  left: 0;
+  right: 0;
+  padding: 0 var(--mo-space-5, 20px);
+  background: transparent;
+}
+
+.mo-home-hero__subhead-text {
+  color: var(--mo-home-hero-subhead, #ffffff);
+  max-width: 46ch;
+}
+
 /* ---------- CTA row overlay ----------
    Mobile: full-width row pinned to the bottom of the image. Desktop:
-   right-aligned row, bottom-anchored above the subhead's own bottom offset
-   (see media query below). */
+   becomes a normal grid item under the subhead (see media query below). */
 .mo-home-hero__overlay {
   position: absolute;
   z-index: 3;
@@ -3222,38 +3230,38 @@ mo-review-filter {
    top-left, subhead + CTA row overlay mid-right. Section height is the
    shared 95vh/95dvh rule above (no desktop-specific override needed). */
 @media screen and (min-width: 750px) {
-  /* Reuses .mo-trust-bar__inner's exact max-width + margin-inline:auto +
-     padding-inline rule set (see the 2026-07-09 alignment-fix note earlier in
-     this file) so the overlaid header/subhead/CTA column lines up with every
-     other custom section's column boundary by construction. */
-  .mo-home-hero__header,
-  .mo-home-hero__subhead,
-  .mo-home-hero__overlay {
-    left: 0;
-    right: 0;
+  /* CUSTOM (2026-07-13 round 3): grid-template-areas puts header + subhead
+     in row 1 (columns 1 and 2) and the CTA row in row 2 under subhead.
+     align-items:start top-aligns everything placed in row 1 — this is what
+     guarantees the header/subhead tops match exactly, regardless of the
+     heading's actual rendered height. align-content:center then centers the
+     whole 2-row block vertically inside the 95vh section. Reuses
+     .mo-trust-bar__inner's exact max-width + margin-inline:auto +
+     padding-inline rule set (see the 2026-07-09 alignment-fix note earlier
+     in this file) so the column lines up with every other custom section's
+     column boundary by construction. */
+  .mo-home-hero__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "header  subhead"
+      ".       cta";
+    align-items: start;
+    align-content: center;
+    row-gap: var(--mo-space-4, 16px);
+    inset: 0;
     max-width: var(--page-width, var(--normal-page-width, 1280px));
     margin-inline: auto;
     padding-inline: var(--page-margin, 40px);
     box-sizing: border-box;
   }
 
-  /* CUSTOM (2026-07-13 round 2): header and subhead now share the EXACT
-     same `top: 50%` + `transform: translateY(...)` pair (not each centered
-     independently on its own height, which is what made the rating row sit
-     noticeably higher than the subhead before) — this pins both columns'
-     TOP edges to the identical line so they visually align, per Kalvis's
-     "header top line matches with the right column" note. The shared
-     -84px offset is an estimate of half the header block's height (rating
-     row + 2-line 64px heading), so the pair still reads as roughly centered
-     in the 95vh section overall — VERIFY once real copy/line-count is
-     confirmed, a longer heading shifts this. The CTA row's own offset
-     (-8px) is a separate estimate for "subhead's estimated height + gap
-     below that same shared top line" — also VERIFY. */
   .mo-home-hero__header {
-    top: 50%;
-    transform: translateY(-84px);
+    position: static;
+    grid-area: header;
+    justify-self: start;
     background: transparent;
-    padding-block: 0;
+    padding: 0;
   }
 
   .mo-home-hero__heading {
@@ -3267,10 +3275,9 @@ mo-review-filter {
   }
 
   .mo-home-hero__subhead {
-    top: 50%;
-    bottom: auto;
-    transform: translateY(-84px);
-    margin-bottom: 0;
+    position: static;
+    grid-area: subhead;
+    justify-self: end;
     padding: 0;
     background: transparent;
     display: flex;
@@ -3283,10 +3290,9 @@ mo-review-filter {
   }
 
   .mo-home-hero__overlay {
-    top: 50%;
-    bottom: auto;
-    transform: translateY(-8px);
-    margin-top: 0;
+    position: static;
+    grid-area: cta;
+    justify-self: end;
     display: flex;
     justify-content: flex-end;
   }
