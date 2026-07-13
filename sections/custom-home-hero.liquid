@@ -1,0 +1,342 @@
+{%- # CUSTOM: net-new theme section — Homepage above-the-fold Hero. Full-bleed lifestyle image (woman/oyster/pearls) with a rating row + heading pinned top-left and a subhead + two CTA buttons pinned mid-right, both directly on the image on desktop. Mobile: rating/heading/subhead stack first on a solid deep-green block, then the image renders in normal flow below, with the CTA row pinned as a full-width bar over the image's bottom edge. Global site header/nav is NOT part of this section. UPSTREAM risk LOW — net-new, no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-home-hero rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign has_image = false
+  if s.background_image != blank
+    assign has_image = true
+  endif
+  assign has_video = false
+  if s.background_video != blank
+    assign has_video = true
+  endif
+-%}
+
+<section
+  class="mo-home-hero"
+  id="MoHomeHero-{{ section.id }}"
+  style="
+    --mo-home-hero-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-home-hero-scrim: {{ s.scrim_color | default: '#093D24' }};
+    --mo-home-hero-scrim-opacity: {{ s.scrim_opacity | default: 0 | divided_by: 100.0 }};
+    --mo-home-hero-rating: {{ s.rating_color | default: '#F2A2FF' }};
+    --mo-home-hero-reviews-link: {{ s.reviews_link_color | default: '#FFFFFF' }};
+    --mo-home-hero-heading: {{ s.heading_color | default: '#F2A2FF' }};
+    --mo-home-hero-subhead: {{ s.subhead_color | default: '#FFFFFF' }};
+    --mo-home-hero-aspect-desktop: {{ s.image_aspect_ratio_desktop | default: 1.9 }};
+    --mo-home-hero-aspect-mobile: {{ s.image_aspect_ratio_mobile | default: 1.1 }};
+    --mo-home-hero-object-position-desktop: {{ s.object_position_desktop | default: 'center center' }};
+    --mo-home-hero-object-position-mobile: {{ s.object_position_mobile | default: 'center top' }};
+    --mo-home-hero-padding-y: {{ s.vertical_padding | default: 0 }}px;
+  "
+>
+  <div class="mo-home-hero__header">
+    {%- if s.rating_value != blank or s.review_count_label != blank -%}
+      <div class="mo-home-hero__rating">
+        {%- if s.rating_value != blank -%}
+          <span class="mo-home-hero__rating-value mo-menu">{{ s.rating_value }}</span>
+        {%- endif -%}
+        {%- render 'mo-stars', rating: s.rating_value -%}
+        {%- if s.review_count_label != blank -%}
+          {%- if s.reviews_link != blank -%}
+            <a href="{{ s.reviews_link }}" class="mo-home-hero__reviews-link mo-menu">{{ s.review_count_label | escape }}</a>
+          {%- else -%}
+            <span class="mo-home-hero__reviews-link mo-menu">{{ s.review_count_label | escape }}</span>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if s.heading != blank -%}
+      <h1 class="mo-home-hero__heading mo-h1">{{ s.heading | newline_to_br }}</h1>
+    {%- endif -%}
+  </div>
+
+  {%- # CUSTOM: subhead is a normal-flow sibling of header/media (same technique as .mo-sub-benefits__review in custom-subscribe-benefits.liquid) — mobile: renders in document order right after the heading, on the same solid bg, before the image. Desktop: CSS switches it to position:absolute (mid-right over the image, paired visually with the CTA row below it) via the media query in custom.css. -%}
+  {%- if s.subhead != blank -%}
+    <div class="mo-home-hero__subhead">
+      <div class="mo-home-hero__subhead-text mo-body-lg">{{ s.subhead | newline_to_br }}</div>
+    </div>
+  {%- endif -%}
+
+  <div class="mo-home-hero__media">
+    {%- if has_image -%}
+      {{
+        s.background_image
+        | image_url: width: 2000
+        | image_tag:
+          width: s.background_image.width,
+          height: s.background_image.height,
+          alt: s.background_image.alt,
+          sizes: '100vw',
+          class: 'mo-home-hero__poster',
+          loading: 'lazy',
+          fetchpriority: 'high'
+      }}
+    {%- endif -%}
+
+    {%- if has_video -%}
+      <div class="mo-home-hero__video-wrap">
+        {{
+          s.background_video
+          | video_tag:
+            poster: nil,
+            autoplay: true,
+            loop: true,
+            controls: false,
+            muted: true,
+            playsinline: true,
+            preload: 'metadata',
+            class: 'mo-home-hero__video',
+            data-testid: 'home-hero-video'
+        }}
+      </div>
+    {%- endif -%}
+
+    <div class="mo-home-hero__scrim" aria-hidden="true"></div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="mo-home-hero__overlay">
+        <div class="mo-home-hero__ctas">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'cta' -%}
+              {%- liquid
+                assign bs = block.settings
+                assign btn_class = 'mo-btn--shop'
+                if bs.style == 'primary'
+                  assign btn_class = 'mo-btn--primary'
+                endif
+              -%}
+              {%- if bs.label != blank -%}
+                <a
+                  href="{{ bs.link | default: '#' }}"
+                  class="mo-btn {{ btn_class }} mo-home-hero__cta"
+                  {{ block.shopify_attributes }}
+                >{{ bs.label | escape }}</a>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Homepage Hero",
+  "tag": "section",
+  "class": "mo-home-hero-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Rating"
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Rating value",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "review_count_label",
+      "label": "Review count label",
+      "default": "580+ VERIFIED REVIEWS"
+    },
+    {
+      "type": "url",
+      "id": "reviews_link",
+      "label": "Reviews link",
+      "info": "Optional. If left blank, the review count renders as plain text (not yet clickable)."
+    },
+    {
+      "type": "header",
+      "content": "Heading & subhead"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "See the world more clearly"
+    },
+    {
+      "type": "textarea",
+      "id": "subhead",
+      "label": "Subhead",
+      "default": "Premium preservative-free eye drops with Glycerin, Hyaluronate, and L-Carnitine. Made in the Netherlands. Designed for the modern, screen-driven eye."
+    },
+    {
+      "type": "header",
+      "content": "Background media (full-bleed)"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image",
+      "info": "Full-bleed lifestyle image. Always-present base layer — shown alone if no video is set, and whenever the visitor's device has reduced motion enabled."
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Background video",
+      "info": "Optional, included for consistency with other custom sections. Autoplays muted, looped, no controls. Falls back to the background image above if left blank — this frame shows an image, not a video."
+    },
+    {
+      "type": "range",
+      "id": "image_aspect_ratio_desktop",
+      "label": "Desktop image aspect ratio",
+      "min": 1.2,
+      "max": 2.4,
+      "step": 0.1,
+      "default": 1.9,
+      "info": "Width ÷ height. VERIFY against the final Figma export — estimated from the reference frame."
+    },
+    {
+      "type": "range",
+      "id": "image_aspect_ratio_mobile",
+      "label": "Mobile image aspect ratio",
+      "min": 0.6,
+      "max": 1.6,
+      "step": 0.1,
+      "default": 1.1,
+      "info": "Width ÷ height. VERIFY against the final Figma export — estimated from the reference frame."
+    },
+    {
+      "type": "text",
+      "id": "object_position_desktop",
+      "label": "Desktop image focal point",
+      "default": "center center",
+      "info": "CSS object-position value, e.g. \"center center\" or \"75% 50%\"."
+    },
+    {
+      "type": "text",
+      "id": "object_position_mobile",
+      "label": "Mobile image focal point",
+      "default": "center top",
+      "info": "CSS object-position value."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section / mobile header background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "scrim_color",
+      "label": "Image/video scrim color",
+      "default": "#093D24",
+      "info": "Solid overlay for legibility over the image. Defaults to 0% opacity since the reference frame's photo already reads dark enough behind the copy — raise it if a merchant swaps in a lighter photo."
+    },
+    {
+      "type": "range",
+      "id": "scrim_opacity",
+      "label": "Image/video scrim opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "rating_color",
+      "label": "Rating value + stars color",
+      "default": "#F2A2FF"
+    },
+    {
+      "type": "color",
+      "id": "reviews_link_color",
+      "label": "Reviews link color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#F2A2FF"
+    },
+    {
+      "type": "color",
+      "id": "subhead_color",
+      "label": "Subhead color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Extra section vertical padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "cta",
+      "name": "CTA Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "SHOP NOW"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            { "value": "shop", "label": "Mint (Shop Now)" },
+            { "value": "primary", "label": "Pink (How It Works)" }
+          ],
+          "default": "shop"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Homepage Hero",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "cta",
+          "settings": {
+            "label": "SHOP NOW",
+            "style": "shop"
+          }
+        },
+        {
+          "type": "cta",
+          "settings": {
+            "label": "HOW IT WORKS",
+            "style": "primary"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["index", "page"]
+  }
+}
+{% endschema %}

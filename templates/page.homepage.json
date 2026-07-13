@@ -1,0 +1,41 @@
+{
+  "sections": {
+    "custom_home_hero_mohp1": {
+      "type": "custom-home-hero",
+      "name": "Hero",
+      "settings": {
+        "rating_value": "4.9",
+        "review_count_label": "580+ VERIFIED REVIEWS",
+        "heading": "See the world more clearly",
+        "subhead": "Premium preservative-free eye drops with Glycerin, Hyaluronate, and L-Carnitine. Made in the Netherlands. Designed for the modern, screen-driven eye.",
+        "background_color": "#093D24",
+        "scrim_color": "#093D24",
+        "scrim_opacity": 0,
+        "rating_color": "#F2A2FF",
+        "reviews_link_color": "#FFFFFF",
+        "heading_color": "#F2A2FF",
+        "subhead_color": "#FFFFFF"
+      },
+      "blocks": {
+        "cta_shop": {
+          "type": "cta",
+          "settings": {
+            "label": "SHOP NOW",
+            "style": "shop"
+          }
+        },
+        "cta_how": {
+          "type": "cta",
+          "settings": {
+            "label": "HOW IT WORKS",
+            "style": "primary"
+          }
+        }
+      },
+      "block_order": ["cta_shop", "cta_how"]
+    }
+  },
+  "order": [
+    "custom_home_hero_mohp1"
+  ]
+}
