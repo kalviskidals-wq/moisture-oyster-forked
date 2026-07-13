@@ -3243,10 +3243,21 @@ mo-review-filter {
     box-sizing: border-box;
   }
 
+  /* CUSTOM (2026-07-13): content vertically centered on desktop, not
+     top/bottom-pinned. Header is centered independently as its own block.
+     Subhead + CTA row straddle that SAME center line as a pair — subhead's
+     bottom edge sits a fixed gap above center, the CTA row's top edge sits
+     the same gap below center — so the two grow apart from the center
+     symmetrically instead of needing a measured "how tall is the subhead"
+     offset (the fixed-pixel-offset approach the previous bottom-anchored
+     version used). This keeps the "subhead can grow without colliding with
+     the CTAs" property from the 2026-07-10 subscribe-benefits fix while
+     also centering the pair as a unit. */
   .mo-home-hero__header {
-    top: 0;
+    top: 50%;
+    transform: translateY(-50%);
     background: transparent;
-    padding-block: var(--mo-space-8, 40px) 0;
+    padding-block: 0;
   }
 
   .mo-home-hero__heading {
@@ -3259,13 +3270,10 @@ mo-review-filter {
     object-position: var(--mo-home-hero-object-position-desktop, center center);
   }
 
-  /* CUSTOM: bottom-anchored (not top-anchored, unlike the mobile rule above)
-     so the subhead can grow upward with longer copy without colliding with
-     the CTA row below it — same rationale as the 2026-07-10
-     subscribe-benefits review-card fix. */
   .mo-home-hero__subhead {
     top: auto;
-    bottom: 148px;
+    bottom: 50%;
+    margin-bottom: var(--mo-space-4, 16px);
     padding: 0;
     background: transparent;
     display: flex;
@@ -3278,7 +3286,9 @@ mo-review-filter {
   }
 
   .mo-home-hero__overlay {
-    bottom: var(--mo-space-8, 40px);
+    top: 50%;
+    bottom: auto;
+    margin-top: var(--mo-space-4, 16px);
     display: flex;
     justify-content: flex-end;
   }
