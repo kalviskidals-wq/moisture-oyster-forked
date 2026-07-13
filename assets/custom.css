@@ -3058,16 +3058,18 @@ mo-review-filter {
    this still renders if that file is ever removed. UPSTREAM risk LOW —
    net-new, no Horizon file touched.
    ============================================================================ */
+/* CUSTOM (2026-07-13): fixed 95vh/95dvh section height at every breakpoint
+   (was aspect-ratio-driven on mobile, 90vh on desktop) — the background
+   image always covers this box via object-fit:cover regardless of its own
+   aspect ratio, so image_aspect_ratio_mobile/desktop no longer drive layout
+   sizing (left in the schema in case Kalvis wants to switch back). */
 .mo-home-hero {
   position: relative;
   background: var(--mo-home-hero-bg, #093d24);
   padding-block: var(--mo-home-hero-padding-y, 0px);
   overflow: hidden;
-  /* Mobile: sized by the vertical image's own aspect ratio so the section
-     height always matches "the image covers the whole section" — see the
-     image_aspect_ratio_mobile section setting. VERIFY against the real
-     vertical crop once uploaded. */
-  aspect-ratio: var(--mo-home-hero-aspect-mobile, 1.1);
+  height: 95vh;
+  height: 95dvh;
 }
 
 .mo-home-hero__header {
@@ -3216,18 +3218,10 @@ mo-review-filter {
   text-align: center;
 }
 
-/* Desktop (Figma desktop frame): explicit 90vh section height; header
-   overlays the full-bleed image top-left, subhead + CTA row overlay
-   mid-right, both bottom-anchored so subhead copy can grow upward without
-   touching the CTAs beneath it. */
+/* Desktop (Figma desktop frame): header overlays the full-bleed image
+   top-left, subhead + CTA row overlay mid-right. Section height is the
+   shared 95vh/95dvh rule above (no desktop-specific override needed). */
 @media screen and (min-width: 750px) {
-  .mo-home-hero {
-    aspect-ratio: auto;
-    height: 90vh;
-    height: 90dvh;
-    min-height: 480px;
-  }
-
   /* Reuses .mo-trust-bar__inner's exact max-width + margin-inline:auto +
      padding-inline rule set (see the 2026-07-09 alignment-fix note earlier in
      this file) so the overlaid header/subhead/CTA column lines up with every
@@ -3243,19 +3237,21 @@ mo-review-filter {
     box-sizing: border-box;
   }
 
-  /* CUSTOM (2026-07-13): content vertically centered on desktop, not
-     top/bottom-pinned. Header is centered independently as its own block.
-     Subhead + CTA row straddle that SAME center line as a pair — subhead's
-     bottom edge sits a fixed gap above center, the CTA row's top edge sits
-     the same gap below center — so the two grow apart from the center
-     symmetrically instead of needing a measured "how tall is the subhead"
-     offset (the fixed-pixel-offset approach the previous bottom-anchored
-     version used). This keeps the "subhead can grow without colliding with
-     the CTAs" property from the 2026-07-10 subscribe-benefits fix while
-     also centering the pair as a unit. */
+  /* CUSTOM (2026-07-13 round 2): header and subhead now share the EXACT
+     same `top: 50%` + `transform: translateY(...)` pair (not each centered
+     independently on its own height, which is what made the rating row sit
+     noticeably higher than the subhead before) — this pins both columns'
+     TOP edges to the identical line so they visually align, per Kalvis's
+     "header top line matches with the right column" note. The shared
+     -84px offset is an estimate of half the header block's height (rating
+     row + 2-line 64px heading), so the pair still reads as roughly centered
+     in the 95vh section overall — VERIFY once real copy/line-count is
+     confirmed, a longer heading shifts this. The CTA row's own offset
+     (-8px) is a separate estimate for "subhead's estimated height + gap
+     below that same shared top line" — also VERIFY. */
   .mo-home-hero__header {
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-84px);
     background: transparent;
     padding-block: 0;
   }
@@ -3271,9 +3267,10 @@ mo-review-filter {
   }
 
   .mo-home-hero__subhead {
-    top: auto;
-    bottom: 50%;
-    margin-bottom: var(--mo-space-4, 16px);
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-84px);
+    margin-bottom: 0;
     padding: 0;
     background: transparent;
     display: flex;
@@ -3288,7 +3285,8 @@ mo-review-filter {
   .mo-home-hero__overlay {
     top: 50%;
     bottom: auto;
-    margin-top: var(--mo-space-4, 16px);
+    transform: translateY(-8px);
+    margin-top: 0;
     display: flex;
     justify-content: flex-end;
   }
