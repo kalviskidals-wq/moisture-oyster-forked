@@ -3042,33 +3042,42 @@ mo-review-filter {
 
 /* ============================================================================
    MO HOMEPAGE HERO (sections/custom-home-hero.liquid)
-   Mobile: rating+heading (.mo-home-hero__header) then subhead
-   (.mo-home-hero__subhead) render in normal document flow on a solid
-   deep-green block, THEN the image (.mo-home-hero__media) follows in flow —
-   the CTA row (.mo-home-hero__overlay) is the only piece layered on the
-   photo, pinned to its bottom edge. Desktop switches header to
-   position:absolute top-left over the full-bleed image, and both subhead +
-   the CTA overlay to position:absolute, bottom-anchored, mid-right — same
-   breakpoint-switch technique as .mo-sub-benefits__header/__review in
-   custom-subscribe-benefits.liquid (2026-07-10 fix): bottom-anchoring lets
-   the subhead grow upward with copy length without colliding with the CTA
-   row beneath it, rather than top-anchoring both and risking overlap.
-   Consumes mo-design-system.css tokens with hardcoded fallbacks so this still
-   renders if that file is ever removed. UPSTREAM risk LOW — net-new, no
-   Horizon file touched.
+   CUSTOM (2026-07-13 revision): full-bleed overlay at EVERY breakpoint now —
+   the vertical mobile image (.mo-home-hero__media) covers the whole section
+   just like desktop does, and header/subhead/CTA row are all
+   position:absolute text layered on top of it (no more "solid bg block above
+   the image" mobile layout). Mobile: header top-left, subhead top-anchored
+   below it (both anchored from the top — a fixed pixel offset stacks the
+   subhead under the header, flagged VERIFY below since it doesn't reflow if
+   the heading wraps to more lines), CTA row bottom, full-width. Desktop:
+   section height is an explicit 90vh; header top-left, subhead + CTA row
+   bottom-anchored mid-right (bottom-anchoring here — not top — lets the
+   subhead grow upward with copy length without colliding with the CTAs
+   below it, same rationale as the 2026-07-10 subscribe-benefits review-card
+   fix). Consumes mo-design-system.css tokens with hardcoded fallbacks so
+   this still renders if that file is ever removed. UPSTREAM risk LOW —
+   net-new, no Horizon file touched.
    ============================================================================ */
 .mo-home-hero {
   position: relative;
   background: var(--mo-home-hero-bg, #093d24);
   padding-block: var(--mo-home-hero-padding-y, 0px);
   overflow: hidden;
+  /* Mobile: sized by the vertical image's own aspect ratio so the section
+     height always matches "the image covers the whole section" — see the
+     image_aspect_ratio_mobile section setting. VERIFY against the real
+     vertical crop once uploaded. */
+  aspect-ratio: var(--mo-home-hero-aspect-mobile, 1.1);
 }
 
 .mo-home-hero__header {
-  position: relative;
+  position: absolute;
   z-index: 4;
-  background: var(--mo-home-hero-bg, #093d24);
-  padding: var(--mo-space-8, 40px) var(--mo-space-5, 20px) var(--mo-space-4, 16px);
+  top: 0;
+  left: 0;
+  right: 0;
+  background: transparent;
+  padding: var(--mo-space-6, 24px) var(--mo-space-5, 20px) 0;
 }
 
 .mo-home-hero__rating {
@@ -3098,19 +3107,24 @@ mo-review-filter {
 .mo-home-hero__heading {
   color: var(--mo-home-hero-heading, #f2a2ff);
   margin: 0;
-  font-size: 40px;
+  font-size: 32px;
 }
 
 /* ---------- Subhead ----------
-   Normal-flow sibling of header/media on mobile (same technique as
-   .mo-sub-benefits__review) — sits on the same solid bg, right after the
-   heading, before the image. Desktop switches to position:absolute,
-   bottom-anchored mid-right (see media query below). */
+   CUSTOM: mobile top-anchors below the header at a fixed pixel offset (not
+   bottom-anchored like desktop) since the CTA row already owns the bottom
+   edge on mobile and the header owns the top — VERIFY this offset once real
+   copy/heading line-count is confirmed, it can collide with a 3-line
+   heading. Desktop switches to bottom-anchored mid-right (see media query
+   below). */
 .mo-home-hero__subhead {
-  position: static;
+  position: absolute;
   z-index: 3;
-  background: var(--mo-home-hero-bg, #093d24);
-  padding: 0 var(--mo-space-5, 20px) var(--mo-space-6, 24px);
+  top: 190px;
+  left: 0;
+  right: 0;
+  padding: 0 var(--mo-space-5, 20px);
+  background: transparent;
 }
 
 .mo-home-hero__subhead-text {
@@ -3118,13 +3132,11 @@ mo-review-filter {
   max-width: 46ch;
 }
 
-/* Sized by aspect-ratio (configurable via section settings) on mobile so the
-   media area has a predictable height before the CTA row overlays its
-   bottom edge — same technique as .mo-problem__media-wrap. */
 .mo-home-hero__media {
-  position: relative;
+  position: absolute;
+  inset: 0;
   overflow: hidden;
-  aspect-ratio: var(--mo-home-hero-aspect-mobile, 1.1);
+  z-index: 0;
 }
 
 /* CUSTOM: <picture> defaults to inline/auto-sized — per the onepager lesson
@@ -3204,13 +3216,15 @@ mo-review-filter {
   text-align: center;
 }
 
-/* Desktop (Figma desktop frame): header overlays the full-bleed image
-   top-left instead of stacking above it; subhead + CTA row overlay mid-right,
-   both bottom-anchored so subhead copy can grow upward without touching the
-   CTAs beneath it. */
+/* Desktop (Figma desktop frame): explicit 90vh section height; header
+   overlays the full-bleed image top-left, subhead + CTA row overlay
+   mid-right, both bottom-anchored so subhead copy can grow upward without
+   touching the CTAs beneath it. */
 @media screen and (min-width: 750px) {
   .mo-home-hero {
-    aspect-ratio: var(--mo-home-hero-aspect-desktop, 1.9);
+    aspect-ratio: auto;
+    height: 90vh;
+    height: 90dvh;
     min-height: 480px;
   }
 
@@ -3230,7 +3244,6 @@ mo-review-filter {
   }
 
   .mo-home-hero__header {
-    position: absolute;
     top: 0;
     background: transparent;
     padding-block: var(--mo-space-8, 40px) 0;
@@ -3241,24 +3254,17 @@ mo-review-filter {
     max-width: 14ch;
   }
 
-  .mo-home-hero__media {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    aspect-ratio: auto;
-    height: 100%;
-  }
-
   .mo-home-hero__poster,
   .mo-home-hero__video {
     object-position: var(--mo-home-hero-object-position-desktop, center center);
   }
 
-  /* CUSTOM: bottom-anchored (not top-anchored) so the subhead can grow
-     upward with longer copy without colliding with the CTA row below it —
-     same rationale as the 2026-07-10 subscribe-benefits review-card fix. */
+  /* CUSTOM: bottom-anchored (not top-anchored, unlike the mobile rule above)
+     so the subhead can grow upward with longer copy without colliding with
+     the CTA row below it — same rationale as the 2026-07-10
+     subscribe-benefits review-card fix. */
   .mo-home-hero__subhead {
-    position: absolute;
+    top: auto;
     bottom: 148px;
     padding: 0;
     background: transparent;
