@@ -39,9 +39,14 @@
 
 /* CUSTOM: the pre-launch onepager is a full-screen takeover (it carries its own
    logo), so hide the theme header/announcement bar and footer that otherwise leave
-   colored bands above/below it. custom.css only loads on pages with this section. */
-#header-group,
-.page-wrapper > footer {
+   colored bands above/below it. Scoped via :has() to pages that actually render
+   .mo-prelaunch — custom.css now loads on many other custom sections (trust bar,
+   the global custom-footer, etc.), so an unscoped rule here would hide the
+   header/footer on every page site-wide. This stays as the LOW-risk interim
+   guard; the real fix (skip rendering header-group/footer-group entirely on the
+   prelaunch template in layout/theme.liquid) is proposed separately, pending approval. */
+body:has(.mo-prelaunch) #header-group,
+body:has(.mo-prelaunch) .page-wrapper > footer {
   display: none;
 }
 
@@ -2748,4 +2753,289 @@ mo-review-filter {
   color: var(--mo-icon-card-desc, #ffffff);
   margin: 0;
   opacity: 0.9;
+}
+
+/* ============================================================================
+   MO FOOTER — sections/custom-footer.liquid
+   Global footer: vitamins-waitlist signup (left) + menu columns (right) +
+   oversized wordmark + legal line. .mo-footer__inner reuses .mo-trust-bar__inner's
+   exact max-width/margin-inline/padding-inline rule (see the 2026-07-09
+   alignment-fix note above) so this section's column lines up with every other
+   page-width-aligned section by construction.
+   ============================================================================ */
+.mo-footer {
+  background: var(--mo-footer-bg, #093d24);
+}
+
+.mo-footer__inner {
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: var(--page-margin, 16px);
+  padding-block: var(--mo-footer-padding-top, 64px) var(--mo-footer-padding-bottom, 40px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-footer__inner {
+    padding-inline: var(--page-margin, 40px);
+  }
+}
+
+.mo-footer__top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-7, 32px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-footer__top {
+    display: grid;
+    grid-template-columns: minmax(280px, 460px) 1fr;
+    gap: var(--mo-space-8, 40px);
+  }
+}
+
+/* ---------- Signup ---------- */
+.mo-footer__eyebrow {
+  color: var(--mo-footer-eyebrow, #b8f3d8);
+  margin: 0 0 var(--mo-space-3, 12px);
+}
+
+.mo-footer__heading {
+  font-family: var(--mo-font-heading);
+  color: var(--mo-footer-heading, #ffffff);
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--mo-space-4, 16px);
+}
+
+.mo-footer__desc {
+  color: var(--mo-footer-desc, #ffffff);
+  opacity: 0.85;
+  margin: 0 0 var(--mo-space-6, 24px);
+  max-width: 420px;
+}
+
+.mo-footer__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-3, 12px);
+  max-width: 420px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-footer__field {
+    flex-direction: row;
+    max-width: 480px;
+  }
+}
+
+.mo-footer__input {
+  flex: 1;
+  background: transparent;
+  border: var(--mo-border-width, 1.5px) solid var(--mo-footer-input-border, #2c5940);
+  border-radius: var(--mo-footer-field-radius, 16px);
+  color: var(--mo-footer-input-text, #ffffff);
+  font-family: var(--mo-font-mono);
+  font-size: var(--mo-body-size, 0.875rem);
+  padding: var(--mo-space-5, 20px) var(--mo-space-5, 20px);
+  min-width: 0;
+}
+
+.mo-footer__input::placeholder {
+  color: color-mix(in srgb, var(--mo-footer-input-text, #ffffff) 60%, transparent);
+}
+
+.mo-footer__button {
+  background: var(--mo-footer-button-bg, #ffd5f7);
+  color: var(--mo-footer-button-text, #093d24);
+  border: none;
+  border-radius: var(--mo-footer-field-radius, 16px);
+  padding: var(--mo-space-5, 20px) var(--mo-space-7, 32px);
+  font-family: var(--mo-font-mono);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s ease;
+}
+
+.mo-footer__button:hover {
+  opacity: 0.85;
+}
+
+.mo-footer__success {
+  color: var(--mo-footer-heading, #ffffff);
+}
+
+.mo-footer__error {
+  color: #ffb4b4;
+  font-size: var(--mo-body-size, 0.875rem);
+  margin-block-start: var(--mo-space-2, 8px);
+}
+
+/* ---------- Menu columns ---------- */
+.mo-footer__columns {
+  display: flex;
+  flex-direction: column-reverse; /* DOM order Shop/Support/Company -> visual Company/Support/Shop on mobile, matching the Figma mobile frame, with zero JS. */
+}
+
+@media screen and (min-width: 750px) {
+  .mo-footer__columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--mo-space-6, 24px) var(--mo-space-8, 40px);
+    align-items: start;
+  }
+}
+
+.mo-footer__col {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-block: var(--mo-space-5, 20px);
+}
+
+.mo-footer__col summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mo-space-3, 12px);
+  color: var(--mo-footer-menu-heading, #ffffff);
+  cursor: pointer;
+  list-style: none;
+}
+
+.mo-footer__col summary::-webkit-details-marker {
+  display: none;
+}
+
+.mo-footer__col summary::marker {
+  content: '';
+}
+
+.mo-footer__col-toggle {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  color: var(--mo-footer-toggle, #ffffff);
+  transition: transform 0.2s ease;
+}
+
+.mo-footer__col[open] .mo-footer__col-toggle {
+  transform: rotate(45deg);
+}
+
+.mo-footer__col-list {
+  padding-block-start: var(--mo-space-4, 16px);
+}
+
+.mo-footer__col-list ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-3, 12px);
+  margin: 0;
+  padding: 0;
+}
+
+.mo-footer__col-link {
+  color: var(--mo-footer-menu-link, #ffffff);
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.mo-footer__col-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-footer__col {
+    border-top: none;
+    padding-block: 0;
+  }
+
+  .mo-footer__col summary {
+    cursor: default;
+    pointer-events: none;
+    margin-block-end: var(--mo-space-4, 16px);
+  }
+
+  .mo-footer__col-toggle {
+    display: none;
+  }
+
+  /* Force the panel visible regardless of the native [open] state — desktop
+     columns are always expanded, non-interactive. */
+  .mo-footer__col .mo-footer__col-list {
+    display: block !important;
+    padding-block-start: 0;
+  }
+}
+
+/* ---------- Wordmark + legal ---------- */
+.mo-footer__wordmark {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  color: var(--mo-footer-wordmark, #ffd5f7);
+  margin-block-start: var(--mo-space-8, 40px);
+}
+
+.mo-footer__wordmark-fallback {
+  display: flex;
+  align-items: center;
+  line-height: 0.75;
+}
+
+.mo-footer__wordmark-text {
+  font-family: var(--mo-font-heading);
+  font-weight: 800;
+  font-size: clamp(4rem, 22vw, 11rem);
+  line-height: 0.75;
+  letter-spacing: -0.03em;
+}
+
+.mo-footer__wordmark-drop {
+  width: clamp(3rem, 14vw, 7rem);
+  height: auto;
+  margin-inline-start: -0.5vw;
+}
+
+.mo-footer__wordmark-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mo-footer__tm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: clamp(28px, 3vw, 44px);
+  height: clamp(28px, 3vw, 44px);
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--mo-font-mono);
+  font-size: clamp(10px, 1vw, 14px);
+  margin-inline-start: var(--mo-space-3, 12px);
+  align-self: flex-start;
+  margin-block-start: var(--mo-space-2, 8px);
+}
+
+.mo-footer__legal {
+  color: var(--mo-footer-legal, #ffffffb3);
+  font-size: 12px;
+  line-height: 1.4;
+  margin-block-start: var(--mo-space-6, 24px);
+  max-width: 480px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-footer__legal {
+    text-align: right;
+    margin-inline-start: auto;
+  }
 }

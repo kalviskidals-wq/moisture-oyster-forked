@@ -1,0 +1,384 @@
+{%- # CUSTOM: net-new global footer section (footer-group). Left: "coming next" vitamins early-access capture via native customer form. Right: repeatable menu_col blocks rendered from Shopify Menus (link_list), native <details> accordion on mobile / forced-open plain columns on desktop, DOM order Shop→Support→Company reversed visually on mobile via flex-direction:column-reverse to match the Company→Support→Shop mobile Figma order with zero JS. Oversized "mo" + drop + TM wordmark (image_picker with an inline-SVG teardrop fallback). Legal richtext. UPSTREAM risk LOW — net-new, no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-footer rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval, per this project's established per-section pattern. Because this section is global, every page now loads these two files as a side effect — see the custom.css scoping fix note on the header/footer hide rule below. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+-%}
+
+<div
+  class="mo-footer"
+  id="MoFooter-{{ section.id }}"
+  style="
+    --mo-footer-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-footer-eyebrow: {{ s.eyebrow_color | default: '#B8F3D8' }};
+    --mo-footer-heading: {{ s.heading_color | default: '#FFFFFF' }};
+    --mo-footer-desc: {{ s.description_color | default: '#FFFFFF' }};
+    --mo-footer-input-border: {{ s.input_border_color | default: '#2C5940' }};
+    --mo-footer-input-text: {{ s.input_text_color | default: '#FFFFFF' }};
+    --mo-footer-button-bg: {{ s.button_bg_color | default: '#FFD5F7' }};
+    --mo-footer-button-text: {{ s.button_text_color | default: '#093D24' }};
+    --mo-footer-menu-heading: {{ s.menu_heading_color | default: '#FFFFFF' }};
+    --mo-footer-menu-link: {{ s.menu_link_color | default: '#FFFFFF' }};
+    --mo-footer-toggle: {{ s.toggle_color | default: '#FFFFFF' }};
+    --mo-footer-wordmark: {{ s.wordmark_color | default: '#FFD5F7' }};
+    --mo-footer-legal: {{ s.legal_color | default: '#FFFFFFB3' }};
+    --mo-footer-field-radius: {{ s.field_radius | default: 16 }}px;
+    --mo-footer-padding-top: {{ s.padding_top | default: 64 }}px;
+    --mo-footer-padding-bottom: {{ s.padding_bottom | default: 40 }}px;
+  "
+>
+  <div class="mo-footer__inner">
+    <div class="mo-footer__top">
+      <div class="mo-footer__signup">
+        {%- if s.eyebrow != blank -%}
+          <p class="mo-footer__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if s.heading != blank -%}
+          <h2 class="mo-footer__heading">{{ s.heading | newline_to_br }}</h2>
+        {%- endif -%}
+        {%- if s.description != blank -%}
+          <div class="mo-footer__desc mo-body-lg">{{ s.description }}</div>
+        {%- endif -%}
+
+        {%- # CUSTOM: native customer form, mirrors sections/custom-prelaunch.liquid's pattern. Tagging note: this is a SECOND native customer-signup form on the site (prelaunch onepager is the first) — a generic Shopify Flow "customer created" trigger cannot distinguish which form a signup came from, so applying a distinct `vitamins-waitlist` tag here vs `prelaunch-subscriber` there needs a real disambiguation strategy (e.g. separate Flow logic keyed off referring page, or accept one shared tag) — flagged to Kalvis, not resolved here. -%}
+        {%- form 'customer', class: 'mo-footer__form' -%}
+          {%- if form.posted_successfully? -%}
+            <script>
+              Shopify.analytics.publish('moisture_oyster_lead', { source: 'footer_vitamins_waitlist' });
+            </script>
+            <p class="mo-footer__success mo-body-lg" role="status" tabindex="-1">
+              {{ s.success_message | default: 'You’re on the list. We’ll email you when vitamins launch.' | escape }}
+            </p>
+          {%- else -%}
+            <div class="mo-footer__field">
+              <label class="visually-hidden" for="MoFooterEmail-{{ section.id }}">
+                {{ s.email_placeholder | default: 'Your email address' | escape }}
+              </label>
+              <input
+                id="MoFooterEmail-{{ section.id }}"
+                class="mo-footer__input mo-menu"
+                type="email"
+                name="contact[email]"
+                placeholder="{{ s.email_placeholder | default: 'Your email address' | escape }}"
+                autocomplete="email"
+                autocorrect="off"
+                autocapitalize="off"
+                required
+                {% if form.errors %}aria-invalid="true" aria-describedby="MoFooterError-{{ section.id }}"{% endif %}
+              >
+              <button type="submit" class="mo-footer__button mo-menu">
+                {{ s.button_label | default: 'NOTIFY ME' | escape }}
+              </button>
+            </div>
+            {%- if form.errors -%}
+              <p class="mo-footer__error" id="MoFooterError-{{ section.id }}" role="alert">
+                {{ form.errors.translated_fields.email | capitalize }}
+                {{ form.errors.messages.email }}
+              </p>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+
+      <div class="mo-footer__columns">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'menu_col' -%}
+            <details class="mo-footer__col" {{ block.shopify_attributes }}>
+              <summary class="mo-footer__col-heading mo-menu">
+                <span>{{ block.settings.heading | escape }}</span>
+                <span class="mo-footer__col-toggle" aria-hidden="true">
+                  {%- render 'mo-accordion-icon' -%}
+                </span>
+              </summary>
+              {%- if block.settings.menu != blank -%}
+                <nav class="mo-footer__col-list" aria-label="{{ block.settings.heading | escape }}">
+                  <ul class="list-unstyled">
+                    {%- for link in block.settings.menu.links -%}
+                      <li><a href="{{ link.url }}" class="mo-footer__col-link mo-menu">{{ link.title }}</a></li>
+                    {%- endfor -%}
+                  </ul>
+                </nav>
+              {%- endif -%}
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="mo-footer__wordmark" aria-hidden="true">
+      {%- if s.wordmark_image != blank -%}
+        {{
+          s.wordmark_image
+          | image_url: width: 2000
+          | image_tag:
+            width: s.wordmark_image.width,
+            height: s.wordmark_image.height,
+            widths: '480, 720, 960, 1440, 2000',
+            sizes: '(max-width: 749px) 90vw, 1200px',
+            alt: '',
+            loading: 'lazy',
+            class: 'mo-footer__wordmark-img'
+        }}
+      {%- else -%}
+        <span class="mo-footer__wordmark-fallback">
+          <span class="mo-footer__wordmark-text">{{ s.wordmark_fallback_text | default: 'mo' | escape }}</span>
+          <svg class="mo-footer__wordmark-drop" viewBox="0 0 100 130" fill="currentColor" xmlns="http://www.w3.org/2000/svg" focusable="false">
+            <path d="M50,0 C20,40 0,70 0,95 A50,50 0 1,0 100,95 C100,70 80,40 50,0 Z"/>
+          </svg>
+        </span>
+      {%- endif -%}
+      <span class="mo-footer__tm">TM</span>
+    </div>
+
+    {%- if s.legal_text != blank -%}
+      <div class="mo-footer__legal mo-body">{{ s.legal_text }}</div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MO Footer",
+  "tag": null,
+  "class": "mo-footer-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Signup content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "COMING NEXT"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Moisture eye\nvitamins"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Our next formula is in development — a daily supplement to support long-term eye health from the inside out. Join the early access list.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Email capture"
+    },
+    {
+      "type": "paragraph",
+      "content": "Submissions create a customer profile. See the in-file comment re: Flow tagging — this is a second native signup form alongside the pre-launch onepager's, so a shared 'customer created' Flow trigger can't automatically tell the two apart yet."
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Your email address"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "NOTIFY ME"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "You’re on the list. We’ll email you when vitamins launch."
+    },
+    {
+      "type": "header",
+      "content": "Wordmark"
+    },
+    {
+      "type": "image_picker",
+      "id": "wordmark_image",
+      "label": "Wordmark image",
+      "info": "Oversized pink 'mo' + drop + TM mark. If blank, falls back to a text + inline-SVG drop built from the field below."
+    },
+    {
+      "type": "text",
+      "id": "wordmark_fallback_text",
+      "label": "Wordmark fallback text",
+      "default": "mo"
+    },
+    {
+      "type": "header",
+      "content": "Legal"
+    },
+    {
+      "type": "richtext",
+      "id": "legal_text",
+      "label": "Legal / regulatory line",
+      "default": "<p>Moisture Oyster Lubricant Eye Drops · NDC 87105-100-1 · Distributed in the USA by OTE North America LLC, Valley Stream, NY 11580 · Manufactured by Oté Pharma SOL B.V., Netherlands</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#B8F3D8"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Input border color",
+      "default": "#2C5940",
+      "info": "VERIFY against Figma — estimated subtle border on the dark field."
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Input text + placeholder color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#FFD5F7"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "menu_heading_color",
+      "label": "Menu column heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "menu_link_color",
+      "label": "Menu link color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "toggle_color",
+      "label": "Mobile accordion toggle color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "wordmark_color",
+      "label": "Wordmark + TM color",
+      "default": "#FFD5F7"
+    },
+    {
+      "type": "color",
+      "id": "legal_color",
+      "label": "Legal text color",
+      "default": "#FFFFFFB3"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "field_radius",
+      "label": "Input / button corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu_col",
+      "name": "Menu column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Shop"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "main-menu",
+          "info": "Point this at the real Shop/Support/Company menu once created in Shopify admin — defaults to main-menu as a safe placeholder."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Footer",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "menu_col",
+          "settings": { "heading": "Shop" }
+        },
+        {
+          "type": "menu_col",
+          "settings": { "heading": "Support" }
+        },
+        {
+          "type": "menu_col",
+          "settings": { "heading": "Company" }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "groups": ["footer"]
+  }
+}
+{% endschema %}

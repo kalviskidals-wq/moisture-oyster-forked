@@ -10,6 +10,34 @@
 {
   "type": "footer",
   "name": "t:names.footer",
-  "sections": {},
-  "order": []
+  "sections": {
+    "custom_footer_mo1": {
+      "type": "custom-footer",
+      "blocks": {
+        "menu_col_shop": {
+          "type": "menu_col",
+          "settings": {
+            "heading": "Shop",
+            "menu": "main-menu"
+          }
+        },
+        "menu_col_support": {
+          "type": "menu_col",
+          "settings": {
+            "heading": "Support",
+            "menu": "main-menu"
+          }
+        },
+        "menu_col_company": {
+          "type": "menu_col",
+          "settings": {
+            "heading": "Company",
+            "menu": "main-menu"
+          }
+        }
+      },
+      "block_order": ["menu_col_shop", "menu_col_support", "menu_col_company"]
+    }
+  },
+  "order": ["custom_footer_mo1"]
 }
