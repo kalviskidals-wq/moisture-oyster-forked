@@ -3625,8 +3625,10 @@ mo-review-filter {
    is a native <details>/<summary> — no JS. Cards keep a fixed, equal width
    whether open or closed; tapping/clicking one only grows it vertically as
    its body reveals via the browser's native <details> content model —
-   .mo-eye-health__cards uses align-items: flex-start so the open card's
-   extra height doesn't stretch its closed siblings to match. Consumes
+   .mo-eye-health__cards uses align-items: flex-end so every card's bottom
+   edge shares the row's (bottom-anchored) baseline: the open card grows
+   upward from it, and closed siblings neither stretch nor shift position.
+   Consumes
    mo-design-system.css tokens with hardcoded fallbacks so this still renders
    if that file is ever removed. UPSTREAM risk LOW — net-new, no Horizon
    file touched.
@@ -3720,14 +3722,20 @@ mo-review-filter {
    CSS-only carousel (overflow-x + scroll-snap), matching the established
    .mo-howto__steps / .mo-reviews__scroller technique. Keyboard-scrollable
    and momentum-scrolling by default; aria-label set in markup.
-   CUSTOM: align-items: flex-start (not the flex default of stretch) so each
-   card sizes to its own content height independently — the open card grows
-   taller from its revealed body text, closed siblings stay at their own
-   compact height instead of being stretched to match. Cards keep a fixed
-   width whether open or closed (set below); only height changes. */
+   CUSTOM: align-items: flex-end (not the flex default of stretch, and
+   deliberately not flex-start) so every card's BOTTOM edge sits on this
+   row's bottom edge. .mo-eye-health__cards-wrap is itself bottom-anchored
+   (fixed distance from the image's bottom edge) — with flex-end, that
+   shared bottom baseline never moves, so an open card only grows upward
+   from it and the closed siblings stay exactly where they are. flex-start
+   was tried first and rejected: since the row's own height grows from the
+   tallest (open) child, top-aligning made the row's top edge rise and
+   dragged every card's position up together, even ones that hadn't
+   changed height at all. Cards keep a fixed width whether open or closed
+   (set below); only height changes. */
 .mo-eye-health__cards {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: var(--mo-space-4, 16px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
