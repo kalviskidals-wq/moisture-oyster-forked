@@ -3127,6 +3127,15 @@ mo-review-filter {
   aspect-ratio: var(--mo-home-hero-aspect-mobile, 1.1);
 }
 
+/* CUSTOM: <picture> defaults to inline/auto-sized — per the onepager lesson
+   (custom-prelaunch.liquid), it must be forced to a block box filling its
+   parent or the absolutely-positioned <img> inside can fail to cover. */
+.mo-home-hero__picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .mo-home-hero__poster {
   position: absolute !important;
   top: 0;

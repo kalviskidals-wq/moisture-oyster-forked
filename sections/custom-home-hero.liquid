@@ -6,8 +6,12 @@
 {%- liquid
   assign s = section.settings
   assign has_image = false
-  if s.background_image != blank
+  if s.background_image != blank or s.background_image_mobile != blank
     assign has_image = true
+  endif
+  assign has_image_mobile = false
+  if s.background_image_mobile != blank
+    assign has_image_mobile = true
   endif
   assign has_video = false
   if s.background_video != blank
@@ -62,19 +66,37 @@
   {%- endif -%}
 
   <div class="mo-home-hero__media">
+    {%- # CUSTOM: separate vertical mobile crop, same <picture>+<source media=(max-width:749px)> pattern as custom-prelaunch.liquid's background_desktop/background_mobile handling — falls back to the desktop image below 750px if no mobile image is set. -%}
     {%- if has_image -%}
-      {{
-        s.background_image
-        | image_url: width: 2000
-        | image_tag:
-          width: s.background_image.width,
-          height: s.background_image.height,
-          alt: s.background_image.alt,
-          sizes: '100vw',
-          class: 'mo-home-hero__poster',
-          loading: 'lazy',
-          fetchpriority: 'high'
-      }}
+      <picture class="mo-home-hero__picture">
+        {%- if has_image_mobile -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="
+              {{ s.background_image_mobile | image_url: width: 600 }} 600w,
+              {{ s.background_image_mobile | image_url: width: 900 }} 900w,
+              {{ s.background_image_mobile | image_url: width: 1200 }} 1200w
+            "
+            sizes="100vw"
+            width="{{ s.background_image_mobile.width }}"
+            height="{{ s.background_image_mobile.height }}"
+          >
+        {%- endif -%}
+        {%- assign poster_image = s.background_image | default: s.background_image_mobile -%}
+        {{
+          poster_image
+          | image_url: width: 2000
+          | image_tag:
+            width: poster_image.width,
+            height: poster_image.height,
+            widths: '750, 1000, 1500, 2000',
+            alt: poster_image.alt,
+            sizes: '100vw',
+            class: 'mo-home-hero__poster',
+            loading: 'lazy',
+            fetchpriority: 'high'
+        }}
+      </picture>
     {%- endif -%}
 
     {%- if has_video -%}
@@ -175,8 +197,14 @@
     {
       "type": "image_picker",
       "id": "background_image",
-      "label": "Background image",
+      "label": "Background image (desktop)",
       "info": "Full-bleed lifestyle image. Always-present base layer — shown alone if no video is set, and whenever the visitor's device has reduced motion enabled."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "Background image (mobile, vertical)",
+      "info": "Optional separate vertical crop shown below 750px. Falls back to the desktop image above if left blank."
     },
     {
       "type": "video",
