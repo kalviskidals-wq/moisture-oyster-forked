@@ -1,0 +1,71 @@
+{%- doc -%}
+  Renders one card for the MO Range Grid (sections/custom-range-grid.liquid):
+  either a live product (real image/price/Add to Bag form) or a manual
+  "Coming Soon" placeholder card.
+
+  @param {object} block - The product_card block
+  @param {object} section - The parent section (needed for the product form)
+{%- enddoc -%}
+
+{%- liquid
+  assign card = block.settings
+  assign product = card.product
+
+  assign is_live = false
+  if product != blank and product.available and card.coming_soon == false
+    assign is_live = true
+  endif
+
+  assign card_title = card.title
+  if card_title == blank and product != blank
+    assign card_title = product.title
+  endif
+
+  assign card_image = card.image
+  if is_live and product.featured_image != blank
+    assign card_image = product.featured_image
+  endif
+
+  assign cta_label = card.cta_label | default: 'Add to Bag'
+-%}
+
+<div class="mo-range__card{% if is_live %} mo-range__card--live{% else %} mo-range__card--soon{% endif %}" {{ block.shopify_attributes }}>
+  <div class="mo-range__media">
+    {%- if card_image != blank -%}
+      {{ card_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 33vw, 85vw', class: 'mo-range__image' }}
+    {%- endif -%}
+  </div>
+
+  <div class="mo-range__meta">
+    {%- if card.category_eyebrow != blank -%}
+      <p class="mo-range__eyebrow">{{ card.category_eyebrow | escape }}</p>
+    {%- endif -%}
+    <div class="mo-range__title-row">
+      <h3 class="mo-range__title">{{ card_title | escape }}</h3>
+      {%- if is_live -%}
+        <span class="mo-range__price">{{ product.price | money }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if is_live -%}
+    {%- liquid
+      assign product_form_id = 'MoRangeForm-' | append: block.id
+      assign variant = product.selected_or_first_available_variant
+    -%}
+    <product-form-component data-section-id="{{ section.id }}" data-product-id="{{ product.id }}" class="mo-range__form-component">
+      {%- form 'product', product, id: product_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+        <input type="hidden" name="id" value="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %}>
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" name="add" class="mo-btn mo-btn--bag mo-range__cta" {% unless variant.available %}disabled{% endunless %}>
+          <span>{{ cta_label | upcase }}</span>
+          <span class="mo-range__cta-icon" aria-hidden="true">+</span>
+        </button>
+      {%- endform -%}
+    </product-form-component>
+  {%- else -%}
+    <button type="button" class="mo-btn mo-range__cta mo-range__cta--soon" disabled>
+      <span>{{ 'Coming Soon' | upcase }}</span>
+    </button>
+  {%- endif -%}
+</div>

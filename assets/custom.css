@@ -3447,3 +3447,167 @@ mo-review-filter {
     display: none;
   }
 }
+
+/* ============================================================================
+   MO RANGE GRID — sections/custom-range-grid.liquid
+   Homepage product range: live product (real image/price/Add to Bag form,
+   via snippets/mo-product-card.liquid) flanked by Coming Soon placeholders
+   that establish the category architecture ahead of catalog growth.
+   Desktop: cards sit in a single flex row sized to --mo-range-columns (so it
+   reads as an N-column grid with no scroll needed once all cards fit).
+   Mobile: same row becomes a CSS scroll-snap carousel, ~85%-width cards with
+   a peek of the next card — same flex-row/scroll-snap technique as
+   .mo-reviews__scroller/.mo-reviews__card (mobile 1-up / desktop 3-up),
+   reused rather than re-derived. See [[feedback-shopify-theme-validation-
+   gotchas]] project precedent for this carousel convention.
+   ============================================================================ */
+.mo-range {
+  background: var(--mo-range-bg, #093d24);
+  padding-block: var(--mo-range-padding-y, 64px);
+}
+
+.mo-range__inner {
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-range__inner {
+    padding-inline: var(--page-margin, 40px);
+  }
+}
+
+.mo-range__heading {
+  color: var(--mo-range-heading, #ffffff);
+  margin: 0 0 var(--mo-space-6, 24px);
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-range__heading {
+    font-size: 40px;
+  }
+}
+
+/* CUSTOM: keyboard-scrollable per brief — tabindex + role/aria-label on the
+   scroller itself (not just relying on native touch/drag), so arrow-key
+   scroll works when the region has focus. */
+.mo-range__scroller {
+  display: flex;
+  gap: var(--mo-space-4, 16px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mo-range__scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.mo-range__scroller:focus-visible {
+  outline: 2px solid var(--mo-range-title, #ffffff);
+  outline-offset: 4px;
+}
+
+.mo-range__card {
+  flex: 0 0 calc(100% - 56px);
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-4, 16px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-range__card {
+    flex: 0 0 calc((100% - (var(--mo-range-columns, 3) - 1) * var(--mo-space-4, 16px)) / var(--mo-range-columns, 3));
+    scroll-snap-align: start;
+  }
+}
+
+.mo-range__media {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--mo-range-card-radius, 10px);
+  background: var(--mo-range-card-bg, #115033);
+  overflow: hidden;
+}
+
+.mo-range__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mo-range__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-1, 6px);
+}
+
+.mo-range__eyebrow {
+  margin: 0;
+  color: var(--mo-range-eyebrow, #b8f3d8);
+  font-family: var(--mo-font-mono, ui-monospace, monospace);
+  font-weight: 500;
+  font-size: var(--mo-tag-sm-size, 0.625rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.mo-range__title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--mo-space-3, 12px);
+}
+
+.mo-range__title {
+  margin: 0;
+  color: var(--mo-range-title, #ffffff);
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.mo-range__price {
+  flex-shrink: 0;
+  color: var(--mo-range-price, #f2a2ff);
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.mo-range__form-component {
+  display: block;
+}
+
+.mo-range__cta {
+  width: 100%;
+  border-radius: var(--mo-radius-pill, 999px);
+}
+
+.mo-range__cta-icon {
+  font-size: 1.1em;
+}
+
+/* CUSTOM: `.mo-btn:disabled` (mo-design-system.css) is a class+pseudo-class
+   selector, so a single-class override here would lose the cascade despite
+   loading after it — target the disabled state explicitly to win on
+   specificity, matching the outline/grey "Coming Soon" look from the brief
+   rather than the generic grey-fill disabled style. */
+.mo-range__cta--soon:disabled {
+  background: transparent;
+  border-color: var(--mo-range-soon-color, #e8e7e3);
+  color: var(--mo-range-soon-color, #e8e7e3);
+  opacity: 0.6;
+  cursor: not-allowed;
+}

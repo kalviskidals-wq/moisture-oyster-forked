@@ -107,6 +107,44 @@
         "vertical_padding": 14
       }
     },
+    "custom_range_grid_mohp1": {
+      "type": "custom-range-grid",
+      "blocks": {
+        "card_vitamins": {
+          "type": "product_card",
+          "settings": {
+            "category_eyebrow": "Daily Eye Supplement",
+            "title": "Moisture eye vitamins",
+            "coming_soon": true
+          }
+        },
+        "card_oyster": {
+          "type": "product_card",
+          "settings": {
+            "category_eyebrow": "Lubricant Eye Drops",
+            "title": "Moisture oyster",
+            "coming_soon": false
+          }
+        },
+        "card_patches": {
+          "type": "product_card",
+          "settings": {
+            "category_eyebrow": "Daily Eye Supplement",
+            "title": "Eye patches",
+            "coming_soon": true
+          }
+        }
+      },
+      "block_order": [
+        "card_vitamins",
+        "card_oyster",
+        "card_patches"
+      ],
+      "name": "Product Range",
+      "settings": {
+        "heading": "The moisture oyster range"
+      }
+    },
     "main": {
       "type": "main-page",
       "blocks": {
@@ -161,6 +199,7 @@
   "order": [
     "custom_home_hero_mohp1",
     "custom_marquee_bar_mohp1",
+    "custom_range_grid_mohp1",
     "main"
   ]
 }

@@ -1,0 +1,215 @@
+{%- # CUSTOM: net-new homepage section — product range grid (live product + Coming Soon placeholders), establishes category architecture ahead of catalog growth. Reuses Horizon's native product-form-component + {% form 'product' %} pattern for real cart wiring (AJAX-enhanced, works without JS) rather than any new JS. UPSTREAM risk LOW — net-new section, no Horizon file touched. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section
+  class="mo-range"
+  id="MoRangeGrid-{{ section.id }}"
+  style="
+    --mo-range-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-range-card-bg: {{ s.card_background_color | default: '#115033' }};
+    --mo-range-card-radius: {{ s.card_radius | default: 10 }}px;
+    --mo-range-heading: {{ s.heading_color | default: '#FFFFFF' }};
+    --mo-range-eyebrow: {{ s.eyebrow_color | default: '#B8F3D8' }};
+    --mo-range-title: {{ s.title_color | default: '#FFFFFF' }};
+    --mo-range-price: {{ s.price_color | default: '#F2A2FF' }};
+    --mo-range-soon-color: {{ s.coming_soon_text_color | default: '#E8E7E3' }};
+    --mo-range-columns: {{ s.columns_desktop | default: 3 }};
+    --mo-range-padding-y: {{ s.padding_y | default: 64 }}px;
+  "
+>
+  <div class="mo-range__inner">
+    {%- if s.heading != blank -%}
+      <h2 class="mo-range__heading">{{ s.heading | escape }}</h2>
+    {%- endif -%}
+
+    <div class="mo-range__scroller" role="region" tabindex="0" aria-label="{{ s.heading | default: 'Product range' | escape }}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'product_card' -%}
+            {%- render 'mo-product-card', block: block, section: section -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Range Grid",
+  "tag": "section",
+  "class": "mo-range-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The moisture oyster range"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card image panel background",
+      "default": "#115033"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Category eyebrow color",
+      "info": "VERIFY — estimated muted mint, not pixel-sampled from the reference frame.",
+      "default": "#B8F3D8"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Card title color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#F2A2FF"
+    },
+    {
+      "type": "color",
+      "id": "coming_soon_text_color",
+      "label": "Coming Soon button text/border color",
+      "default": "#E8E7E3"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card image panel radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product Card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "Live cards render this product's image, price, and a working Add to Bag form. Leave blank for a Coming Soon placeholder."
+        },
+        {
+          "type": "checkbox",
+          "id": "coming_soon",
+          "label": "Force Coming Soon",
+          "default": false,
+          "info": "Check to always show the Coming Soon placeholder even if a product is set."
+        },
+        {
+          "type": "text",
+          "id": "category_eyebrow",
+          "label": "Category eyebrow",
+          "default": "Daily Eye Supplement"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title override",
+          "info": "Leave blank to use the selected product's title."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Used for Coming Soon cards, or as a fallback if the product has no featured image."
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "Add to Bag label",
+          "default": "Add to Bag"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Range Grid",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "product_card",
+          "settings": {
+            "category_eyebrow": "Daily Eye Supplement",
+            "title": "Moisture eye vitamins",
+            "coming_soon": true
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "category_eyebrow": "Lubricant Eye Drops",
+            "title": "Moisture oyster",
+            "coming_soon": false
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "category_eyebrow": "Daily Eye Supplement",
+            "title": "Eye patches",
+            "coming_soon": true
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["index", "page"]
+  }
+}
+{% endschema %}
