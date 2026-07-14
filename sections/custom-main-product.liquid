@@ -60,13 +60,22 @@
   }
 
   @media screen and (max-width: 749px) {
+    /* CUSTOM: hero image follows the same side inset as the rest of the page
+       content on mobile. Horizon's product-information-content snippet
+       hardcodes the media column to grid-column: 1 / -1 on mobile (deliberate
+       full-bleed-by-default), which we don't touch directly — overridden
+       here instead to match .product-details' grid-column: 2 / 3. */
+    #shopify-section-{{ section.id }} .product-information__media {
+      grid-column: 2 / 3;
+    }
+
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails-container {
       padding-block-start: 0;
     }
 
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails {
-      padding-block: 0;
-      margin-block-start: 10px;
+      padding-block: 10px;
+      margin-block-start: 0;
     }
   }
 {% endstyle %}
