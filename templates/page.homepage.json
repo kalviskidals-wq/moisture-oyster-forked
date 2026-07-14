@@ -329,6 +329,7 @@
           "type": "item",
           "settings": {
             "icon_preset": "dropper",
+            "icon_image": "shopify://shop_images/Made_in_Netherlands.svg",
             "label": "MADE IN THE NETHERLANDS"
           }
         },
@@ -336,6 +337,7 @@
           "type": "item",
           "settings": {
             "icon_preset": "palm_tree",
+            "icon_image": "shopify://shop_images/Designed_in_Miami.svg",
             "label": "DESIGNED IN MIAMI"
           }
         },
@@ -343,6 +345,7 @@
           "type": "item",
           "settings": {
             "icon_preset": "gmp",
+            "icon_image": "shopify://shop_images/US_FDA_CGMP_Standards.svg",
             "label": "US FDA CGMP STANDARDS"
           }
         }
@@ -355,6 +358,11 @@
       "name": "MO About Us",
       "settings": {
         "heading": "Premium\neye care",
+        "video_background": "shopify://files/videos/video_2026-07-06_13-34-47.mp4",
+        "image_aspect_ratio_desktop": 1.9,
+        "image_aspect_ratio_mobile": 0.6,
+        "object_position_desktop": "center center",
+        "object_position_mobile": "center center",
         "background_color": "#093d24",
         "scrim_color": "#093d24",
         "scrim_opacity": 20,
