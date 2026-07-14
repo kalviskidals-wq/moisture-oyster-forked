@@ -50,15 +50,19 @@
     gap: var(--mo-space-2, 8px);
   }
 
+  /* CUSTOM: desktop right-rail card font spec (Kalvis, exact Figma type values). The mobile duplicate
+     instance of this same block overrides these via a scoped selector in custom-main-product.liquid
+     (higher specificity), so these base rules only ever apply to the desktop card. */
   .mo-pdp-testimonial__rating {
     display: flex;
     align-items: center;
     gap: var(--mo-space-2, 8px);
-    font-family: var(--mo-font-mono, ui-monospace, monospace);
-    font-weight: 500;
+    font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+    font-weight: 800;
     color: var(--mo-testimonial-text, #fff);
-    font-size: 0.875rem;
-    letter-spacing: 0.04em;
+    font-size: 14px;
+    line-height: 14.68px;
+    letter-spacing: 0;
   }
 
   .mo-pdp-testimonial__stars {
@@ -68,10 +72,13 @@
 
   .mo-pdp-testimonial__author {
     margin: 0;
-    font-family: var(--mo-font-body, sans-serif);
-    font-weight: 600;
+    font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+    font-weight: 700;
     color: var(--mo-testimonial-text, #fff);
-    font-size: 0.9375rem;
+    font-size: 16px;
+    line-height: 130%;
+    letter-spacing: 0;
+    text-align: center;
   }
 
   .mo-pdp-testimonial__role {
@@ -82,11 +89,13 @@
 
   .mo-pdp-testimonial__quote {
     margin: 0;
-    font-family: var(--mo-font-body, sans-serif);
+    font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+    font-weight: 500;
     color: var(--mo-testimonial-quote, #fff);
     opacity: 0.9;
-    font-size: 0.875rem;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 130%;
+    letter-spacing: 0;
   }
 {% endstylesheet %}
 
