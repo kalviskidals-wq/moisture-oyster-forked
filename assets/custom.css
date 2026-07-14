@@ -4049,7 +4049,10 @@ mo-review-filter {
 
 @media screen and (min-width: 750px) {
   .mo-hiw__heading {
-    font-size: 32px;
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
   }
 }
 
