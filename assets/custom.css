@@ -3517,11 +3517,32 @@ mo-review-filter {
 }
 
 .mo-range__card {
+  position: relative;
   flex: 0 0 calc(100% - 56px);
   scroll-snap-align: center;
   display: flex;
   flex-direction: column;
   gap: var(--mo-space-4, 16px);
+}
+
+/* CUSTOM: full-cover invisible link, same convention as Horizon's own
+   snippets/product-card.liquid (.product-card__link) — sits first in the DOM
+   so later siblings (media/meta/quick-add button) paint on top of it and
+   remain clickable, while the <product-card> custom element's own click
+   listener (assets/product-card.js) forwards any non-button click on the
+   card to this link's href. Gives the whole live card a real, keyboard-
+   reachable anchor without visually showing it. */
+.mo-range__card-link {
+  position: absolute;
+  inset: 0;
+}
+
+/* Custom elements default to `display: inline` with no CSS rule of their own
+   (same gotcha noted for mo-review-filter above) — without this the quick-add
+   button wouldn't stretch to the card's full width like the rest of the CTA. */
+.mo-range__quick-add {
+  display: block;
+  position: relative;
 }
 
 @media screen and (min-width: 750px) {
@@ -3584,10 +3605,6 @@ mo-review-filter {
   font-family: var(--mo-font-heading, 'Manrope', sans-serif);
   font-weight: 700;
   font-size: 1.25rem;
-}
-
-.mo-range__form-component {
-  display: block;
 }
 
 .mo-range__cta {
