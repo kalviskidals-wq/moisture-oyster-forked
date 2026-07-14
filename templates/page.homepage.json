@@ -49,9 +49,9 @@
         "background_color": "#093d24",
         "scrim_color": "#093d24",
         "scrim_opacity": 0,
-        "rating_color": "#f2a2ff",
+        "rating_color": "#FFD5F7",
         "reviews_link_color": "#ffffff",
-        "heading_color": "#f2a2ff",
+        "heading_color": "#FFD5F7",
         "subhead_color": "#ffffff",
         "vertical_padding": 0
       }
