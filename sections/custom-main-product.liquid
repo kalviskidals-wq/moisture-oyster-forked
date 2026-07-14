@@ -69,6 +69,20 @@
       grid-column: 2 / 3;
     }
 
+    /* CUSTOM: hero image crops to a 1:1 square with a 10px radius on mobile.
+       Desktop keeps aspect_ratio: adapt (each photo's natural ratio) — that
+       setting lives in templates/product.json media-gallery block settings
+       and is left untouched; this is a mobile-only visual override. */
+    #shopify-section-{{ section.id }} .product-information__media .product-media-container {
+      aspect-ratio: 1 / 1 !important;
+      border-radius: 10px !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-information__media .product-media-container :is(img, video, .deferred-media__poster-image) {
+      object-fit: cover !important;
+      border-radius: 10px !important;
+    }
+
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails-container {
       padding-block-start: 0;
     }
