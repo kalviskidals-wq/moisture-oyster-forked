@@ -90,6 +90,34 @@
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails {
       padding-block: 10px;
       margin-block-start: 0;
+      justify-content: flex-start;
+    }
+
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails-container {
+      justify-content: flex-start;
+    }
+
+    #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
+      justify-content: flex-start;
+    }
+
+    /* CUSTOM: expert-quote testimonial appears above the hero image on
+       mobile instead of below the buy box. Testimonial and buy box live in
+       the same product-details container in Horizon's grid (not separate
+       grid items), so a true CSS reorder isn't possible without invasive
+       display:contents hacks — instead we render a second, independent
+       testimonial block instance ("mobile-testimonial" in
+       templates/product.json) inside the media capture below, and toggle
+       which of the two shows per breakpoint. Keep both instances' copy in
+       sync manually if edited in the theme editor. */
+    #shopify-section-{{ section.id }} .product-details .mo-pdp-testimonial {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .product-information__media .mo-pdp-testimonial {
+      display: none;
     }
   }
 {% endstyle %}
@@ -97,7 +125,15 @@
   {{ closest.product | structured_data }}
 </script>
 
+{% capture mobile_testimonial %}
+  {%- content_for 'block',
+    type: 'mo-pdp-testimonial',
+    id: 'mobile-testimonial'
+  -%}
+{% endcapture %}
+
 {% capture media_gallery %}
+  {{- mobile_testimonial -}}
   {%- content_for 'block',
     type: '_product-media-gallery',
     id: 'media-gallery',

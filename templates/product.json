@@ -30,6 +30,13 @@
           },
           "blocks": {}
         },
+        "mobile-testimonial": {
+          "type": "mo-pdp-testimonial",
+          "name": "MO Testimonial (mobile)",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        },
         "media-gallery": {
           "type": "_product-media-gallery",
           "static": true,
