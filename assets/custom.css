@@ -3923,3 +3923,183 @@ mo-review-filter {
     scroll-snap-align: none;
   }
 }
+
+/* ============================================================================
+   HOMEPAGE — HOW IT WORKS (sections/custom-how-it-works.liquid)
+   Left "column" (header + active step's body panel + lifestyle image) sits
+   beside a right column of repeatable step blocks acting as tabs. No
+   full-bleed photo background here, so — unlike the overlay sections above —
+   this uses a plain CSS grid with named areas to reflow the 4 pieces: mobile
+   stacks them in source order (header, body, tablist, image); desktop moves
+   the tablist into its own column spanning all 3 left-column rows. Built on
+   <mo-tabs> (assets/mo-tabs.js), same tablist/tabpanel wiring as
+   .mo-ingredients__tabs above, but panels ship server-hidden via [hidden]
+   (see the section file's a11y note) rather than that section's "show all,
+   JS-hides" convention — mo-tabs.js's connectedCallback re-applies the same
+   hidden state either way, so behavior is identical.
+   UPSTREAM: LOW — net-new asset, no Horizon file touched.
+   ============================================================================ */
+.mo-hiw {
+  background: var(--mo-hiw-bg, #093d24);
+  padding-block: var(--mo-hiw-padding-y, 64px);
+}
+
+/* Reuses the trust bar's exact max-width/margin-inline/padding-inline rule
+   (see the 2026-07-09 alignment-fix note above) so this section's content
+   lines up with every other homepage section's column boundary. */
+.mo-hiw__inner {
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-hiw__inner {
+    padding-inline: var(--page-margin, 40px);
+  }
+}
+
+.mo-hiw__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'header'
+    'body'
+    'tablist'
+    'image';
+  row-gap: var(--mo-space-7, 32px);
+}
+
+.mo-hiw__header {
+  grid-area: header;
+}
+
+.mo-hiw__body {
+  grid-area: body;
+}
+
+.mo-hiw__tablist {
+  grid-area: tablist;
+}
+
+.mo-hiw__image {
+  grid-area: image;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-hiw__grid {
+    grid-template-columns: minmax(280px, 38%) 1fr;
+    column-gap: var(--mo-space-8, 40px);
+    row-gap: var(--mo-space-6, 24px);
+    grid-template-areas:
+      'header  tablist'
+      'body    tablist'
+      'image   tablist';
+    align-items: start;
+  }
+}
+
+.mo-hiw__heading {
+  font-family: var(--mo-font-heading);
+  font-weight: 800;
+  color: var(--mo-hiw-heading, #ffffff);
+  font-size: 24px;
+  line-height: 1.1;
+  margin: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-hiw__heading {
+    font-size: 32px;
+  }
+}
+
+/* No-JS fallback: only the first panel renders unhidden (server-rendered
+   active state); mo-tabs.js toggles [hidden] on click same as it does for
+   .mo-ingredients__panel. */
+.mo-hiw__panel {
+  color: var(--mo-hiw-body, #ffffff);
+  font-weight: 400;
+}
+
+.mo-hiw__panel + .mo-hiw__panel {
+  margin-block-start: var(--mo-space-4, 16px);
+}
+
+.mo-hiw__image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--mo-hiw-image-aspect-mobile, 1);
+  border-radius: var(--mo-hiw-image-radius, 10px);
+  overflow: hidden;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-hiw__image {
+    aspect-ratio: var(--mo-hiw-image-aspect-desktop, 1.5);
+  }
+}
+
+.mo-hiw__image-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mo-hiw__tablist {
+  display: flex;
+  flex-direction: column;
+}
+
+.mo-hiw__tab {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mo-space-4, 16px);
+  width: 100%;
+  padding-block: var(--mo-space-5, 20px);
+  border: none;
+  border-top: 1px solid var(--mo-hiw-divider, #b8f3d833);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mo-hiw__tab:first-child {
+  border-top: none;
+  padding-block-start: 0;
+}
+
+.mo-hiw__tab:focus-visible {
+  outline: 2px solid var(--mo-hiw-number-bg, #ffd5f7);
+  outline-offset: 4px;
+}
+
+.mo-hiw__tab-number {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--mo-hiw-number-bg, #ffd5f7);
+  color: var(--mo-hiw-number-text, #093d24);
+  font-family: var(--mo-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.mo-hiw__tab-heading {
+  font-family: var(--mo-font-heading);
+  font-weight: 800;
+  color: var(--mo-hiw-tab-heading, #ffffff);
+  font-size: 28px;
+  line-height: 1.15;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-hiw__tab-heading {
+    font-size: 44px;
+  }
+}

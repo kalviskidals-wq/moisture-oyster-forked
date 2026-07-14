@@ -1,0 +1,296 @@
+{%- # CUSTOM: net-new theme section — Homepage "How It Works" subscription explainer. Left column (heading + a body panel showing the active step's copy + a lifestyle image) sits beside a right column of repeatable step blocks that act as tabs (number pill + large heading). Desktop: two columns side by side via CSS grid-template-areas (tablist spans the full height of the header/body/image column). Mobile: same 4 pieces reflow into one stacked column in source order (header, body, tablist, image) via a mobile grid-template-areas override — no absolute-position overlay trick needed since there is no full-bleed photo background here. Tabs + panels reuse assets/mo-tabs.js (already built for custom-ingredient-transparency.liquid) for click + arrow-key/Home/End roving-tabindex nav. Unlike that section's progressive-enhancement convention (all panels visible, JS-only hiding), this section's a11y spec calls for the non-active panels to ship server-hidden via the `hidden` attribute directly (first step server-rendered active), since mo-tabs.js's own connectedCallback re-applies the same hidden state on load regardless, so behavior is identical either way. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-hiw rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mo-tabs.js' | asset_url }}" type="module"></script>
+
+{%- liquid
+  assign s = section.settings
+  assign has_image = false
+  if s.image != blank
+    assign has_image = true
+  endif
+-%}
+
+<section
+  class="mo-hiw"
+  id="MoHowItWorks-{{ section.id }}"
+  style="
+    --mo-hiw-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-hiw-heading: {{ s.heading_color | default: '#FFFFFF' }};
+    --mo-hiw-body: {{ s.body_color | default: '#FFFFFF' }};
+    --mo-hiw-tab-heading: {{ s.tab_heading_color | default: '#FFFFFF' }};
+    --mo-hiw-number-bg: {{ s.number_pill_color | default: '#FFD5F7' }};
+    --mo-hiw-number-text: {{ s.number_pill_text_color | default: '#093D24' }};
+    --mo-hiw-divider: {{ s.divider_color | default: '#B8F3D833' }};
+    --mo-hiw-image-radius: {{ s.image_radius | default: 10 }}px;
+    --mo-hiw-image-aspect-desktop: {{ s.image_aspect_ratio_desktop | default: 1.5 }};
+    --mo-hiw-image-aspect-mobile: {{ s.image_aspect_ratio_mobile | default: 1 }};
+    --mo-hiw-padding-y: {{ s.vertical_padding | default: 64 }}px;
+  "
+>
+  <div class="mo-hiw__inner">
+    <mo-tabs class="mo-hiw__tabs">
+      <div class="mo-hiw__grid">
+        <div class="mo-hiw__header">
+          {%- if s.heading != blank -%}
+            <h2 class="mo-hiw__heading">{{ s.heading | escape }}</h2>
+          {%- endif -%}
+        </div>
+
+        <div class="mo-hiw__body">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'step' -%}
+              {%- liquid
+                assign panel_id = 'MoHiwPanel-' | append: section.id | append: '-' | append: block.id
+                assign tab_id = 'MoHiwTab-' | append: section.id | append: '-' | append: block.id
+              -%}
+              <div
+                class="mo-hiw__panel mo-body-lg"
+                id="{{ panel_id }}"
+                role="tabpanel"
+                aria-labelledby="{{ tab_id }}"
+                tabindex="0"
+                {% unless forloop.first %}hidden{% endunless %}
+                {{ block.shopify_attributes }}
+              >
+                {{ block.settings.body | newline_to_br }}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="mo-hiw__tablist" role="tablist" aria-label="{{ s.heading | strip_newlines | escape }}">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'step' -%}
+              {%- liquid
+                assign bs = block.settings
+                assign panel_id = 'MoHiwPanel-' | append: section.id | append: '-' | append: block.id
+                assign tab_id = 'MoHiwTab-' | append: section.id | append: '-' | append: block.id
+                assign is_first = false
+                if forloop.first
+                  assign is_first = true
+                endif
+              -%}
+              <button
+                type="button"
+                class="mo-hiw__tab{% if is_first %} is-active{% endif %}"
+                id="{{ tab_id }}"
+                role="tab"
+                aria-selected="{{ is_first }}"
+                aria-controls="{{ panel_id }}"
+                tabindex="{% if is_first %}0{% else %}-1{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                {%- if bs.number != blank -%}
+                  <span class="mo-hiw__tab-number" aria-hidden="true">{{ bs.number | escape }}</span>
+                {%- endif -%}
+                {%- if bs.heading != blank -%}
+                  <span class="mo-hiw__tab-heading">{{ bs.heading | escape }}</span>
+                {%- endif -%}
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- if has_image -%}
+          <div class="mo-hiw__image">
+            {{
+              s.image
+              | image_url: width: 900
+              | image_tag:
+                width: s.image.width,
+                height: s.image.height,
+                alt: s.image.alt,
+                sizes: '(min-width: 750px) 38vw, 100vw',
+                class: 'mo-hiw__image-img',
+                loading: 'lazy'
+            }}
+          </div>
+        {%- endif -%}
+      </div>
+    </mo-tabs>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO How It Works",
+  "tag": "section",
+  "class": "mo-hiw-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How it works"
+    },
+    {
+      "type": "header",
+      "content": "Image (left column, below body)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Lifestyle image"
+    },
+    {
+      "type": "range",
+      "id": "image_aspect_ratio_desktop",
+      "label": "Image aspect ratio (desktop)",
+      "min": 0.5,
+      "max": 2,
+      "step": 0.05,
+      "default": 1.5,
+      "info": "VERIFY — visual-rhythm estimate read off the reference screenshot's proportions, not a pixel-measured Figma value."
+    },
+    {
+      "type": "range",
+      "id": "image_aspect_ratio_mobile",
+      "label": "Image aspect ratio (mobile)",
+      "min": 0.5,
+      "max": 2,
+      "step": 0.05,
+      "default": 1,
+      "info": "VERIFY — visual-rhythm estimate, not pixel-measured against Figma."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "tab_heading_color",
+      "label": "Step heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "number_pill_color",
+      "label": "Number pill background",
+      "default": "#FFD5F7"
+    },
+    {
+      "type": "color",
+      "id": "number_pill_text_color",
+      "label": "Number pill text color",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "default": "#B8F3D833"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "label": "Image corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Section vertical padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "1"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Step heading",
+          "info": "Also acts as the tab button label."
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Add body copy here",
+          "info": "Shown in the shared body panel on the left when this step is active."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO How It Works",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "number": "1",
+            "heading": "Choose your frequency",
+            "body": "Select 30, 60, or 90-day delivery cycles. Adjust anytime from your account dashboard — no friction, no lock-in."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "number": "2",
+            "heading": "Free delivery, every time",
+            "body": "All subscriptions ship free across the US. Your drops arrive before you run out — every time, guaranteed."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "number": "3",
+            "heading": "Pause or cancel freely",
+            "body": "No lock-ins. Pause, skip, or cancel your subscription in one tap — no questions asked."
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["index", "page"]
+  }
+}
+{% endschema %}

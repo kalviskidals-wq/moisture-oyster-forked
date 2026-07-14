@@ -220,6 +220,53 @@
         "vertical_padding": 0
       }
     },
+    "custom_how_it_works_mohp1": {
+      "type": "custom-how-it-works",
+      "blocks": {
+        "step_frequency": {
+          "type": "step",
+          "settings": {
+            "number": "1",
+            "heading": "Choose your frequency",
+            "body": "Select 30, 60, or 90-day delivery cycles. Adjust anytime from your account dashboard — no friction, no lock-in."
+          }
+        },
+        "step_delivery": {
+          "type": "step",
+          "settings": {
+            "number": "2",
+            "heading": "Free delivery, every time",
+            "body": "All subscriptions ship free across the US. Your drops arrive before you run out — every time, guaranteed."
+          }
+        },
+        "step_pause": {
+          "type": "step",
+          "settings": {
+            "number": "3",
+            "heading": "Pause or cancel freely",
+            "body": "No lock-ins. Pause, skip, or cancel your subscription in one tap — no questions asked."
+          }
+        }
+      },
+      "block_order": [
+        "step_frequency",
+        "step_delivery",
+        "step_pause"
+      ],
+      "name": "How It Works",
+      "settings": {
+        "heading": "How it works",
+        "background_color": "#093d24",
+        "heading_color": "#ffffff",
+        "body_color": "#ffffff",
+        "tab_heading_color": "#ffffff",
+        "number_pill_color": "#ffd5f7",
+        "number_pill_text_color": "#093d24",
+        "divider_color": "#b8f3d833",
+        "image_radius": 10,
+        "vertical_padding": 64
+      }
+    },
     "main": {
       "type": "main-page",
       "blocks": {
@@ -276,6 +323,7 @@
     "custom_marquee_bar_mohp1",
     "custom_range_grid_mohp1",
     "custom_eye_health_mohp1",
+    "custom_how_it_works_mohp1",
     "main"
   ]
 }
