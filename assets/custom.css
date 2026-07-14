@@ -4024,8 +4024,17 @@ mo-review-filter {
   .mo-hiw__left {
     display: flex;
     flex-direction: column;
-    gap: var(--mo-space-6, 24px);
     grid-area: left;
+  }
+
+  /* CUSTOM (2026-07-14, round 5 fix): swapped the flex column's uniform
+     `gap` for two independently-tuned margins — Kalvis wants the body-to-
+     image gap specifically at 175px (much larger than a normal rhythm gap),
+     while header-to-body stays tight. A single `gap` value can't express
+     two different spacings between 3 stacked children, so each gap is now
+     its own explicit margin-block-start instead. */
+  .mo-hiw__body {
+    margin-block-start: var(--mo-space-2, 8px);
   }
 }
 
@@ -4079,6 +4088,7 @@ mo-review-filter {
   .mo-hiw__image {
     aspect-ratio: var(--mo-hiw-image-aspect-desktop, 1);
     width: var(--mo-hiw-image-width-desktop, 70%);
+    margin-block-start: 175px;
   }
 }
 
