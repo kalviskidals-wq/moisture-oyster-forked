@@ -304,6 +304,8 @@
     position: absolute;
     top: -8px;
     right: 8px;
+    max-width: calc(100% - 16px);
+    white-space: nowrap;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.625rem;
     font-weight: 600;
@@ -312,6 +314,7 @@
     border-radius: 999px;
     background: var(--mo-bubble-bg, #ffd5f7);
     color: var(--mo-bubble-text, #093d24);
+    z-index: 1;
   }
 
   .mo-vpicker__card--qty.is-selected .mo-vpicker__tier-badge {
