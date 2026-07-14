@@ -1,0 +1,401 @@
+{%- # CUSTOM: net-new theme section — Homepage "About Us" provenance block. Rounded full-bleed video/poster card (redhead/oyster/pearls) with a heading pinned top-left and a repeatable provenance list (icon + label: Made in the Netherlands / Designed in Miami / US FDA cGMP Standards) pinned bottom-right, both directly on the video at every breakpoint. Optional CTA button below the list, links to the About page — hidden by default until that page exists. UPSTREAM risk LOW — net-new, no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-about rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign has_image = false
+  if s.poster_image != blank or s.poster_image_mobile != blank
+    assign has_image = true
+  endif
+  assign has_image_mobile = false
+  if s.poster_image_mobile != blank
+    assign has_image_mobile = true
+  endif
+  assign has_video = false
+  if s.video_background != blank
+    assign has_video = true
+  endif
+  assign show_button = false
+  if s.show_button and s.button_label != blank
+    assign show_button = true
+  endif
+-%}
+
+<section
+  class="mo-about"
+  id="MoAbout-{{ section.id }}"
+  style="
+    --mo-about-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-about-scrim: {{ s.scrim_color | default: '#093D24' }};
+    --mo-about-scrim-opacity: {{ s.scrim_opacity | default: 20 | divided_by: 100.0 }};
+    --mo-about-heading: {{ s.heading_color | default: '#FFFFFF' }};
+    --mo-about-icon: {{ s.icon_color | default: '#F2A2FF' }};
+    --mo-about-label: {{ s.label_color | default: '#FFFFFF' }};
+    --mo-about-aspect-desktop: {{ s.image_aspect_ratio_desktop | default: 1.92 }};
+    --mo-about-aspect-mobile: {{ s.image_aspect_ratio_mobile | default: 0.62 }};
+    --mo-about-object-position-desktop: {{ s.object_position_desktop | default: 'center center' }};
+    --mo-about-object-position-mobile: {{ s.object_position_mobile | default: 'center center' }};
+    --mo-about-radius: {{ s.card_radius | default: 24 }}px;
+    --mo-about-padding-y: {{ s.vertical_padding | default: 0 }}px;
+  "
+>
+  <div class="mo-about__media">
+    {%- # CUSTOM: separate vertical mobile crop, same <picture>+<source media=(max-width:749px)> pattern as custom-home-hero.liquid's background_image/background_image_mobile handling — falls back to the desktop poster below 750px if no mobile poster is set. -%}
+    {%- if has_image -%}
+      <picture class="mo-about__picture">
+        {%- if has_image_mobile -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="
+              {{ s.poster_image_mobile | image_url: width: 600 }} 600w,
+              {{ s.poster_image_mobile | image_url: width: 900 }} 900w,
+              {{ s.poster_image_mobile | image_url: width: 1200 }} 1200w
+            "
+            sizes="100vw"
+            width="{{ s.poster_image_mobile.width }}"
+            height="{{ s.poster_image_mobile.height }}"
+          >
+        {%- endif -%}
+        {%- assign poster_image = s.poster_image | default: s.poster_image_mobile -%}
+        {{
+          poster_image
+          | image_url: width: 2000
+          | image_tag:
+            width: poster_image.width,
+            height: poster_image.height,
+            widths: '750, 1000, 1500, 2000',
+            alt: poster_image.alt,
+            sizes: '100vw',
+            class: 'mo-about__poster',
+            loading: 'lazy',
+            fetchpriority: 'low'
+        }}
+      </picture>
+    {%- endif -%}
+
+    {%- if has_video -%}
+      <div class="mo-about__video-wrap">
+        {{
+          s.video_background
+          | video_tag:
+            poster: nil,
+            autoplay: true,
+            loop: true,
+            controls: false,
+            muted: true,
+            playsinline: true,
+            preload: 'metadata',
+            class: 'mo-about__video',
+            data-testid: 'about-video'
+        }}
+      </div>
+    {%- endif -%}
+
+    <div class="mo-about__scrim" aria-hidden="true"></div>
+  </div>
+
+  <div class="mo-about__header">
+    {%- if s.heading != blank -%}
+      <h2 class="mo-about__heading mo-h2">{{ s.heading | newline_to_br }}</h2>
+    {%- endif -%}
+  </div>
+
+  {%- if section.blocks.size > 0 or show_button -%}
+    <div class="mo-about__footer">
+      {%- if section.blocks.size > 0 -%}
+        <div class="mo-about__items">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'item' -%}
+              {%- liquid
+                assign bs = block.settings
+                assign has_icon = false
+                if bs.icon_image != blank
+                  assign has_icon = true
+                elsif bs.icon_preset != 'none'
+                  assign has_icon = true
+                endif
+              -%}
+              {%- if bs.label != blank -%}
+                <div class="mo-about__item" {{ block.shopify_attributes }}>
+                  {%- if has_icon -%}
+                    <span class="mo-about__item-icon" aria-hidden="true">
+                      {%- if bs.icon_image != blank -%}
+                        {{
+                          bs.icon_image
+                          | image_url: width: 64
+                          | image_tag:
+                            width: 32,
+                            height: 32,
+                            loading: 'lazy',
+                            alt: '',
+                            class: 'mo-about__item-icon-img'
+                        }}
+                      {%- else -%}
+                        {%- render 'mo-provenance-icon', icon: bs.icon_preset -%}
+                      {%- endif -%}
+                    </span>
+                  {%- endif -%}
+                  <span class="mo-about__item-label mo-menu">{{ bs.label | escape }}</span>
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if show_button -%}
+        <a href="{{ s.button_link | default: '#' }}" class="mo-btn mo-btn--bag mo-about__cta">
+          {{ s.button_label | escape }}
+          <span class="mo-about__cta-arrow" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M9 4L13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "MO About Us",
+  "tag": "section",
+  "class": "mo-about-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Premium\neye care"
+    },
+    {
+      "type": "header",
+      "content": "Background media (full-bleed)"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image",
+      "label": "Poster image (desktop)",
+      "info": "Always-present base layer. Shown alone if no video is set, and whenever the visitor's device has reduced motion enabled."
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image_mobile",
+      "label": "Poster image (mobile, vertical)",
+      "info": "Optional separate vertical crop shown below 750px. Falls back to the desktop poster above if left blank."
+    },
+    {
+      "type": "video",
+      "id": "video_background",
+      "label": "Background video",
+      "info": "Optional. Autoplays muted, looped, no controls. Falls back to the poster image above if left blank."
+    },
+    {
+      "type": "range",
+      "id": "image_aspect_ratio_desktop",
+      "label": "Desktop card aspect ratio",
+      "min": 1.2,
+      "max": 2.4,
+      "step": 0.1,
+      "default": 1.9,
+      "info": "Width ÷ height. VERIFY against the final Figma export — estimated from the reference frame."
+    },
+    {
+      "type": "range",
+      "id": "image_aspect_ratio_mobile",
+      "label": "Mobile card aspect ratio",
+      "min": 0.3,
+      "max": 1.2,
+      "step": 0.1,
+      "default": 0.6,
+      "info": "Width ÷ height. VERIFY against the final Figma export — estimated from the reference frame."
+    },
+    {
+      "type": "text",
+      "id": "object_position_desktop",
+      "label": "Desktop focal point",
+      "default": "center center",
+      "info": "CSS object-position value, e.g. \"center center\" or \"75% 50%\"."
+    },
+    {
+      "type": "text",
+      "id": "object_position_mobile",
+      "label": "Mobile focal point",
+      "default": "center center",
+      "info": "CSS object-position value."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section fallback background",
+      "default": "#093D24",
+      "info": "Shows behind the media before it loads / at the rounded corners."
+    },
+    {
+      "type": "color",
+      "id": "scrim_color",
+      "label": "Video/poster scrim color",
+      "default": "#093D24",
+      "info": "Solid overlay for legibility over the video."
+    },
+    {
+      "type": "range",
+      "id": "scrim_opacity",
+      "label": "Video/poster scrim opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Provenance icon color",
+      "default": "#F2A2FF"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Provenance label color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show button",
+      "default": false,
+      "info": "Off by default until the About page exists."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "READ MORE ABOUT US"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Extra section vertical padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Provenance Item",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Icon"
+        },
+        {
+          "type": "select",
+          "id": "icon_preset",
+          "label": "Built-in icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "dropper", "label": "Dropper" },
+            { "value": "palm_tree", "label": "Palm tree" },
+            { "value": "gmp", "label": "GMP seal" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon image",
+          "info": "Overrides the built-in icon above if set."
+        },
+        {
+          "type": "header",
+          "content": "Label"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "MADE IN THE NETHERLANDS"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO About Us",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "icon_preset": "dropper",
+            "label": "MADE IN THE NETHERLANDS"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon_preset": "palm_tree",
+            "label": "DESIGNED IN MIAMI"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon_preset": "gmp",
+            "label": "US FDA CGMP STANDARDS"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["index", "page"]
+  }
+}
+{% endschema %}

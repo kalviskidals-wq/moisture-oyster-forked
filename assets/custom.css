@@ -4167,3 +4167,198 @@ mo-review-filter {
 .mo-hiw__tab[aria-selected='true'] .mo-hiw__tab-heading {
   color: var(--mo-hiw-tab-heading-active, #b8f3d8);
 }
+
+/* ============================================================================
+   CUSTOM: MO ABOUT US — sections/custom-about.liquid
+   Rounded, edge-to-edge full-bleed video/poster "card" (border-radius +
+   overflow:hidden directly on the section) with a heading pinned top-left
+   and a provenance list + optional CTA pinned bottom-right, both layered
+   directly on the media at EVERY breakpoint (no solid-block-above-media
+   switch, unlike custom-problem-agitation.liquid) — matches the Figma
+   mobile frame, which shows the heading/list/button all overlaid on the
+   video, same as desktop. Reuses the <picture>+<source media=(max-width:
+   749px)> mobile-crop pattern and video/poster/reduced-motion handling
+   verbatim from custom-home-hero.liquid. UPSTREAM risk LOW — net-new, no
+   Horizon file touched.
+   ============================================================================ */
+.mo-about {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--mo-about-radius, 24px);
+  background: var(--mo-about-bg, #093d24);
+  aspect-ratio: var(--mo-about-aspect-mobile, 0.62);
+  padding-block: var(--mo-about-padding-y, 0px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-about {
+    aspect-ratio: var(--mo-about-aspect-desktop, 1.9);
+  }
+}
+
+.mo-about__media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* CUSTOM: <picture> defaults to inline/auto-sized — per the onepager lesson
+   (custom-prelaunch.liquid), it must be forced to a block box filling its
+   parent or the absolutely-positioned <img> inside can fail to cover. */
+.mo-about__picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mo-about__poster {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover;
+  object-position: var(--mo-about-object-position-mobile, center center);
+  display: block;
+  z-index: 0;
+}
+
+.mo-about__video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.mo-about__video {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover;
+  object-position: var(--mo-about-object-position-mobile, center center);
+  display: block;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-about__poster,
+  .mo-about__video {
+    object-position: var(--mo-about-object-position-desktop, center center);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mo-about__video-wrap {
+    display: none !important;
+  }
+}
+
+.mo-about__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--mo-about-scrim, #093d24);
+  opacity: var(--mo-about-scrim-opacity, 0.2);
+  pointer-events: none;
+}
+
+.mo-about__header {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: var(--mo-space-6, 24px) var(--mo-space-5, 20px) 0;
+}
+
+.mo-about__heading {
+  color: var(--mo-about-heading, #ffffff);
+  margin: 0;
+  font-size: 28px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-about__heading {
+    font-size: 56px;
+  }
+}
+
+/* ---------- Footer (provenance items + CTA) ----------
+   Mobile: full-width column pinned to the bottom, items left-aligned, CTA
+   spans full width. Desktop: same column but right-aligned as a group and
+   the CTA shrinks to its own content width — see media query below. */
+.mo-about__footer {
+  position: absolute;
+  z-index: 3;
+  left: var(--mo-space-5, 20px);
+  right: var(--mo-space-5, 20px);
+  bottom: var(--mo-space-5, 20px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-5, 20px);
+}
+
+.mo-about__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-3, 12px);
+}
+
+.mo-about__item {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-3, 12px);
+}
+
+.mo-about__item-icon,
+.mo-about__item-icon-img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  color: var(--mo-about-icon, #f2a2ff);
+  flex: 0 0 auto;
+}
+
+.mo-about__item-label {
+  color: var(--mo-about-label, #ffffff);
+  white-space: nowrap;
+}
+
+.mo-about__cta {
+  width: 100%;
+  gap: var(--mo-space-2, 8px);
+}
+
+/* CUSTOM: arrow glyph shown on the button per the mobile Figma frame only —
+   the desktop frame's button has no trailing arrow. */
+.mo-about__cta-arrow {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-about__cta-arrow {
+    display: none;
+  }
+
+  .mo-about__footer {
+    left: auto;
+    right: var(--page-margin, 40px);
+    bottom: var(--page-margin, 40px);
+    max-width: 380px;
+    align-items: flex-end;
+  }
+
+  .mo-about__items {
+    align-items: flex-end;
+  }
+
+  .mo-about__cta {
+    width: auto;
+    align-self: flex-end;
+  }
+}

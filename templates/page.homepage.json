@@ -321,6 +321,52 @@
         "image_radius": 22,
         "vertical_padding": 64
       }
+    },
+    "custom_about_mohp1": {
+      "type": "custom-about",
+      "blocks": {
+        "item_dropper": {
+          "type": "item",
+          "settings": {
+            "icon_preset": "dropper",
+            "label": "MADE IN THE NETHERLANDS"
+          }
+        },
+        "item_palm": {
+          "type": "item",
+          "settings": {
+            "icon_preset": "palm_tree",
+            "label": "DESIGNED IN MIAMI"
+          }
+        },
+        "item_gmp": {
+          "type": "item",
+          "settings": {
+            "icon_preset": "gmp",
+            "label": "US FDA CGMP STANDARDS"
+          }
+        }
+      },
+      "block_order": [
+        "item_dropper",
+        "item_palm",
+        "item_gmp"
+      ],
+      "name": "MO About Us",
+      "settings": {
+        "heading": "Premium\neye care",
+        "background_color": "#093d24",
+        "scrim_color": "#093d24",
+        "scrim_opacity": 20,
+        "heading_color": "#ffffff",
+        "icon_color": "#f2a2ff",
+        "label_color": "#ffffff",
+        "show_button": false,
+        "button_label": "READ MORE ABOUT US",
+        "button_link": "",
+        "card_radius": 24,
+        "vertical_padding": 0
+      }
     }
   },
   "order": [
@@ -329,6 +375,7 @@
     "custom_range_grid_mohp1",
     "custom_eye_health_mohp1",
     "main",
-    "custom_how_it_works_rLezhk"
+    "custom_how_it_works_rLezhk",
+    "custom_about_mohp1"
   ]
 }
