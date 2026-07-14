@@ -4274,10 +4274,23 @@ mo-review-filter {
 /* ---------- Content wrapper ----------
    Mobile: plain inset:0 box, header/footer stay independently
    position:absolute against it (unchanged mobile behavior). Desktop: gets
-   the page-width max-width/margin-inline:auto/padding-inline rule (reused
-   verbatim from .mo-home-hero__content) so header/footer align to the same
-   column boundary as every other section instead of a raw 40px viewport
-   inset — fixes the heading overflowing past other sections' left edge. */
+   the page-width max-width/margin-inline:auto rule (reused verbatim from
+   .mo-home-hero__content) so the CONTAINER matches the same centered
+   column every other section uses — verified via live devtools against
+   .mo-hiw__inner, both resolve to left:100px/width:1520px at 1720px
+   viewport (Horizon's real --page-width here is ~1520px, not the 1280px
+   fallback). CUSTOM (round 3 fix): dropped `padding-inline` from this
+   wrapper — it has NO effect on position:absolute children. Per the CSS
+   containing-block spec, an absolutely positioned descendant's `left`/
+   `right` resolve against the ancestor's PADDING BOX edge, i.e. the
+   ancestor's own padding never insets an abs-positioned child (only
+   normal-flow/grid children respect it, which is why .mo-home-hero
+   works — its children switch to static/grid placement at desktop, unlike
+   this section's, which stay position:absolute at every breakpoint). The
+   devtools check showed .mo-about__header landing at left:100 (flush with
+   .mo-about__content's OUTER edge) instead of 140 (100 + the 40px padding),
+   exactly matching this rule. Fixed by moving the 40px gutter onto
+   .mo-about__header/.mo-about__footer's own left/right below instead. */
 .mo-about__content {
   position: absolute;
   inset: 0;
@@ -4288,8 +4301,6 @@ mo-review-filter {
   .mo-about__content {
     max-width: var(--page-width, var(--normal-page-width, 1280px));
     margin-inline: auto;
-    padding-inline: var(--page-margin, 40px);
-    box-sizing: border-box;
   }
 }
 
@@ -4303,7 +4314,11 @@ mo-review-filter {
 
 @media screen and (min-width: 750px) {
   .mo-about__header {
-    /* side gutter now comes from .mo-about__content's padding-inline above */
+    /* CUSTOM (round 3 fix): gutter now applied directly via left/right
+       (not padding-inline on the parent, which doesn't reach abs-positioned
+       children — see the .mo-about__content comment above). */
+    left: var(--page-margin, 40px);
+    right: var(--page-margin, 40px);
     padding: var(--mo-space-8, 40px) 0 0;
   }
 }
@@ -4384,8 +4399,11 @@ mo-review-filter {
   }
 
   .mo-about__footer {
+    /* CUSTOM (round 3 fix): right gutter applied directly here too, same
+       reason as .mo-about__header above — was `right: 0`, relying on the
+       parent's now-removed padding-inline. */
     left: auto;
-    right: 0;
+    right: var(--page-margin, 40px);
     bottom: var(--mo-space-8, 40px);
     max-width: 380px;
     align-items: flex-start;
