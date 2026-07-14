@@ -27,8 +27,21 @@
   }
 
   @media screen and (min-width: 750px) {
-    #shopify-section-{{ section.id }} .media-gallery--carousel {
+    /* CUSTOM: anchor the thumbnail overlay on slideshow-component (not media-gallery itself) —
+       media-gallery already carries Horizon's native sticky-content class (position: sticky) for the
+       sticky-left-column behavior below, and setting position: relative directly on it here would
+       override that native rule (same element, higher specificity wins) and silently break stickiness. */
+    #shopify-section-{{ section.id }} .media-gallery--carousel slideshow-component {
       position: relative;
+    }
+
+    /* CUSTOM: left media column stays pinned while the taller right column (testimonial + buy box)
+       scrolls past. sticky-content is already present on <media-gallery> natively and needs its
+       grid cell to stay the FULL row height (matching the taller product-details column) to have
+       room to stick within — align-self: stretch guarantees that even if something else in this
+       section's cascade nudges the default grid alignment. UPSTREAM risk LOW, scoped to this section only. */
+    #shopify-section-{{ section.id }} .product-information__media {
+      align-self: stretch;
     }
 
     #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
