@@ -20,11 +20,12 @@
     --mo-hiw-heading: {{ s.heading_color | default: '#FFFFFF' }};
     --mo-hiw-body: {{ s.body_color | default: '#FFFFFF' }};
     --mo-hiw-tab-heading: {{ s.tab_heading_color | default: '#FFFFFF' }};
+    --mo-hiw-tab-heading-active: {{ s.tab_heading_active_color | default: '#B8F3D8' }};
     --mo-hiw-number-bg: {{ s.number_pill_color | default: '#FFD5F7' }};
     --mo-hiw-number-text: {{ s.number_pill_text_color | default: '#093D24' }};
     --mo-hiw-divider: {{ s.divider_color | default: '#B8F3D833' }};
-    --mo-hiw-image-radius: {{ s.image_radius | default: 10 }}px;
-    --mo-hiw-image-aspect-desktop: {{ s.image_aspect_ratio_desktop | default: 1.5 }};
+    --mo-hiw-image-radius: {{ s.image_radius | default: 16 }}px;
+    --mo-hiw-image-aspect-desktop: {{ s.image_aspect_ratio_desktop | default: 1 }};
     --mo-hiw-image-aspect-mobile: {{ s.image_aspect_ratio_mobile | default: 1 }};
     --mo-hiw-padding-y: {{ s.vertical_padding | default: 64 }}px;
   "
@@ -145,8 +146,8 @@
       "min": 0.5,
       "max": 2,
       "step": 0.1,
-      "default": 1.5,
-      "info": "VERIFY — visual-rhythm estimate read off the reference screenshot's proportions, not a pixel-measured Figma value."
+      "default": 1,
+      "info": "1:1 per Kalvis (2026-07-14)."
     },
     {
       "type": "range",
@@ -188,6 +189,13 @@
     },
     {
       "type": "color",
+      "id": "tab_heading_active_color",
+      "label": "Active step heading color",
+      "default": "#B8F3D8",
+      "info": "Confirmed by Kalvis (2026-07-14)."
+    },
+    {
+      "type": "color",
       "id": "number_pill_color",
       "label": "Number pill background",
       "default": "#FFD5F7"
@@ -216,7 +224,7 @@
       "max": 40,
       "step": 2,
       "unit": "px",
-      "default": 10
+      "default": 16
     },
     {
       "type": "range",

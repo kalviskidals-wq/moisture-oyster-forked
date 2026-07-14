@@ -3974,8 +3974,15 @@ mo-review-filter {
   grid-area: header;
 }
 
+/* CUSTOM (2026-07-14 fix): fixed min-height sized to ~3 lines of mo-body-lg
+   copy (16px / line-height 1.3) so the gap to the image below stays constant
+   regardless of which step's body text is currently active — panels vary
+   from 1-3 lines depending on copy length, and without this the "body" grid
+   row (auto-sized) would shrink/grow per tab, dragging the image up or down
+   with it. VERIFY if a future step's body copy runs longer than 3 lines. */
 .mo-hiw__body {
   grid-area: body;
+  min-height: calc(1.3em * 3);
 }
 
 .mo-hiw__tablist {
@@ -4022,9 +4029,14 @@ mo-review-filter {
   font-weight: 400;
 }
 
-.mo-hiw__panel + .mo-hiw__panel {
-  margin-block-start: var(--mo-space-4, 16px);
-}
+/* CUSTOM (2026-07-14 fix): removed a `.mo-hiw__panel + .mo-hiw__panel`
+   top-margin rule that was here — CSS sibling combinators match DOM order
+   regardless of [hidden] state, so panels 2 and 3 (which follow another
+   .mo-hiw__panel in source order) always got the extra margin-top even
+   though panel 1 is the only one ever hidden alongside them, making the
+   visible panel's first line sit ~16px lower whenever tab 2 or 3 was active.
+   Since only one panel is ever visible at a time, no inter-panel spacing is
+   needed at all. */
 
 .mo-hiw__image {
   position: relative;
@@ -4036,7 +4048,7 @@ mo-review-filter {
 
 @media screen and (min-width: 750px) {
   .mo-hiw__image {
-    aspect-ratio: var(--mo-hiw-image-aspect-desktop, 1.5);
+    aspect-ratio: var(--mo-hiw-image-aspect-desktop, 1);
   }
 }
 
@@ -4096,10 +4108,19 @@ mo-review-filter {
   color: var(--mo-hiw-tab-heading, #ffffff);
   font-size: 28px;
   line-height: 1.15;
+  transition: color 0.15s ease;
 }
 
 @media screen and (min-width: 750px) {
   .mo-hiw__tab-heading {
     font-size: 44px;
   }
+}
+
+/* CUSTOM (2026-07-14): active tab's heading gets a distinct color (mint,
+   per Kalvis) — matches both the .is-active class (initial server render)
+   and [aria-selected='true'] (kept in sync by mo-tabs.js on click). */
+.mo-hiw__tab.is-active .mo-hiw__tab-heading,
+.mo-hiw__tab[aria-selected='true'] .mo-hiw__tab-heading {
+  color: var(--mo-hiw-tab-heading-active, #b8f3d8);
 }

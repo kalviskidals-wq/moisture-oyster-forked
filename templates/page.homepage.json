@@ -307,16 +307,17 @@
       "settings": {
         "heading": "How it works",
         "image": "shopify://shop_images/image_1926988503.jpg",
-        "image_aspect_ratio_desktop": 1.5,
+        "image_aspect_ratio_desktop": 1,
         "image_aspect_ratio_mobile": 1,
         "background_color": "#093D24",
         "heading_color": "#FFFFFF",
         "body_color": "#FFFFFF",
         "tab_heading_color": "#FFFFFF",
+        "tab_heading_active_color": "#B8F3D8",
         "number_pill_color": "#FFD5F7",
         "number_pill_text_color": "#093D24",
         "divider_color": "#B8F3D833",
-        "image_radius": 10,
+        "image_radius": 16,
         "vertical_padding": 64
       }
     }
