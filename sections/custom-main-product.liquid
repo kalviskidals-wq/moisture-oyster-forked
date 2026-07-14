@@ -89,17 +89,21 @@
 
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails {
       padding-block: 10px;
-      margin-block-start: 0;
+      margin-block-start: 0 !important;
       margin-inline: 0 !important;
-      justify-content: flex-start;
+      justify-content: flex-start !important;
+      align-self: flex-start !important;
+      width: fit-content !important;
     }
 
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails-container {
-      justify-content: flex-start;
+      justify-content: flex-start !important;
+      width: 100% !important;
     }
 
     #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
-      justify-content: flex-start;
+      justify-content: flex-start !important;
+      align-items: flex-start !important;
     }
 
     /* CUSTOM: expert-quote testimonial appears above the hero image on
@@ -113,6 +117,43 @@
        sync manually if edited in the theme editor. */
     #shopify-section-{{ section.id }} .product-details .mo-pdp-testimonial {
       display: none;
+    }
+
+    /* CUSTOM: mobile expert-quote testimonial — 10px gap to the hero image
+       below it, center-aligned, and specific Manrope type sizes per design
+       spec. Scoped to .product-information__media so only the mobile
+       instance is affected; the desktop instance (in .product-details)
+       keeps its original left-aligned styling. */
+    #shopify-section-{{ section.id }} .product-information__media .mo-pdp-testimonial {
+      margin-bottom: 10px;
+      align-items: center;
+      text-align: center;
+    }
+
+    #shopify-section-{{ section.id }} .product-information__media .mo-pdp-testimonial__rating {
+      justify-content: center;
+      font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 14.68px;
+      letter-spacing: 0;
+    }
+
+    #shopify-section-{{ section.id }} .product-information__media .mo-pdp-testimonial__author {
+      font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 130%;
+      letter-spacing: 0;
+      text-align: center;
+    }
+
+    #shopify-section-{{ section.id }} .product-information__media .mo-pdp-testimonial__quote {
+      font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+      font-weight: 500;
+      font-size: 10px;
+      line-height: 130%;
+      letter-spacing: -0.02em;
     }
   }
 
