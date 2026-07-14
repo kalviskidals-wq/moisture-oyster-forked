@@ -10,6 +10,17 @@
     aspect-ratio: 1 / 1 !important;
   }
 
+  /* First thumbnail duplicates the main hero image already showing, so it's hidden rather than removed from the loop (that loop lives in the native slideshow-controls snippet, which we don't touch). */
+  #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control:first-child {
+    display: none;
+  }
+
+  /* No border/outline on the active thumbnail, per design. */
+  #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control[aria-selected='true'] {
+    outline: none;
+    border: none;
+  }
+
   @media screen and (min-width: 750px) {
     #shopify-section-{{ section.id }} .media-gallery--carousel {
       position: relative;
@@ -18,18 +29,28 @@
     #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
       position: absolute;
       left: 30px;
-      bottom: 30px;
+      top: 50%;
+      bottom: auto;
+      transform: translateY(-50%);
+      flex-direction: column;
       width: auto;
+      height: auto;
+      max-height: calc(100% - 60px);
       z-index: var(--layer-raised, 2);
     }
 
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails-container {
       width: auto;
+      max-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails {
-      margin-inline: 0;
+      flex-direction: column;
+      margin: 0;
       padding: 0;
+      gap: var(--gap-xs, 8px);
     }
   }
 
