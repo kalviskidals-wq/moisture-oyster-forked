@@ -3926,13 +3926,15 @@ mo-review-filter {
 
 /* ============================================================================
    HOMEPAGE — HOW IT WORKS (sections/custom-how-it-works.liquid)
-   Left "column" (header + active step's body panel + lifestyle image) sits
-   beside a right column of repeatable step blocks acting as tabs. No
-   full-bleed photo background here, so — unlike the overlay sections above —
-   this uses a plain CSS grid with named areas to reflow the 4 pieces: mobile
-   stacks them in source order (header, body, tablist, image); desktop moves
-   the tablist into its own column spanning all 3 left-column rows. Built on
-   <mo-tabs> (assets/mo-tabs.js), same tablist/tabpanel wiring as
+   Left "column" (.mo-hiw__left: header + active step's body panel +
+   lifestyle image) sits beside a right column of repeatable step blocks
+   acting as tabs. No full-bleed photo background here, so — unlike the
+   overlay sections above — this uses a plain CSS grid with named areas to
+   reflow the 4 pieces: mobile stacks them in source order (header, body,
+   tablist, image) via .mo-hiw__left dissolving with display:contents;
+   desktop turns .mo-hiw__left into a real flex column beside a separate
+   'tablist' grid cell (see the round-3 fix note below for why this replaced
+   an earlier row-spanning technique). Built on <mo-tabs> (assets/mo-tabs.js), same tablist/tabpanel wiring as
    .mo-ingredients__tabs above, but panels ship server-hidden via [hidden]
    (see the section file's a11y note) rather than that section's "show all,
    JS-hides" convention — mo-tabs.js's connectedCallback re-applies the same
@@ -3970,6 +3972,15 @@ mo-review-filter {
   row-gap: var(--mo-space-7, 32px);
 }
 
+/* CUSTOM (2026-07-14, round 3 fix): .mo-hiw__left dissolves on mobile
+   (display:contents) so header/body/image promote back out to the grid
+   above and keep their individual grid-area placement — this is what makes
+   the mobile header→body→tablist→image stacking order work even though
+   header/body/image are nested one level deeper in the markup now. */
+.mo-hiw__left {
+  display: contents;
+}
+
 .mo-hiw__header {
   grid-area: header;
 }
@@ -3977,9 +3988,9 @@ mo-review-filter {
 /* CUSTOM (2026-07-14 fix): fixed min-height sized to ~3 lines of mo-body-lg
    copy (16px / line-height 1.3) so the gap to the image below stays constant
    regardless of which step's body text is currently active — panels vary
-   from 1-3 lines depending on copy length, and without this the "body" grid
-   row (auto-sized) would shrink/grow per tab, dragging the image up or down
-   with it. VERIFY if a future step's body copy runs longer than 3 lines. */
+   from 1-3 lines depending on copy length, and without this the "body" box
+   would shrink/grow per tab, dragging the image up or down with it. VERIFY
+   if a future step's body copy runs longer than 3 lines. */
 .mo-hiw__body {
   grid-area: body;
   min-height: calc(1.3em * 3);
@@ -3993,16 +4004,28 @@ mo-review-filter {
   grid-area: image;
 }
 
+/* CUSTOM (2026-07-14, round 3 fix): replaced the earlier "tablist spans all
+   3 left-column grid rows" technique with a plain 2-cell grid — 'left'
+   (header+body+image, now a real flex column) beside 'tablist'. The old
+   spanning-row technique left the exact gap between the body panel and the
+   image dependent on CSS Grid's auto-track distribution once a multi-row-
+   spanning sibling (the tablist) was in the mix, which produced a much
+   bigger and non-obvious gap than intended. A flex column has no such
+   ambiguity: the body-to-image gap is just the flex `gap` value below,
+   period, regardless of the tablist's own height. */
 @media screen and (min-width: 750px) {
   .mo-hiw__grid {
     grid-template-columns: minmax(280px, 38%) 1fr;
     column-gap: var(--mo-space-8, 40px);
-    row-gap: var(--mo-space-6, 24px);
-    grid-template-areas:
-      'header  tablist'
-      'body    tablist'
-      'image   tablist';
+    grid-template-areas: 'left tablist';
     align-items: start;
+  }
+
+  .mo-hiw__left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mo-space-6, 24px);
+    grid-area: left;
   }
 }
 

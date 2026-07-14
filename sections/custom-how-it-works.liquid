@@ -1,4 +1,4 @@
-{%- # CUSTOM: net-new theme section — Homepage "How It Works" subscription explainer. Left column (heading + a body panel showing the active step's copy + a lifestyle image) sits beside a right column of repeatable step blocks that act as tabs (number pill + large heading). Desktop: two columns side by side via CSS grid-template-areas (tablist spans the full height of the header/body/image column). Mobile: same 4 pieces reflow into one stacked column in source order (header, body, tablist, image) via a mobile grid-template-areas override — no absolute-position overlay trick needed since there is no full-bleed photo background here. Tabs + panels reuse assets/mo-tabs.js (already built for custom-ingredient-transparency.liquid) for click + arrow-key/Home/End roving-tabindex nav. Unlike that section's progressive-enhancement convention (all panels visible, JS-only hiding), this section's a11y spec calls for the non-active panels to ship server-hidden via the `hidden` attribute directly (first step server-rendered active), since mo-tabs.js's own connectedCallback re-applies the same hidden state on load regardless, so behavior is identical either way. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # CUSTOM: net-new theme section — Homepage "How It Works" subscription explainer. Left column (a .mo-hiw__left wrapper holding the heading + a body panel showing the active step's copy + a lifestyle image, stacked with a fixed flex gap) sits beside a right column of repeatable step blocks that act as tabs (number pill + large heading). Desktop: .mo-hiw__left becomes a real flex column and .mo-hiw__tablist a separate grid cell beside it, so the body-to-image spacing is a single fixed gap never influenced by the tablist's own height. Mobile: .mo-hiw__left switches to display:contents so header/body/image promote back out to their own individually-assigned grid areas, reflowing into source order (header, body, tablist, image) via a mobile grid-template-areas override — no absolute-position overlay trick needed since there is no full-bleed photo background here. Tabs + panels reuse assets/mo-tabs.js (already built for custom-ingredient-transparency.liquid) for click + arrow-key/Home/End roving-tabindex nav. Unlike that section's progressive-enhancement convention (all panels visible, JS-only hiding), this section's a11y spec calls for the non-active panels to ship server-hidden via the `hidden` attribute directly (first step server-rendered active), since mo-tabs.js's own connectedCallback re-applies the same hidden state on load regardless, so behavior is identical either way. UPSTREAM risk LOW — no Horizon file touched. -%}
 {%- # CUSTOM: load design tokens + the .mo-hiw rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
 {{ 'custom.css' | asset_url | stylesheet_tag }}
@@ -33,32 +33,51 @@
   <div class="mo-hiw__inner">
     <mo-tabs class="mo-hiw__tabs">
       <div class="mo-hiw__grid">
-        <div class="mo-hiw__header">
-          {%- if s.heading != blank -%}
-            <h2 class="mo-hiw__heading">{{ s.heading | escape }}</h2>
-          {%- endif -%}
-        </div>
-
-        <div class="mo-hiw__body">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'step' -%}
-              {%- liquid
-                assign panel_id = 'MoHiwPanel-' | append: section.id | append: '-' | append: block.id
-                assign tab_id = 'MoHiwTab-' | append: section.id | append: '-' | append: block.id
-              -%}
-              <div
-                class="mo-hiw__panel mo-body-lg"
-                id="{{ panel_id }}"
-                role="tabpanel"
-                aria-labelledby="{{ tab_id }}"
-                tabindex="0"
-                {% unless forloop.first %}hidden{% endunless %}
-                {{ block.shopify_attributes }}
-              >
-                {{ block.settings.body | newline_to_br }}
-              </div>
+        {%- # CUSTOM (2026-07-14 fix): header/body/image now share one .mo-hiw__left wrapper. On desktop it's a real flex column (so the body-to-image gap is a single fixed flex `gap`, never influenced by the tablist's own height/spanning) and on mobile it's `display:contents` (dissolves so header/body/image still promote to their own individually-assigned grid-area, keeping the required header→body→tablist→image stacking order). Replaces the earlier "tablist spans 3 grid rows" technique, which left the left column's exact vertical rhythm dependent on grid row-track distribution math instead of a plain, predictable gap. -%}
+        <div class="mo-hiw__left">
+          <div class="mo-hiw__header">
+            {%- if s.heading != blank -%}
+              <h2 class="mo-hiw__heading">{{ s.heading | escape }}</h2>
             {%- endif -%}
-          {%- endfor -%}
+          </div>
+
+          <div class="mo-hiw__body">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'step' -%}
+                {%- liquid
+                  assign panel_id = 'MoHiwPanel-' | append: section.id | append: '-' | append: block.id
+                  assign tab_id = 'MoHiwTab-' | append: section.id | append: '-' | append: block.id
+                -%}
+                <div
+                  class="mo-hiw__panel mo-body-lg"
+                  id="{{ panel_id }}"
+                  role="tabpanel"
+                  aria-labelledby="{{ tab_id }}"
+                  tabindex="0"
+                  {% unless forloop.first %}hidden{% endunless %}
+                  {{ block.shopify_attributes }}
+                >
+                  {{ block.settings.body | newline_to_br }}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- if has_image -%}
+            <div class="mo-hiw__image">
+              {{
+                s.image
+                | image_url: width: 900
+                | image_tag:
+                  width: s.image.width,
+                  height: s.image.height,
+                  alt: s.image.alt,
+                  sizes: '(min-width: 750px) 38vw, 100vw',
+                  class: 'mo-hiw__image-img',
+                  loading: 'lazy'
+              }}
+            </div>
+          {%- endif -%}
         </div>
 
         <div class="mo-hiw__tablist" role="tablist" aria-label="{{ s.heading | strip_newlines | escape }}">
@@ -93,22 +112,6 @@
             {%- endif -%}
           {%- endfor -%}
         </div>
-
-        {%- if has_image -%}
-          <div class="mo-hiw__image">
-            {{
-              s.image
-              | image_url: width: 900
-              | image_tag:
-                width: s.image.width,
-                height: s.image.height,
-                alt: s.image.alt,
-                sizes: '(min-width: 750px) 38vw, 100vw',
-                class: 'mo-hiw__image-img',
-                loading: 'lazy'
-            }}
-          </div>
-        {%- endif -%}
       </div>
     </mo-tabs>
   </div>
