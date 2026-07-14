@@ -49,9 +49,9 @@
         "background_color": "#093d24",
         "scrim_color": "#093d24",
         "scrim_opacity": 0,
-        "rating_color": "#FFD5F7",
+        "rating_color": "#ffd5f7",
         "reviews_link_color": "#ffffff",
-        "heading_color": "#FFD5F7",
+        "heading_color": "#ffd5f7",
         "subhead_color": "#ffffff",
         "vertical_padding": 0
       }
@@ -154,7 +154,7 @@
         "heading_color": "#ffffff",
         "eyebrow_color": "#b8f3d8",
         "title_color": "#ffffff",
-        "price_color": "#FFD5F7",
+        "price_color": "#ffd5f7",
         "coming_soon_text_color": "#e8e7e3",
         "columns_desktop": 3,
         "card_radius": 10,
@@ -220,53 +220,6 @@
         "vertical_padding": 0
       }
     },
-    "custom_how_it_works_mohp1": {
-      "type": "custom-how-it-works",
-      "blocks": {
-        "step_frequency": {
-          "type": "step",
-          "settings": {
-            "number": "1",
-            "heading": "Choose your frequency",
-            "body": "Select 30, 60, or 90-day delivery cycles. Adjust anytime from your account dashboard — no friction, no lock-in."
-          }
-        },
-        "step_delivery": {
-          "type": "step",
-          "settings": {
-            "number": "2",
-            "heading": "Free delivery, every time",
-            "body": "All subscriptions ship free across the US. Your drops arrive before you run out — every time, guaranteed."
-          }
-        },
-        "step_pause": {
-          "type": "step",
-          "settings": {
-            "number": "3",
-            "heading": "Pause or cancel freely",
-            "body": "No lock-ins. Pause, skip, or cancel your subscription in one tap — no questions asked."
-          }
-        }
-      },
-      "block_order": [
-        "step_frequency",
-        "step_delivery",
-        "step_pause"
-      ],
-      "name": "How It Works",
-      "settings": {
-        "heading": "How it works",
-        "background_color": "#093d24",
-        "heading_color": "#ffffff",
-        "body_color": "#ffffff",
-        "tab_heading_color": "#ffffff",
-        "number_pill_color": "#ffd5f7",
-        "number_pill_text_color": "#093d24",
-        "divider_color": "#b8f3d833",
-        "image_radius": 10,
-        "vertical_padding": 64
-      }
-    },
     "main": {
       "type": "main-page",
       "blocks": {
@@ -316,6 +269,56 @@
         "padding-block-start": 40,
         "padding-block-end": 80
       }
+    },
+    "custom_how_it_works_rLezhk": {
+      "type": "custom-how-it-works",
+      "blocks": {
+        "step_jabykn": {
+          "type": "step",
+          "settings": {
+            "number": "1",
+            "heading": "Choose your frequency",
+            "body": "Select 30, 60, or 90-day delivery cycles. Adjust anytime from your account dashboard — no friction, no lock-in."
+          }
+        },
+        "step_YmAVTY": {
+          "type": "step",
+          "settings": {
+            "number": "2",
+            "heading": "Free delivery, every time",
+            "body": "All subscriptions ship free across the US. Your drops arrive before you run out — every time, guaranteed."
+          }
+        },
+        "step_rqNm8N": {
+          "type": "step",
+          "settings": {
+            "number": "3",
+            "heading": "Pause or cancel freely",
+            "body": "No lock-ins. Pause, skip, or cancel your subscription in one tap — no questions asked."
+          }
+        }
+      },
+      "block_order": [
+        "step_jabykn",
+        "step_YmAVTY",
+        "step_rqNm8N"
+      ],
+      "name": "MO How It Works",
+      "settings": {
+        "heading": "How it works",
+        "image": "shopify://shop_images/image_1926988503.jpg",
+        "image_aspect_ratio_desktop": 1.5,
+        "image_aspect_ratio_mobile": 1,
+        "background_color": "#093D24",
+        "heading_color": "#FFFFFF",
+        "body_color": "#FFFFFF",
+        "tab_heading_color": "#FFFFFF",
+        "number_pill_color": "#FFD5F7",
+        "number_pill_text_color": "#093D24",
+        "divider_color": "#B8F3D833",
+        "image_radius": 10,
+        "vertical_padding": 64
+      }
     }
   },
   "order": [
@@ -323,7 +326,7 @@
     "custom_marquee_bar_mohp1",
     "custom_range_grid_mohp1",
     "custom_eye_health_mohp1",
-    "custom_how_it_works_mohp1",
-    "main"
+    "main",
+    "custom_how_it_works_rLezhk"
   ]
 }
