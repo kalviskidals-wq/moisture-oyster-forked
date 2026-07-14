@@ -96,68 +96,71 @@
     <div class="mo-about__scrim" aria-hidden="true"></div>
   </div>
 
-  <div class="mo-about__header">
-    {%- if s.heading != blank -%}
-      <h2 class="mo-about__heading mo-h2">{{ s.heading | newline_to_br }}</h2>
-    {%- endif -%}
-  </div>
-
-  {%- if section.blocks.size > 0 or show_button -%}
-    <div class="mo-about__footer">
-      {%- if section.blocks.size > 0 -%}
-        <div class="mo-about__items">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'item' -%}
-              {%- liquid
-                assign bs = block.settings
-                assign has_icon = false
-                if bs.icon_image != blank
-                  assign has_icon = true
-                elsif bs.icon_preset != 'none'
-                  assign has_icon = true
-                endif
-              -%}
-              {%- if bs.label != blank -%}
-                <div class="mo-about__item" {{ block.shopify_attributes }}>
-                  {%- if has_icon -%}
-                    <span class="mo-about__item-icon" aria-hidden="true">
-                      {%- if bs.icon_image != blank -%}
-                        {{
-                          bs.icon_image
-                          | image_url: width: 64
-                          | image_tag:
-                            width: 32,
-                            height: 32,
-                            loading: 'lazy',
-                            alt: '',
-                            class: 'mo-about__item-icon-img'
-                        }}
-                      {%- else -%}
-                        {%- render 'mo-provenance-icon', icon: bs.icon_preset -%}
-                      {%- endif -%}
-                    </span>
-                  {%- endif -%}
-                  <span class="mo-about__item-label mo-menu">{{ bs.label | escape }}</span>
-                </div>
-              {%- endif -%}
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
-
-      {%- if show_button -%}
-        <a href="{{ s.button_link | default: '#' }}" class="mo-btn mo-btn--bag mo-about__cta">
-          {{ s.button_label | escape }}
-          <span class="mo-about__cta-arrow" aria-hidden="true">
-            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              <path d="M9 4L13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </a>
+  {%- # CUSTOM (round 2 fix): header + footer grouped under one .mo-about__content wrapper — instead of positioning each directly against the edge-to-edge .mo-about box, this wrapper carries the page-width max-width/margin-inline:auto/padding-inline rule at desktop (reused verbatim from custom-home-hero.liquid's .mo-home-hero__content), so the heading and the provenance list line up with every other section's column boundary instead of sitting a fixed 40px from the true viewport edge. -%}
+  <div class="mo-about__content">
+    <div class="mo-about__header">
+      {%- if s.heading != blank -%}
+        <h2 class="mo-about__heading mo-h2">{{ s.heading | newline_to_br }}</h2>
       {%- endif -%}
     </div>
-  {%- endif -%}
+
+    {%- if section.blocks.size > 0 or show_button -%}
+      <div class="mo-about__footer">
+        {%- if section.blocks.size > 0 -%}
+          <div class="mo-about__items">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'item' -%}
+                {%- liquid
+                  assign bs = block.settings
+                  assign has_icon = false
+                  if bs.icon_image != blank
+                    assign has_icon = true
+                  elsif bs.icon_preset != 'none'
+                    assign has_icon = true
+                  endif
+                -%}
+                {%- if bs.label != blank -%}
+                  <div class="mo-about__item" {{ block.shopify_attributes }}>
+                    {%- if has_icon -%}
+                      <span class="mo-about__item-icon" aria-hidden="true">
+                        {%- if bs.icon_image != blank -%}
+                          {{
+                            bs.icon_image
+                            | image_url: width: 64
+                            | image_tag:
+                              width: 32,
+                              height: 32,
+                              loading: 'lazy',
+                              alt: '',
+                              class: 'mo-about__item-icon-img'
+                          }}
+                        {%- else -%}
+                          {%- render 'mo-provenance-icon', icon: bs.icon_preset -%}
+                        {%- endif -%}
+                      </span>
+                    {%- endif -%}
+                    <span class="mo-about__item-label mo-menu">{{ bs.label | escape }}</span>
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- if show_button -%}
+          <a href="{{ s.button_link | default: '#' }}" class="mo-btn mo-btn--bag mo-about__cta">
+            {{ s.button_label | escape }}
+            <span class="mo-about__cta-arrow" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M9 4L13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
 </section>
 
 {% schema %}

@@ -4181,10 +4181,15 @@ mo-review-filter {
    verbatim from custom-home-hero.liquid. UPSTREAM risk LOW — net-new, no
    Horizon file touched.
    ============================================================================ */
+/* CUSTOM (round 2 fix): the rounded card look now lives on .mo-about__media
+   only (border-radius + overflow:hidden), not on .mo-about itself. .mo-about
+   stays a plain, un-clipped rectangle filled with the section's dark-green
+   background — so wherever the media's rounded corners clip the video/
+   poster away, what shows through is .mo-about's own dark-green fill
+   (matching every other full-bleed section's corner/background convention)
+   instead of the page's background color leaking through. */
 .mo-about {
   position: relative;
-  overflow: hidden;
-  border-radius: var(--mo-about-radius, 24px);
   background: var(--mo-about-bg, #093d24);
   aspect-ratio: var(--mo-about-aspect-mobile, 0.62);
   padding-block: var(--mo-about-padding-y, 0px);
@@ -4200,6 +4205,7 @@ mo-review-filter {
   position: absolute;
   inset: 0;
   overflow: hidden;
+  border-radius: var(--mo-about-radius, 24px);
   z-index: 0;
 }
 
@@ -4265,13 +4271,41 @@ mo-review-filter {
   pointer-events: none;
 }
 
+/* ---------- Content wrapper ----------
+   Mobile: plain inset:0 box, header/footer stay independently
+   position:absolute against it (unchanged mobile behavior). Desktop: gets
+   the page-width max-width/margin-inline:auto/padding-inline rule (reused
+   verbatim from .mo-home-hero__content) so header/footer align to the same
+   column boundary as every other section instead of a raw 40px viewport
+   inset — fixes the heading overflowing past other sections' left edge. */
+.mo-about__content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-about__content {
+    max-width: var(--page-width, var(--normal-page-width, 1280px));
+    margin-inline: auto;
+    padding-inline: var(--page-margin, 40px);
+    box-sizing: border-box;
+  }
+}
+
 .mo-about__header {
   position: absolute;
-  z-index: 3;
   top: 0;
   left: 0;
   right: 0;
   padding: var(--mo-space-6, 24px) var(--mo-space-5, 20px) 0;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-about__header {
+    /* side gutter now comes from .mo-about__content's padding-inline above */
+    padding: var(--mo-space-8, 40px) 0 0;
+  }
 }
 
 .mo-about__heading {
@@ -4288,11 +4322,15 @@ mo-review-filter {
 
 /* ---------- Footer (provenance items + CTA) ----------
    Mobile: full-width column pinned to the bottom, items left-aligned, CTA
-   spans full width. Desktop: same column but right-aligned as a group and
-   the CTA shrinks to its own content width — see media query below. */
+   spans full width. Desktop: column shrinks to its content width and is
+   anchored to the right edge (right: 0, no left), but items/CTA stay
+   LEFT-aligned WITHIN that column (align-items: flex-start, not flex-end)
+   — round 2 fix: flex-end previously right-hugged each item row
+   individually, and since rows are different widths (label length varies),
+   their icons ended up at different x-positions instead of forming a
+   shared left column like the reference design. */
 .mo-about__footer {
   position: absolute;
-  z-index: 3;
   left: var(--mo-space-5, 20px);
   right: var(--mo-space-5, 20px);
   bottom: var(--mo-space-5, 20px);
@@ -4347,18 +4385,21 @@ mo-review-filter {
 
   .mo-about__footer {
     left: auto;
-    right: var(--page-margin, 40px);
-    bottom: var(--page-margin, 40px);
+    right: 0;
+    bottom: var(--mo-space-8, 40px);
     max-width: 380px;
-    align-items: flex-end;
+    align-items: flex-start;
   }
 
   .mo-about__items {
-    align-items: flex-end;
+    align-items: flex-start;
+    /* CUSTOM: 20px between provenance rows on desktop, per Kalvis (was the
+       shared 12px mobile/desktop gap). */
+    gap: var(--mo-space-5, 20px);
   }
 
   .mo-about__cta {
     width: auto;
-    align-self: flex-end;
+    align-self: flex-start;
   }
 }
