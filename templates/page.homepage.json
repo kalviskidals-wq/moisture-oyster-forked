@@ -309,6 +309,7 @@
         "image": "shopify://shop_images/image_1926988503.jpg",
         "image_aspect_ratio_desktop": 1,
         "image_aspect_ratio_mobile": 1.3,
+        "image_width_desktop": 70,
         "background_color": "#093d24",
         "heading_color": "#ffffff",
         "body_color": "#ffffff",

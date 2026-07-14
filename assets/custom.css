@@ -4069,9 +4069,16 @@ mo-review-filter {
   overflow: hidden;
 }
 
+/* CUSTOM (2026-07-14, round 4 fix): the image was reading noticeably bigger
+   than the reference design once it had the full left-column width — sized
+   down via a merchant-editable width percentage (default 70%, i.e. ~30%
+   smaller) instead of stretching to fill .mo-hiw__left. Left-aligned by
+   default (no margin-inline auto), matching the reference's flush-left
+   image; mobile is untouched (still full-width, matching that frame). */
 @media screen and (min-width: 750px) {
   .mo-hiw__image {
     aspect-ratio: var(--mo-hiw-image-aspect-desktop, 1);
+    width: var(--mo-hiw-image-width-desktop, 70%);
   }
 }
 
