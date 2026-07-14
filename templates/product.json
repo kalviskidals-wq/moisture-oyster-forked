@@ -205,7 +205,7 @@
                   "type": "product-description",
                   "name": "t:names.product_description",
                   "settings": {
-                    "text": "<p>{{ closest.product.description }}</p>",
+                    "text": "{{ closest.product.description }}",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -216,7 +216,7 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "text_color": "",
+                    "text_color": "#0D1B14",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
