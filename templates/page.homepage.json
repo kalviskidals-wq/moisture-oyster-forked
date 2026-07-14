@@ -306,6 +306,7 @@
       "name": "MO How It Works",
       "settings": {
         "heading": "How it works",
+        "image": "shopify://shop_images/image_1926988503.jpg",
         "image_aspect_ratio_desktop": 1.5,
         "image_aspect_ratio_mobile": 1,
         "background_color": "#093D24",
