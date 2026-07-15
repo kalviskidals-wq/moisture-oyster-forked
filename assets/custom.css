@@ -5082,6 +5082,14 @@ html.mo-scroll-lock body {
 }
 
 .mo-header {
+  /* CUSTOM (fix): needs its own stacking context above .mo-header__drawer
+     (position:fixed; z-index:20; inset:0 — covers the whole viewport when
+     open) regardless of sticky mode, otherwise the drawer paints over the
+     header bar and hides the close (X) toggle button once the drawer is
+     open — this is independent of #header-group's sticky z-index above,
+     which only applies in sticky modes and wouldn't help "Not sticky". */
+  position: relative;
+  z-index: 21;
   background: var(--mo-header-bg, #093d24);
   transition: transform 0.25s ease;
 }
