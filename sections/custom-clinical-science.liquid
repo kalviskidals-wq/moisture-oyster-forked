@@ -49,7 +49,7 @@
       <p class="mo-science__eyebrow">{{ s.eyebrow | escape }}</p>
     {%- endif -%}
     {%- if s.heading != blank -%}
-      <h2 class="mo-science__heading">{{ s.heading | escape }}</h2>
+      <h2 class="mo-science__heading">{{ s.heading | newline_to_br }}</h2>
     {%- endif -%}
 
     <div class="mo-science__grid">
@@ -63,14 +63,14 @@
               <div class="mo-science__stat" {{ block.shopify_attributes }}>
                 <div class="mo-science__stat-top">
                   {%- if bs.figure != blank -%}
-                    <span class="mo-science__stat-figure mo-stat">{{ bs.figure | escape }}</span>
+                    <span class="mo-science__stat-figure">{{ bs.figure | escape }}</span>
                   {%- endif -%}
                   {%- if bs.unit != blank -%}
-                    <span class="mo-science__stat-unit mo-tag">{{ bs.unit | escape }}</span>
+                    <span class="mo-science__stat-unit">{{ bs.unit | escape }}</span>
                   {%- endif -%}
                 </div>
                 {%- if bs.description != blank -%}
-                  <p class="mo-science__stat-desc mo-body">{{ bs.description | newline_to_br }}</p>
+                  <p class="mo-science__stat-desc">{{ bs.description | newline_to_br }}</p>
                 {%- endif -%}
               </div>
             {%- endif -%}
@@ -167,10 +167,11 @@
       "default": "THE SCIENCE"
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "Engineered for tear-film support — validated by GLP testing"
+      "info": "Use a line break to control where the heading wraps.",
+      "default": "Engineered for tear-film support —\nvalidated by GLP testing"
     },
     {
       "type": "header",
