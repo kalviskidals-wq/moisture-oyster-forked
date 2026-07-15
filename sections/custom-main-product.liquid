@@ -26,6 +26,21 @@
     display: none;
   }
 
+  /* CUSTOM: product description body text type spec (Kalvis, exact Figma values). Targets the
+     description block's stable per-instance class (text-block--mo_description, from its JSON block
+     id) rather than a generic selector, since product-description's own schema only exposes preset
+     keywords (tight/normal/loose) for line-height/letter-spacing, not exact percentage values.
+     Desktop values here are the default; the max-width:749px block below overrides size/line-height/
+     letter-spacing for mobile per its own separate spec. */
+  #shopify-section-{{ section.id }} .text-block--mo_description {
+    font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0;
+    color: #0d1b14;
+  }
+
   /* CUSTOM: Active Ingredient / Uses accordion heading type spec (Kalvis, exact Figma values).
      Horizon's native accordion block only exposes a type_preset dropdown (h1-h6/paragraph), not
      arbitrary font values, so this is a scoped override on the summary element instead. */
@@ -94,6 +109,14 @@
        here instead to match .product-details' grid-column: 2 / 3. */
     #shopify-section-{{ section.id }} .product-information__media {
       grid-column: 2 / 3;
+    }
+
+    /* CUSTOM: product description mobile type spec (Kalvis) — same font-family/weight/color as
+       desktop (set above), only size/line-height/letter-spacing differ at this breakpoint. */
+    #shopify-section-{{ section.id }} .text-block--mo_description {
+      font-size: 12px;
+      line-height: 130%;
+      letter-spacing: -0.02em;
     }
 
     /* CUSTOM: hero image crops to a 1:1 square with a 10px radius on mobile.
