@@ -2044,9 +2044,14 @@ tbody tr:last-child .mo-compare__cell {
 }
 
 @media screen and (min-width: 750px) {
+  /* CUSTOM: column-gap is 0 (spacing recreated via padding-right/left on
+     .mo-science__stat below) for the same reason row-gap is 0 further down —
+     a real grid column-gap leaves an empty strip with no border in it,
+     breaking each row's horizontal divider into two disconnected segments
+     right where it should cross the vertical divider. */
   .mo-science__stats-grid {
     grid-template-columns: 1fr 1fr;
-    column-gap: var(--mo-space-7, 32px);
+    column-gap: 0;
   }
 }
 
