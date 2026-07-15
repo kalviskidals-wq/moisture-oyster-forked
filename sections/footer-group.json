@@ -49,8 +49,9 @@
         "email_placeholder": "Your email address",
         "button_label": "NOTIFY ME",
         "success_message": "You’re on the list. We’ll email you when vitamins launch.",
+        "wordmark_image": "shopify://shop_images/Footer_logo.svg",
         "wordmark_fallback_text": "mo",
-        "legal_text": "<p>Moisture Oyster Lubricant Eye Drops · NDC 87105-100-1 · Distributed in the USA by OTE North America LLC, Valley Stream, NY 11580 · Manufactured by Oté Pharma SOL B.V., Netherlands</p>",
+        "legal_text": "",
         "background_color": "#093d24",
         "eyebrow_color": "#b8f3d8",
         "heading_color": "#ffffff",
@@ -66,7 +67,7 @@
         "legal_color": "#ffffffb3",
         "field_radius": 16,
         "padding_top": 64,
-        "padding_bottom": 40
+        "padding_bottom": 0
       }
     }
   },
