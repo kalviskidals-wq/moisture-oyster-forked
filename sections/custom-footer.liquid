@@ -116,7 +116,8 @@
       </div>
     </div>
 
-    <div class="mo-footer__wordmark" aria-hidden="true">
+    {%- # CUSTOM: separate desktop vs. mobile wordmark images (both rendered, CSS breakpoint-toggles which is visible — same progressive-disclosure pattern as .mo-footer__legal below) rather than a single shared image, per Kalvis (2026-07-13): desktop keeps the oversized wordmark, mobile gets its own bottom logo asset. Mobile falls back to the desktop image (then to the text+drop fallback) if no mobile-specific image is uploaded. -%}
+    <div class="mo-footer__wordmark mo-footer__wordmark--desktop" aria-hidden="true">
       {%- if s.wordmark_image != blank -%}
         {{
           s.wordmark_image
@@ -125,7 +126,35 @@
             width: s.wordmark_image.width,
             height: s.wordmark_image.height,
             widths: '480, 720, 960, 1440, 2000',
-            sizes: '(max-width: 749px) 90vw, 1200px',
+            sizes: '1200px',
+            alt: '',
+            loading: 'lazy',
+            class: 'mo-footer__wordmark-img'
+        }}
+      {%- else -%}
+        <span class="mo-footer__wordmark-fallback">
+          <span class="mo-footer__wordmark-text">{{ s.wordmark_fallback_text | default: 'mo' | escape }}</span>
+          <svg class="mo-footer__wordmark-drop" viewBox="0 0 100 130" fill="currentColor" xmlns="http://www.w3.org/2000/svg" focusable="false">
+            <path d="M50,0 C20,40 0,70 0,95 A50,50 0 1,0 100,95 C100,70 80,40 50,0 Z"/>
+          </svg>
+        </span>
+      {%- endif -%}
+      <span class="mo-footer__tm">TM</span>
+    </div>
+
+    {%- liquid
+      assign mobile_wordmark_image = s.wordmark_image_mobile | default: s.wordmark_image
+    -%}
+    <div class="mo-footer__wordmark mo-footer__wordmark--mobile" aria-hidden="true">
+      {%- if mobile_wordmark_image != blank -%}
+        {{
+          mobile_wordmark_image
+          | image_url: width: 1200
+          | image_tag:
+            width: mobile_wordmark_image.width,
+            height: mobile_wordmark_image.height,
+            widths: '480, 720, 960, 1200',
+            sizes: '90vw',
             alt: '',
             loading: 'lazy',
             class: 'mo-footer__wordmark-img'
@@ -207,8 +236,14 @@
     {
       "type": "image_picker",
       "id": "wordmark_image",
-      "label": "Wordmark image",
+      "label": "Wordmark image (desktop)",
       "info": "Oversized pink 'mo' + drop + TM mark. If blank, falls back to a text + inline-SVG drop built from the field below."
+    },
+    {
+      "type": "image_picker",
+      "id": "wordmark_image_mobile",
+      "label": "Wordmark image (mobile)",
+      "info": "Optional separate bottom logo for mobile. If blank, falls back to the desktop wordmark image above (or the text + drop fallback if that's blank too)."
     },
     {
       "type": "text",

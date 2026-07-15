@@ -3388,6 +3388,24 @@ mo-review-filter {
   margin-block-start: var(--mo-space-8, 40px);
 }
 
+/* CUSTOM: desktop/mobile wordmarks are separate images per Kalvis (2026-07-13)
+   — both render in markup, this just toggles which is visible. Mirrors the
+   .mo-footer__legal mobile-only convention below (mobile-first default, swap
+   at the 750px breakpoint). */
+.mo-footer__wordmark--desktop {
+  display: none;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-footer__wordmark--desktop {
+    display: flex;
+  }
+
+  .mo-footer__wordmark--mobile {
+    display: none;
+  }
+}
+
 .mo-footer__wordmark-fallback {
   display: flex;
   align-items: center;
