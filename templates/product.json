@@ -1248,7 +1248,7 @@
         "all_filter_label": "All",
         "filter_group_label": "Filter reviews",
         "card_radius": 20,
-        "vertical_padding": 64,
+        "vertical_padding": 40,
         "background_color": "#093d24",
         "rating_color": "#ffd5f7",
         "header_star_color": "#f2a2ff",
