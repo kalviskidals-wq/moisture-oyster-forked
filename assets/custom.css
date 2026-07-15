@@ -940,12 +940,32 @@ body {
    means the panel's edge now always rests safely inside a solid-color zone
    instead of exactly on a color transition, so there's nothing for a seam to
    appear at. */
+/* CUSTOM (round 15 fix): the round-14 buffer (padding-block + 2px) was still
+   far too small and caused a NEW artifact — a wavy/notched line right at the
+   bottom corners. Root cause: the gradient's color-stop is a flat line at a
+   FIXED height across the entire width, but .mo-compare__panel's rounded
+   corner does NOT reveal a uniform strip of frame beneath it — right at the
+   corner tip the panel's edge recedes upward by a full extra `radius` (32px)
+   above the flat padding-block inset, tapering back down to padding-block
+   over the last `radius` px of width. So near each corner, the revealed
+   frame window is up to padding-block + radius tall, while the gradient's
+   accent-to-frame-top transition was still sitting at padding-block + 2px —
+   well inside that taller corner window, so the corner cutout showed BOTH
+   colors, with the flat transition line visibly crossing the curved panel
+   edge (the "wavy/notched" look). Fix: push the stop out to
+   padding-block + radius + 4px buffer, so the transition sits above the
+   HIGHEST point the corner ever recedes to. Outside the corner regions this
+   is invisible either way (already fully hidden behind the panel's flat
+   edge); inside the corner regions the entire cutout is now solid accent
+   color with no transition line crossing it. Keep in sync with
+   .mo-compare__panel's border-radius (32px) and padding-block (20px/32px)
+   if either changes: stop = padding-block + radius + 4. */
 .mo-compare {
   background: linear-gradient(
     to top,
     var(--mo-compare-frame-bottom-bg, #093d24) 0,
-    var(--mo-compare-frame-bottom-bg, #093d24) 22px,
-    var(--mo-compare-frame-bg, #0d1b14) 22px,
+    var(--mo-compare-frame-bottom-bg, #093d24) 56px,
+    var(--mo-compare-frame-bg, #0d1b14) 56px,
     var(--mo-compare-frame-bg, #0d1b14) 100%
   );
   padding-block: 20px;
@@ -976,8 +996,8 @@ body {
     background: linear-gradient(
       to top,
       var(--mo-compare-frame-bottom-bg, #093d24) 0,
-      var(--mo-compare-frame-bottom-bg, #093d24) 34px,
-      var(--mo-compare-frame-bg, #0d1b14) 34px,
+      var(--mo-compare-frame-bottom-bg, #093d24) 68px,
+      var(--mo-compare-frame-bg, #0d1b14) 68px,
       var(--mo-compare-frame-bg, #0d1b14) 100%
     );
     padding-block: 32px;
