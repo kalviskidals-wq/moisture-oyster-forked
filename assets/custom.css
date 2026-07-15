@@ -564,7 +564,8 @@ body {
    ============================================================================ */
 .mo-problem {
   position: relative;
-  background: var(--mo-problem-bg, #093d24);
+  background: var(--mo-problem-bg, #0d1b14);
+  border-radius: 16px;
   padding-block: var(--mo-problem-padding-y, 0px);
   overflow: hidden;
 }
@@ -572,7 +573,7 @@ body {
 .mo-problem__header {
   position: relative;
   z-index: 4;
-  background: var(--mo-problem-bg, #093d24);
+  background: var(--mo-problem-bg, #0d1b14);
   padding: var(--mo-space-8, 40px) var(--mo-space-5, 20px) var(--mo-space-7, 32px);
 }
 
