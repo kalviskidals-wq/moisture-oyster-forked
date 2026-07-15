@@ -3438,10 +3438,12 @@ mo-review-filter {
   max-width: 480px;
 }
 
+/* CUSTOM: legal/regulatory line is mobile-only per Kalvis (2026-07-13) —
+   desktop gets a separate mobile-only bottom logo instead (added outside
+   this section). */
 @media screen and (min-width: 750px) {
   .mo-footer__legal {
-    text-align: right;
-    margin-inline-start: auto;
+    display: none;
   }
 }
 
