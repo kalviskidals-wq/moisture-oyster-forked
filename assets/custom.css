@@ -940,9 +940,23 @@ body {
   padding-block: 20px;
 }
 
+/* CUSTOM (round 13): border-radius hardcoded, not var()-driven, to rule out
+   any lingering doubt after the round-12 var()-in-gradient-position bug (this
+   usage — var() as a plain property value — was never actually at risk, but
+   removing it entirely leaves zero ambiguity). 32px matches the
+   .mo-ingredients__card radius already used elsewhere on this page, so it
+   reads as an intentional, clearly visible curve. Deliberately NOT adding
+   overflow:hidden here — border-radius already clips this element's OWN
+   background regardless of overflow, and hiding overflow would risk clipping
+   the tooltip popovers (.mo-compare__tooltip-popover, position:absolute)
+   whenever one needs to render past this box's edge, e.g. the last row's
+   tooltip opening below it on desktop. A corner radius is by definition only
+   visible in the actual corner pixels — if it still looks flat, check the
+   true left/right edges of the page, not just the horizontal center of a
+   screenshot. */
 .mo-compare__panel {
   background: var(--mo-compare-bg, #0d1b14);
-  border-radius: var(--mo-compare-radius, 24px);
+  border-radius: 32px;
   padding-block: var(--mo-compare-padding-y, 40px);
 }
 
