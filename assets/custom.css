@@ -907,23 +907,29 @@ body {
    ============================================================================ */
 /* CUSTOM: the section itself is just a frame color — .mo-compare__panel is
    the actual rounded near-black content box, inset from the section's true
-   top/bottom edges via margin-block, so the frame color shows through in the
-   gap above/below it (and in the small corner cutouts the border-radius
-   clips, since the panel is otherwise full-bleed with no horizontal inset). */
+   top/bottom edges so the frame color shows through in the gap above/below it
+   (and in the small corner cutouts the border-radius clips, since the panel
+   is otherwise full-bleed with no horizontal inset). The inset is
+   padding-block on the FRAME (.mo-compare), not margin-block on the panel —
+   margin-block on a block-level first/last child collapses through a plain
+   parent with no padding/border/overflow of its own, which was pushing the
+   whole section away from its neighbors and exposing the page's own white
+   background in the gap instead of the frame color. Padding never collapses
+   like this, so this is the correct fix, not just a workaround. */
 .mo-compare {
   background: var(--mo-compare-frame-bg, #093d24);
+  padding-block: var(--mo-space-5, 20px);
 }
 
 .mo-compare__panel {
   background: var(--mo-compare-bg, #0d1b14);
   border-radius: var(--mo-compare-radius, 24px);
-  margin-block: var(--mo-space-5, 20px);
   padding-block: var(--mo-compare-padding-y, 40px);
 }
 
 @media screen and (min-width: 750px) {
-  .mo-compare__panel {
-    margin-block: var(--mo-space-7, 32px);
+  .mo-compare {
+    padding-block: var(--mo-space-7, 32px);
   }
 }
 
