@@ -905,9 +905,26 @@ body {
    renders if that file is ever removed. UPSTREAM risk LOW — net-new, no
    Horizon file touched.
    ============================================================================ */
+/* CUSTOM: the section itself is just a frame color — .mo-compare__panel is
+   the actual rounded near-black content box, inset from the section's true
+   top/bottom edges via margin-block, so the frame color shows through in the
+   gap above/below it (and in the small corner cutouts the border-radius
+   clips, since the panel is otherwise full-bleed with no horizontal inset). */
 .mo-compare {
+  background: var(--mo-compare-frame-bg, #093d24);
+}
+
+.mo-compare__panel {
   background: var(--mo-compare-bg, #0d1b14);
+  border-radius: var(--mo-compare-radius, 24px);
+  margin-block: var(--mo-space-5, 20px);
   padding-block: var(--mo-compare-padding-y, 40px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-compare__panel {
+    margin-block: var(--mo-space-7, 32px);
+  }
 }
 
 /* Reuses .mo-trust-bar__inner's exact max-width/margin-inline/padding-inline
@@ -926,8 +943,18 @@ body {
 }
 
 @media screen and (min-width: 750px) {
+  /* CUSTOM: desktop is a 2-column layout — eyebrow+heading (.mo-compare__header)
+     beside the table, not stacked above it, per Kalvis's Figma reference
+     (2026-07-09): the table reads roughly 3/4 width with the heading block
+     to its left at the same top alignment. Mobile is untouched (.mo-compare__inner
+     stays a plain block, so .mo-compare__header/.mo-compare__table-wrap just
+     stack in source order as before). */
   .mo-compare__inner {
     padding-inline: var(--page-margin, 40px);
+    display: grid;
+    grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr);
+    align-items: start;
+    gap: var(--mo-space-8, 40px);
   }
 }
 
@@ -1045,18 +1072,17 @@ body {
   line-height: 1.3;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--mo-compare-divider, #ffffff1f);
+  border-bottom: 1px solid var(--mo-compare-divider, #ffffff);
 }
 
 .mo-compare__cell {
   padding: var(--mo-space-4, 16px);
   vertical-align: middle;
-  border-bottom: 1px solid var(--mo-compare-divider, #ffffff1f);
+  border-bottom: 1px solid var(--mo-compare-divider, #ffffff);
 }
 
 .mo-compare__cell--mo {
   background: var(--mo-compare-mo-col-bg, #093d24);
-  border-bottom: none;
 }
 
 /* Only the last row's Moisture Oyster cell gets bottom radius, so the
@@ -1145,12 +1171,20 @@ tbody tr:last-child .mo-compare__cell {
   height: 100%;
 }
 
+/* CUSTOM: mobile opens ABOVE the trigger (bottom: 100% + gap, top: auto);
+   desktop opens BELOW it (flipped in the media query further down). Both use
+   one shared --mo-compare-tooltip-offset-y custom property for the hidden-
+   state entrance transform, so the mobile/desktop flip only needs to change
+   in one place instead of four (main + OTC-column variant, each with their
+   own X-offset, would otherwise need the Y-offset repeated separately). */
 .mo-compare__tooltip-popover {
   --mo-compare-tooltip-max-width: 220px;
+  --mo-compare-tooltip-offset-y: 4px;
 
   position: absolute;
   z-index: 20;
-  top: calc(100% + var(--mo-space-2, 8px));
+  bottom: calc(100% + var(--mo-space-2, 8px));
+  top: auto;
   left: 50%;
   inline-size: max-content;
   max-inline-size: var(--mo-compare-tooltip-max-width);
@@ -1170,7 +1204,7 @@ tbody tr:last-child .mo-compare__cell {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translateX(-50%) translateY(-4px);
+  transform: translateX(-50%) translateY(var(--mo-compare-tooltip-offset-y));
   transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
 }
 
@@ -1180,7 +1214,7 @@ tbody tr:last-child .mo-compare__cell {
 .mo-compare__cell--otc .mo-compare__tooltip-popover {
   left: auto;
   right: 50%;
-  transform: translateX(50%) translateY(-4px);
+  transform: translateX(50%) translateY(var(--mo-compare-tooltip-offset-y));
 }
 
 .mo-compare__tooltip-trigger:hover ~ .mo-compare__tooltip-popover,
@@ -1227,6 +1261,14 @@ tbody tr:last-child .mo-compare__cell {
   .mo-compare__logo-wrap {
     width: 100px;
     height: 42px;
+  }
+
+  /* Desktop: tooltip opens BELOW the trigger instead of above. */
+  .mo-compare__tooltip-popover {
+    --mo-compare-tooltip-offset-y: -4px;
+
+    top: calc(100% + var(--mo-space-2, 8px));
+    bottom: auto;
   }
 }
 

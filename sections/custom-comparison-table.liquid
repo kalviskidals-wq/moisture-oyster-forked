@@ -14,11 +14,12 @@
   id="MoCompare-{{ section.id }}"
   style="
     --mo-compare-bg: {{ s.background_color | default: '#0D1B14' }};
+    --mo-compare-frame-bg: {{ s.frame_color | default: '#093D24' }};
     --mo-compare-mo-col-bg: {{ s.mo_column_background | default: '#093D24' }};
     --mo-compare-eyebrow: {{ s.eyebrow_color | default: '#FFD5F7' }};
     --mo-compare-heading: {{ s.heading_color | default: '#FFFFFF' }};
     --mo-compare-label: {{ s.label_color | default: '#FFFFFF' }};
-    --mo-compare-divider: {{ s.divider_color | default: '#FFFFFF1F' }};
+    --mo-compare-divider: {{ s.divider_color | default: '#FFFFFF' }};
     --mo-compare-check-bg: {{ s.check_bg | default: '#FFFFFF' }};
     --mo-compare-check-mark: {{ s.check_mark_color | default: '#093D24' }};
     --mo-compare-cross-bg: {{ s.cross_bg | default: '#12261C' }};
@@ -27,16 +28,21 @@
     --mo-compare-padding-y: {{ s.vertical_padding | default: 40 }}px;
   "
 >
-  <div class="mo-compare__inner">
-    {%- if s.eyebrow != blank -%}
-      <p class="mo-compare__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
-    {%- endif -%}
-    {%- if s.heading != blank -%}
-      <h2 class="mo-compare__heading mo-h1">{{ s.heading | newline_to_br }}</h2>
-    {%- endif -%}
+  {%- # CUSTOM: .mo-compare (this section) is the frame layer — its own background is the "color behind the radius". .mo-compare__panel is the rounded near-black content box, inset from the section's true top/bottom edges via margin-block, so the frame color shows through above and below it. -%}
+  <div class="mo-compare__panel">
+    <div class="mo-compare__inner">
+      {%- # CUSTOM: eyebrow+heading share one wrapper so desktop can lay it out as a single grid item beside the table (see .mo-compare__inner desktop rule) — on mobile this wrapper is just a plain block, no layout difference from before. -%}
+      <div class="mo-compare__header">
+        {%- if s.eyebrow != blank -%}
+          <p class="mo-compare__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if s.heading != blank -%}
+          <h2 class="mo-compare__heading mo-h1">{{ s.heading | newline_to_br }}</h2>
+        {%- endif -%}
+      </div>
 
-    <div class="mo-compare__table-wrap">
-      <table class="mo-compare__table">
+      <div class="mo-compare__table-wrap">
+        <table class="mo-compare__table">
         {%- if s.heading != blank -%}
           <caption class="visually-hidden">{{ s.heading | strip_newlines }}</caption>
         {%- endif -%}
@@ -112,6 +118,7 @@
           {%- endfor -%}
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </section>
@@ -175,8 +182,16 @@
     {
       "type": "color",
       "id": "background_color",
-      "label": "Section background",
-      "default": "#0D1B14"
+      "label": "Content panel background",
+      "default": "#0D1B14",
+      "info": "The rounded panel holding the eyebrow/heading/table."
+    },
+    {
+      "type": "color",
+      "id": "frame_color",
+      "label": "Section frame color",
+      "default": "#093D24",
+      "info": "Shows behind the panel's rounded corners, above and below it."
     },
     {
       "type": "color",
@@ -207,8 +222,8 @@
       "type": "color",
       "id": "divider_color",
       "label": "Row divider color",
-      "default": "#FFFFFF1F",
-      "info": "VERIFY against Figma — subtle light-green/white stroke."
+      "default": "#FFFFFF",
+      "info": "Confirmed: full-opacity white, 1px, renders over every column including the highlighted Moisture Oyster one."
     },
     {
       "type": "color",
