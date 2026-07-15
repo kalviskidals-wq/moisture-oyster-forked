@@ -2691,21 +2691,25 @@ mo-review-filter {
   display: none;
 }
 
+/* CUSTOM: dropdown heading typography per Figma dev-mode spec (2026-07-10) —
+   mobile-first base below (14px/700/lh120%/ls-2%), desktop override at
+   750px (20px/lh110%, same weight+letter-spacing). Replaces reliance on the
+   shared .mo-h3 helper (24px/lh1.1), which didn't match either breakpoint's
+   real spec. */
 .mo-faq__question {
   color: var(--mo-faq-question, #ffffff);
   margin: 0;
+  font-family: var(--mo-font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 120%;
+  letter-spacing: -0.02em;
 }
 
-/* CUSTOM: mobile question text override — the shared .mo-h3 helper (24px) was
-   too large for the accordion row heading on mobile and didn't fit the
-   design; sized to spec independently of .mo-h3's desktop-tuned metrics. */
-@media screen and (max-width: 749px) {
+@media screen and (min-width: 750px) {
   .mo-faq__question {
-    font-family: var(--mo-font-heading);
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 120%;
-    letter-spacing: -0.02em;
+    font-size: 20px;
+    line-height: 110%;
   }
 }
 
