@@ -199,7 +199,7 @@
       ],
       "name": "Eye Health Education",
       "settings": {
-        "eyebrow": "WHY EYE CARE MATTERS",
+        "eyebrow": "WHY EYE HEALTH MATTERS",
         "heading": "The silent crisis\nin eye health",
         "subhead": "Triple-action hydration with Glycerin, Hyaluronate, and L-Carnitine. Preservative-free. Multi-dose bottle via Aptar OSD technology. Safe for daily use with contact lenses. Made in the Netherlands by Oté Pharma.",
         "background_image": "shopify://shop_images/The_Silent_Crisi_In_Eye_Health_Hero_image_1.jpg",
@@ -216,6 +216,8 @@
         "body_color": "#ffffff",
         "toggle_color": "#ffffff",
         "divider_color": "#ffffff33",
+        "wrapper_background_color": "#093d24",
+        "section_radius": 24,
         "card_radius": 10,
         "vertical_padding": 0
       }
