@@ -2884,15 +2884,16 @@ mo-review-filter {
   padding-block-end: var(--mo-space-6, 24px);
 }
 
-/* CUSTOM: caps the photo to a fixed height (instead of the Reviews section's
-   aspect-ratio: 4/2.8, which scales height with the card's own width) so an
-   uploaded photo can never balloon the card's total height — the card stays
-   a bounded, predictable size on both mobile (in-flow) and desktop (overlay,
-   where an oversized card would otherwise creep up and collide with the
-   header). Width still scales fully responsively to the card. */
+/* CUSTOM (2026-07-10, revised): reverted from a fixed pixel height back to a
+   proportional aspect-ratio — a fixed height (150px on desktop) held the
+   card's total height down, but distorted/over-cropped the photo (looked
+   squashed relative to a natural close-up eye photo, ratio ~2.5:1). 3/2
+   scales properly with the card's own width at every breakpoint (correctly
+   responsive) and matches the reference photo's natural proportions. The
+   section's desktop aspect-ratio/min-height were bumped below to give the
+   now-taller card enough room so it doesn't collide with the header. */
 .mo-sub-benefits__review .mo-reviews__photo {
-  aspect-ratio: auto;
-  height: 220px;
+  aspect-ratio: 3 / 2;
 }
 
 /* CUSTOM (2026-07-10): matches the benefit cards' heading typography
@@ -2955,9 +2956,15 @@ mo-review-filter {
    instead of stacking above it; review card lower-left, benefit column
    lower-right, both bottom-aligned. */
 @media screen and (min-width: 750px) {
+  /* CUSTOM (2026-07-10): bumped from 1600/835 (min-height 640px) — with the
+     review photo back on a proportional 3/2 aspect-ratio (see the fix note
+     on .mo-sub-benefits__review .mo-reviews__photo below) the card is
+     tall enough that the previous, shorter section height let it creep up
+     into the header. This gives it enough vertical room to sit fully below
+     the header with margin to spare. */
   .mo-sub-benefits {
-    aspect-ratio: 1600 / 835;
-    min-height: 640px;
+    aspect-ratio: 1600 / 950;
+    min-height: 760px;
   }
 
   /* Reuses .mo-trust-bar__inner's exact max-width + margin-inline:auto +
@@ -3019,10 +3026,6 @@ mo-review-filter {
 
   .mo-sub-benefits__review .mo-reviews__card {
     max-width: 420px;
-  }
-
-  .mo-sub-benefits__review .mo-reviews__photo {
-    height: 150px;
   }
 
   /* CUSTOM (2026-07-10): vertically centered within the section instead of
