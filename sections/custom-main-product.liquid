@@ -26,6 +26,20 @@
     display: none;
   }
 
+  /* CUSTOM: Active Ingredient / Uses accordion heading type spec (Kalvis, exact Figma values).
+     Horizon's native accordion block only exposes a type_preset dropdown (h1-h6/paragraph), not
+     arbitrary font values, so this is a scoped override on the summary element instead. */
+  #shopify-section-{{ section.id }} .product-details .details__header {
+    font-family: var(--mo-font-mono, 'IBM Plex Mono', monospace);
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 110%;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+    color: #115033;
+  }
+
   @media screen and (min-width: 750px) {
     /* CUSTOM: anchor the thumbnail overlay on slideshow-component (not media-gallery itself) —
        media-gallery already carries Horizon's native sticky-content class (position: sticky) for the
