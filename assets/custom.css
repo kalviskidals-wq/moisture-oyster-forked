@@ -919,19 +919,25 @@ body {
    Top and bottom frame colors are independent (top blends into the section
    above, bottom is a deliberate accent) — a single flat background can't do
    that, so this uses the same hard-color-stop gradient technique already
-   established in .mo-problem above: --mo-compare-frame-reveal drives both the
-   gradient's stop distance and padding-block, so the colored band always
-   matches the actual reveal height at both breakpoints. */
+   established in .mo-problem above. CUSTOM (round 12 fix): the stop
+   DISTANCE is hardcoded per breakpoint (20px / 32px), matching .mo-problem's
+   literal-px pattern exactly, rather than a shared var() — some browsers
+   don't reliably resolve a custom property used as a gradient color-stop
+   POSITION (as opposed to a stop's color, which is fine), and if that
+   declaration is dropped as invalid the whole background falls through to
+   transparent, which is exactly "no visible radius/color" per Kalvis's
+   report. var() is still used for the two *colors* (safe), just not the
+   position. Keep the padding-block value in sync with the gradient's stop
+   distance by hand if either one changes. */
 .mo-compare {
-  --mo-compare-frame-reveal: 20px;
   background: linear-gradient(
     to top,
     var(--mo-compare-frame-bottom-bg, #093d24) 0,
-    var(--mo-compare-frame-bottom-bg, #093d24) var(--mo-compare-frame-reveal),
-    var(--mo-compare-frame-bg, #0d1b14) var(--mo-compare-frame-reveal),
+    var(--mo-compare-frame-bottom-bg, #093d24) 20px,
+    var(--mo-compare-frame-bg, #0d1b14) 20px,
     var(--mo-compare-frame-bg, #0d1b14) 100%
   );
-  padding-block: var(--mo-compare-frame-reveal);
+  padding-block: 20px;
 }
 
 .mo-compare__panel {
@@ -942,7 +948,14 @@ body {
 
 @media screen and (min-width: 750px) {
   .mo-compare {
-    --mo-compare-frame-reveal: 32px;
+    background: linear-gradient(
+      to top,
+      var(--mo-compare-frame-bottom-bg, #093d24) 0,
+      var(--mo-compare-frame-bottom-bg, #093d24) 32px,
+      var(--mo-compare-frame-bg, #0d1b14) 32px,
+      var(--mo-compare-frame-bg, #0d1b14) 100%
+    );
+    padding-block: 32px;
   }
 }
 
