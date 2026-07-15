@@ -4211,9 +4211,20 @@ mo-review-filter {
   margin: 0 0 var(--mo-space-3, 12px);
 }
 
+/* CUSTOM: fully redeclares typography (not just relying on the shared
+   .mo-stat helper class in mo-eye-health.liquid's markup) to match the
+   established "big number" convention used by .mo-problem__stat-figure /
+   .mo-science__stat-figure elsewhere in this project — same font, weight,
+   letter-spacing, uppercase, and mobile(60px)->desktop(80px) scale-up. */
 .mo-eye-health__figure {
   color: var(--mo-eye-figure, #ffd5f7);
   margin: 0;
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
 }
 
 .mo-eye-health__toggle {
@@ -4310,6 +4321,10 @@ mo-review-filter {
   .mo-eye-health__subhead {
     opacity: 1;
     font-size: 16px;
+  }
+
+  .mo-eye-health__figure {
+    font-size: 80px;
   }
 
   .mo-eye-health__media {
