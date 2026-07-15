@@ -4,9 +4,10 @@
   assign bs = block.settings
   assign v = bs.value | default: 0
 -%}
-<div class="mo-science__bar-col" {{ block.shopify_attributes }}>
+{%- # CUSTOM: --v is set once on the shared bar-col parent (not on track/fill individually) so the value label, track, and fill all inherit the same number via normal CSS custom-property inheritance — setting it only on a sibling silently fails since inheritance only flows parent-to-child. -%}
+<div class="mo-science__bar-col" style="--v: {{ v }};" {{ block.shopify_attributes }}>
   <span class="mo-science__bar-value mo-tag">{{ v }}%</span>
-  <span class="mo-science__bar-track" style="--v: {{ v }};">
-    <span class="mo-science__bar-fill" style="--v: {{ v }};"></span>
+  <span class="mo-science__bar-track">
+    <span class="mo-science__bar-fill"></span>
   </span>
 </div>

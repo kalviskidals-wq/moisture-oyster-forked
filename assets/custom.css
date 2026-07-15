@@ -2052,7 +2052,7 @@ tbody tr:last-child .mo-compare__cell {
 
 .mo-science__stat {
   padding-bottom: var(--mo-space-6, 24px);
-  border-bottom: 1px solid var(--mo-science-divider, #ffffff1f);
+  border-bottom: 1px solid var(--mo-science-divider, #b8f3d8);
 }
 
 .mo-science__stat:nth-last-child(-n + 2) {
@@ -2061,17 +2061,31 @@ tbody tr:last-child .mo-compare__cell {
 }
 
 @media screen and (min-width: 750px) {
+  /* CUSTOM: row-gap is set to 0 here (spacing recreated via padding-top/bottom
+     below) so each column's border-right segments sit flush against one
+     another between rows — a real grid row-gap leaves a gap with no border
+     in it, breaking the vertical divider into two disconnected pieces at the
+     row boundary. Same root cause as the Comparison Table's border-spacing
+     fix (see [[feedback-shopify-theme-validation-gotchas]]). */
+  .mo-science__stats-grid {
+    row-gap: 0;
+  }
+
   .mo-science__stat {
     padding-right: var(--mo-space-7, 32px);
   }
 
   .mo-science__stat:nth-child(2n + 1) {
-    border-right: 1px solid var(--mo-science-divider, #ffffff1f);
+    border-right: 1px solid var(--mo-science-divider, #b8f3d8);
   }
 
   .mo-science__stat:nth-child(2n) {
     padding-left: var(--mo-space-7, 32px);
     padding-right: 0;
+  }
+
+  .mo-science__stat:nth-child(n + 3) {
+    padding-top: var(--mo-space-6, 24px);
   }
 }
 
