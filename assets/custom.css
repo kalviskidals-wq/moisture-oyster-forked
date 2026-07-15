@@ -3963,15 +3963,25 @@ mo-review-filter {
   gap: var(--mo-space-1, 6px);
 }
 
+/* CUSTOM: matches the shared eyebrow convention used across the other custom
+   sections (e.g. .mo-problem__eyebrow) — IBM Plex Mono 500, 10px mobile /
+   14px desktop (--mo-tag-sm-size / --mo-tag-lg-size), lh 1.1, ls 0.1em,
+   uppercase, solid color token (no opacity fudge). */
 .mo-range__eyebrow {
   margin: 0;
   color: var(--mo-range-eyebrow, #b8f3d8);
-  font-family: var(--mo-font-mono, ui-monospace, monospace);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
   font-weight: 500;
   font-size: var(--mo-tag-sm-size, 0.625rem);
+  line-height: 1.1;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  opacity: 0.85;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-range__eyebrow {
+    font-size: var(--mo-tag-lg-size, 0.875rem);
+  }
 }
 
 .mo-range__title-row {
