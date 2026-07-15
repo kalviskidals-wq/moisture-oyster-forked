@@ -929,12 +929,23 @@ body {
    report. var() is still used for the two *colors* (safe), just not the
    position. Keep the padding-block value in sync with the gradient's stop
    distance by hand if either one changes. */
+/* CUSTOM (round 14): the gradient's bottom-color stop now extends 2px past
+   the actual padding-block distance (22px vs. 20px padding), instead of
+   stopping at exactly the same pixel the panel's rounded edge sits on. A
+   hairline seam appeared right at that boundary — the panel (a separate
+   element, painted on top) and the frame's gradient hard-stop were landing
+   on the exact same sub-pixel row, and anti-aliasing two independently
+   rasterized edges meeting at that precise a line is unreliable across
+   browsers/zoom levels. Giving the accent color a couple of spare pixels
+   means the panel's edge now always rests safely inside a solid-color zone
+   instead of exactly on a color transition, so there's nothing for a seam to
+   appear at. */
 .mo-compare {
   background: linear-gradient(
     to top,
     var(--mo-compare-frame-bottom-bg, #093d24) 0,
-    var(--mo-compare-frame-bottom-bg, #093d24) 20px,
-    var(--mo-compare-frame-bg, #0d1b14) 20px,
+    var(--mo-compare-frame-bottom-bg, #093d24) 22px,
+    var(--mo-compare-frame-bg, #0d1b14) 22px,
     var(--mo-compare-frame-bg, #0d1b14) 100%
   );
   padding-block: 20px;
@@ -965,8 +976,8 @@ body {
     background: linear-gradient(
       to top,
       var(--mo-compare-frame-bottom-bg, #093d24) 0,
-      var(--mo-compare-frame-bottom-bg, #093d24) 32px,
-      var(--mo-compare-frame-bg, #0d1b14) 32px,
+      var(--mo-compare-frame-bottom-bg, #093d24) 34px,
+      var(--mo-compare-frame-bg, #0d1b14) 34px,
       var(--mo-compare-frame-bg, #0d1b14) 100%
     );
     padding-block: 32px;
