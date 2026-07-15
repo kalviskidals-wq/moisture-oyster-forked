@@ -18,14 +18,14 @@
           "type": "menu_col",
           "settings": {
             "heading": "Shop",
-            "menu": "main-menu"
+            "menu": "footer-shop"
           }
         },
         "menu_col_6ck7Q3": {
           "type": "menu_col",
           "settings": {
             "heading": "Support",
-            "menu": "main-menu"
+            "menu": "footer-support"
           }
         },
         "menu_col_aUNqkx": {
