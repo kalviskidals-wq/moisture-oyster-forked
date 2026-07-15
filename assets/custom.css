@@ -2895,6 +2895,30 @@ mo-review-filter {
   height: 220px;
 }
 
+/* CUSTOM (2026-07-10): matches the benefit cards' heading typography
+   (.mo-icon-card__title, Manrope 700/110%/-2% ls, 18px mobile → 24px
+   desktop) so the review card's name reads at the same weight/size as
+   "Choose your frequency" etc. on the right. Scoped to
+   .mo-sub-benefits__review specifically — .mo-reviews__name/__location are
+   shared, bare classes also used by the standalone Reviews section (which
+   still gets its size from the .mo-h4 helper), so this override must not
+   leak into that section. */
+.mo-sub-benefits__review .mo-reviews__name,
+.mo-sub-benefits__review .mo-reviews__location {
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-sub-benefits__review .mo-reviews__name,
+  .mo-sub-benefits__review .mo-reviews__location {
+    font-size: 24px;
+  }
+}
+
 /* ---------- Overlay: benefit-card list ----------
    Mobile: horizontal scroll-snap carousel over the bottom of the image.
    Desktop: stacked column, right-aligned over the bottom of the image (see
