@@ -4053,7 +4053,12 @@ mo-review-filter {
    .mo-eye-health__cards uses align-items: flex-end so every card's bottom
    edge shares the row's (bottom-anchored) baseline: the open card grows
    upward from it, and closed siblings neither stretch nor shift position.
-   Consumes
+   The whole box has a merchant-editable corner radius (already relies on
+   this rule's own overflow:hidden to clip the image/cards to the rounded
+   shape); the color that shows through those rounded corners is set on
+   Shopify's own auto-generated wrapper div via a scoped <style> block in
+   the section's Liquid file (targeting #shopify-section-{{ section.id }}),
+   not here — see the section file's own comment for why. Consumes
    mo-design-system.css tokens with hardcoded fallbacks so this still renders
    if that file is ever removed. UPSTREAM risk LOW — net-new, no Horizon
    file touched.
@@ -4062,6 +4067,7 @@ mo-review-filter {
   position: relative;
   background: var(--mo-eye-header-bg, #f7f5f0);
   padding-block: var(--mo-eye-padding-y, 0px);
+  border-radius: var(--mo-eye-section-radius, 24px);
   overflow: hidden;
 }
 

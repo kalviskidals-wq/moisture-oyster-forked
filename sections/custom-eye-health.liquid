@@ -3,6 +3,13 @@
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
 {{ 'custom.css' | asset_url | stylesheet_tag }}
 
+{%- # CUSTOM: Shopify auto-wraps this section in a div with id="shopify-section-{{ section.id }}" (per the schema's "class": "mo-eye-health-wrapper") that isn't otherwise reachable from this file's own markup — scoping the "background behind the rounded corners" color to that real wrapper ID here (rather than the global body) keeps the fix local to this specific section instance, safe even if this section is ever placed more than once on a page. -%}
+<style>
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section.settings.wrapper_background_color | default: '#093D24' }};
+  }
+</style>
+
 {%- liquid
   assign s = section.settings
   assign has_bg = false
@@ -33,6 +40,7 @@
     --mo-eye-toggle: {{ s.toggle_color | default: '#FFFFFF' }};
     --mo-eye-divider: {{ s.divider_color | default: '#FFFFFF33' }};
     --mo-eye-padding-y: {{ s.vertical_padding | default: 0 }}px;
+    --mo-eye-section-radius: {{ s.section_radius | default: 24 }}px;
   "
 >
   <div class="mo-eye-health__header">
@@ -237,8 +245,25 @@
       "default": "#FFFFFF33"
     },
     {
+      "type": "color",
+      "id": "wrapper_background_color",
+      "label": "Background behind rounded corners",
+      "default": "#093D24",
+      "info": "Shows through the section's rounded corners. Applied to Shopify's own wrapper div around this section, not the section itself."
+    },
+    {
       "type": "header",
       "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_radius",
+      "label": "Section corner radius",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 24
     },
     {
       "type": "range",
