@@ -63,11 +63,13 @@
 
   /* --------------------------------------------------------------------------
      02 · TYPOGRAPHY
-     Manrope = display/headings (ExtraBold). Inter = body/UI. IBM Plex Mono =
-     tags, menu, labels, data (uppercase, positive tracking).
+     Manrope = display/headings (ExtraBold) AND body/UI (2026-07-15: Kalvis
+     standardized all body copy to Manrope, matching the theme-wide native
+     font setting change). IBM Plex Mono = tags, menu, labels, data (uppercase,
+     positive tracking) — unaffected.
      -------------------------------------------------------------------------- */
   --mo-font-heading: 'Manrope', system-ui, -apple-system, sans-serif;
-  --mo-font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --mo-font-body:    'Manrope', system-ui, -apple-system, sans-serif;
   --mo-font-mono:    'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
 
   /* Type scale — size / weight / line-height / letter-spacing.   VERIFY metrics */
