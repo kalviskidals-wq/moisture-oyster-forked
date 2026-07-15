@@ -4253,9 +4253,15 @@ mo-review-filter {
   transform: rotate(45deg);
 }
 
+/* CUSTOM: per Figma dev-mode spec (2026-07-15) — mobile 12px/desktop 16px
+   (see the matching .mo-eye-health__caption desktop override below), both
+   at line-height 130% / letter-spacing 10% / uppercase. Margin is 0 here;
+   the 20px gap above the divider line comes from the divider's own
+   padding-top now (see .mo-eye-health__divider), not this element's margin
+   — keeps the "space around the line" owned by the line itself. */
 .mo-eye-health__caption {
   color: var(--mo-eye-caption, #ffffff);
-  margin: 0 0 var(--mo-space-4, 16px);
+  margin: 0;
   font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
   font-weight: 500;
   font-size: 12px;
@@ -4264,17 +4270,22 @@ mo-review-filter {
   text-transform: uppercase;
 }
 
+/* CUSTOM: per Figma dev-mode spec (2026-07-15) — 1px line, 20px padding
+   above AND below (padding-block, not margin, so the gap travels with the
+   line itself regardless of sibling spacing), default color #B8F3D8
+   (--mo-mint). */
 .mo-eye-health__divider {
   border: none;
-  border-top: 1px solid var(--mo-eye-divider, #ffffff33);
+  border-top: 1px solid var(--mo-eye-divider, #b8f3d8);
   margin: 0;
+  padding-block: var(--mo-space-5, 20px) 0;
 }
 
 .mo-eye-health__body {
   color: var(--mo-eye-body, #ffffff);
   opacity: 0.85;
   margin: 0;
-  padding-top: var(--mo-space-4, 16px);
+  padding-top: var(--mo-space-5, 20px);
   font-family: var(--mo-font-body, 'Inter', sans-serif);
   font-size: 14px;
   line-height: 1.3;
@@ -4325,6 +4336,10 @@ mo-review-filter {
 
   .mo-eye-health__figure {
     font-size: 80px;
+  }
+
+  .mo-eye-health__caption {
+    font-size: 16px;
   }
 
   .mo-eye-health__media {
