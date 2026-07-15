@@ -3146,6 +3146,16 @@ mo-review-filter {
   padding-block: var(--mo-footer-padding-top, 64px) var(--mo-footer-padding-bottom, 40px);
 }
 
+/* CUSTOM: 30px bottom padding floor on mobile per Kalvis (2026-07-13) —
+   the "Bottom padding" schema setting is shared with desktop and is
+   currently set to 0px live, so this is a fixed mobile-only override rather
+   than routed through --mo-footer-padding-bottom. */
+@media screen and (max-width: 749px) {
+  .mo-footer__inner {
+    padding-bottom: 30px;
+  }
+}
+
 @media screen and (min-width: 750px) {
   .mo-footer__inner {
     padding-inline: var(--page-margin, 40px);
