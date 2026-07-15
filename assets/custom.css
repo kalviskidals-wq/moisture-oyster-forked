@@ -3986,8 +3986,15 @@ mo-review-filter {
   color: var(--mo-range-title, #ffffff);
   font-family: var(--mo-font-heading, 'Manrope', sans-serif);
   font-weight: 700;
-  font-size: 1.25rem;
-  line-height: 1.1;
+  font-size: 18px;
+  line-height: 1.1; /* 110% */
+  letter-spacing: -0.02em; /* -2% */
+}
+
+@media screen and (min-width: 750px) {
+  .mo-range__title {
+    font-size: 24px;
+  }
 }
 
 .mo-range__price {
