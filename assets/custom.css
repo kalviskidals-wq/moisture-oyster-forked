@@ -486,17 +486,25 @@ body {
   object-fit: contain;
 }
 
+/* CUSTOM: type spec per Figma — IBM Plex Mono Medium, uppercase, 130%
+   line-height, 10% letter-spacing. Desktop 16px, mobile 12px. */
 .mo-trust-bar__label {
   display: flex;
   flex-direction: column;
   min-width: 0;
   font-family: var(--mo-font-mono, ui-monospace, monospace);
   font-weight: 500;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   line-height: 1.3;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--mo-trustbar-label, #ffffff);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-trust-bar__label {
+    font-size: 1rem;
+  }
 }
 
 .mo-trust-bar__label-line {

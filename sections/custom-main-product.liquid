@@ -32,8 +32,9 @@
      keywords (tight/normal/loose) for line-height/letter-spacing, not exact percentage values.
      Desktop values here are the default; the max-width:749px block below overrides size/line-height/
      letter-spacing for mobile per its own separate spec. */
-  #shopify-section-{{ section.id }} .text-block--mo_description {
-    font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  #shopify-section-{{ section.id }} .text-block--mo_description,
+  #shopify-section-{{ section.id }} .text-block--mo_description :is(p, span, div, li, a) {
+    font-family: var(--mo-font-heading, 'Manrope', sans-serif) !important;
     font-weight: 500;
     font-size: 14px;
     line-height: 130%;
@@ -113,7 +114,8 @@
 
     /* CUSTOM: product description mobile type spec (Kalvis) — same font-family/weight/color as
        desktop (set above), only size/line-height/letter-spacing differ at this breakpoint. */
-    #shopify-section-{{ section.id }} .text-block--mo_description {
+    #shopify-section-{{ section.id }} .text-block--mo_description,
+    #shopify-section-{{ section.id }} .text-block--mo_description :is(p, span, div, li, a) {
       font-size: 12px;
       line-height: 130%;
       letter-spacing: -0.02em;
