@@ -45,16 +45,17 @@
             <th scope="col" class="mo-compare__th mo-compare__th--feature">{{ s.feature_column_label | default: 'FEATURE' | escape }}</th>
             <th scope="col" class="mo-compare__th mo-compare__th--mo">
               {%- if s.mo_logo != blank -%}
-                {{
-                  s.mo_logo
-                  | image_url: width: 240
-                  | image_tag:
-                    width: s.mo_logo.width,
-                    height: s.mo_logo.height,
-                    alt: s.mo_logo.alt | default: mo_column_label,
-                    loading: 'lazy',
-                    class: 'mo-compare__logo'
-                }}
+                {%- # CUSTOM: fixed-box wrapper + object-fit, not just a width on the <img> itself — SVG uploads carry their own width/height attributes that can fight plain CSS sizing, so the wrapper enforces the actual rendered box no matter what the source file declares. -%}
+                <span class="mo-compare__logo-wrap">
+                  {{
+                    s.mo_logo
+                    | image_url: width: 240
+                    | image_tag:
+                      alt: s.mo_logo.alt | default: mo_column_label,
+                      loading: 'lazy',
+                      class: 'mo-compare__logo'
+                  }}
+                </span>
               {%- else -%}
                 <span class="mo-compare__logo-text">{{ mo_column_label | escape }}</span>
               {%- endif -%}

@@ -1000,19 +1000,30 @@ body {
   text-align: center;
 }
 
-/* CUSTOM: 100px is the confirmed exact desktop render size (verified via
-   devtools against the uploaded logo asset, 2026-07-09). Mobile uses a
-   slightly narrower fixed width since the MO column has much less room at
-   that breakpoint. `!important` matches the same fix already used on
-   .mo-problem__poster/.mo-problem__video above — Horizon's base.css resets
-   `img { width: 100%; height: auto; }`, which otherwise wins and stretches
-   the logo to fill the highlighted column instead of rendering at its
-   intended fixed size. */
+/* CUSTOM: the wrapper — not the <img> itself — is the source of truth for
+   size. The uploaded logo is an SVG; SVG source files carry their own
+   width/height (and sometimes no viewBox), which can fight plain CSS sizing
+   on the <img> in ways a raster image wouldn't (on top of Horizon's base.css
+   `img { width: 100%; height: auto; }` reset, already worked around once
+   before on .mo-problem__poster/.mo-problem__video with !important). Fixing
+   the OUTER box's dimensions and having the image just fill it via
+   object-fit sidesteps the source file's own sizing entirely — 100x42 is the
+   confirmed exact aspect ratio (devtools, 2026-07-09), scaled down for mobile. */
+.mo-compare__logo-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 34px;
+}
+
 .mo-compare__logo {
-  display: inline-block !important;
-  width: 80px !important;
-  max-width: 80px !important;
-  height: auto !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
 }
 
 .mo-compare__logo-text {
@@ -1213,9 +1224,9 @@ tbody tr:last-child .mo-compare__cell {
     height: 32px;
   }
 
-  .mo-compare__logo {
-    width: 100px !important;
-    max-width: 100px !important;
+  .mo-compare__logo-wrap {
+    width: 100px;
+    height: 42px;
   }
 }
 
