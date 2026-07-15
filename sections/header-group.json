@@ -11,6 +11,27 @@
   "type": "header",
   "name": "t:names.header",
   "sections": {
+    "custom_header_section": {
+      "type": "custom-header",
+      "settings": {
+        "logo": "shopify://shop_images/Vector_1.svg",
+        "logo_fallback_text": "moisture\noyster",
+        "watermark_logo": "shopify://shop_images/Burger_menu_initials_logo.svg",
+        "drawer_watermark_opacity": 15,
+        "menu": "main-menu",
+        "show_cart": true,
+        "show_account": true,
+        "sticky_behavior": "always",
+        "background_color": "#093d24",
+        "nav_text_color": "#ffffff",
+        "icon_color": "#ffffff",
+        "drawer_background_color": "",
+        "drawer_menu_label_color": "#9fc7ae",
+        "drawer_link_color": "#ffffff",
+        "padding_top": 16,
+        "padding_bottom": 16
+      }
+    },
     "header_section": {
       "type": "header",
       "blocks": {
@@ -93,24 +114,6 @@
         "enable_transparent_header_collection": false,
         "collection_inverse_logo": false,
         "text_color_transparent_collection": ""
-      }
-    },
-    "custom_header_section": {
-      "type": "custom-header",
-      "settings": {
-        "logo_fallback_text": "moisture\noyster",
-        "menu": "main-menu",
-        "show_cart": true,
-        "show_account": true,
-        "sticky_behavior": "always",
-        "background_color": "#093D24",
-        "nav_text_color": "#FFFFFF",
-        "icon_color": "#FFFFFF",
-        "drawer_menu_label_color": "#9FC7AE",
-        "drawer_link_color": "#FFFFFF",
-        "drawer_watermark_opacity": 15,
-        "padding_top": 16,
-        "padding_bottom": 16
       }
     }
   },
