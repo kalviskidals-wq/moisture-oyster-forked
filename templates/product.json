@@ -1357,7 +1357,7 @@
         "support_text": "<p>Anything else? Write to <a href=\"mailto:care@moistureoyster.com\">care@moistureoyster.com</a> — a human replies within a day.</p>",
         "enable_faq_schema": true,
         "background_color": "#093d24",
-        "eyebrow_color": "#b8f3d8",
+        "eyebrow_color": "#FFD5F7",
         "heading_color": "#ffffff",
         "support_text_color": "#ffffff",
         "question_color": "#ffffff",
