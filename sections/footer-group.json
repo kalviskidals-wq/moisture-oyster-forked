@@ -32,7 +32,7 @@
           "type": "menu_col",
           "settings": {
             "heading": "Company",
-            "menu": "main-menu"
+            "menu": "footer-company"
           }
         }
       },
