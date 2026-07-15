@@ -917,7 +917,7 @@ body {
    background in the gap instead of the frame color. Padding never collapses
    like this, so this is the correct fix, not just a workaround. */
 .mo-compare {
-  background: var(--mo-compare-frame-bg, #093d24);
+  background: var(--mo-compare-frame-bg, #0d1b14);
   padding-block: var(--mo-space-5, 20px);
 }
 
