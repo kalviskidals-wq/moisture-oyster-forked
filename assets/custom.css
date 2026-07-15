@@ -1537,8 +1537,9 @@ tbody tr:last-child .mo-compare__cell {
 
   .mo-ingredients__tab {
     flex: 0 0 auto;
-    font-size: 12px;
-    letter-spacing: 0.08em;
+    font-size: 14px;
+    line-height: 1.1;
+    letter-spacing: 0.1em;
     padding: var(--mo-space-2, 8px) var(--mo-space-5, 20px);
   }
 }
