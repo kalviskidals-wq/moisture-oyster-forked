@@ -3215,7 +3215,15 @@ mo-review-filter {
   }
 }
 
-.mo-footer__input {
+/* CUSTOM: doubled-up selector (.mo-footer__field .mo-footer__input, not just
+   .mo-footer__input) is deliberate, not a typo — base.css has
+   `input:not([type='checkbox'], [type='radio']) { background-color: var(--color-input-background) }`
+   whose :not() argument gives it specificity (0,1,1), which beats a single
+   class selector (0,1,0). That's why the field was rendering with Horizon's
+   default (light) input background regardless of `background: transparent`
+   here — white text + white-ish placeholder on a light field, all invisible.
+   The two-class selector (0,2,0) reliably outranks it. */
+.mo-footer__field .mo-footer__input {
   flex: 1;
   background: transparent;
   border: var(--mo-border-width, 1.5px) solid var(--mo-footer-input-border, #2c5940);
@@ -3227,7 +3235,7 @@ mo-review-filter {
   min-width: 0;
 }
 
-.mo-footer__input::placeholder {
+.mo-footer__field .mo-footer__input::placeholder {
   color: color-mix(in srgb, var(--mo-footer-input-text, #ffffff) 60%, transparent);
 }
 
