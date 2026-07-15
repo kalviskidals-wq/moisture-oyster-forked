@@ -3059,9 +3059,28 @@ mo-review-filter {
   object-fit: contain;
 }
 
+/* CUSTOM: typography per Figma dev-mode spec (2026-07-10) — deliberately
+   overrides the shared .mo-h4 helper class still present on this element in
+   the markup (kept as a baseline fallback; these rules win the cascade since
+   custom.css loads after mo-design-system.css), same pattern as
+   .mo-problem__heading's override of .mo-h1 above. Mobile-first: base rule
+   below is the mobile value (18px); the desktop media query only changes
+   font-size (24px) — weight/line-height/letter-spacing are identical at
+   both breakpoints per spec. */
 .mo-icon-card__title {
   color: var(--mo-icon-card-title, #ffffff);
   margin: 0;
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-icon-card__title {
+    font-size: 24px;
+  }
 }
 
 .mo-icon-card__desc {
