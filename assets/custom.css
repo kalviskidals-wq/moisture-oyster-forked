@@ -3742,12 +3742,14 @@ mo-review-filter {
 
    Figma desktop spec (2026-07-13) had padding 14px 80px, bg #1FA567, on a
    1440px frame; Figma's pasted mobile spec showed padding: 12px 80px on a
-   320px frame. Kalvis confirmed the marquee should be edge-to-edge
-   (0 horizontal inset) on BOTH breakpoints, matching the section's
-   original "full-width band" brief — `.mo-marquee__inner` keeps the
-   max-width + centered-margin so the track still respects the site's
-   1280px normal-page-width cap on very wide screens, but carries no
-   padding-inline at either breakpoint.
+   320px frame. Kalvis confirmed the marquee should be edge-to-edge on
+   BOTH breakpoints, matching the section's original "full-width band"
+   brief — `.mo-marquee__inner` has no max-width/padding-inline at all
+   (round 2 fix: an earlier pass kept a 1280px max-width + centered margin
+   "just in case", which clipped the scrolling text at that boundary on
+   any screen wider than 1280px even with 0 padding-inline — looked
+   identical to a side padding. Removed entirely; the track now runs the
+   full viewport width with no cap.)
    ============================================================================ */
 .mo-marquee {
   background: var(--mo-marquee-bg, #1fa567);
@@ -3762,9 +3764,7 @@ mo-review-filter {
 }
 
 .mo-marquee__inner {
-  max-width: var(--page-width, var(--normal-page-width, 1280px));
-  margin-inline: auto;
-  padding-inline: 0;
+  width: 100%;
 }
 
 .mo-marquee__viewport {
