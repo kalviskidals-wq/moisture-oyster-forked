@@ -915,10 +915,23 @@ body {
    parent with no padding/border/overflow of its own, which was pushing the
    whole section away from its neighbors and exposing the page's own white
    background in the gap instead of the frame color. Padding never collapses
-   like this, so this is the correct fix, not just a workaround. */
+   like this, so this is the correct fix, not just a workaround.
+   Top and bottom frame colors are independent (top blends into the section
+   above, bottom is a deliberate accent) — a single flat background can't do
+   that, so this uses the same hard-color-stop gradient technique already
+   established in .mo-problem above: --mo-compare-frame-reveal drives both the
+   gradient's stop distance and padding-block, so the colored band always
+   matches the actual reveal height at both breakpoints. */
 .mo-compare {
-  background: var(--mo-compare-frame-bg, #0d1b14);
-  padding-block: var(--mo-space-5, 20px);
+  --mo-compare-frame-reveal: 20px;
+  background: linear-gradient(
+    to top,
+    var(--mo-compare-frame-bottom-bg, #093d24) 0,
+    var(--mo-compare-frame-bottom-bg, #093d24) var(--mo-compare-frame-reveal),
+    var(--mo-compare-frame-bg, #0d1b14) var(--mo-compare-frame-reveal),
+    var(--mo-compare-frame-bg, #0d1b14) 100%
+  );
+  padding-block: var(--mo-compare-frame-reveal);
 }
 
 .mo-compare__panel {
@@ -929,7 +942,7 @@ body {
 
 @media screen and (min-width: 750px) {
   .mo-compare {
-    padding-block: var(--mo-space-7, 32px);
+    --mo-compare-frame-reveal: 32px;
   }
 }
 

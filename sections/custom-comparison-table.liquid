@@ -15,6 +15,7 @@
   style="
     --mo-compare-bg: {{ s.background_color | default: '#0D1B14' }};
     --mo-compare-frame-bg: {{ s.frame_color | default: '#0D1B14' }};
+    --mo-compare-frame-bottom-bg: {{ s.frame_bottom_color | default: '#093D24' }};
     --mo-compare-mo-col-bg: {{ s.mo_column_background | default: '#093D24' }};
     --mo-compare-eyebrow: {{ s.eyebrow_color | default: '#FFD5F7' }};
     --mo-compare-heading: {{ s.heading_color | default: '#FFFFFF' }};
@@ -189,9 +190,16 @@
     {
       "type": "color",
       "id": "frame_color",
-      "label": "Section frame color",
+      "label": "Section frame color (top)",
       "default": "#0D1B14",
-      "info": "Shows behind the panel's rounded corners, above and below it. Matches the content panel background by default so the section blends seamlessly into its neighbors."
+      "info": "Shows behind the panel's top rounded corners. Matches the content panel background by default so the top of the section blends seamlessly into its neighbor above."
+    },
+    {
+      "type": "color",
+      "id": "frame_bottom_color",
+      "label": "Section frame color (bottom)",
+      "default": "#093D24",
+      "info": "Shows behind the panel's bottom rounded corners — independent from the top frame color."
     },
     {
       "type": "color",
