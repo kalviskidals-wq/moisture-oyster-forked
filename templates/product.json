@@ -249,7 +249,7 @@
                     "onetime_title": "One-Time",
                     "deliver_prefix": "Deliver every",
                     "card_bg_inactive": "#ffffff",
-                    "card_border_inactive": "#e8e7e3",
+                    "card_border_inactive": "#1fa567",
                     "card_bg_active": "#1fa567",
                     "card_border_active": "#1fa567",
                     "card_text_active": "#ffffff",

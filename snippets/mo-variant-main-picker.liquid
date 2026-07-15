@@ -29,7 +29,7 @@
   endfor
 
   assign card_bg_inactive = bs.card_bg_inactive | default: '#ffffff'
-  assign card_border_inactive = bs.card_border_inactive | default: '#e8e7e3'
+  assign card_border_inactive = bs.card_border_inactive | default: '#1fa567'
   assign card_bg_active = bs.card_bg_active | default: '#1fa567'
   assign card_border_active = bs.card_border_active | default: '#1fa567'
   assign card_text_active = bs.card_text_active | default: '#ffffff'
@@ -239,7 +239,7 @@
 
   .mo-vpicker__cards {
     display: grid;
-    gap: var(--mo-space-3, 12px);
+    gap: 10px;
   }
 
   .mo-vpicker__cards--qty {
@@ -257,7 +257,7 @@
     align-items: flex-start;
     justify-content: center;
     cursor: pointer;
-    border: 1.5px solid var(--mo-card-border-inactive, #e8e7e3);
+    border: 1.5px solid var(--mo-card-border-inactive, #1fa567);
     background: var(--mo-card-bg-inactive, #fff);
     border-radius: var(--mo-radius-md, 10px);
     padding: var(--mo-space-4, 16px);
@@ -372,12 +372,23 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--mo-space-3, 12px);
-    border: 1.5px solid var(--mo-card-border-inactive, #e8e7e3);
+    border: 1.5px solid var(--mo-card-border-inactive, #1fa567);
     border-radius: var(--mo-radius-md, 10px);
     padding: var(--mo-space-3, 12px) var(--mo-space-4, 16px);
   }
 
-  .mo-vpicker__frequency-label,
+  .mo-vpicker__frequency-label {
+    font-family: var(--mo-font-mono, 'IBM Plex Mono', monospace);
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 110%;
+    letter-spacing: 0.1em;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+    color: #115033;
+  }
+
   .mo-vpicker__frequency-static {
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.6875rem;
