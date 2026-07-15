@@ -564,8 +564,7 @@ body {
    ============================================================================ */
 .mo-problem {
   position: relative;
-  background: var(--mo-problem-bg, #0d1b14);
-  border-radius: 20px;
+  background: var(--mo-problem-bg, #093d24);
   padding-block: var(--mo-problem-padding-y, 0px);
   overflow: hidden;
 }
@@ -573,7 +572,7 @@ body {
 .mo-problem__header {
   position: relative;
   z-index: 4;
-  background: var(--mo-problem-bg, #0d1b14);
+  background: var(--mo-problem-bg, #093d24);
   padding: var(--mo-space-8, 40px) var(--mo-space-5, 20px) var(--mo-space-7, 32px);
 }
 
@@ -627,6 +626,7 @@ body {
 .mo-problem__media-wrap {
   position: relative;
   overflow: hidden;
+  border-radius: 20px;
   min-height: 76vh;
   min-height: 76dvh;
 }
@@ -784,7 +784,6 @@ body {
   .mo-problem {
     aspect-ratio: 1200 / 625;
     min-height: 640px;
-    border-radius: 16px;
   }
 
   /* CUSTOM: the video/poster stays true full-bleed (edge to edge), but
@@ -853,6 +852,7 @@ body {
     aspect-ratio: auto;
     min-height: 0;
     height: 100%;
+    border-radius: 16px;
   }
 
   .mo-problem__factors {
