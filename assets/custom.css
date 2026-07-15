@@ -1303,13 +1303,23 @@ tbody tr:last-child .mo-compare__cell {
   transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
 }
 
-/* Flip to a right-edge anchor for the rightmost (OTC) column so the tooltip
-   opens toward the center of the page instead of overflowing off the right
-   side of the viewport. */
+/* CUSTOM FIX (2026-07-15): flip to a right-edge anchor for the rightmost
+   (OTC) column so the tooltip grows LEFTWARD from its trigger instead of
+   being centered on it — a centered popover on a trigger that sits at the
+   column's right edge always had its right half poking past the viewport,
+   causing real horizontal page overflow on mobile (measured 17px past the
+   viewport at 390px width via live devtools, confirmed the previous
+   `right: 50%; transform: translateX(50%)` version did NOT actually clamp
+   to the viewport edge despite the comment's intent — the math just
+   re-centered it from the other side). `right: 0` (relative to
+   `.mo-compare__tooltip`, whose box is exactly the 20px trigger) with NO
+   horizontal transform anchors the popover's right edge flush with the
+   trigger's right edge, so its full width extends left/inward, staying
+   within the table and never crossing the page's right edge. */
 .mo-compare__cell--otc .mo-compare__tooltip-popover {
   left: auto;
-  right: 50%;
-  transform: translateX(50%) translateY(var(--mo-compare-tooltip-offset-y));
+  right: 0;
+  transform: translateY(var(--mo-compare-tooltip-offset-y));
 }
 
 .mo-compare__tooltip-trigger:hover ~ .mo-compare__tooltip-popover,
@@ -1328,7 +1338,7 @@ tbody tr:last-child .mo-compare__cell {
   .mo-compare__tooltip-trigger:focus-visible
   ~ .mo-compare__tooltip-popover,
 .mo-compare__cell--otc .mo-compare__tooltip:focus-within .mo-compare__tooltip-popover {
-  transform: translateX(50%) translateY(0);
+  transform: translateY(0);
 }
 
 @media screen and (min-width: 750px) {
