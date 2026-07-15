@@ -1000,9 +1000,13 @@ body {
   text-align: center;
 }
 
+/* CUSTOM: 100px is the confirmed exact desktop render size (verified via
+   devtools against the uploaded logo asset, 2026-07-09). Mobile uses a
+   slightly narrower fixed width since the MO column has much less room at
+   that breakpoint. */
 .mo-compare__logo {
   display: inline-block;
-  max-width: 120px;
+  width: 80px;
   height: auto;
 }
 
@@ -1202,6 +1206,10 @@ tbody tr:last-child .mo-compare__cell {
   .mo-compare__icon {
     width: 32px;
     height: 32px;
+  }
+
+  .mo-compare__logo {
+    width: 100px;
   }
 }
 
