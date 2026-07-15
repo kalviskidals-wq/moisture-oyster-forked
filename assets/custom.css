@@ -562,9 +562,25 @@ body {
    renders if that file is ever removed. UPSTREAM risk LOW — net-new, no
    Horizon file touched.
    ============================================================================ */
+/* CUSTOM: this background shows through at .mo-problem__media-wrap's rounded
+   corners (it sits behind the video, which is what's actually clipped by
+   the radius). Split into two hard-stop bands so the top-corner reveal
+   keeps matching the header above it (var(--mo-problem-bg)) while the
+   bottom-corner reveal is the darker #0d1b14 the next section transitions
+   into. Anchored to the section's own BOTTOM edge (which always lines up
+   with media-wrap's bottom edge, since padding-block is 0) rather than a
+   percentage from the top, so this works regardless of the (variable-height)
+   header above it, and at both the mobile stacked layout and the desktop
+   full-bleed overlay layout where media-wrap covers the whole section. */
 .mo-problem {
   position: relative;
-  background: var(--mo-problem-bg, #093d24);
+  background: linear-gradient(
+    to top,
+    #0d1b14 0,
+    #0d1b14 40px,
+    var(--mo-problem-bg, #093d24) 40px,
+    var(--mo-problem-bg, #093d24) 100%
+  );
   padding-block: var(--mo-problem-padding-y, 0px);
   overflow: hidden;
 }
@@ -627,8 +643,8 @@ body {
   position: relative;
   overflow: hidden;
   border-radius: 20px;
-  min-height: 76vh;
-  min-height: 76dvh;
+  min-height: 85vh;
+  min-height: 85dvh;
 }
 
 /* CUSTOM: Horizon's base.css resets `img { width: 100%; height: auto; }`
