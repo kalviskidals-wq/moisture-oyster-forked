@@ -3898,6 +3898,18 @@ mo-review-filter {
   overflow: hidden;
 }
 
+/* CUSTOM: mobile height locked to the Figma mobile spec (40px) rather than
+   letting padding-block drive it — flex-centers the track vertically
+   inside the fixed box instead. */
+@media screen and (max-width: 749px) {
+  .mo-marquee {
+    height: 40px;
+    padding-block: 0;
+    display: flex;
+    align-items: center;
+  }
+}
+
 @media screen and (min-width: 750px) {
   .mo-marquee {
     padding-block: var(--mo-marquee-padding-y, 40px);
