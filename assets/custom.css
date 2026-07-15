@@ -2036,6 +2036,16 @@ tbody tr:last-child .mo-compare__cell {
   padding: var(--mo-space-7, 32px);
 }
 
+/* CUSTOM: the stats card is usually shorter than its neighboring chart card,
+   and .mo-science__grid stretches both cards to equal height — center the
+   stat rows vertically so the leftover space splits evenly top/bottom
+   instead of collecting entirely below the content. */
+.mo-science__stats-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 /* ---------- Stats card ---------- */
 .mo-science__stats-grid {
   display: grid;
