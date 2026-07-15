@@ -643,8 +643,8 @@ body {
   position: relative;
   overflow: hidden;
   border-radius: 20px;
-  min-height: 85vh;
-  min-height: 85dvh;
+  min-height: 95vh;
+  min-height: 95dvh;
 }
 
 /* CUSTOM: Horizon's base.css resets `img { width: 100%; height: auto; }`
