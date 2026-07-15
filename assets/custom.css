@@ -1605,16 +1605,20 @@ tbody tr:last-child .mo-compare__cell {
   min-width: 0;
 }
 
+/* CUSTOM (2026-07-09, type spec from Figma): overrides the shared .mo-h3
+   helper's font-size only — its family (Manrope), weight (700), line-height
+   (1.1 = 110%), and letter-spacing (-0.02em = -2%) already matched the given
+   spec exactly, so only size needed a per-component override. */
 .mo-ingredient__name,
 .mo-ingredient__subtitle {
   color: var(--mo-ingredients-heading, #093d24);
-  font-size: 20px;
+  font-size: 18px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-ingredient__name,
   .mo-ingredient__subtitle {
-    font-size: 28px;
+    font-size: 40px;
   }
 }
 
@@ -1676,8 +1680,25 @@ tbody tr:last-child .mo-compare__cell {
   white-space: nowrap;
 }
 
+/* CUSTOM (2026-07-09, type spec from Figma): description/body text here uses
+   Manrope Medium (500), not the theme-wide Inter --mo-font-body — deliberate
+   per-component deviation, same pattern already noted elsewhere in this
+   project (Figma sometimes specs Manrope for text that would otherwise use
+   the global body font). Overrides .mo-body-lg's font-family/weight/
+   letter-spacing; line-height (130%) already matched so it's left as-is. */
 .mo-ingredient__row-value {
   color: var(--mo-ingredients-heading, #093d24);
+  font-family: var(--mo-font-heading);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: -0.02em;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredient__row-value {
+    font-size: 16px;
+    letter-spacing: normal;
+  }
 }
 
 /* ---------- Free From panel ---------- */
