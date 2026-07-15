@@ -426,7 +426,13 @@ body {
    ============================================================================ */
 .mo-trust-bar {
   background: var(--mo-trustbar-bg, #093d24);
-  padding-block: var(--mo-trustbar-padding-y, 40px);
+  padding-block: 30px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-trust-bar {
+    padding-block: var(--mo-trustbar-padding-y, 40px);
+  }
 }
 
 /* CUSTOM: padding-inline matches Horizon's own page-margin breakpoints
@@ -581,8 +587,14 @@ body {
     var(--mo-problem-bg, #093d24) 40px,
     var(--mo-problem-bg, #093d24) 100%
   );
-  padding-block: var(--mo-problem-padding-y, 0px);
+  padding-block: 30px;
   overflow: hidden;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-problem {
+    padding-block: var(--mo-problem-padding-y, 40px);
+  }
 }
 
 .mo-problem__header {
@@ -988,7 +1000,13 @@ body {
 .mo-compare__panel {
   background: var(--mo-compare-bg, #0d1b14);
   border-radius: 32px;
-  padding-block: var(--mo-compare-padding-y, 40px);
+  padding-block: 30px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-compare__panel {
+    padding-block: var(--mo-compare-padding-y, 40px);
+  }
 }
 
 @media screen and (min-width: 750px) {
@@ -1366,7 +1384,13 @@ tbody tr:last-child .mo-compare__cell {
    ============================================================================ */
 .mo-ingredients {
   background: var(--mo-ingredients-bg, #093d24);
-  padding-block: var(--mo-ingredients-padding-y, 40px);
+  padding-block: 30px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredients {
+    padding-block: var(--mo-ingredients-padding-y, 40px);
+  }
 }
 
 /* Reuses the trust bar / problem agitation / comparison table's exact
@@ -1769,7 +1793,13 @@ tbody tr:last-child .mo-compare__cell {
    ============================================================================ */
 .mo-howto {
   background: var(--mo-howto-bg, #093d24);
-  padding-block: var(--mo-howto-padding-y, 40px);
+  padding-block: 30px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-howto {
+    padding-block: var(--mo-howto-padding-y, 40px);
+  }
 }
 
 /* Reuses the trust bar / problem agitation / comparison table / ingredient
@@ -1969,7 +1999,13 @@ tbody tr:last-child .mo-compare__cell {
    ============================================================================ */
 .mo-science {
   background: var(--mo-science-bg, #093d24);
-  padding-block: var(--mo-science-padding-y, 64px);
+  padding-block: 30px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-science {
+    padding-block: var(--mo-science-padding-y, 40px);
+  }
 }
 
 .mo-science__inner {
@@ -2346,7 +2382,13 @@ tbody tr:last-child .mo-compare__cell {
    ============================================================================ */
 .mo-reviews {
   background: var(--mo-reviews-bg, #093d24);
-  padding-block: var(--mo-reviews-padding-y, 64px);
+  padding-block: 30px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-reviews {
+    padding-block: var(--mo-reviews-padding-y, 40px);
+  }
 }
 
 /* Reuses the trust bar / problem agitation / comparison table / ingredient
@@ -2596,7 +2638,13 @@ mo-review-filter {
    ============================================================================ */
 .mo-faq {
   background: var(--mo-faq-bg, #093d24);
-  padding-block: var(--mo-faq-padding-y, 64px);
+  padding-block: 30px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-faq {
+    padding-block: var(--mo-faq-padding-y, 40px);
+  }
 }
 
 .mo-faq__inner {
@@ -2776,8 +2824,14 @@ mo-review-filter {
 .mo-sub-benefits {
   position: relative;
   background: var(--mo-sub-header-bg, #e8e7e3);
-  padding-block: var(--mo-sub-padding-y, 0px);
+  padding-block: 30px;
   overflow: hidden;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-sub-benefits {
+    padding-block: var(--mo-sub-padding-y, 40px);
+  }
 }
 
 .mo-sub-benefits__header {
@@ -3506,7 +3560,7 @@ mo-review-filter {
 .mo-home-hero {
   position: relative;
   background: var(--mo-home-hero-bg, #093d24);
-  padding-block: var(--mo-home-hero-padding-y, 0px);
+  padding-block: 30px;
   overflow: hidden;
   /* Fixed 95vh/95dvh section height at every breakpoint — the background
      image always covers this box via object-fit:cover regardless of its own
@@ -3514,6 +3568,12 @@ mo-review-filter {
      layout sizing (left in the schema in case Kalvis wants to switch back). */
   height: 95vh;
   height: 95dvh;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-home-hero {
+    padding-block: var(--mo-home-hero-padding-y, 40px);
+  }
 }
 
 .mo-home-hero__media {
@@ -3824,13 +3884,13 @@ mo-review-filter {
    ============================================================================ */
 .mo-marquee {
   background: var(--mo-marquee-bg, #1fa567);
-  padding-block: calc(var(--mo-marquee-padding-y, 14px) - 2px);
+  padding-block: 30px;
   overflow: hidden;
 }
 
 @media screen and (min-width: 750px) {
   .mo-marquee {
-    padding-block: var(--mo-marquee-padding-y, 14px);
+    padding-block: var(--mo-marquee-padding-y, 40px);
   }
 }
 
@@ -3925,7 +3985,13 @@ mo-review-filter {
    ============================================================================ */
 .mo-range {
   background: var(--mo-range-bg, #093d24);
-  padding-block: var(--mo-range-padding-y, 64px);
+  padding-block: 30px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-range {
+    padding-block: var(--mo-range-padding-y, 40px);
+  }
 }
 
 .mo-range__inner {
@@ -4137,9 +4203,15 @@ mo-review-filter {
 .mo-eye-health {
   position: relative;
   background: var(--mo-eye-header-bg, #f7f5f0);
-  padding-block: var(--mo-eye-padding-y, 0px);
+  padding-block: 30px;
   border-radius: var(--mo-eye-section-radius, 24px);
   overflow: hidden;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-eye-health {
+    padding-block: var(--mo-eye-padding-y, 40px);
+  }
 }
 
 .mo-eye-health__header {
@@ -4464,7 +4536,13 @@ mo-review-filter {
    ============================================================================ */
 .mo-hiw {
   background: var(--mo-hiw-bg, #093d24);
-  padding-block: var(--mo-hiw-padding-y, 64px);
+  padding-block: 30px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-hiw {
+    padding-block: var(--mo-hiw-padding-y, 40px);
+  }
 }
 
 /* Reuses the trust bar's exact max-width/margin-inline/padding-inline rule
@@ -4713,12 +4791,13 @@ mo-review-filter {
   position: relative;
   background: var(--mo-about-bg, #093d24);
   aspect-ratio: var(--mo-about-aspect-mobile, 0.62);
-  padding-block: var(--mo-about-padding-y, 0px);
+  padding-block: 30px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-about {
     aspect-ratio: var(--mo-about-aspect-desktop, 1.9);
+    padding-block: var(--mo-about-padding-y, 40px);
   }
 }
 
