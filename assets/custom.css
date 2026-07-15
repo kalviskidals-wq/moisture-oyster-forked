@@ -3643,12 +3643,31 @@ mo-review-filter {
     box-sizing: border-box;
   }
 
+  /* CUSTOM (2026-07-13 round 5): header needs to be position:relative (not
+     static) so .mo-home-hero__rating below can be pulled out of normal flow
+     and anchored above it — align-items:start on the grid aligns the
+     HEADER BOX's own top edge with .mo-home-hero__side's top (the subhead),
+     and until now that top edge was the rating row's top (rating was the
+     first in-flow child), which visually stuck the subhead's top out above
+     the heading. Removing rating from flow makes the heading the header
+     box's first (only) in-flow content, so its top IS the box's top. */
   .mo-home-hero__header {
-    position: static;
+    position: relative;
     grid-area: header;
     justify-self: start;
     background: transparent;
     padding: 0;
+  }
+
+  /* CUSTOM (2026-07-13 round 5): taken out of normal flow and pinned just
+     above the header box via bottom:100% + margin-bottom — this is what
+     stops it from contributing to the header box's top edge (see comment
+     on .mo-home-hero__header above). */
+  .mo-home-hero__rating {
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    margin: 0 0 var(--mo-space-4, 16px);
   }
 
   /* CUSTOM (2026-07-13 round 4): per Kalvis's exact type spec for this
