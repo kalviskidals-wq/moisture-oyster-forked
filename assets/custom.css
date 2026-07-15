@@ -1862,7 +1862,8 @@ tbody tr:last-child .mo-compare__cell {
 
 .mo-howto__step-head {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: var(--mo-space-4, 16px);
 }
 
