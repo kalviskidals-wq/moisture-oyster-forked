@@ -565,7 +565,7 @@ body {
 .mo-problem {
   position: relative;
   background: var(--mo-problem-bg, #0d1b14);
-  border-radius: 16px;
+  border-radius: 20px;
   padding-block: var(--mo-problem-padding-y, 0px);
   overflow: hidden;
 }
@@ -627,8 +627,8 @@ body {
 .mo-problem__media-wrap {
   position: relative;
   overflow: hidden;
-  min-height: 70vh;
-  min-height: 70dvh;
+  min-height: 76vh;
+  min-height: 76dvh;
 }
 
 /* CUSTOM: Horizon's base.css resets `img { width: 100%; height: auto; }`
@@ -784,6 +784,7 @@ body {
   .mo-problem {
     aspect-ratio: 1200 / 625;
     min-height: 640px;
+    border-radius: 16px;
   }
 
   /* CUSTOM: the video/poster stays true full-bleed (edge to edge), but
