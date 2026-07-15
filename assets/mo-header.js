@@ -1,0 +1,146 @@
+/**
+ * CUSTOM: net-new, UPSTREAM LOW — no Horizon file touched.
+ *
+ * Powers sections/custom-header.liquid:
+ *  - <mo-header-drawer> web component: the full-screen mobile menu panel.
+ *    Handles open/close, a focus trap, ESC-to-close, and a body scroll lock.
+ *    The visible trigger is the header's own burger/close toggle button
+ *    (aria-expanded swaps the icon via CSS) — the drawer never duplicates
+ *    the cart/account icons, it only owns the nav links + watermark.
+ *  - Optional "scroll-up" sticky behavior: hides the header on scroll down,
+ *    reveals it on scroll up. Only runs for headers with
+ *    [data-sticky="scroll-up"] — "always" sticky is handled in pure CSS.
+ *
+ * No-JS note: like Horizon's own <header-drawer> component, the mobile
+ * burger has no functional fallback without JavaScript. The primary nav
+ * itself (section's <nav class="mo-header__nav">) is plain markup and stays
+ * keyboard/no-JS reachable whenever it's visible.
+ */
+
+class MoHeaderDrawer extends HTMLElement {
+  connectedCallback() {
+    this.panel = this.querySelector('[data-mo-drawer-panel]');
+    this.handleKeydown = this.handleKeydown.bind(this);
+    this.handleBackdropClick = this.handleBackdropClick.bind(this);
+    this.addEventListener('click', this.handleBackdropClick);
+  }
+
+  disconnectedCallback() {
+    this.removeEventListener('click', this.handleBackdropClick);
+    document.removeEventListener('keydown', this.handleKeydown);
+  }
+
+  get toggleButton() {
+    return document.querySelector('[data-mo-drawer-toggle][aria-controls="' + this.id + '"]');
+  }
+
+  handleBackdropClick(event) {
+    if (event.target === this) this.close();
+  }
+
+  open() {
+    this.hidden = false;
+    document.documentElement.classList.add('mo-scroll-lock');
+    document.addEventListener('keydown', this.handleKeydown);
+
+    window.requestAnimationFrame(() => {
+      this.classList.add('is-open');
+      const firstFocusable = this.panel && this.panel.querySelector('a[href], button:not([disabled])');
+      if (firstFocusable) firstFocusable.focus();
+    });
+  }
+
+  close(options) {
+    const restoreFocus = !options || options.restoreFocus !== false;
+
+    this.classList.remove('is-open');
+    document.documentElement.classList.remove('mo-scroll-lock');
+    document.removeEventListener('keydown', this.handleKeydown);
+
+    const toggle = this.toggleButton;
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    if (restoreFocus && toggle) toggle.focus();
+
+    window.setTimeout(() => {
+      this.hidden = true;
+    }, 250);
+  }
+
+  handleKeydown(event) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.close();
+      return;
+    }
+
+    if (event.key !== 'Tab' || !this.panel) return;
+
+    const toggle = this.toggleButton;
+    const focusables = Array.from(this.panel.querySelectorAll('a[href], button:not([disabled])'));
+    if (toggle) focusables.unshift(toggle);
+    if (!focusables.length) return;
+
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+}
+
+if (!customElements.get('mo-header-drawer')) {
+  customElements.define('mo-header-drawer', MoHeaderDrawer);
+}
+
+document.addEventListener('click', (event) => {
+  const toggle = event.target.closest('[data-mo-drawer-toggle]');
+  if (!toggle) return;
+
+  const targetId = toggle.getAttribute('aria-controls');
+  const drawer = targetId && document.getElementById(targetId);
+  if (!drawer) return;
+
+  const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+
+  if (isOpen) {
+    toggle.setAttribute('aria-expanded', 'false');
+    drawer.close({ restoreFocus: false });
+  } else {
+    toggle.setAttribute('aria-expanded', 'true');
+    drawer.open();
+  }
+});
+
+(function initStickyOnScroll() {
+  const headers = document.querySelectorAll('.mo-header[data-sticky="scroll-up"]');
+  if (!headers.length) return;
+
+  let lastY = window.scrollY;
+  const threshold = 8;
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      const currentY = window.scrollY;
+      const delta = currentY - lastY;
+
+      if (Math.abs(delta) < threshold) return;
+
+      headers.forEach((header) => {
+        if (delta > 0 && currentY > header.offsetHeight) {
+          header.classList.add('mo-header--hidden');
+        } else {
+          header.classList.remove('mo-header--hidden');
+        }
+      });
+
+      lastY = currentY;
+    },
+    { passive: true }
+  );
+})();

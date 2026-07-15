@@ -5031,3 +5031,280 @@ mo-review-filter {
     align-self: flex-start;
   }
 }
+
+/* ============================================================================
+   MO HEADER — sections/custom-header.liquid
+   Global header bar + full-screen mobile drawer. Follows this project's
+   established page-width alignment convention (max-width + margin-inline:auto
+   + padding-inline, same family as the trust bar / problem agitation / etc.)
+   for .mo-header__inner, and the same mobile-vs-desktop 750px breakpoint used
+   throughout the theme.
+   ============================================================================ */
+
+/* CUSTOM: body-level scroll lock utility, toggled by mo-header.js while the
+   mobile drawer is open. Kept generic (not header-specific) in case another
+   future overlay needs the same lock. */
+html.mo-scroll-lock,
+html.mo-scroll-lock body {
+  overflow: hidden;
+}
+
+.mo-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--mo-header-bg, #093d24);
+  transition: transform 0.25s ease;
+}
+
+.mo-header[data-sticky="none"] {
+  position: static;
+}
+
+.mo-header--hidden {
+  transform: translateY(-100%);
+}
+
+.mo-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mo-space-5, 20px);
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: var(--mo-space-5, 20px);
+  padding-block: var(--mo-header-padding-top, 16px) var(--mo-header-padding-bottom, 16px);
+}
+
+.mo-header__logo {
+  display: block;
+  flex: 0 0 auto;
+  color: var(--mo-pink, #f2a2ff);
+  text-decoration: none;
+  line-height: 1;
+}
+
+.mo-header__logo-img {
+  display: block;
+  width: auto;
+  height: 32px !important;
+  max-height: 32px !important;
+}
+
+.mo-header__logo-fallback {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 2px;
+  font-family: var(--mo-font-heading);
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 1.05;
+  text-transform: lowercase;
+  color: var(--mo-pink, #f2a2ff);
+}
+
+.mo-header__logo-tm {
+  font-size: 8px;
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+.mo-header__nav {
+  display: none;
+}
+
+.mo-header__nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-6, 24px);
+}
+
+.mo-header__nav-link {
+  color: var(--mo-header-nav-text, #ffffff);
+  text-decoration: none;
+}
+
+.mo-header__nav-link:hover,
+.mo-header__nav-link[aria-current="page"] {
+  opacity: 0.7;
+}
+
+.mo-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-4, 16px);
+  flex: 0 0 auto;
+}
+
+.mo-header__action {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--mo-header-icon, #ffffff);
+  cursor: pointer;
+}
+
+.mo-header__icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  color: inherit;
+}
+
+.mo-header__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mo-header__cart-icon {
+  display: contents;
+}
+
+.mo-header__toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--mo-header-icon, #ffffff);
+  cursor: pointer;
+}
+
+.mo-header__toggle .mo-header__icon--close {
+  display: none;
+}
+
+.mo-header__toggle[aria-expanded="true"] .mo-header__icon--burger {
+  display: none;
+}
+
+.mo-header__toggle[aria-expanded="true"] .mo-header__icon--close {
+  display: block;
+}
+
+/* Mobile drawer ------------------------------------------------------------ */
+
+.mo-header__drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: var(--mo-header-drawer-bg, #093d24);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  overflow-y: auto;
+}
+
+.mo-header__drawer.is-open {
+  opacity: 1;
+}
+
+.mo-header__drawer-panel {
+  position: relative;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--mo-header-padding-top, 16px) + 64px) var(--mo-space-5, 20px) var(--mo-space-8, 40px);
+}
+
+.mo-header__drawer-label {
+  color: var(--mo-header-drawer-label, #9fc7ae);
+  margin: 0 0 var(--mo-space-5, 20px);
+}
+
+.mo-header__drawer-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-6, 24px);
+}
+
+.mo-header__drawer-link {
+  font-family: var(--mo-font-heading);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.1;
+  color: var(--mo-header-drawer-link, #ffffff);
+  text-decoration: none;
+  text-transform: none;
+}
+
+.mo-header__drawer-watermark {
+  position: relative;
+  margin-top: auto;
+  padding-top: var(--mo-space-8, 40px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  opacity: var(--mo-header-watermark-opacity, 15%);
+  pointer-events: none;
+}
+
+.mo-header__drawer-watermark-img {
+  display: block;
+  width: 100%;
+  height: auto !important;
+}
+
+.mo-header__drawer-watermark-fallback {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  font-family: var(--mo-font-heading);
+  font-weight: 800;
+  font-size: 140px;
+  line-height: 0.8;
+  text-transform: lowercase;
+  color: var(--mo-header-drawer-link, #ffffff);
+}
+
+.mo-header__drawer-watermark-drop {
+  width: 40px;
+  height: 52px;
+}
+
+.mo-header__drawer-tm {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--mo-font-mono);
+  font-size: 9px;
+  color: var(--mo-header-drawer-link, #ffffff);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-header__nav {
+    display: block;
+  }
+
+  .mo-header__toggle {
+    display: none;
+  }
+
+  .mo-header__drawer {
+    display: none;
+  }
+
+  .mo-header__logo-img {
+    height: 36px !important;
+    max-height: 36px !important;
+  }
+
+  .mo-header__drawer-link {
+    font-size: 40px;
+  }
+}

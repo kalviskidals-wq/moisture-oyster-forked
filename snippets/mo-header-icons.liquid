@@ -1,0 +1,31 @@
+{%- # CUSTOM: net-new snippet — inline line-art SVG set for the MO global header (bag/account/burger/close). Same ring-baked-in/currentColor convention as mo-benefit-icon.liquid/mo-factor-icon.liquid so section color settings tint them via CSS currentColor. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # Params: icon (string preset key: bag / account / burger / close) -%}
+{%- liquid
+  assign icon = icon | default: 'none'
+-%}
+{%- case icon -%}
+  {%- when 'bag' -%}
+    {%- # Shopping bag outline — placeholder line art (VERIFY against real source SVG if Kalvis has one) -%}
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M5.5 8.5H18.2C18.9 8.5 19.4 9.08 19.32 9.78L18.3 18.7C18.13 20.16 16.9 21.25 15.44 21.25H8.26C6.8 21.25 5.57 20.16 5.4 18.7L4.38 9.78C4.3 9.08 4.8 8.5 5.5 8.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M8.5 8.5V7C8.5 5.07 10.07 3.5 12 3.5C13.93 3.5 15.5 5.07 15.5 7V8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+  {%- when 'account' -%}
+    {%- # Person-in-circle badge -%}
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="1.2"/>
+      <circle cx="12" cy="9.8" r="2.6" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M6.6 17.8C7.4 15.4 9.5 13.9 12 13.9C14.5 13.9 16.6 15.4 17.4 17.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+    </svg>
+  {%- when 'burger' -%}
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M3.5 7H20.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M3.5 12H20.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M3.5 17H20.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+  {%- when 'close' -%}
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M5 5L19 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M19 5L5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+{%- endcase -%}

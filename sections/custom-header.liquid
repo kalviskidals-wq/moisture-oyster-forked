@@ -1,0 +1,337 @@
+{%- # CUSTOM: net-new global header section (header-group), added alongside the native "header" section which stays disabled: true in header-group.json. Logo + primary nav from a Shopify Menu + cart/account actions + a full-screen mobile drawer. Deliberately net-new rather than a fork of Horizon's header.liquid (too complex for this brand's simpler nav). Cart wiring reuses Horizon's native cart-icon custom element / cart-bubble snippet / cart-drawer (already rendered site-wide from layout/theme.liquid) so the item-count bubble and drawer-open behavior stay real and reactive with zero new JS — same reuse pattern already used for accordions elsewhere on this project. Mobile menu is a separate mo-header-drawer web component (assets/mo-header.js) with focus-trap/ESC/scroll-lock; the toggle button itself swaps between burger and close icons via aria-expanded so cart/account never have to be duplicated inside the drawer panel. UPSTREAM risk LOW — no Horizon file touched; header-group.json gets an additive section entry (native header untouched, still disabled). -%}
+{%- # CUSTOM: load design tokens + the .mo-header rules here (not layout/theme.liquid), per this project's established per-section pattern for globally-included sections. Prelaunch suppression already targets #header-group by id (see custom.css), so this section is automatically hidden on the prelaunch template with no extra work here. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+<script type="module" src="{{ 'mo-header.js' | asset_url }}" fetchpriority="low"></script>
+
+{%- liquid
+  assign s = section.settings
+  assign drawer_bg = s.drawer_background_color | default: s.background_color
+-%}
+
+<header
+  class="mo-header"
+  id="MoHeader-{{ section.id }}"
+  data-sticky="{{ s.sticky_behavior | default: 'always' }}"
+  style="
+    --mo-header-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-header-nav-text: {{ s.nav_text_color | default: '#FFFFFF' }};
+    --mo-header-icon: {{ s.icon_color | default: '#FFFFFF' }};
+    --mo-header-padding-top: {{ s.padding_top | default: 16 }}px;
+    --mo-header-padding-bottom: {{ s.padding_bottom | default: 16 }}px;
+    --mo-header-drawer-bg: {{ drawer_bg | default: '#093D24' }};
+    --mo-header-drawer-label: {{ s.drawer_menu_label_color | default: '#9FC7AE' }};
+    --mo-header-drawer-link: {{ s.drawer_link_color | default: '#FFFFFF' }};
+    --mo-header-watermark-opacity: {{ s.drawer_watermark_opacity | default: 15 }}%;
+  "
+>
+  <div class="mo-header__inner">
+    <a href="{{ routes.root_url }}" class="mo-header__logo" aria-label="{{ shop.name | escape }}">
+      {%- if s.logo != blank -%}
+        {{
+          s.logo
+          | image_url: width: 800
+          | image_tag:
+            width: s.logo.width,
+            height: s.logo.height,
+            widths: '200, 300, 400, 600, 800',
+            sizes: '220px',
+            alt: shop.name,
+            loading: 'lazy',
+            class: 'mo-header__logo-img'
+        }}
+      {%- else -%}
+        <span class="mo-header__logo-fallback">
+          <span class="mo-header__logo-text">{{ s.logo_fallback_text | default: 'moisture
+oyster' | newline_to_br }}</span>
+          <span class="mo-header__logo-tm" aria-hidden="true">TM</span>
+        </span>
+      {%- endif -%}
+    </a>
+
+    <nav class="mo-header__nav" aria-label="{{ 'accessibility.menu' | t }}">
+      <ul class="mo-header__nav-list list-unstyled">
+        {%- for link in s.menu.links -%}
+          <li>
+            <a
+              href="{{ link.url }}"
+              class="mo-header__nav-link mo-menu"
+              {% if link.active %}aria-current="page"{% endif %}
+            >
+              {{ link.title }}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="mo-header__actions">
+      {%- if s.show_cart -%}
+        {%- if settings.cart_type == 'drawer' and template.name != 'cart' -%}
+          <button
+            type="button"
+            class="mo-header__action mo-header__action--cart button-unstyled"
+            on:click="#cart-drawer/toggle"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-controls="cart-drawer"
+            aria-label="{{ 'accessibility.cart' | t }}"
+            aria-describedby="cart-bubble-text"
+          >
+            <cart-icon class="mo-header__cart-icon">
+              <span class="mo-header__icon" aria-hidden="true">{%- render 'mo-header-icons', icon: 'bag' -%}</span>
+              {%- render 'cart-bubble', limit: 100 -%}
+            </cart-icon>
+          </button>
+        {%- else -%}
+          <a
+            href="{{ routes.cart_url }}"
+            class="mo-header__action mo-header__action--cart"
+            aria-label="{{ 'accessibility.cart' | t }}"
+            aria-describedby="cart-bubble-text"
+          >
+            <cart-icon class="mo-header__cart-icon">
+              <span class="mo-header__icon" aria-hidden="true">{%- render 'mo-header-icons', icon: 'bag' -%}</span>
+              {%- render 'cart-bubble', limit: 100 -%}
+            </cart-icon>
+          </a>
+        {%- endif -%}
+        <script type="module" src="{{ 'cart-icon.js' | asset_url }}" fetchpriority="low"></script>
+      {%- endif -%}
+
+      {%- if s.show_account -%}
+        <a
+          href="{{ routes.account_url }}"
+          class="mo-header__action mo-header__action--account"
+          aria-label="{{ 'accessibility.account' | t }}"
+        >
+          <span class="mo-header__icon" aria-hidden="true">{%- render 'mo-header-icons', icon: 'account' -%}</span>
+        </a>
+      {%- endif -%}
+
+      <button
+        type="button"
+        class="mo-header__toggle button-unstyled"
+        aria-expanded="false"
+        aria-controls="MoHeaderDrawer-{{ section.id }}"
+        aria-label="{{ 'accessibility.menu' | t }}"
+        data-mo-drawer-toggle
+      >
+        <span class="mo-header__icon mo-header__icon--burger" aria-hidden="true">{%- render 'mo-header-icons', icon: 'burger' -%}</span>
+        <span class="mo-header__icon mo-header__icon--close" aria-hidden="true">{%- render 'mo-header-icons', icon: 'close' -%}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<mo-header-drawer id="MoHeaderDrawer-{{ section.id }}" class="mo-header__drawer" hidden>
+  <div class="mo-header__drawer-panel" data-mo-drawer-panel role="dialog" aria-modal="true" aria-label="{{ 'accessibility.menu' | t }}">
+    <p class="mo-header__drawer-label mo-tag">{{ 'accessibility.menu' | t | upcase }}</p>
+
+    <nav class="mo-header__drawer-nav" aria-label="{{ 'accessibility.menu' | t }}">
+      <ul class="mo-header__drawer-list list-unstyled">
+        {%- for link in s.menu.links -%}
+          <li>
+            <a
+              href="{{ link.url }}"
+              class="mo-header__drawer-link"
+              {% if link.active %}aria-current="page"{% endif %}
+            >
+              {{ link.title }}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="mo-header__drawer-watermark" aria-hidden="true">
+      {%- if s.watermark_logo != blank -%}
+        {{
+          s.watermark_logo
+          | image_url: width: 1600
+          | image_tag:
+            width: s.watermark_logo.width,
+            height: s.watermark_logo.height,
+            widths: '480, 720, 960, 1200, 1600',
+            sizes: '90vw',
+            alt: '',
+            loading: 'lazy',
+            class: 'mo-header__drawer-watermark-img'
+        }}
+      {%- else -%}
+        <span class="mo-header__drawer-watermark-fallback">
+          <span class="mo-header__drawer-watermark-text">{{ s.logo_fallback_text | default: 'mo' | slice: 0, 2 }}</span>
+          <svg class="mo-header__drawer-watermark-drop" viewBox="0 0 100 130" fill="currentColor" xmlns="http://www.w3.org/2000/svg" focusable="false">
+            <path d="M50,0 C20,40 0,70 0,95 A50,50 0 1,0 100,95 C100,70 80,40 50,0 Z"/>
+          </svg>
+        </span>
+      {%- endif -%}
+      <span class="mo-header__drawer-tm">TM</span>
+    </div>
+  </div>
+</mo-header-drawer>
+
+{% schema %}
+{
+  "name": "MO Header",
+  "class": "mo-header-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo (SVG wordmark)",
+      "info": "Pink 'moisture oyster' wordmark. If blank, falls back to plain stacked text + TM."
+    },
+    {
+      "type": "textarea",
+      "id": "logo_fallback_text",
+      "label": "Logo fallback text",
+      "default": "moisture\noyster"
+    },
+    {
+      "type": "header",
+      "content": "Mobile drawer watermark"
+    },
+    {
+      "type": "image_picker",
+      "id": "watermark_logo",
+      "label": "Watermark logomark",
+      "info": "Oversized decorative logomark shown low-opacity at the bottom of the mobile menu. If blank, falls back to a text + inline-SVG drop."
+    },
+    {
+      "type": "range",
+      "id": "drawer_watermark_opacity",
+      "label": "Watermark opacity",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "%",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Actions"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Show cart icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show account icon",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Sticky header"
+    },
+    {
+      "type": "select",
+      "id": "sticky_behavior",
+      "label": "Sticky behavior",
+      "options": [
+        { "value": "none", "label": "Not sticky" },
+        { "value": "always", "label": "Always visible" },
+        { "value": "scroll-up", "label": "Hide on scroll down, show on scroll up" }
+      ],
+      "default": "always"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "nav_text_color",
+      "label": "Nav text color",
+      "default": "#FFFFFF",
+      "info": "VERIFY — brief notes a 'light/pink' default for this field, but the reference frame shows white nav text; defaulted to white."
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Mobile drawer colors"
+    },
+    {
+      "type": "color",
+      "id": "drawer_background_color",
+      "label": "Drawer background",
+      "info": "Falls back to the header background above if left blank."
+    },
+    {
+      "type": "color",
+      "id": "drawer_menu_label_color",
+      "label": "'MENU' label color",
+      "default": "#9FC7AE",
+      "info": "VERIFY — estimated muted tone, not pixel-sampled from the reference frame."
+    },
+    {
+      "type": "color",
+      "id": "drawer_link_color",
+      "label": "Drawer link color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Header",
+      "category": "Custom"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}
