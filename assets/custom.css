@@ -3025,8 +3025,16 @@ mo-review-filter {
     height: 150px;
   }
 
+  /* CUSTOM (2026-07-10): vertically centered within the section instead of
+     bottom-anchored — top:0/bottom:0 spans the full media height, and
+     margin-block:auto centers the (shorter, content-sized) benefits column
+     within that span, same auto-margin centering technique used elsewhere
+     in this file for horizontal centering. */
   .mo-sub-benefits__overlay {
-    bottom: var(--mo-space-8, 40px);
+    top: 0;
+    bottom: 0;
+    margin-block: auto;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
