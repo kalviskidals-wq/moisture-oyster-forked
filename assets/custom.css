@@ -2956,15 +2956,18 @@ mo-review-filter {
    instead of stacking above it; review card lower-left, benefit column
    lower-right, both bottom-aligned. */
 @media screen and (min-width: 750px) {
-  /* CUSTOM (2026-07-10): bumped from 1600/835 (min-height 640px) — with the
-     review photo back on a proportional 3/2 aspect-ratio (see the fix note
-     on .mo-sub-benefits__review .mo-reviews__photo below) the card is
-     tall enough that the previous, shorter section height let it creep up
-     into the header. This gives it enough vertical room to sit fully below
-     the header with margin to spare. */
+  /* CUSTOM (2026-07-10, revised): dropped the aspect-ratio in favor of a
+     min-height/max-height pair. aspect-ratio scales linearly with the
+     section's own width, which is fine on typical laptop widths but made
+     the section noticeably taller than 100vh on wide desktop monitors
+     (the wider the viewport, the taller the box, with no ceiling). 760px
+     min-height is the actual content floor needed so the header (~190px)
+     and the now-taller review card (~536px, bottom-anchored 40px up) never
+     collide (see the review-card height notes above); max-height:100vh
+     caps it so it never exceeds one viewport height on wide/short screens. */
   .mo-sub-benefits {
-    aspect-ratio: 1600 / 950;
     min-height: 760px;
+    max-height: 100vh;
   }
 
   /* Reuses .mo-trust-bar__inner's exact max-width + margin-inline:auto +
