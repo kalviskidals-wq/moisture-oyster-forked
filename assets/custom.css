@@ -4270,15 +4270,21 @@ mo-review-filter {
   text-transform: uppercase;
 }
 
-/* CUSTOM: per Figma dev-mode spec (2026-07-15) — 1px line, 20px padding
-   above AND below (padding-block, not margin, so the gap travels with the
-   line itself regardless of sibling spacing), default color #B8F3D8
-   (--mo-mint). */
+/* CUSTOM: per Figma dev-mode spec (2026-07-15) — 1px line, 20px gap above
+   AND below, default color #B8F3D8 (--mo-mint).
+   CUSTOM FIX: the gap above must be MARGIN, not padding — border-top on an
+   <hr> renders at the very outer/top edge of its border box (immediately
+   below any margin-top), with padding always sitting INSIDE that border.
+   An earlier version used padding-block for both sides, which visually put
+   all 20px of gap below the line (since the hr has no content to separate
+   padding-top from padding-bottom, they just stack together beneath the
+   border) and left zero gap above it. margin-top sits outside the border
+   box, so it's the only property that can push space in above the line. */
 .mo-eye-health__divider {
   border: none;
   border-top: 1px solid var(--mo-eye-divider, #b8f3d8);
-  margin: 0;
-  padding-block: var(--mo-space-5, 20px) 0;
+  margin: var(--mo-space-5, 20px) 0 0;
+  padding: 0;
 }
 
 .mo-eye-health__body {
