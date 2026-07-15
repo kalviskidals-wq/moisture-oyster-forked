@@ -484,7 +484,7 @@
         "enable_sticky_add_to_cart": true,
         "background_color": "#093d24",
         "padding-block-start": 32,
-        "padding-block-end": 32
+        "padding-block-end": 10
       }
     },
     "custom_trust_bar_mopdp1": {
