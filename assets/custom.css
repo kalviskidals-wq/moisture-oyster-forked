@@ -1809,7 +1809,16 @@ tbody tr:last-child .mo-compare__cell {
 
 /* ---------- Steps: mobile scroll-snap carousel -> desktop stacked column ----------
    CSS-only (no JS): the carousel is just overflow-x + scroll-snap on the base
-   layout, so it degrades to a plain stacked list if either is unsupported. */
+   layout, so it degrades to a plain stacked list if either is unsupported.
+   CUSTOM: deliberately NOT using the negative-margin/padding "bleed to
+   viewport edge" trick — that already caused the same first-card-flush-left
+   bug in .mo-reviews__scroller (see that section's notes below) because it
+   depends on cancelling exactly one specific ancestor's padding, which is
+   fragile. Simpler/more robust fix used there and reused here: the scroller
+   just inherits .mo-howto__inner's padding-inline like any other child, so
+   the first card's left edge is always pixel-identical to the eyebrow above
+   it. Trade-off: the next-card peek stops at the inner's right padding
+   instead of bleeding to the true viewport edge — acceptable. */
 .mo-howto__steps {
   display: flex;
   flex-direction: row;
@@ -1819,8 +1828,6 @@ tbody tr:last-child .mo-compare__cell {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  margin-inline: calc(var(--mo-space-5, 20px) * -1);
-  padding-inline: var(--mo-space-5, 20px);
   padding-block-end: var(--mo-space-2, 8px);
 }
 
@@ -1834,8 +1841,6 @@ tbody tr:last-child .mo-compare__cell {
     flex: 0 0 380px;
     overflow-x: visible;
     scroll-snap-type: none;
-    margin-inline: 0;
-    padding-inline: 0;
     padding-block-end: 0;
   }
 }
