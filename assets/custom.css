@@ -5271,6 +5271,24 @@ html.mo-scroll-lock body {
   text-transform: none;
 }
 
+/* CUSTOM (fix): mo-header.js moves focus to the first drawer link on open
+   (a11y requirement — screen reader/keyboard users need focus inside the
+   panel). Browsers render their default focus rectangle for that
+   programmatic .focus() call, which on iPhone showed as a stray "square"
+   around the first link even though the drawer was opened by tapping the
+   burger, not by keyboard. :focus-visible's own heuristic already skips
+   that ring for script-triggered focus in this case, so suppressing plain
+   :focus and opting into :focus-visible only keeps a clean ring for actual
+   keyboard Tab navigation while removing it here. */
+.mo-header__drawer-link:focus {
+  outline: none;
+}
+
+.mo-header__drawer-link:focus-visible {
+  outline: 2px solid var(--mo-header-drawer-link, #ffffff);
+  outline-offset: 6px;
+}
+
 .mo-header__drawer-watermark {
   position: relative;
   margin-top: auto;
