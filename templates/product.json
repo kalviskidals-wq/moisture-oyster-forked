@@ -1125,7 +1125,7 @@
         "vertical_padding": 64,
         "background_color": "#093d24",
         "card_background_color": "#115033",
-        "divider_color": "#b8f3d8",
+        "divider_color": "#ffffff1f",
         "eyebrow_color": "#ffffff",
         "heading_color": "#ffffff",
         "figure_color": "#ffd5f7",
@@ -1194,6 +1194,7 @@
             "location": "New York, NY",
             "meta_type": "subscriber",
             "duration": "3 months",
+            "photo": "shopify://shop_images/image_1926988520_1.jpg",
             "rating": 5,
             "quote": "Finally, eye drops I actually enjoy using. The case makes it so easy to keep in my bag — and my eyes feel genuinely better after two weeks.",
             "tags": "verified,lens_wearer"
@@ -1207,6 +1208,7 @@
             "location": "Chicago, IL",
             "meta_type": "professional",
             "duration": "3 months",
+            "photo": "shopify://shop_images/image_1926988520_2.jpg",
             "rating": 5,
             "quote": "As an optometrist I'm selective about what I recommend. Preservative-free, pH-correct — the case gets patients to actually use it consistently.",
             "tags": "verified,most_helpful"
@@ -1220,6 +1222,7 @@
             "location": "Austin, TX",
             "meta_type": "subscriber",
             "duration": "5 months",
+            "photo": "shopify://shop_images/image_1926988520_3.jpg",
             "rating": 5,
             "quote": "My optometrist recommended these and they've changed my daily routine. Elegant packaging, serious formula. I'm a subscriber for life.",
             "tags": "verified,screen_worker,most_helpful"
