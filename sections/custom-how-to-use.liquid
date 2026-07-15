@@ -69,11 +69,11 @@
                   </span>
                 {%- endif -%}
                 {%- if bs.title != blank -%}
-                  <p class="mo-howto__step-title mo-h4">{{ bs.title | escape }}</p>
+                  <p class="mo-howto__step-title">{{ bs.title | escape }}</p>
                 {%- endif -%}
               </div>
               {%- if bs.description != blank -%}
-                <p class="mo-howto__step-desc mo-body-lg">{{ bs.description | newline_to_br }}</p>
+                <p class="mo-howto__step-desc">{{ bs.description | newline_to_br }}</p>
               {%- endif -%}
             </div>
           {%- endif -%}

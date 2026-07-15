@@ -1881,15 +1881,43 @@ tbody tr:last-child .mo-compare__cell {
   display: block;
 }
 
+/* CUSTOM: exact type specs supplied by Kalvis for this section's card
+   heading + body text — deliberately NOT the global .mo-h4/.mo-body-lg
+   helper classes (mo-body-lg is Inter 400; this spec calls for Manrope 500
+   for body text specifically), and mobile/desktop sizes+letter-spacing
+   differ (mobile-first base below, desktop override at >=750px). */
 .mo-howto__step-title {
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.1; /* 110% */
+  letter-spacing: -0.02em; /* -2% */
   color: var(--mo-howto-title, #ffffff);
   margin: 0;
 }
 
+@media screen and (min-width: 750px) {
+  .mo-howto__step-title {
+    font-size: 24px;
+  }
+}
+
 .mo-howto__step-desc {
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.3; /* 130% */
+  letter-spacing: -0.02em; /* -2% */
   color: var(--mo-howto-desc, #ffffff);
   opacity: 0.8;
   margin: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-howto__step-desc {
+    font-size: 16px;
+    letter-spacing: 0; /* 0% */
+  }
 }
 
 /* ---------- Media: video/poster, right column on desktop ---------- */
