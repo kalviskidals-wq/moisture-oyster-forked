@@ -3199,7 +3199,9 @@ mo-review-filter {
 @media screen and (min-width: 750px) {
   .mo-footer__field {
     flex-direction: row;
-    max-width: 480px;
+    align-items: stretch;
+    gap: 10px;
+    max-width: none;
   }
 }
 
@@ -3220,6 +3222,9 @@ mo-review-filter {
 }
 
 .mo-footer__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--mo-footer-button-bg, #ffd5f7);
   color: var(--mo-footer-button-text, #093d24);
   border: none;
@@ -3236,6 +3241,25 @@ mo-review-filter {
 
 .mo-footer__button:hover {
   opacity: 0.85;
+}
+
+/* CUSTOM: exact desktop signup dimensions per Kalvis (2026-07-13) — field
+   272x40, button 151x40, 10px horizontal gap (set on .mo-footer__field
+   above). flex-basis (not width) so flex layout can't stretch/shrink them. */
+@media screen and (min-width: 750px) {
+  .mo-footer__input {
+    flex: 0 0 272px;
+    width: 272px;
+    height: 40px;
+    padding: 0 var(--mo-space-4, 16px);
+  }
+
+  .mo-footer__button {
+    flex: 0 0 151px;
+    width: 151px;
+    height: 40px;
+    padding: 0 var(--mo-space-4, 16px);
+  }
 }
 
 .mo-footer__success {
@@ -3263,7 +3287,14 @@ mo-review-filter {
   }
 }
 
+/* CUSTOM: .mo-footer__col is now the class on <accordion-custom> itself (see
+   sections/custom-footer.liquid) — custom elements default to display:inline
+   with no UA box styling, so this needs an explicit block/flex display or it
+   won't take up space as a grid/flex item in .mo-footer__columns. The actual
+   <details>/<summary>/panel markup is nested one level inside it; descendant
+   selectors below still reach it fine. */
 .mo-footer__col {
+  display: block;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   padding-block: var(--mo-space-5, 20px);
 }
@@ -3294,7 +3325,7 @@ mo-review-filter {
   transition: transform 0.2s ease;
 }
 
-.mo-footer__col[open] .mo-footer__col-toggle {
+.mo-footer__col details[open] .mo-footer__col-toggle {
   transform: rotate(45deg);
 }
 
@@ -3327,6 +3358,11 @@ mo-review-filter {
     padding-block: 0;
   }
 
+  /* accordion-custom-component's own JS blocks the toggle on desktop
+     (disable_on_desktop + open_by_default_on_desktop, passed from the
+     section) and keeps `details.open = true` in sync on every breakpoint
+     change — this cursor/pointer-events pair is just the visual affordance
+     to match, not what's actually preventing the toggle. */
   .mo-footer__col summary {
     cursor: default;
     pointer-events: none;
@@ -3337,10 +3373,7 @@ mo-review-filter {
     display: none;
   }
 
-  /* Force the panel visible regardless of the native [open] state — desktop
-     columns are always expanded, non-interactive. */
-  .mo-footer__col .mo-footer__col-list {
-    display: block !important;
+  .mo-footer__col-list {
     padding-block-start: 0;
   }
 }

@@ -85,23 +85,32 @@
       <div class="mo-footer__columns">
         {%- for block in section.blocks -%}
           {%- if block.type == 'menu_col' -%}
-            <details class="mo-footer__col" {{ block.shopify_attributes }}>
-              <summary class="mo-footer__col-heading mo-menu">
-                <span>{{ block.settings.heading | escape }}</span>
-                <span class="mo-footer__col-toggle" aria-hidden="true">
-                  {%- render 'mo-accordion-icon' -%}
-                </span>
-              </summary>
-              {%- if block.settings.menu != blank -%}
-                <nav class="mo-footer__col-list" aria-label="{{ block.settings.heading | escape }}">
-                  <ul class="list-unstyled">
-                    {%- for link in block.settings.menu.links -%}
-                      <li><a href="{{ link.url }}" class="mo-footer__col-link mo-menu">{{ link.title }}</a></li>
-                    {%- endfor -%}
-                  </ul>
-                </nav>
-              {%- endif -%}
-            </details>
+            {%- capture mo_footer_col_content -%}
+              <details class="mo-footer__col-details" {{ block.shopify_attributes }}>
+                <summary class="mo-footer__col-heading mo-menu">
+                  <span>{{ block.settings.heading | escape }}</span>
+                  <span class="mo-footer__col-toggle" aria-hidden="true">
+                    {%- render 'mo-accordion-icon' -%}
+                  </span>
+                </summary>
+                {%- if block.settings.menu != blank -%}
+                  <nav class="mo-footer__col-list details-content" aria-label="{{ block.settings.heading | escape }}">
+                    <ul class="list-unstyled">
+                      {%- for link in block.settings.menu.links -%}
+                        <li><a href="{{ link.url }}" class="mo-footer__col-link mo-menu">{{ link.title }}</a></li>
+                      {%- endfor -%}
+                    </ul>
+                  </nav>
+                {%- endif -%}
+              </details>
+            {%- endcapture -%}
+            {%- # CUSTOM: reuses Horizon's own accordion-custom-component (already loaded site-wide, same web component blocks/menu.liquid uses) instead of a raw CSS-forced-open <details> — Chromium/WebKit now hide collapsed <details> content via `content-visibility: hidden`, which a plain `display:block !important` override can't defeat, so a pure-CSS "force open on desktop" approach silently renders nothing. accordion-custom-component's JS actually flips the native `open` property per breakpoint instead of fighting it with CSS. -%}
+            {%- render 'accordion-custom-component',
+              children: mo_footer_col_content,
+              class: 'mo-footer__col',
+              open_by_default_on_desktop: true,
+              disable_on_desktop: true
+            -%}
           {%- endif -%}
         {%- endfor -%}
       </div>
