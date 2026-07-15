@@ -1003,11 +1003,16 @@ body {
 /* CUSTOM: 100px is the confirmed exact desktop render size (verified via
    devtools against the uploaded logo asset, 2026-07-09). Mobile uses a
    slightly narrower fixed width since the MO column has much less room at
-   that breakpoint. */
+   that breakpoint. `!important` matches the same fix already used on
+   .mo-problem__poster/.mo-problem__video above — Horizon's base.css resets
+   `img { width: 100%; height: auto; }`, which otherwise wins and stretches
+   the logo to fill the highlighted column instead of rendering at its
+   intended fixed size. */
 .mo-compare__logo {
-  display: inline-block;
-  width: 80px;
-  height: auto;
+  display: inline-block !important;
+  width: 80px !important;
+  max-width: 80px !important;
+  height: auto !important;
 }
 
 .mo-compare__logo-text {
@@ -1209,7 +1214,8 @@ tbody tr:last-child .mo-compare__cell {
   }
 
   .mo-compare__logo {
-    width: 100px;
+    width: 100px !important;
+    max-width: 100px !important;
   }
 }
 
