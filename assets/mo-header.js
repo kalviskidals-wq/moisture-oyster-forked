@@ -120,27 +120,34 @@ document.addEventListener('click', (event) => {
   const headers = document.querySelectorAll('.mo-header[data-sticky="scroll-up"]');
   if (!headers.length) return;
 
-  let lastY = window.scrollY;
+  // CUSTOM (fix): Horizon's own .page-wrapper becomes the real scrolling
+  // element (overflow-y: auto) at desktop widths (>=990px, see base.css),
+  // while window/body scrolls normally below that. A "scroll" listener on
+  // window alone never fires on desktop, so this listens on both — only
+  // whichever one is actually scrolling will ever dispatch the event.
+  const scrollContainer = document.querySelector('.page-wrapper');
+  const getScrollY = () => (scrollContainer ? scrollContainer.scrollTop : window.scrollY);
+
+  let lastY = getScrollY();
   const threshold = 8;
 
-  window.addEventListener(
-    'scroll',
-    () => {
-      const currentY = window.scrollY;
-      const delta = currentY - lastY;
+  const onScroll = () => {
+    const currentY = getScrollY();
+    const delta = currentY - lastY;
 
-      if (Math.abs(delta) < threshold) return;
+    if (Math.abs(delta) < threshold) return;
 
-      headers.forEach((header) => {
-        if (delta > 0 && currentY > header.offsetHeight) {
-          header.classList.add('mo-header--hidden');
-        } else {
-          header.classList.remove('mo-header--hidden');
-        }
-      });
+    headers.forEach((header) => {
+      if (delta > 0 && currentY > header.offsetHeight) {
+        header.classList.add('mo-header--hidden');
+      } else {
+        header.classList.remove('mo-header--hidden');
+      }
+    });
 
-      lastY = currentY;
-    },
-    { passive: true }
-  );
+    lastY = currentY;
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  if (scrollContainer) scrollContainer.addEventListener('scroll', onScroll, { passive: true });
 })();

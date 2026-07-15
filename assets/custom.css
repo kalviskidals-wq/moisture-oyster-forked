@@ -5049,16 +5049,29 @@ html.mo-scroll-lock body {
   overflow: hidden;
 }
 
-.mo-header {
+/* CUSTOM (fix): position:sticky lives on #header-group, NOT on .mo-header
+   itself. .mo-header's real DOM parent is Shopify's auto-generated
+   .shopify-section wrapper div, whose box is exactly the header's own
+   height (no extra content) — a sticky element's "room to stick" is judged
+   against its immediate parent's box, so sticky on .mo-header there had
+   nowhere to go and was functionally identical to position:static (this is
+   what made "sticky" look like it did nothing). #header-group's actual
+   parent is .page-wrapper, which contains the whole page (main + footer)
+   below it, so sticky positioned there has plenty of room. Gated to only
+   the two sticky-enabled data-sticky values via :has() (already an
+   established technique on this project — see html:has(.page-wrapper) in
+   base.css / body:has(.mo-prelaunch) above) so "Not sticky" still leaves
+   the group in normal static flow. */
+#header-group:has(.mo-header[data-sticky="always"]),
+#header-group:has(.mo-header[data-sticky="scroll-up"]) {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: var(--mo-header-bg, #093d24);
-  transition: transform 0.25s ease;
 }
 
-.mo-header[data-sticky="none"] {
-  position: static;
+.mo-header {
+  background: var(--mo-header-bg, #093d24);
+  transition: transform 0.25s ease;
 }
 
 .mo-header--hidden {
@@ -5306,5 +5319,14 @@ html.mo-scroll-lock body {
 
   .mo-header__drawer-link {
     font-size: 40px;
+  }
+
+  .mo-header__inner {
+    /* CUSTOM (fix): desktop was still inheriting the mobile 20px inset
+       (var(--mo-space-5)), so the header sat wider/closer to the viewport
+       edge than every other section on this project — they all switch to
+       var(--page-margin, 40px) at this same 750px breakpoint (trust bar /
+       problem agitation / comparison table / marquee bar convention). */
+    padding-inline: var(--page-margin, 40px);
   }
 }
