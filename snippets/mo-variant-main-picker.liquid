@@ -549,5 +549,12 @@
         applyState(true);
       });
     }
+
+    // CUSTOM: compute the initial subscribe-price + save-badge state from the
+    // default-checked cards on load, so the discount badge doesn't stay hidden
+    // until the shopper first clicks a card. writeToForm stays false — Seal owns
+    // the form's initial id/selling_plan values on page load, per the established
+    // "never touch selling_plan on load" rule for this picker.
+    applyState(false);
   })();
 </script>
