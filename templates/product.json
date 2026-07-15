@@ -162,7 +162,7 @@
                   "name": "MO Eyebrow",
                   "settings": {
                     "text": "Clinical Eye Care",
-                    "text_color": "#1FA567"
+                    "text_color": "#1fa567"
                   },
                   "blocks": {}
                 },
@@ -180,7 +180,7 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "text_color": "#093D24",
+                    "text_color": "#093d24",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -196,7 +196,7 @@
                   "name": "MO Badge Pill",
                   "settings": {
                     "text": "GLP Non-Irritant · OECD 492B",
-                    "background_color": "#B8F3D8",
+                    "background_color": "#b8f3d8",
                     "text_color": "#115033"
                   },
                   "blocks": {}
@@ -216,7 +216,7 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "text_color": "#0D1B14",
+                    "text_color": "#0d1b14",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -790,9 +790,9 @@
             "subtitle": "0.25%",
             "open_by_default": false,
             "detail_1_label": "FUNCTION",
-            "detail_1_value": "Add detail copy here",
-            "detail_2_label": "",
-            "detail_2_value": "",
+            "detail_1_value": "Osmoprotectant — stabilises corneal epithelial cells under hyperosmolar stress (dry eye, screen use, air travel)",
+            "detail_2_label": "EVIDENCE",
+            "detail_2_value": "Clinically shown to reduce IL-6 inflammatory signalling and restore corneal cells toward healthy baseline after environmental dry-eye stress",
             "detail_3_label": "",
             "detail_3_value": "",
             "detail_4_label": "",
@@ -811,7 +811,7 @@
             "subtitle": "",
             "open_by_default": false,
             "detail_1_label": "FUNCTION",
-            "detail_1_value": "Add detail copy here",
+            "detail_1_value": "Isotonic carrier matched to natural tears at 272 mOsm/kg",
             "detail_2_label": "",
             "detail_2_value": "",
             "detail_3_label": "",
@@ -832,7 +832,7 @@
             "subtitle": "",
             "open_by_default": false,
             "detail_1_label": "FUNCTION",
-            "detail_1_value": "Add detail copy here",
+            "detail_1_value": "Stabilises the formula at physiologic tear pH (~7.5)",
             "detail_2_label": "",
             "detail_2_value": "",
             "detail_3_label": "",
@@ -849,7 +849,7 @@
           "settings": {
             "tab": "3",
             "title": "No BAK",
-            "description": "Add description here"
+            "description": "Found in many OTC drops, BAK is associated with corneal toxicity with repeated daily use. Moisture Oyster is BAK-free."
           }
         },
         "free_from_2": {
@@ -858,7 +858,7 @@
           "settings": {
             "tab": "3",
             "title": "No Preservatives",
-            "description": "Add description here"
+            "description": "Preservative-free multi-dose bottle via the Aptar OSD — a one-way-valve system that prevents contamination without chemical preservatives. FDA-cleared."
           }
         },
         "free_from_3": {
@@ -867,7 +867,7 @@
           "settings": {
             "tab": "3",
             "title": "No Artificial Thickeners",
-            "description": "Add description here"
+            "description": "No HPMC or carbomer thickeners that cause post-application blur."
           }
         },
         "free_from_4": {
@@ -876,7 +876,7 @@
           "settings": {
             "tab": "3",
             "title": "No Artificial Colorants",
-            "description": "Add description here"
+            "description": "Clear, pure formula."
           }
         },
         "spec_1": {
