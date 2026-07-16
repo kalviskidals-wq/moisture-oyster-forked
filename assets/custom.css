@@ -5144,6 +5144,21 @@ body {
   background: var(--mo-header-bg, #093d24);
 }
 
+/* CUSTOM (fix): a transparent header opened before any scroll (still
+   .mo-header--transparent, not yet .mo-header--scrolled) let whatever's
+   behind it — a hero image/video, often light-toned — show straight
+   through, which swallowed the white close (X) icon and read as a stray
+   "white frame" at the top of the mobile drawer with no visible way to
+   close it. The mobile menu should always sit on the header's normal solid
+   color while open, regardless of transparent/scroll state — targets the
+   toggle button's own aria-expanded state (already set by mo-header.js)
+   via :has(), an established technique on this project, so no extra JS is
+   needed. !important because this must always win over both rules above,
+   regardless of source order. */
+.mo-header:has(.mo-header__toggle[aria-expanded="true"]) {
+  background: var(--mo-header-bg, #093d24) !important;
+}
+
 .mo-header__inner {
   display: flex;
   align-items: center;
