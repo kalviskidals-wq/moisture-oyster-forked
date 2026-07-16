@@ -651,7 +651,7 @@
     line-height: 140%;
     letter-spacing: 0.1em;
     text-align: center;
-    text-transform: uppercase;
+    text-transform: uppercase !important;
   }
 
   #shopify-section-{{ section.id }} [id^='BuyButtons-ProductSubmitButton-']:hover:not(:disabled) {
@@ -668,6 +668,7 @@
 
   #shopify-section-{{ section.id }} [id^='BuyButtons-ProductSubmitButton-'] .add-to-cart-text::after {
     content: 'Add to Bag +';
+    text-transform: uppercase !important;
   }
 
   @media screen and (max-width: 749px) {
