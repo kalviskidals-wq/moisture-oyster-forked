@@ -444,7 +444,7 @@
                   "type": "mo-pdp-trust-bullets",
                   "name": "MO Trust Bullets",
                   "settings": {
-                    "bullet_1": "Free shipping on orders over $30",
+                    "bullet_1": "Free shipping on all subscription orders",
                     "bullet_2": "Pause, skip or cancel anytime",
                     "bullet_3": "30-day money-back guarantee",
                     "text_color": "#093d24"
