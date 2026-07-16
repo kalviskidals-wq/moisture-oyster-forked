@@ -25,6 +25,7 @@
         "enable_transparent_home": true,
         "enable_transparent_product": false,
         "enable_transparent_collection": false,
+        "transparent_page_templates": "homepage",
         "background_color": "#093d24",
         "nav_text_color": "#ffffff",
         "icon_color": "#ffffff",
