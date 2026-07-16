@@ -132,16 +132,24 @@ document.addEventListener('click', (event) => {
 
 // CUSTOM (fix, 2026-07-13): in-page "#anchor" links (e.g. the homepage
 // hero's "HOW IT WORKS" CTA pointing at a section further down the page)
-// silently did nothing on desktop. Root cause: Horizon's own .page-wrapper
-// becomes the real scrolling element (overflow-y: auto) at desktop widths
-// (>=990px, see base.css) while window/document stays fixed — the browser's
-// native hash-navigation (":target" jump on click / on load) only scrolls
-// the document/viewport, so on desktop there was nothing for it to actually
-// scroll. Fixed generically for every same-page hash link on the site (not
-// just the hero's CTA) by intercepting the click and calling
+// silently did nothing on desktop. Root cause #1: Horizon's own
+// .page-wrapper becomes the real scrolling element (overflow-y: auto) at
+// desktop widths (>=990px, see base.css) while window/document stays fixed
+// — the browser's native hash-navigation (":target" jump on click / on
+// load) only scrolls the document/viewport, so on desktop there was
+// nothing for it to actually scroll. Fixed generically for every same-page
+// hash link on the site by intercepting the click and calling
 // scrollIntoView() on the target instead, which correctly finds and scrolls
-// whichever ancestor is actually the scrolling container (.page-wrapper on
-// desktop, window on mobile) rather than assuming it's always the document.
+// whichever ancestor is actually the scrolling container.
+// Root cause #2 (theme-editor preview only): while testing inside the
+// Shopify customizer's preview iframe, every section's `section.id` gets a
+// `template--{uuid}__` prefix Shopify adds for its own draft-preview
+// versioning — so `id="MoHowItWorks-{{ section.id }}"` renders as
+// `MoHowItWorks-template--12345__custom_how_it_works_rLezhk` there, not the
+// plain id the link points to. That prefix does NOT exist on the live
+// published storefront. Handled below by falling back to an "ends with"
+// attribute match when the exact id isn't found, so the same link works in
+// both the customizer preview and on the live site without edits.
 document.addEventListener('click', (event) => {
   const link = event.target.closest('a[href^="#"]');
   if (!link) return;
@@ -149,11 +157,21 @@ document.addEventListener('click', (event) => {
   const hash = link.getAttribute('href');
   if (!hash || hash.length < 2) return;
 
-  let target;
+  let idValue;
   try {
-    target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    idValue = decodeURIComponent(hash.slice(1));
   } catch (error) {
-    target = null;
+    idValue = hash.slice(1);
+  }
+  if (!idValue) return;
+
+  let target = document.getElementById(idValue);
+  if (!target) {
+    try {
+      target = document.querySelector('[id$="' + idValue + '"]');
+    } catch (error) {
+      target = null;
+    }
   }
   if (!target) return;
 
