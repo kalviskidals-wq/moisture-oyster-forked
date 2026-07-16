@@ -34,6 +34,7 @@
     --mo-eye-eyebrow: {{ s.eyebrow_color | default: '#1FA567' }};
     --mo-eye-heading: {{ s.heading_color | default: '#093D24' }};
     --mo-eye-subhead: {{ s.subhead_color | default: '#093D24' }};
+    {%- comment -%} CUSTOM (2026-07-16, round 3): mobile media reverted to viewport-height sizing (min-height:55vh/55dvh), matching .mo-home-hero's own history — image_aspect_ratio_mobile no longer drives layout. Left in the schema + still output here (same convention as --mo-home-hero-aspect-mobile in custom-home-hero.liquid) in case a fixed-aspect-ratio treatment is wanted again later. {%- endcomment -%}
     --mo-eye-mobile-aspect: {{ s.image_aspect_ratio_mobile | default: 0.9 }};
     --mo-eye-scrim: {{ s.scrim_color | default: '#D9D9D9' }};
     --mo-eye-scrim-opacity: {{ s.scrim_opacity | default: 0 | divided_by: 100.0 }};

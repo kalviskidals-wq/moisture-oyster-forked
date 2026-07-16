@@ -4363,23 +4363,23 @@ mo-review-filter {
   opacity: 0.85;
 }
 
-/* CUSTOM (2026-07-16, revised): mobile image is edge-to-edge (no side
-   inset) — Kalvis is uploading a purpose-cropped mobile image separately
-   via background_image_mobile (see the <picture>/<source> markup in the
-   section file) rather than having this treatment inset a shared/desktop
-   crop. Sized via the merchant-editable aspect-ratio setting (kept from
-   the previous round) instead of viewport-height. border-radius still
-   reuses --mo-eye-section-radius — harmless/redundant here since the
-   image's box is now identical to the section's own edges (already
-   clipped by .mo-eye-health's own overflow:hidden + radius), but keeps
-   this rule correct on its own if that ever changes. Desktop is untouched
-   — the media query further down still resets this to
-   position:absolute/inset:0 full-bleed, same as before. */
+/* CUSTOM (2026-07-16, round 3): back to viewport-height sizing (matches
+   .mo-problem__media-wrap / .mo-sub-benefits__media) — Kalvis wants the
+   mobile image to fill the full section height, not a fixed aspect-ratio
+   box. border-radius removed entirely: it was rounding ALL FOUR corners
+   of this element, including the top two, which sit in the middle of the
+   section's normal document flow (right where the image meets the header
+   above it, not at any actual outer edge) — that produced a visibly wrong
+   rounded notch at the top of the photo. Only .mo-eye-health itself (the
+   true outer section boundary, via its own border-radius + overflow:hidden)
+   should ever round corners here. Desktop is untouched — the media query
+   further down still resets this to position:absolute/inset:0 full-bleed,
+   same as before. */
 .mo-eye-health__media {
   position: relative;
   overflow: hidden;
-  aspect-ratio: var(--mo-eye-mobile-aspect, 0.9);
-  border-radius: var(--mo-eye-section-radius, 24px);
+  min-height: 55vh;
+  min-height: 55dvh;
 }
 
 /* Defensive: an unstyled <picture> can default to inline/shrink-to-fit in
@@ -4672,11 +4672,6 @@ mo-review-filter {
     z-index: 0;
     min-height: 0;
     height: 100%;
-    /* Clears the mobile aspect-ratio sizing so the explicit height:100%
-       above wins on desktop — border-radius is left alone (harmless):
-       .mo-eye-health itself already clips to the same radius at this
-       identical full-bleed box, so it's a no-op duplicate, not a bug. */
-    aspect-ratio: auto;
   }
 
   .mo-eye-health__cards-wrap {
