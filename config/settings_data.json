@@ -79,10 +79,23 @@
     "variant_button_width": "equal-width-buttons",
     "button_font_weight_secondary": "default",
     "popover_border": "none",
+    "sections": {
+      "password-footer": {
+        "type": "password-footer",
+        "settings": {
+          "background_color": ""
+        }
+      }
+    },
     "content_for_index": [],
     "blocks": {
       "2567389343055140935": {
         "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
+      },
+      "341186785192672687": {
+        "type": "shopify://apps/seal-subscriptions/blocks/subscription-script-append/13b25004-a140-4ab7-b5fe-29918f759699",
         "disabled": false,
         "settings": {}
       }
