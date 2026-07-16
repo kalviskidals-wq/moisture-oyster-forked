@@ -34,7 +34,7 @@
     --mo-eye-eyebrow: {{ s.eyebrow_color | default: '#1FA567' }};
     --mo-eye-heading: {{ s.heading_color | default: '#093D24' }};
     --mo-eye-subhead: {{ s.subhead_color | default: '#093D24' }};
-    --mo-eye-mobile-aspect: {{ s.image_aspect_ratio_mobile | default: 0.93 }};
+    --mo-eye-mobile-aspect: {{ s.image_aspect_ratio_mobile | default: 0.9 }};
     --mo-eye-scrim: {{ s.scrim_color | default: '#D9D9D9' }};
     --mo-eye-scrim-opacity: {{ s.scrim_opacity | default: 0 | divided_by: 100.0 }};
     --mo-eye-card-bg: {{ s.card_background_color | default: '#093D24' }};
@@ -300,9 +300,9 @@
       "label": "Mobile image aspect ratio (width ÷ height)",
       "min": 0.5,
       "max": 1.5,
-      "step": 0.01,
-      "default": 0.93,
-      "info": "Mobile image is now inset (not full-bleed) — controls its box shape. 0.93 is a visual-rhythm estimate, VERIFY against Figma."
+      "step": 0.1,
+      "default": 0.9,
+      "info": "Controls the mobile image box's shape. 0.9 is a visual-rhythm estimate, VERIFY against Figma."
     },
     {
       "type": "range",
