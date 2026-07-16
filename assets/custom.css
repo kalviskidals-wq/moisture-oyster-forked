@@ -5114,6 +5114,12 @@ html.mo-scroll-lock body {
   position: relative;
   z-index: 21;
   background: var(--mo-header-bg, #093d24);
+  /* CUSTOM: bottom corner radius per Kalvis's reference screenshot — the
+     color it reveals behind the cutout comes from the scoped
+     #shopify-section-{{ section.id }} background set in the section file
+     (Eye Health Education's "style Shopify's own wrapper div" technique),
+     not from anything here. */
+  border-radius: 0 0 var(--mo-header-radius, 28px) var(--mo-header-radius, 28px);
   transition: transform 0.25s ease;
 }
 

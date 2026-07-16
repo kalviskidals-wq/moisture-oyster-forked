@@ -21,7 +21,7 @@
         "menu": "main-menu",
         "show_cart": true,
         "show_account": true,
-        "sticky_behavior": "always",
+        "sticky_behavior": "scroll-up",
         "background_color": "#093d24",
         "nav_text_color": "#ffffff",
         "icon_color": "#ffffff",
@@ -29,7 +29,9 @@
         "drawer_menu_label_color": "#9fc7ae",
         "drawer_link_color": "#ffffff",
         "padding_top": 16,
-        "padding_bottom": 16
+        "padding_bottom": 16,
+        "corner_radius": 28,
+        "radius_reveal_color": "#062a19"
       }
     },
     "header_section": {
@@ -115,27 +117,6 @@
         "collection_inverse_logo": false,
         "text_color_transparent_collection": ""
       }
-<<<<<<< Updated upstream
-=======
-    },
-    "custom_header_section": {
-      "type": "custom-header",
-      "settings": {
-        "logo_fallback_text": "moisture\noyster",
-        "menu": "main-menu",
-        "show_cart": true,
-        "show_account": true,
-        "sticky_behavior": "scroll-up",
-        "background_color": "#093D24",
-        "nav_text_color": "#FFFFFF",
-        "icon_color": "#FFFFFF",
-        "drawer_menu_label_color": "#9FC7AE",
-        "drawer_link_color": "#FFFFFF",
-        "drawer_watermark_opacity": 15,
-        "padding_top": 16,
-        "padding_bottom": 16
-      }
->>>>>>> Stashed changes
     }
   },
   "order": [
