@@ -1170,6 +1170,29 @@ body {
   border-bottom: 1px solid var(--mo-compare-divider, #ffffff);
 }
 
+/* CUSTOM (round 16 fix): a row's tooltip popover (position:absolute,
+   z-index:20 — see .mo-compare__tooltip-popover below) escapes its own
+   cell to render past the row's edges, overlapping the row above/below it.
+   Table cells/rows with no explicit stacking context of their own don't
+   reliably respect z-index against SIBLING rows across browsers — the
+   next row's plain check/cross icon (non-positioned content) was painting
+   ON TOP of the open tooltip's box instead of underneath it, since nothing
+   promoted the ACTIVE row above its siblings. Fixed by giving every row a
+   dormant `position: relative` (no visual effect on its own) and only
+   bumping it to a real z-index while a tooltip inside it is open
+   (:hover/:focus-within) — this promotes the whole row, including its
+   escaping popover, above every sibling row, which otherwise all stay at
+   the default stacking level. Table rows support position:relative in all
+   evergreen browsers, so this is safe layout-wise. */
+.mo-compare__table tbody tr {
+  position: relative;
+}
+
+.mo-compare__table tbody tr:hover,
+.mo-compare__table tbody tr:focus-within {
+  z-index: 30;
+}
+
 .mo-compare__cell {
   padding: var(--mo-space-4, 16px);
   vertical-align: middle;
