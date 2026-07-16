@@ -13,8 +13,12 @@
 {%- liquid
   assign s = section.settings
   assign has_bg = false
-  if s.background_image != blank
+  if s.background_image != blank or s.background_image_mobile != blank
     assign has_bg = true
+  endif
+  assign has_bg_mobile = false
+  if s.background_image_mobile != blank
+    assign has_bg_mobile = true
   endif
   assign group_name = ''
   if s.single_open
@@ -26,11 +30,12 @@
   class="mo-eye-health"
   id="MoEyeHealth-{{ section.id }}"
   style="
-    --mo-eye-header-bg: {{ s.header_background_color | default: '#F7F5F0' }};
+    --mo-eye-header-bg: {{ s.header_background_color | default: '#D9D9D9' }};
     --mo-eye-eyebrow: {{ s.eyebrow_color | default: '#1FA567' }};
     --mo-eye-heading: {{ s.heading_color | default: '#093D24' }};
     --mo-eye-subhead: {{ s.subhead_color | default: '#093D24' }};
-    --mo-eye-scrim: {{ s.scrim_color | default: '#F7F5F0' }};
+    --mo-eye-mobile-aspect: {{ s.image_aspect_ratio_mobile | default: 0.93 }};
+    --mo-eye-scrim: {{ s.scrim_color | default: '#D9D9D9' }};
     --mo-eye-scrim-opacity: {{ s.scrim_opacity | default: 0 | divided_by: 100.0 }};
     --mo-eye-card-bg: {{ s.card_background_color | default: '#093D24' }};
     --mo-eye-card-radius: {{ s.card_radius | default: 10 }}px;
@@ -56,19 +61,36 @@
   </div>
 
   <div class="mo-eye-health__media">
+    {%- # CUSTOM: separate vertical mobile crop, same <picture>+<source media=(max-width:749px)> pattern as custom-home-hero.liquid's background_image_mobile handling — falls back to the desktop image below 750px if no mobile image is set. -%}
     {%- if has_bg -%}
-      {{
-        s.background_image
-        | image_url: width: 1600
-        | image_tag:
-          width: s.background_image.width,
-          height: s.background_image.height,
-          alt: s.background_image.alt,
-          sizes: '100vw',
-          class: 'mo-eye-health__bg',
-          loading: 'lazy',
-          fetchpriority: 'low'
-      }}
+      <picture class="mo-eye-health__picture">
+        {%- if has_bg_mobile -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="
+              {{ s.background_image_mobile | image_url: width: 600 }} 600w,
+              {{ s.background_image_mobile | image_url: width: 900 }} 900w,
+              {{ s.background_image_mobile | image_url: width: 1200 }} 1200w
+            "
+            sizes="100vw"
+            width="{{ s.background_image_mobile.width }}"
+            height="{{ s.background_image_mobile.height }}"
+          >
+        {%- endif -%}
+        {%- assign fallback_image = s.background_image | default: s.background_image_mobile -%}
+        {{
+          fallback_image
+          | image_url: width: 1600
+          | image_tag:
+            width: fallback_image.width,
+            height: fallback_image.height,
+            alt: fallback_image.alt,
+            sizes: '100vw',
+            class: 'mo-eye-health__bg',
+            loading: 'lazy',
+            fetchpriority: 'low'
+        }}
+      </picture>
     {%- endif -%}
 
     <div class="mo-eye-health__scrim" aria-hidden="true"></div>
@@ -149,8 +171,14 @@
     {
       "type": "image_picker",
       "id": "background_image",
-      "label": "Background image",
+      "label": "Background image (desktop)",
       "info": "Lifestyle photo — a light/cream studio backdrop reads best since the eyebrow/heading overlay it directly on desktop."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "Background image (mobile)",
+      "info": "Optional separate crop shown below 750px, where the image is inset (not full-bleed) — falls back to the desktop image above if left blank."
     },
     {
       "type": "header",
@@ -170,8 +198,9 @@
     {
       "type": "color",
       "id": "header_background_color",
-      "label": "Mobile header background",
-      "default": "#F7F5F0"
+      "label": "Mobile section background",
+      "default": "#D9D9D9",
+      "info": "Fills the whole section on mobile, behind the header text and around the now-inset mobile image."
     },
     {
       "type": "color",
@@ -195,8 +224,8 @@
       "type": "color",
       "id": "scrim_color",
       "label": "Image scrim color",
-      "default": "#F7F5F0",
-      "info": "Solid overlay for heading legibility. Defaults to 0% opacity since the reference photo already has a light/cream backdrop — raise it only if a merchant swaps in a busier image."
+      "default": "#D9D9D9",
+      "info": "Solid overlay for heading legibility. Defaults to 0% opacity since the reference photo already has a light backdrop — raise it only if a merchant swaps in a busier image."
     },
     {
       "type": "range",
@@ -264,6 +293,16 @@
       "step": 2,
       "unit": "px",
       "default": 24
+    },
+    {
+      "type": "range",
+      "id": "image_aspect_ratio_mobile",
+      "label": "Mobile image aspect ratio (width ÷ height)",
+      "min": 0.5,
+      "max": 1.5,
+      "step": 0.01,
+      "default": 0.93,
+      "info": "Mobile image is now inset (not full-bleed) — controls its box shape. 0.93 is a visual-rhythm estimate, VERIFY against Figma."
     },
     {
       "type": "range",
