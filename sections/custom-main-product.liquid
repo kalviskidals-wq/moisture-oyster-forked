@@ -139,6 +139,19 @@
       display: none;
     }
 
+    /* CUSTOM: with the title/info column hidden above, nothing in the sticky bar's
+       row was left to fill the space it used to flex:1 into — image and button
+       are both fixed-width, so the row shrank to fit and sat flush left, leaving
+       blank space on the right. Giving the discount text flex:1 (its old max-width
+       cap no longer applies, that was sized to coexist with the title) makes it
+       fill the gap and center within it, spacing image / text / button across the
+       bar's full width. */
+    #shopify-section-{{ section.id }} .sticky-add-to-cart__price {
+      flex: 1;
+      max-width: none;
+      text-align: center;
+    }
+
     /* CUSTOM: product description mobile type spec (Kalvis) — same font-family/weight/color as
        desktop (set above), only size/line-height/letter-spacing differ at this breakpoint. */
     #shopify-section-{{ section.id }} .text-block--mo_description,
