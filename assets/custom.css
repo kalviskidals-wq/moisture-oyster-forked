@@ -4363,20 +4363,21 @@ mo-review-filter {
   opacity: 0.85;
 }
 
-/* CUSTOM (2026-07-16): mobile image is now an INSET rounded "photo card",
-   not full-bleed — per Kalvis's annotated screenshot, it sits margin-inset
-   from both edges (same var(--mo-space-5, 20px) column as the header text
-   and stat cards) with its own aspect-ratio + corner radius, sitting on
-   top of the section's own (now grey #D9D9D9) background. Reuses
-   --mo-eye-section-radius (the same radius already applied to the whole
-   section) so the inset photo and the outer section corners read as one
-   consistent rounded-corner language. Desktop is untouched — the media
-   query further down still resets this back to position:absolute/inset:0
-   full-bleed, same as before. */
+/* CUSTOM (2026-07-16, revised): mobile image is edge-to-edge (no side
+   inset) — Kalvis is uploading a purpose-cropped mobile image separately
+   via background_image_mobile (see the <picture>/<source> markup in the
+   section file) rather than having this treatment inset a shared/desktop
+   crop. Sized via the merchant-editable aspect-ratio setting (kept from
+   the previous round) instead of viewport-height. border-radius still
+   reuses --mo-eye-section-radius — harmless/redundant here since the
+   image's box is now identical to the section's own edges (already
+   clipped by .mo-eye-health's own overflow:hidden + radius), but keeps
+   this rule correct on its own if that ever changes. Desktop is untouched
+   — the media query further down still resets this to
+   position:absolute/inset:0 full-bleed, same as before. */
 .mo-eye-health__media {
   position: relative;
   overflow: hidden;
-  margin-inline: var(--mo-space-5, 20px);
   aspect-ratio: var(--mo-eye-mobile-aspect, 0.93);
   border-radius: var(--mo-eye-section-radius, 24px);
 }
@@ -4412,17 +4413,11 @@ mo-review-filter {
   pointer-events: none;
 }
 
-/* CUSTOM: left/right are 0 here (not var(--mo-space-5, 20px)) because the
-   inset now lives on .mo-eye-health__media itself (see above) — the card
-   row stays flush with the now-inset image's own edges instead of being
-   inset a second time on top of it. Desktop overrides this back to the
-   page-width/margin-inline:auto convention further down, unaffected by
-   this mobile-only change. */
 .mo-eye-health__cards-wrap {
   position: absolute;
   z-index: 2;
-  left: 0;
-  right: 0;
+  left: var(--mo-space-5, 20px);
+  right: var(--mo-space-5, 20px);
   bottom: var(--mo-space-5, 20px);
 }
 
@@ -4669,13 +4664,10 @@ mo-review-filter {
     z-index: 0;
     min-height: 0;
     height: 100%;
-    /* CUSTOM: resets the mobile-only inset "photo card" treatment back to
-       true edge-to-edge full-bleed — inset:0 alone doesn't clear a
-       margin, and aspect-ratio would otherwise still compete with the
-       explicit height:100% above. border-radius is left alone (harmless):
+    /* Clears the mobile aspect-ratio sizing so the explicit height:100%
+       above wins on desktop — border-radius is left alone (harmless):
        .mo-eye-health itself already clips to the same radius at this
        identical full-bleed box, so it's a no-op duplicate, not a bug. */
-    margin-inline: 0;
     aspect-ratio: auto;
   }
 
