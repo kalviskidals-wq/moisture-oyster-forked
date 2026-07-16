@@ -179,14 +179,15 @@ oyster' | newline_to_br }}</span>
             class: 'mo-header__drawer-watermark-img'
         }}
       {%- else -%}
+        {%- # CUSTOM: TM badge kept only in this text+drop fallback path — the real uploaded watermark image already has TM baked in, so a separate badge there would duplicate it. -%}
         <span class="mo-header__drawer-watermark-fallback">
           <span class="mo-header__drawer-watermark-text">{{ s.logo_fallback_text | default: 'mo' | slice: 0, 2 }}</span>
           <svg class="mo-header__drawer-watermark-drop" viewBox="0 0 100 130" fill="currentColor" xmlns="http://www.w3.org/2000/svg" focusable="false">
             <path d="M50,0 C20,40 0,70 0,95 A50,50 0 1,0 100,95 C100,70 80,40 50,0 Z"/>
           </svg>
         </span>
+        <span class="mo-header__drawer-tm">TM</span>
       {%- endif -%}
-      <span class="mo-header__drawer-tm">TM</span>
     </div>
   </div>
 </mo-header-drawer>
