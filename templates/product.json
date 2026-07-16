@@ -1025,7 +1025,7 @@
       "name": "MO How to Use",
       "settings": {
         "eyebrow": "HOW TO USE",
-        "video": "shopify://files/videos/0707(2).mp4",
+        "video": "shopify://files/videos/Moisture Oysture How To Use Video.mp4",
         "background_color": "#093d24",
         "card_background_color": "#115033",
         "eyebrow_color": "#ffd5f7",
@@ -1430,6 +1430,8 @@
         "title_color": "#ffffff",
         "description_color": "#ffffff",
         "card_radius": 10,
+        "section_radius": 20,
+        "section_inset": 16,
         "vertical_padding": 0
       }
     }
