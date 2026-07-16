@@ -201,7 +201,7 @@
       "settings": {
         "eyebrow": "WHY EYE HEALTH MATTERS",
         "heading": "The silent crisis\nin eye health",
-        "subhead": "Triple-action hydration with Glycerin, Hyaluronate, and L-Carnitine. Preservative-free. Multi-dose bottle via Aptar OSD technology. Safe for daily use with contact lenses. Made in the Netherlands by Oté Pharma.",
+        "subhead": "Triple-action hydration with Glycerin, Hyaluronate, and L-Carnitine. Preservative-free. Multi-dose bottle via Aptar OSD technology. Suitable for use before inserting and after removing contact lenses. Made in the Netherlands by Oté Pharma.",
         "background_image": "shopify://shop_images/The_Silent_Crisi_In_Eye_Health_Hero_image_1.jpg",
         "single_open": true,
         "header_background_color": "#f7f5f0",
@@ -280,7 +280,7 @@
           "settings": {
             "number": "1",
             "heading": "Choose your frequency",
-            "body": "Select 30, 60, or 90-day delivery cycles. Adjust anytime from your account dashboard — no friction, no lock-in."
+            "body": "Select 30, 60, or 90-day delivery cycles. Adjust anytime from your account dashboard-  no friction, no lock-in."
           }
         },
         "step_YmAVTY": {
@@ -288,7 +288,7 @@
           "settings": {
             "number": "2",
             "heading": "Free delivery, every time",
-            "body": "All subscriptions ship free across the US. Your drops arrive before you run out — every time, guaranteed."
+            "body": "All subscriptions ship free across the US. Your drops arrive before you run out- every time, guaranteed."
           }
         },
         "step_rqNm8N": {
@@ -296,7 +296,7 @@
           "settings": {
             "number": "3",
             "heading": "Pause or cancel freely",
-            "body": "No lock-ins. Pause, skip, or cancel your subscription in one tap — no questions asked."
+            "body": "No lock-ins. Pause, skip, or cancel your subscription in one tap- no questions asked."
           }
         }
       },
