@@ -10,11 +10,11 @@
  *  - Optional "scroll-up" sticky behavior: hides the header on scroll down,
  *    reveals it on scroll up. Only runs for headers with
  *    [data-sticky="scroll-up"] — "always" sticky is handled in pure CSS.
- *  - "At top" corner-fill toggle: adds .mo-header-group--at-top to
- *    #header-group only while the page is scrolled to the true top, so the
- *    header's rounded-corner background fill (see custom.css) only shows
- *    while nothing has scrolled underneath it yet — runs unconditionally,
- *    independent of sticky mode, since the corner radius itself is always on.
+ *  - "Scrolled" corner-radius/fill toggle: adds .mo-header-group--scrolled
+ *    to #header-group once the page has scrolled down a bit. The header
+ *    sits flush (square corners) at the true top of the page, and only
+ *    gains its rounded bottom corners + fill color (see custom.css) once
+ *    scrolled — runs unconditionally, independent of sticky mode.
  *
  * No-JS note: like Horizon's own <header-drawer> component, the mobile
  * burger has no functional fallback without JavaScript. The primary nav
@@ -160,19 +160,26 @@ const getMoHeaderScrollY = () =>
   if (moHeaderScrollContainer) moHeaderScrollContainer.addEventListener('scroll', onScroll, { passive: true });
 })();
 
-(function initAtTopCornerFill() {
+(function initScrolledCornerFill() {
   const headerGroup = document.getElementById('header-group');
   if (!headerGroup || !headerGroup.querySelector('.mo-header')) return;
 
-  // Small tolerance for iOS Safari's elastic overscroll/bounce, which can
-  // report a scrollY of a couple of px even while visually at the top.
-  const atTopThreshold = 2;
+  // CUSTOM (fix, round 7): inverted from the original "only fill at the
+  // true top" behavior. At the very top, the header sits flush against the
+  // first section with square corners (no radius, so there's no cutout to
+  // ever show a mismatched color). Only once scrolled down a bit does the
+  // radius + fill turn on, avoiding any color-mismatch seam at scrollY 0
+  // entirely, rather than trying to make the fill color match whatever's
+  // behind at the top (which was never fully reliable across content).
+  // Threshold is a bit larger than a bare "at top" check to comfortably
+  // clear iOS Safari's elastic overscroll/bounce.
+  const scrolledThreshold = 12;
 
-  const updateAtTopState = () => {
-    headerGroup.classList.toggle('mo-header-group--at-top', getMoHeaderScrollY() <= atTopThreshold);
+  const updateScrolledState = () => {
+    headerGroup.classList.toggle('mo-header-group--scrolled', getMoHeaderScrollY() > scrolledThreshold);
   };
 
-  updateAtTopState();
-  window.addEventListener('scroll', updateAtTopState, { passive: true });
-  if (moHeaderScrollContainer) moHeaderScrollContainer.addEventListener('scroll', updateAtTopState, { passive: true });
+  updateScrolledState();
+  window.addEventListener('scroll', updateScrolledState, { passive: true });
+  if (moHeaderScrollContainer) moHeaderScrollContainer.addEventListener('scroll', updateScrolledState, { passive: true });
 })();

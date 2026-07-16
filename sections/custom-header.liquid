@@ -9,7 +9,7 @@
   assign drawer_bg = s.drawer_background_color | default: s.background_color
 -%}
 
-{%- # CUSTOM: only sets a CSS variable on the shared header-group wrapper here (never an unconditional background) — mo-header.js toggles a .mo-header-group--at-top class on this same element based on real scroll position, and custom.css only paints this fill color while that class is present. An earlier attempt applied the background unconditionally, which meant .mo-header's rounded corners showed solid green at every scroll position instead of only at the true top of the page — this variable-plus-class split is what actually makes it scroll-position-aware. header-group is a shared singleton wrapper (not per-section), so no instance-scoping is needed here, same as how the prelaunch hide rule already targets it by plain id. -%}
+{%- # CUSTOM: only sets a CSS variable on the shared header-group wrapper here (never an unconditional background) — mo-header.js toggles a .mo-header-group--scrolled class on this same element based on real scroll position, and custom.css only turns on the rounded corners plus this fill color once that class is present, staying flush/square at the very top of the page. header-group is a shared singleton wrapper (not per-section), so no instance-scoping is needed here, same as how the prelaunch hide rule already targets it by plain id. -%}
 <style>
   #header-group {
     --mo-header-group-fill: {{ s.background_color | default: '#093D24' }};
