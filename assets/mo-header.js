@@ -10,11 +10,20 @@
  *  - Optional "scroll-up" sticky behavior: hides the header on scroll down,
  *    reveals it on scroll up. Only runs for headers with
  *    [data-sticky="scroll-up"] — "always" sticky is handled in pure CSS.
- *  - "Scrolled" corner-radius/fill toggle: adds .mo-header-group--scrolled
- *    to #header-group once the page has scrolled down a bit. The header
- *    sits flush (square corners) at the true top of the page, and only
- *    gains its rounded bottom corners + fill color (see custom.css) once
- *    scrolled — runs unconditionally, independent of sticky mode.
+ *
+ * Note on the header's rounded bottom corners (see custom.css): they are
+ * plain, unconditional CSS, no scroll-position JS involved. Several JS
+ * scroll-driven attempts at a "fill color behind the cutout" were tried and
+ * reverted (see moisture-oyster-project memory for the full history) —
+ * they all eventually produced a solid-colored block sitting behind/beside
+ * the header in some scroll state (most recently: the fill lived on
+ * #header-group, a persistent sticky ancestor, so it stayed visible even
+ * when .mo-header itself slid away via the scroll-up hide transform).
+ * The actual fix was simpler and needed no JS: assets/custom.css now sets
+ * body's own background color to the header's green, so the one moment
+ * nothing else is behind the corner cutout (true page top, before any
+ * content is scrolled under the sticky header) shows green instead of the
+ * theme's default white/cream page background.
  *
  * No-JS note: like Horizon's own <header-drawer> component, the mobile
  * burger has no functional fallback without JavaScript. The primary nav
@@ -160,26 +169,3 @@ const getMoHeaderScrollY = () =>
   if (moHeaderScrollContainer) moHeaderScrollContainer.addEventListener('scroll', onScroll, { passive: true });
 })();
 
-(function initScrolledCornerFill() {
-  const headerGroup = document.getElementById('header-group');
-  if (!headerGroup || !headerGroup.querySelector('.mo-header')) return;
-
-  // CUSTOM (fix, round 7): inverted from the original "only fill at the
-  // true top" behavior. At the very top, the header sits flush against the
-  // first section with square corners (no radius, so there's no cutout to
-  // ever show a mismatched color). Only once scrolled down a bit does the
-  // radius + fill turn on, avoiding any color-mismatch seam at scrollY 0
-  // entirely, rather than trying to make the fill color match whatever's
-  // behind at the top (which was never fully reliable across content).
-  // Threshold is a bit larger than a bare "at top" check to comfortably
-  // clear iOS Safari's elastic overscroll/bounce.
-  const scrolledThreshold = 12;
-
-  const updateScrolledState = () => {
-    headerGroup.classList.toggle('mo-header-group--scrolled', getMoHeaderScrollY() > scrolledThreshold);
-  };
-
-  updateScrolledState();
-  window.addEventListener('scroll', updateScrolledState, { passive: true });
-  if (moHeaderScrollContainer) moHeaderScrollContainer.addEventListener('scroll', updateScrolledState, { passive: true });
-})();

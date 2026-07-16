@@ -5084,6 +5084,23 @@ html.mo-scroll-lock body {
   overflow: hidden;
 }
 
+/* CUSTOM (fix, round 8): overrides Horizon's own `body { background: var(
+   --color-background) }` (base.css) — that theme setting defaults to
+   white/cream, which showed through .mo-header's rounded bottom corners at
+   the very top of the page (the one moment nothing else is rendered behind
+   the sticky header there — see the .mo-header comment above). Simpler and
+   far more robust than any of the scroll-JS fill approaches tried and
+   reverted first: just make the page's own fallback color match the
+   header instead of trying to paint something behind it. Site-wide effect
+   — this is body's real background now on every template, not scoped to
+   the header — flag to Kalvis if any page relies on the white/cream
+   default showing through a gap elsewhere. Same-specificity plain `body`
+   selector as Horizon's own rule; wins on cascade order since custom.css
+   loads after base.css. */
+body {
+  background-color: var(--mo-deep-green, #093d24);
+}
+
 /* CUSTOM (fix): position:sticky lives on #header-group, NOT on .mo-header
    itself. .mo-header's real DOM parent is Shopify's auto-generated
    .shopify-section wrapper div, whose box is exactly the header's own
@@ -5104,17 +5121,15 @@ html.mo-scroll-lock body {
   z-index: 30;
 }
 
-/* CUSTOM (fix, round 7): inverted from round 6 — rather than trying to
-   match a fill color to whatever's genuinely at the top of the page (which
-   kept showing a visible seam/mismatch the moment you scrolled even a
-   couple px away from true scrollY 0), the header now stays perfectly
-   flush (square corners, see .mo-header below) at the top, and only gains
-   its rounded corners + this fill color once .mo-header-group--scrolled is
-   toggled on by mo-header.js — so there's never a moment where a rounded
-   cutout exists without this fill color behind it. */
-#header-group.mo-header-group--scrolled {
-  background-color: var(--mo-header-group-fill, transparent);
-}
+/* CUSTOM (fix, round 8): rounds 6-7's scroll-JS-driven fill/radius toggles
+   on #header-group are abandoned entirely — every version of "paint a fill
+   color on the sticky ancestor" eventually produced a solid block in some
+   scroll state, most recently: the fill lived on #header-group (persistent,
+   sticky, always rendered) while .mo-header--hidden (scroll-up sticky mode)
+   slides .mo-header itself away via transform, leaving the fill visible on
+   its own with nothing on top of it. The actual fix needed no JS at all —
+   see the body background-color rule further down in this file. Corner
+   radius is back to plain, unconditional CSS on .mo-header. */
 
 .mo-header {
   /* CUSTOM (fix): needs its own stacking context above .mo-header__drawer
@@ -5126,20 +5141,13 @@ html.mo-scroll-lock body {
   position: relative;
   z-index: 21;
   background: var(--mo-header-bg, #093d24);
-  /* CUSTOM (fix, round 7): square corners (no radius) at rest/at the top,
-     matching the first section flush with no gap for any fill color to
-     mismatch. .mo-header-group--scrolled below is what actually turns the
-     radius on. */
-  border-radius: 0;
-  transition: transform 0.25s ease, border-radius 0.2s ease;
-}
-
-/* CUSTOM (fix, round 7): rounded bottom corners only turn on once
-   #header-group has .mo-header-group--scrolled (see mo-header.js) — paired
-   with the matching background-color rule above, so a rounded cutout and
-   its fill color always appear/disappear together, never independently. */
-#header-group.mo-header-group--scrolled .mo-header {
+  /* CUSTOM: bottom corner radius per the reference screenshot. The corners
+     are a plain transparent cutout — whatever's genuinely behind shows
+     through (real page content once scrolled; body's own background at the
+     very top, fixed below via a dedicated body background-color rule
+     rather than any header-side trickery). */
   border-radius: 0 0 var(--mo-header-radius, 28px) var(--mo-header-radius, 28px);
+  transition: transform 0.25s ease;
 }
 
 .mo-header--hidden {
