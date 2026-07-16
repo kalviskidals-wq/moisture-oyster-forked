@@ -7,16 +7,7 @@
 {%- liquid
   assign s = section.settings
   assign drawer_bg = s.drawer_background_color | default: s.background_color
-  assign radius_reveal_color = s.radius_reveal_color | default: s.background_color | default: '#093D24'
 -%}
-
-{%- # CUSTOM: bottom-corner radius reveal — same "style Shopify's own wrapper div" technique already used in custom-eye-health.liquid's section_radius fix, since a section can't set inline styles on the auto-generated per-section wrapper div any other way. The wrapper gets a small bottom padding equal to the radius plus the reveal color as background, so that color peeks out from behind .mo-header's own rounded bottom corners; instance-scoped by section id so multiple header instances (not expected here, but safe) wouldn't collide. -%}
-<style>
-  #shopify-section-{{ section.id }} {
-    background-color: {{ radius_reveal_color }};
-    padding-bottom: {{ s.corner_radius | default: 28 }}px;
-  }
-</style>
 
 <header
   class="mo-header"
@@ -342,13 +333,6 @@ oyster' | newline_to_br }}</span>
       "step": 2,
       "unit": "px",
       "default": 28
-    },
-    {
-      "type": "color",
-      "id": "radius_reveal_color",
-      "label": "Color behind the rounded corners",
-      "info": "VERIFY — estimated from the reference screenshot's darker green band, not pixel-sampled. Falls back to the header background above if left blank.",
-      "default": "#062A19"
     }
   ],
   "presets": [

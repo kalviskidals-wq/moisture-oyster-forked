@@ -5114,11 +5114,16 @@ html.mo-scroll-lock body {
   position: relative;
   z-index: 21;
   background: var(--mo-header-bg, #093d24);
-  /* CUSTOM: bottom corner radius per Kalvis's reference screenshot — the
-     color it reveals behind the cutout comes from the scoped
-     #shopify-section-{{ section.id }} background set in the section file
-     (Eye Health Education's "style Shopify's own wrapper div" technique),
-     not from anything here. */
+  /* CUSTOM: bottom corner radius per the reference screenshot. Deliberately
+     no separate "reveal color" behind the cutout (an earlier attempt gave
+     the section's own auto-generated wrapper div extra bottom
+     padding+background for this — but that wrapper lives inside the sticky
+     #header-group, so the "reveal" band stuck to the top of the page at
+     every scroll position instead of only showing once at the true top,
+     looking like a stray empty block). The rounded corners now just show
+     whatever's genuinely behind — real page content sliding underneath the
+     sticky header — which reads as a clean cutout with nothing extra to go
+     stale or float oddly. */
   border-radius: 0 0 var(--mo-header-radius, 28px) var(--mo-header-radius, 28px);
   transition: transform 0.25s ease;
 }

@@ -30,8 +30,7 @@
         "drawer_link_color": "#ffffff",
         "padding_top": 16,
         "padding_bottom": 16,
-        "corner_radius": 28,
-        "radius_reveal_color": "#062a19"
+        "corner_radius": 28
       }
     },
     "header_section": {
