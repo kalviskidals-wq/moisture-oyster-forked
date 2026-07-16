@@ -56,21 +56,14 @@
     color: #115033;
   }
 
-  /* CUSTOM: sticky add-to-cart bar now shows a fixed Subscribe price (not the
-     currently-selected qty/purchase-option, which lives in the picker above and
-     isn't reflected here) — see the sticky-add-to-cart markup for the Liquid.
-     cart bar row is display:flex natively, so this just formats the two new
-     inline spans stacked underneath one another, matching the bar's existing
-     compact height. */
+  /* CUSTOM: sticky add-to-cart bar shows only a Subscribe first-order-discount
+     callout, no dollar price — see the sticky-add-to-cart markup for the Liquid.
+     max-width keeps the phrase from crowding out the image/title/button in the
+     bar's compact row; it can wrap to two lines if needed. */
   #shopify-section-{{ section.id }} .sticky-add-to-cart__price {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    line-height: 1.2;
-  }
-
-  #shopify-section-{{ section.id }} .sticky-add-to-cart__price-value {
-    font-weight: var(--font-weight-semibold, 600);
+    max-width: 9rem;
+    text-align: right;
+    line-height: 1.25;
   }
 
   #shopify-section-{{ section.id }} .sticky-add-to-cart__price-label {
@@ -344,7 +337,7 @@
         </p>
       </div>
 
-      {%- # CUSTOM: sticky bar shows the Subscribe price (not tied to whichever quantity/purchase-option is selected in the picker above, which the shopper may have already scrolled past) — no variant title, per Kalvis. Falls back to the native price render if this variant has no selling plan at all. -%}
+      {%- # CUSTOM: sticky bar shows only the Subscribe first-order discount callout, no dollar price at all (not tied to whichever quantity/purchase-option is selected in the picker above, which the shopper may have already scrolled past) — no variant title, per Kalvis. Renders nothing here if this variant has no selling plan at all. -%}
       {% liquid
         assign sticky_first_alloc = current_variant.selling_plan_allocations.first
         assign sticky_discount_pct = 0
@@ -353,19 +346,20 @@
           assign sticky_discount_pct = sticky_diff | times: 100.0 | divided_by: current_variant.price | round
         endif
       %}
-      <div
-        class="sticky-add-to-cart__price"
-        data-testid="sticky-price-display"
-      >
-        {% if sticky_first_alloc != blank %}
-          <span class="sticky-add-to-cart__price-value">{{ sticky_first_alloc.price | money }}</span>
+      {% if sticky_first_alloc != blank %}
+        <div
+          class="sticky-add-to-cart__price"
+          data-testid="sticky-price-display"
+        >
           <span class="sticky-add-to-cart__price-label">
-            Subscribe{% if sticky_discount_pct > 0 %} · -{{ sticky_discount_pct }}%{% endif %}
+            {% if sticky_discount_pct > 0 %}
+              Subscribe & save {{ sticky_discount_pct }}% on your first order
+            {% else %}
+              Subscribe & save on your first order
+            {% endif %}
           </span>
-        {% else %}
-          {% render 'price', product_resource: product, show_sale_price_first: true %}
-        {% endif %}
-      </div>
+        </div>
+      {% endif %}
 
       {%- # CUSTOM: this button no longer adds to cart directly (removed the native on:click add-to-cart binding it used to have) — it just scrolls back up to the main buy box, since the sticky bar's fixed Subscribe price can't reflect whatever quantity/purchase-option the shopper has selected up there. See the scoped script right after this component for the scroll behavior. ref="addToCartButton" is kept (harmless, unused now) so sticky-add-to-cart.js's own internal ref lookups don't error. -%}
       <button
