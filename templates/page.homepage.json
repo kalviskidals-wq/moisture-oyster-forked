@@ -203,6 +203,7 @@
         "heading": "The silent crisis\nin eye health",
         "subhead": "Triple-action hydration with Glycerin, Hyaluronate, and L-Carnitine. Preservative-free. Multi-dose bottle via Aptar OSD technology. Suitable for use before inserting and after removing contact lenses. Made in the Netherlands by Oté Pharma.",
         "background_image": "shopify://shop_images/The_Silent_Crisi_In_Eye_Health_Hero_image_1.jpg",
+        "background_image_mobile": "shopify://shop_images/Mobile_Section_hero_The_silent_crisis_in_eye_health_mobile_1.jpg",
         "single_open": true,
         "header_background_color": "#f7f5f0",
         "eyebrow_color": "#1fa567",
@@ -218,6 +219,7 @@
         "divider_color": "#ffffff33",
         "wrapper_background_color": "#093d24",
         "section_radius": 24,
+        "image_aspect_ratio_mobile": 0.9,
         "card_radius": 10,
         "vertical_padding": 0
       }
