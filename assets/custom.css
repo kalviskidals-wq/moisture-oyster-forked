@@ -4363,20 +4363,15 @@ mo-review-filter {
   opacity: 0.85;
 }
 
-/* CUSTOM (2026-07-16, round 5): back to a fixed-height BACKGROUND treatment
-   — normal-flow natural-aspect sizing (round 4) let a tall mobile image
-   balloon this element's height, which pushed the rest of the section's
-   content down with it. Kalvis wants the image to behave like an actual
-   background: sized to a fixed area that does NOT grow/shrink with the
-   image's own intrinsic dimensions. Reinstated min-height:55vh/55dvh
-   (matches .mo-problem__media-wrap / .mo-sub-benefits__media) as that
-   fixed area. To still honor "don't crop it" from the previous round
-   together with this, .mo-eye-health__bg below uses object-fit: CONTAIN
-   (not cover) — the full image is always visible with no cropping, letting
-   it "letterbox" inside the fixed-height box if its proportions don't
-   exactly match; any letterboxed gap simply shows this section's own
-   background color (--mo-eye-header-bg) through, which reads fine since
-   that's already an intentional flat color per the brief. */
+/* CUSTOM (2026-07-16, round 6): fixed-height BACKGROUND treatment, same at
+   both breakpoints now — normal-flow natural-aspect sizing (round 4) let a
+   tall mobile image balloon this element's height and push the rest of the
+   section down with it, so this is sized to a fixed area
+   (min-height:55vh/55dvh, matching .mo-problem__media-wrap /
+   .mo-sub-benefits__media) that does NOT grow/shrink with the image's own
+   intrinsic dimensions, same as desktop's own aspect-ratio:1600/835 box.
+   .mo-eye-health__bg uses object-fit: cover — mobile and desktop are
+   identical now, no more per-breakpoint override needed. */
 .mo-eye-health__media {
   position: relative;
   overflow: hidden;
@@ -4397,7 +4392,7 @@ mo-review-filter {
   width: 100% !important;
   height: 100% !important;
   max-width: none !important;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
   z-index: 0;
 }
@@ -4670,16 +4665,6 @@ mo-review-filter {
     z-index: 0;
     min-height: 0;
     height: 100%;
-  }
-
-  /* Desktop-only: full-bleed edge-to-edge CROP, matching .mo-eye-health's
-     own aspect-ratio:1600/835 box. Position/sizing is already set by the
-     mobile base rules above (both breakpoints use the same fixed-height
-     background treatment now) — this only needs to flip object-fit from
-     the mobile default of `contain` (never crops) to `cover` (always
-     fills, may crop), since desktop's full-bleed look is unchanged. */
-  .mo-eye-health__bg {
-    object-fit: cover;
   }
 
   .mo-eye-health__cards-wrap {
