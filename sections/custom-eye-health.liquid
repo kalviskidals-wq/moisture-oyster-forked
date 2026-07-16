@@ -12,13 +12,13 @@
 
 {%- liquid
   assign s = section.settings
-  assign has_bg = false
+  assign has_image = false
   if s.background_image != blank or s.background_image_mobile != blank
-    assign has_bg = true
+    assign has_image = true
   endif
-  assign has_bg_mobile = false
+  assign has_image_mobile = false
   if s.background_image_mobile != blank
-    assign has_bg_mobile = true
+    assign has_image_mobile = true
   endif
   assign group_name = ''
   if s.single_open
@@ -62,9 +62,9 @@
 
   <div class="mo-eye-health__media">
     {%- # CUSTOM: separate vertical mobile crop, same <picture>+<source media=(max-width:749px)> pattern as custom-home-hero.liquid's background_image_mobile handling — falls back to the desktop image below 750px if no mobile image is set. -%}
-    {%- if has_bg -%}
+    {%- if has_image -%}
       <picture class="mo-eye-health__picture">
-        {%- if has_bg_mobile -%}
+        {%- if has_image_mobile -%}
           <source
             media="(max-width: 749px)"
             srcset="
@@ -77,14 +77,14 @@
             height="{{ s.background_image_mobile.height }}"
           >
         {%- endif -%}
-        {%- assign fallback_image = s.background_image | default: s.background_image_mobile -%}
+        {%- assign poster_image = s.background_image | default: s.background_image_mobile -%}
         {{
-          fallback_image
+          poster_image
           | image_url: width: 1600
           | image_tag:
-            width: fallback_image.width,
-            height: fallback_image.height,
-            alt: fallback_image.alt,
+            width: poster_image.width,
+            height: poster_image.height,
+            alt: poster_image.alt,
             sizes: '100vw',
             class: 'mo-eye-health__bg',
             loading: 'lazy',
@@ -166,19 +166,19 @@
     },
     {
       "type": "header",
-      "content": "Background image (full-bleed)"
+      "content": "Background media (full-bleed)"
     },
     {
       "type": "image_picker",
       "id": "background_image",
       "label": "Background image (desktop)",
-      "info": "Lifestyle photo — a light/cream studio backdrop reads best since the eyebrow/heading overlay it directly on desktop."
+      "info": "Full-bleed lifestyle photo — a light/cream studio backdrop reads best since the eyebrow/heading overlay it directly on desktop."
     },
     {
       "type": "image_picker",
       "id": "background_image_mobile",
-      "label": "Background image (mobile)",
-      "info": "Optional separate crop shown below 750px, where the image is inset (not full-bleed) — falls back to the desktop image above if left blank."
+      "label": "Background image (mobile, vertical)",
+      "info": "Optional separate vertical crop shown below 750px. Falls back to the desktop image above if left blank."
     },
     {
       "type": "header",
