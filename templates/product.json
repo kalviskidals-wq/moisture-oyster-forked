@@ -571,6 +571,7 @@
         },
         "factor_6WUNEH": {
           "type": "factor",
+          "disabled": true,
           "settings": {
             "icon_preset": "contact_lens",
             "icon_image": "shopify://shop_images/Contact_lens.svg",
