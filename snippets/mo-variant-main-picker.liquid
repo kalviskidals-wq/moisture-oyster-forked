@@ -516,7 +516,15 @@
       var variantId = qtyRadio.dataset.variantId;
       var variantPrice = parseInt(qtyRadio.dataset.price, 10);
       var allocations = getAllocations(qtyRadio);
-      var mode = purchaseRadio ? purchaseRadio.dataset.mode : 'onetime';
+      // CUSTOM: use the radio's own value ('subscribe'/'onetime'), not .dataset.mode — data-mode
+      // lives on the wrapping <label class="mo-vpicker__card--purchase" data-mode="...">, not on
+      // the <input> itself, so purchaseRadio.dataset.mode was always undefined here (purchaseRadio
+      // is the input, from getPurchaseRadio()'s "...input:checked" selector). That made
+      // `mode === 'subscribe'` always false, which is the actual root cause of Add to Bag always
+      // adding the one-time item regardless of which purchase-option card was selected — confirmed
+      // by inspecting the live DOM directly (radios/allocations/checked state were all correct;
+      // only this read was wrong).
+      var mode = purchaseRadio ? purchaseRadio.value : 'onetime';
 
       var onetimeEl = picker.querySelector('[data-role="onetime-price"]');
       if (onetimeEl) onetimeEl.textContent = formatMoney(variantPrice);

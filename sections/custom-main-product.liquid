@@ -589,9 +589,17 @@
      native type — swapping in a custom block type there fails theme
      validation ("Blocks are not allowed in this context"). So we keep the
      native `add-to-cart` block (see templates/product.json) and restyle +
-     relabel it here via its deterministic id instead. UPSTREAM risk LOW —
-     scoped entirely to this one button id, no Horizon file touched. */
-  #BuyButtons-ProductSubmitButton-add-to-cart {
+     relabel it here instead. UPSTREAM risk LOW — scoped entirely to this
+     section's submit button, no Horizon file touched.
+     CUSTOM: uses an id-prefix attribute selector, not a literal full id —
+     Horizon builds this id as 'BuyButtons-ProductSubmitButton-' + the native
+     add-to-cart child block's own id (e.g. '...-AY1RFNmphTmpnRjViZ__add-to-cart'),
+     which is Shopify-editor-generated and can change any time a merchant
+     touches this block in the theme editor. A hardcoded '...-add-to-cart' id
+     match silently stops working the moment that id regenerates (confirmed
+     live — the reskin wasn't applying and the plain native button was
+     showing through). The prefix match is immune to that. */
+  #shopify-section-{{ section.id }} [id^='BuyButtons-ProductSubmitButton-'] {
     width: 100%;
     background: var(--mo-deep-green, #093d24);
     color: var(--mo-white, #ffffff);
@@ -605,19 +613,19 @@
     text-transform: uppercase;
   }
 
-  #BuyButtons-ProductSubmitButton-add-to-cart:hover:not(:disabled) {
+  #shopify-section-{{ section.id }} [id^='BuyButtons-ProductSubmitButton-']:hover:not(:disabled) {
     background: var(--mo-green-mid, #115033);
   }
 
-  #BuyButtons-ProductSubmitButton-add-to-cart .add-to-cart-icon {
+  #shopify-section-{{ section.id }} [id^='BuyButtons-ProductSubmitButton-'] .add-to-cart-icon {
     display: none;
   }
 
-  #BuyButtons-ProductSubmitButton-add-to-cart .add-to-cart-text__content {
+  #shopify-section-{{ section.id }} [id^='BuyButtons-ProductSubmitButton-'] .add-to-cart-text__content {
     display: none;
   }
 
-  #BuyButtons-ProductSubmitButton-add-to-cart .add-to-cart-text::after {
+  #shopify-section-{{ section.id }} [id^='BuyButtons-ProductSubmitButton-'] .add-to-cart-text::after {
     content: 'Add to Bag +';
   }
 
