@@ -194,9 +194,24 @@ document.addEventListener('click', (event) => {
 // below listen on both window and .page-wrapper — only whichever one is
 // actually scrolling will ever dispatch the event. Shared here so the two
 // behaviors don't each re-detect the scroll container separately.
+//
+// CUSTOM (fix, round continued): getMoHeaderScrollY() previously used
+// .page-wrapper.scrollTop whenever that element existed in the DOM at
+// all — but .page-wrapper is present in the DOM at every viewport width,
+// it only actually BECOMES the scrolling element under the >=990px media
+// query above. Below that width .page-wrapper never scrolls internally
+// (window/body does), so its scrollTop just sits at 0 forever regardless
+// of real scroll position — this was silently reporting "always at the
+// top" below 990px (transparent header never left its transparent state
+// there), while genuinely reading .page-wrapper's real scroll at >=990px.
+// Gated behind the same matchMedia breakpoint Horizon's own CSS uses, so
+// each width range now reads whichever element is actually scrolling.
 const moHeaderScrollContainer = document.querySelector('.page-wrapper');
+const moHeaderDesktopScrollQuery = window.matchMedia('(min-width: 990px)');
 const getMoHeaderScrollY = () =>
-  moHeaderScrollContainer ? moHeaderScrollContainer.scrollTop : window.scrollY;
+  moHeaderScrollContainer && moHeaderDesktopScrollQuery.matches
+    ? moHeaderScrollContainer.scrollTop
+    : window.scrollY;
 
 (function initStickyOnScroll() {
   const headers = document.querySelectorAll('.mo-header[data-sticky="scroll-up"]');
@@ -249,7 +264,12 @@ const getMoHeaderScrollY = () =>
     headers.forEach((header) => header.classList.toggle('mo-header--scrolled', isScrolled));
   };
 
-  updateScrolledState();
+  // CUSTOM (fix): the very first check ran synchronously at script
+  // execution time, before the browser had necessarily finished settling
+  // layout for .page-wrapper's scroll container (desktop) — risking a
+  // transient/incorrect scroll reading locking in the wrong initial state.
+  // Deferred one frame so layout has stabilized before the first read.
+  window.requestAnimationFrame(updateScrolledState);
   window.addEventListener('scroll', updateScrolledState, { passive: true });
   if (moHeaderScrollContainer) moHeaderScrollContainer.addEventListener('scroll', updateScrolledState, { passive: true });
 })();
