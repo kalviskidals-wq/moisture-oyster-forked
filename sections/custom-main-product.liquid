@@ -56,6 +56,32 @@
     color: #115033;
   }
 
+  /* CUSTOM: sticky add-to-cart bar now shows a fixed Subscribe price (not the
+     currently-selected qty/purchase-option, which lives in the picker above and
+     isn't reflected here) — see the sticky-add-to-cart markup for the Liquid.
+     cart bar row is display:flex natively, so this just formats the two new
+     inline spans stacked underneath one another, matching the bar's existing
+     compact height. */
+  #shopify-section-{{ section.id }} .sticky-add-to-cart__price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.2;
+  }
+
+  #shopify-section-{{ section.id }} .sticky-add-to-cart__price-value {
+    font-weight: var(--font-weight-semibold, 600);
+  }
+
+  #shopify-section-{{ section.id }} .sticky-add-to-cart__price-label {
+    font-family: var(--mo-font-mono, 'IBM Plex Mono', monospace);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
   @media screen and (min-width: 750px) {
     /* CUSTOM: anchor the thumbnail overlay on slideshow-component (not media-gallery itself) —
        media-gallery already carries Horizon's native sticky-content class (position: sticky) for the
@@ -316,34 +342,46 @@
         >
           {{ product.title | escape }}
         </p>
-        <div
-          class="sticky-add-to-cart__variant"
-          data-testid="sticky-variant-title"
-          {% if product.has_only_default_variant %}
-            style="display: none;"
-          {% endif %}
-        >
-          {% unless product.has_only_default_variant %}
-            {% if current_variant != blank %}
-              {% assign variant_title = current_variant.title | escape %}
-            {% endif %}
-            {{ variant_title }}
-          {% endunless %}
-        </div>
       </div>
 
+      {%- # CUSTOM: sticky bar shows the Subscribe price (not tied to whichever
+      quantity/purchase-option is selected in the picker above, which the shopper
+      may have already scrolled past) — no variant title, per Kalvis. Falls back
+      to the native price render if this variant has no selling plan at all. -%}
+      {% liquid
+        assign sticky_first_alloc = current_variant.selling_plan_allocations.first
+        assign sticky_discount_pct = 0
+        if sticky_first_alloc != blank and current_variant.price > sticky_first_alloc.price
+          assign sticky_diff = current_variant.price | minus: sticky_first_alloc.price
+          assign sticky_discount_pct = sticky_diff | times: 100.0 | divided_by: current_variant.price | round
+        endif
+      %}
       <div
         class="sticky-add-to-cart__price"
         data-testid="sticky-price-display"
       >
-        {% render 'price', product_resource: product, show_sale_price_first: true %}
+        {% if sticky_first_alloc != blank %}
+          <span class="sticky-add-to-cart__price-value">{{ sticky_first_alloc.price | money }}</span>
+          <span class="sticky-add-to-cart__price-label">
+            Subscribe{% if sticky_discount_pct > 0 %} · -{{ sticky_discount_pct }}%{% endif %}
+          </span>
+        {% else %}
+          {% render 'price', product_resource: product, show_sale_price_first: true %}
+        {% endif %}
       </div>
 
+      {%- # CUSTOM: this button no longer adds to cart directly (removed the native
+      on:click="/handleAddToCartClick" binding) — it just scrolls back up to the
+      main buy box, since the sticky bar's fixed Subscribe price can't reflect
+      whatever quantity/purchase-option the shopper has selected up there. See the
+      scoped script right after this component for the scroll behavior.
+      ref="addToCartButton" is kept (harmless, unused now) so sticky-add-to-cart.js's
+      own internal ref lookups don't error. -%}
       <button
         type="button"
         class="sticky-add-to-cart__button add-to-cart-button button"
         ref="addToCartButton"
-        on:click="/handleAddToCartClick"
+        data-mo-scroll-to-buybox
         {% unless current_variant.available %}
           disabled
         {% endunless %}
@@ -388,6 +426,24 @@
       </button>
     </div>
   </sticky-add-to-cart>
+
+  {%- # CUSTOM: scroll-to-buybox behavior for the sticky bar's button, replacing the
+  native add-to-cart click it used to have (see the button markup above). UPSTREAM
+  risk LOW — scoped to this one data attribute, no Horizon file touched. -%}
+  <script>
+    (function () {
+      var btn = document.querySelector(
+        '#shopify-section-{{ section.id }} [data-mo-scroll-to-buybox]'
+      );
+      if (!btn || btn.dataset.mounted === 'true') return;
+      btn.dataset.mounted = 'true';
+
+      btn.addEventListener('click', function () {
+        var target = document.getElementById('shopify-section-{{ section.id }}');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    })();
+  </script>
 {% endif %}
 
 {% render 'product-information-content',
