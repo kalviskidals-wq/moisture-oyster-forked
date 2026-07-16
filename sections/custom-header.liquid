@@ -7,10 +7,21 @@
 {%- liquid
   assign s = section.settings
   assign drawer_bg = s.drawer_background_color | default: s.background_color
+  assign transparent_enabled = false
+  if s.enable_transparent_home and template.name == 'index'
+    assign transparent_enabled = true
+  endif
+  if s.enable_transparent_product and template.name == 'product'
+    assign transparent_enabled = true
+  endif
+  if s.enable_transparent_collection and template.name == 'collection'
+    assign transparent_enabled = true
+  endif
 -%}
 
+{%- # CUSTOM: transparent-header option, per template — see the "Transparent header" schema settings below. When active, .mo-header--transparent starts with no background (so a full-bleed hero image/video shows through) and mo-header.js adds .mo-header--scrolled once the page has scrolled a bit, which is what actually switches it to the solid background color. This fill lives directly on .mo-header itself, not on the persistent #header-group sticky ancestor (unlike the corner-radius fill attempts documented in project memory, which kept leaving a solid block behind whenever .mo-header transformed away in scroll-up mode) — so it always hides/reveals together with the header, never independently of it. -%}
 <header
-  class="mo-header"
+  class="mo-header{% if transparent_enabled %} mo-header--transparent{% endif %}"
   id="MoHeader-{{ section.id }}"
   data-sticky="{{ s.sticky_behavior | default: 'always' }}"
   style="
@@ -253,6 +264,32 @@ oyster' | newline_to_br }}</span>
         { "value": "scroll-up", "label": "Hide on scroll down, show on scroll up" }
       ],
       "default": "scroll-up"
+    },
+    {
+      "type": "header",
+      "content": "Transparent header"
+    },
+    {
+      "type": "paragraph",
+      "content": "When enabled for a template, the header starts fully transparent (no background, letting a full-bleed hero image/video show through) and switches to the solid background color below once the page is scrolled a little."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_transparent_home",
+      "label": "Transparent on the home page",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_transparent_product",
+      "label": "Transparent on product pages",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_transparent_collection",
+      "label": "Transparent on collection pages",
+      "default": false
     },
     {
       "type": "header",

@@ -5147,11 +5147,29 @@ body {
      very top, fixed below via a dedicated body background-color rule
      rather than any header-side trickery). */
   border-radius: 0 0 var(--mo-header-radius, 28px) var(--mo-header-radius, 28px);
-  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, background-color 0.25s ease;
 }
 
 .mo-header--hidden {
   transform: translateY(-100%);
+}
+
+/* CUSTOM: per-template transparent header option (see the section's
+   "Transparent header" settings + mo-header.js's initTransparentHeaderScroll).
+   Starts with no background so a full-bleed hero behind it shows through;
+   .mo-header--scrolled (added once the page has scrolled a bit) switches it
+   to the normal solid color. Deliberately lives on .mo-header itself, same
+   element .mo-header--hidden transforms in scroll-up mode, so the fill
+   always travels with the header rather than risking a leftover block on a
+   separate persistent ancestor (see project memory for that history).
+   Doubled class + selector for specificity over the base .mo-header rule
+   above regardless of source order. */
+.mo-header.mo-header--transparent {
+  background: transparent;
+}
+
+.mo-header.mo-header--transparent.mo-header--scrolled {
+  background: var(--mo-header-bg, #093d24);
 }
 
 .mo-header__inner {

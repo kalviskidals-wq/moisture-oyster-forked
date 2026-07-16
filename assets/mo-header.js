@@ -169,3 +169,26 @@ const getMoHeaderScrollY = () =>
   if (moHeaderScrollContainer) moHeaderScrollContainer.addEventListener('scroll', onScroll, { passive: true });
 })();
 
+(function initTransparentHeaderScroll() {
+  // CUSTOM: powers the per-template "Transparent header" option. Adds
+  // .mo-header--scrolled to any .mo-header--transparent instance once the
+  // page has scrolled a bit, which is what custom.css uses to switch that
+  // header from no background to its normal solid color. This class lives
+  // directly on .mo-header (the same element .mo-header--hidden transforms
+  // in scroll-up mode above), not on #header-group, so the fill always
+  // hides/reveals together with the header itself.
+  const headers = document.querySelectorAll('.mo-header--transparent');
+  if (!headers.length) return;
+
+  const scrolledThreshold = 4;
+
+  const updateScrolledState = () => {
+    const isScrolled = getMoHeaderScrollY() > scrolledThreshold;
+    headers.forEach((header) => header.classList.toggle('mo-header--scrolled', isScrolled));
+  };
+
+  updateScrolledState();
+  window.addEventListener('scroll', updateScrolledState, { passive: true });
+  if (moHeaderScrollContainer) moHeaderScrollContainer.addEventListener('scroll', updateScrolledState, { passive: true });
+})();
+
