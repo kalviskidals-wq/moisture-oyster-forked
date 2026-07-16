@@ -552,10 +552,23 @@
 
     picker.querySelectorAll('.mo-vpicker__card').forEach(function (card) {
       card.addEventListener('click', function () {
+        // CUSTOM: explicitly check this card's radio before reading any :checked state.
+        // The card (a <label> wrapping the actual radio, which is visually hidden via
+        // opacity:0/pointer-events:none) relies on the browser's native label-click-forwards
+        // -to-control behavior to update .checked — but that forwarding is dispatched as part
+        // of this SAME click event's handling, and its exact ordering relative to listeners
+        // added here via addEventListener isn't guaranteed. Without this line, applyState()
+        // below (which reads getQtyRadio()/getPurchaseRadio() via :checked) could still see
+        // the PREVIOUS selection at the moment it runs, silently writing the wrong variant/
+        // selling_plan to the cart form even though the card highlights correctly — this was
+        // the actual cause of "Add to Bag" adding the one-time item despite Subscribe showing
+        // selected.
+        var cardRadio = card.querySelector('input');
+        if (cardRadio) cardRadio.checked = true;
+
         selectCard(card);
         if (card.dataset.card === 'qty') {
-          var radio = card.querySelector('input');
-          rebuildFrequencyOptions(getAllocations(radio));
+          rebuildFrequencyOptions(getAllocations(cardRadio));
         }
         applyState(true);
       });
