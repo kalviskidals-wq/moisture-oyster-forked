@@ -4363,34 +4363,42 @@ mo-review-filter {
   opacity: 0.85;
 }
 
-/* CUSTOM (2026-07-16, round 4): mobile no longer forces a fixed-height
-   crop box — Kalvis wants the mobile image shown uncropped (he's uploading
-   a purpose-cropped mobile image separately via background_image_mobile,
-   and a min-height:55vh box + object-fit:cover would re-crop it to
-   whatever that arbitrary box's aspect ratio happens to be). No min-height
-   here anymore; .mo-eye-health__bg below renders in normal flow at its own
-   natural aspect ratio (width:100%, height:auto — matches Horizon
-   base.css's own default img sizing, made explicit here per this
-   project's "ship hardcoded fallbacks" convention), so this element's
-   height is simply whatever the full-width image naturally renders at,
-   guaranteeing zero cropping. Desktop keeps the full-bleed cropped cover
-   treatment (unchanged design intent there) — see the media query further
-   down, which switches .mo-eye-health__bg back to
-   position:absolute+object-fit:cover only at that breakpoint. */
+/* CUSTOM (2026-07-16, round 5): back to a fixed-height BACKGROUND treatment
+   — normal-flow natural-aspect sizing (round 4) let a tall mobile image
+   balloon this element's height, which pushed the rest of the section's
+   content down with it. Kalvis wants the image to behave like an actual
+   background: sized to a fixed area that does NOT grow/shrink with the
+   image's own intrinsic dimensions. Reinstated min-height:55vh/55dvh
+   (matches .mo-problem__media-wrap / .mo-sub-benefits__media) as that
+   fixed area. To still honor "don't crop it" from the previous round
+   together with this, .mo-eye-health__bg below uses object-fit: CONTAIN
+   (not cover) — the full image is always visible with no cropping, letting
+   it "letterbox" inside the fixed-height box if its proportions don't
+   exactly match; any letterboxed gap simply shows this section's own
+   background color (--mo-eye-header-bg) through, which reads fine since
+   that's already an intentional flat color per the brief. */
 .mo-eye-health__media {
   position: relative;
   overflow: hidden;
+  min-height: 55vh;
+  min-height: 55dvh;
 }
 
 .mo-eye-health__picture {
   display: block;
   width: 100%;
+  height: 100%;
 }
 
 .mo-eye-health__bg {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: contain;
   display: block;
-  width: 100%;
-  height: auto;
   z-index: 0;
 }
 
@@ -4664,21 +4672,13 @@ mo-review-filter {
     height: 100%;
   }
 
-  /* Desktop-only: full-bleed edge-to-edge crop, matching .mo-eye-health's
-     own aspect-ratio:1600/835 box — the mobile base rules above deliberately
-     leave both of these as normal-flow/natural-aspect-ratio so the mobile
-     image never gets cropped. */
-  .mo-eye-health__picture {
-    height: 100%;
-  }
-
+  /* Desktop-only: full-bleed edge-to-edge CROP, matching .mo-eye-health's
+     own aspect-ratio:1600/835 box. Position/sizing is already set by the
+     mobile base rules above (both breakpoints use the same fixed-height
+     background treatment now) — this only needs to flip object-fit from
+     the mobile default of `contain` (never crops) to `cover` (always
+     fills, may crop), since desktop's full-bleed look is unchanged. */
   .mo-eye-health__bg {
-    position: absolute !important;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
-    max-width: none !important;
     object-fit: cover;
   }
 
