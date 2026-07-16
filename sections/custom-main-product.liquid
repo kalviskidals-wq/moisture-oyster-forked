@@ -645,10 +645,12 @@
     border: none;
     border-radius: var(--mo-radius-sm, 6px);
     padding: 16px 24px;
-    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-family: var(--mo-font-mono, 'IBM Plex Mono', monospace);
     font-weight: 500;
-    font-size: 0.8125rem;
+    font-size: 14px;
+    line-height: 140%;
     letter-spacing: 0.1em;
+    text-align: center;
     text-transform: uppercase;
   }
 
@@ -666,6 +668,12 @@
 
   #shopify-section-{{ section.id }} [id^='BuyButtons-ProductSubmitButton-'] .add-to-cart-text::after {
     content: 'Add to Bag +';
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} [id^='BuyButtons-ProductSubmitButton-'] {
+      font-size: 12px;
+    }
   }
 
   /* CUSTOM: hide Seal Subscriptions' own injected widget — we render our own
