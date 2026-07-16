@@ -4413,11 +4413,19 @@ mo-review-filter {
   pointer-events: none;
 }
 
+/* CUSTOM: right inset removed on mobile (left stays inset to align with the
+   header/content column) — same fix as .mo-sub-benefits__overlay's 2026-07-10
+   round-2 fix elsewhere in this file. With `right: var(--mo-space-5)` here,
+   this wrapper's own box (and therefore .mo-eye-health__cards' scrollable
+   area) was 20px narrower than the viewport on the right side, so the 2nd/3rd
+   card's peek got clipped at that inset boundary instead of bleeding to the
+   true edge. `right: 0` matches the established peek-carousel convention
+   used by .mo-sub-benefits__overlay/.mo-howto__steps/.mo-reviews__scroller. */
 .mo-eye-health__cards-wrap {
   position: absolute;
   z-index: 2;
   left: var(--mo-space-5, 20px);
-  right: var(--mo-space-5, 20px);
+  right: 0;
   bottom: var(--mo-space-5, 20px);
 }
 
