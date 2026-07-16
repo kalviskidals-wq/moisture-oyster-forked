@@ -595,12 +595,20 @@
     // own input ~600ms after DOM ready, let it own the initial state" — that assumed
     // Seal's native widget was still running. Since .sealsubs-target-element is now
     // hidden with display:none (per Kalvis's request to remove the duplicate Seal
-    // UI), Seal's init script no longer reliably sets that input (many subscription
-    // apps skip init when their widget isn't visible/rendered), so the form was
-    // silently staying on the native "no selling plan" default until the shopper
-    // clicked a card — meaning an immediate Add to Bag click added the one-time
-    // variant even though "Subscribe" showed as selected. This picker now fully
-    // owns the initial state to match, since it's the only UI actually driving it.
+    // UI), Seal's own init no longer reliably drives that input, so this picker now
+    // fully owns the initial state to match what's shown as selected (Subscribe).
     applyState(true);
+
+    // CUSTOM: Seal Subscriptions still runs SOME init logic ~600ms after DOM ready
+    // even with its widget hidden (confirmed: a fresh page load with zero clicks
+    // still added the one-time item, even though the immediate applyState(true)
+    // above ran and set selling_plan correctly at parse time — Seal's delayed init
+    // was overwriting it back to blank afterwards). Re-applying after that window
+    // guarantees our write is the LAST one, regardless of what Seal's init does.
+    // Once a shopper clicks any card, applyState(true) fires again from that click,
+    // well after this window, so no double-write conflict there.
+    setTimeout(function () {
+      applyState(true);
+    }, 800);
   })();
 </script>
