@@ -10,6 +10,11 @@
  *  - Optional "scroll-up" sticky behavior: hides the header on scroll down,
  *    reveals it on scroll up. Only runs for headers with
  *    [data-sticky="scroll-up"] — "always" sticky is handled in pure CSS.
+ *  - "At top" corner-fill toggle: adds .mo-header-group--at-top to
+ *    #header-group only while the page is scrolled to the true top, so the
+ *    header's rounded-corner background fill (see custom.css) only shows
+ *    while nothing has scrolled underneath it yet — runs unconditionally,
+ *    independent of sticky mode, since the corner radius itself is always on.
  *
  * No-JS note: like Horizon's own <header-drawer> component, the mobile
  * burger has no functional fallback without JavaScript. The primary nav
@@ -116,23 +121,26 @@ document.addEventListener('click', (event) => {
   }
 });
 
+// CUSTOM (fix): Horizon's own .page-wrapper becomes the real scrolling
+// element (overflow-y: auto) at desktop widths (>=990px, see base.css),
+// while window/body scrolls normally below that. A "scroll" listener on
+// window alone never fires on desktop, so both scroll-driven behaviors
+// below listen on both window and .page-wrapper — only whichever one is
+// actually scrolling will ever dispatch the event. Shared here so the two
+// behaviors don't each re-detect the scroll container separately.
+const moHeaderScrollContainer = document.querySelector('.page-wrapper');
+const getMoHeaderScrollY = () =>
+  moHeaderScrollContainer ? moHeaderScrollContainer.scrollTop : window.scrollY;
+
 (function initStickyOnScroll() {
   const headers = document.querySelectorAll('.mo-header[data-sticky="scroll-up"]');
   if (!headers.length) return;
 
-  // CUSTOM (fix): Horizon's own .page-wrapper becomes the real scrolling
-  // element (overflow-y: auto) at desktop widths (>=990px, see base.css),
-  // while window/body scrolls normally below that. A "scroll" listener on
-  // window alone never fires on desktop, so this listens on both — only
-  // whichever one is actually scrolling will ever dispatch the event.
-  const scrollContainer = document.querySelector('.page-wrapper');
-  const getScrollY = () => (scrollContainer ? scrollContainer.scrollTop : window.scrollY);
-
-  let lastY = getScrollY();
+  let lastY = getMoHeaderScrollY();
   const threshold = 8;
 
   const onScroll = () => {
-    const currentY = getScrollY();
+    const currentY = getMoHeaderScrollY();
     const delta = currentY - lastY;
 
     if (Math.abs(delta) < threshold) return;
@@ -149,5 +157,22 @@ document.addEventListener('click', (event) => {
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  if (scrollContainer) scrollContainer.addEventListener('scroll', onScroll, { passive: true });
+  if (moHeaderScrollContainer) moHeaderScrollContainer.addEventListener('scroll', onScroll, { passive: true });
+})();
+
+(function initAtTopCornerFill() {
+  const headerGroup = document.getElementById('header-group');
+  if (!headerGroup || !headerGroup.querySelector('.mo-header')) return;
+
+  // Small tolerance for iOS Safari's elastic overscroll/bounce, which can
+  // report a scrollY of a couple of px even while visually at the top.
+  const atTopThreshold = 2;
+
+  const updateAtTopState = () => {
+    headerGroup.classList.toggle('mo-header-group--at-top', getMoHeaderScrollY() <= atTopThreshold);
+  };
+
+  updateAtTopState();
+  window.addEventListener('scroll', updateAtTopState, { passive: true });
+  if (moHeaderScrollContainer) moHeaderScrollContainer.addEventListener('scroll', updateAtTopState, { passive: true });
 })();
