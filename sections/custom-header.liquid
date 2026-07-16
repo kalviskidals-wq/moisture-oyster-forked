@@ -9,6 +9,13 @@
   assign drawer_bg = s.drawer_background_color | default: s.background_color
 -%}
 
+{%- # CUSTOM: fills the shared header-group wrapper's own background to match the header, so .mo-header's rounded bottom corners reveal green instead of the page background showing through underneath at the very top of the page. Safe/no repeat of the round-4 sticky-block bug — this only paints a background color inside the header-group box that's already exactly the header's own size, it doesn't add any extra height or padding, so there's no separate band to persist oddly while scrolling. header-group is a shared singleton wrapper (not per-section), so no instance-scoping is needed here, same as how the prelaunch hide rule already targets it by plain id. -%}
+<style>
+  #header-group {
+    background-color: {{ s.background_color | default: '#093D24' }};
+  }
+</style>
+
 <header
   class="mo-header"
   id="MoHeader-{{ section.id }}"
