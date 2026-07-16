@@ -1,16 +1,7 @@
 {%- doc -%}
   Renders one card for the MO Range Grid (sections/custom-range-grid.liquid):
-  either a live product or a manual "Coming Soon" placeholder card.
-
-  Live cards reuse Horizon's native <product-card>/<quick-add-component>
-  system (assets/product-card.js, assets/quick-add.js): the whole card is a
-  <product-card> custom element with a hidden full-cover ref="productCardLink"
-  anchor (clicking anywhere on the card that isn't a button navigates to the
-  product page, exactly like Horizon's own snippets/product-card.liquid), and
-  the CTA is a <quick-add-component> button that calls the same handleClick
-  Horizon uses elsewhere to fetch the real PDP, morph its
-  [data-product-grid-content] into the site-wide #quick-add-modal-content,
-  and open the native quick-add <dialog> — no new JS, no custom modal.
+  either a live product (real image/price/CTA linking to the product page) or
+  a manual "Coming Soon" placeholder card.
 
   @param {object} block - The product_card block
 {%- enddoc -%}
@@ -37,7 +28,7 @@
   assign cta_label = card.cta_label | default: 'Add to Bag'
 -%}
 
-{%- capture card_body -%}
+<div class="mo-range__card{% if is_live %} mo-range__card--live{% else %} mo-range__card--soon{% endif %}" {{ block.shopify_attributes }}>
   <div class="mo-range__media">
     {%- if card_image != blank -%}
       {{ card_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 33vw, 85vw', class: 'mo-range__image' }}
@@ -55,36 +46,15 @@
       {%- endif -%}
     </div>
   </div>
-{%- endcapture -%}
 
-{%- if is_live -%}
-  {%- liquid
-    assign product_card_link_id = 'mo-range-card-link-' | append: block.id | md5
-  -%}
-  <product-card class="mo-range__card mo-range__card--live" data-product-id="{{ product.id }}" {{ block.shopify_attributes }}>
-    <a
-      id="{{ product_card_link_id }}"
-      href="{{ product.url }}"
-      class="mo-range__card-link"
-      ref="productCardLink"
-    >
-      <span class="visually-hidden">{{ product.title }}</span>
+  {%- if is_live -%}
+    <a href="{{ product.url }}" class="mo-btn mo-btn--bag mo-range__cta">
+      <span>{{ cta_label | upcase }}</span>
+      <span class="mo-range__cta-icon" aria-hidden="true">+</span>
     </a>
-
-    {{ card_body }}
-
-    <quick-add-component class="mo-range__quick-add" data-product-title="{{ product.title | escape }}">
-      <button type="button" class="mo-btn mo-btn--bag mo-range__cta" on:click="quick-add-component/handleClick">
-        <span>{{ cta_label | upcase }}</span>
-        <span class="mo-range__cta-icon" aria-hidden="true">+</span>
-      </button>
-    </quick-add-component>
-  </product-card>
-{%- else -%}
-  <div class="mo-range__card mo-range__card--soon" {{ block.shopify_attributes }}>
-    {{ card_body }}
+  {%- else -%}
     <button type="button" class="mo-btn mo-range__cta mo-range__cta--soon" disabled>
       <span>{{ 'Coming Soon' | upcase }}</span>
     </button>
-  </div>
-{%- endif -%}
+  {%- endif -%}
+</div>
