@@ -3537,22 +3537,6 @@ mo-review-filter {
   display: block;
 }
 
-.mo-footer__tm {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: clamp(28px, 3vw, 44px);
-  height: clamp(28px, 3vw, 44px);
-  border: 1.5px solid currentColor;
-  border-radius: 50%;
-  font-family: var(--mo-font-mono);
-  font-size: clamp(10px, 1vw, 14px);
-  margin-inline-start: var(--mo-space-3, 12px);
-  align-self: flex-start;
-  margin-block-start: var(--mo-space-2, 8px);
-}
-
 .mo-footer__legal {
   color: var(--mo-footer-legal, #ffffffb3);
   font-size: 12px;
