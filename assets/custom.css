@@ -3076,12 +3076,20 @@ mo-review-filter {
 /* ---------- Overlay: benefit-card list ----------
    Mobile: horizontal scroll-snap carousel over the bottom of the image.
    Desktop: stacked column, right-aligned over the bottom of the image (see
-   media query). */
+   media query).
+   CUSTOM (2026-07-10 fix): right inset removed on mobile — with `right:
+   var(--mo-space-5)` the carousel's own box (and therefore its scrollable
+   area) was 20px narrower than the viewport on the right side, so the 2nd+
+   cards' peek got clipped at that inset boundary instead of bleeding to the
+   true edge. Matches the established peek-carousel convention already used
+   by .mo-howto__steps/.mo-reviews__scroller elsewhere in this file — left
+   stays inset to align with the heading/content column, right bleeds to
+   the viewport edge. */
 .mo-sub-benefits__overlay {
   position: absolute;
   z-index: 3;
   left: var(--mo-space-5, 20px);
-  right: var(--mo-space-5, 20px);
+  right: 0;
   bottom: var(--mo-space-5, 20px);
 }
 
