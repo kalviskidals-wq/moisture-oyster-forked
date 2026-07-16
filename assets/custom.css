@@ -2873,6 +2873,15 @@ mo-review-filter {
    rendered height past min-height. Desktop is unaffected: header/review/
    media all switch to position:absolute there, which takes them out of
    this flex flow entirely. */
+/* CUSTOM (2026-07-10 fix): padding-block-end zeroed on mobile — with
+   .mo-sub-benefits__media now a normal-flow flex child (flex:1), the
+   section's own bottom padding was eating into its available height,
+   leaving a gap of bare section-background color below the image instead
+   of the image reaching the section's bottom edge. (Desktop is unaffected:
+   header/review/media all become position:absolute there, which is
+   positioned relative to the padding BOX, not the content box, so
+   padding-block never created a gap for them.) Top padding is kept — the
+   header sits inside it same as before. */
 .mo-sub-benefits {
   position: relative;
   display: flex;
@@ -2881,7 +2890,7 @@ mo-review-filter {
   min-height: 100dvh;
   box-sizing: border-box;
   background: var(--mo-sub-header-bg, #e8e7e3);
-  padding-block: 30px;
+  padding-block: 30px 0;
   overflow: hidden;
 }
 
@@ -2932,6 +2941,25 @@ mo-review-filter {
   overflow: hidden;
   flex: 1 1 auto;
   min-height: 0;
+}
+
+/* CUSTOM (2026-07-10): mobile-only — blends the image into the header's
+   solid --mo-sub-header-bg color instead of a hard seam where the light
+   header zone meets the photo. Not needed on desktop, where the header
+   overlays transparently directly on the image (no separate colored zone
+   to blend from). */
+@media screen and (max-width: 749.98px) {
+  .mo-sub-benefits__media::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(to bottom, var(--mo-sub-header-bg, #bab9be), transparent);
+  }
 }
 
 .mo-sub-benefits__poster {
