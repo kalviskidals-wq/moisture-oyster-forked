@@ -34,6 +34,8 @@
     --mo-icon-card-title: {{ s.title_color | default: '#FFFFFF' }};
     --mo-icon-card-desc: {{ s.description_color | default: '#FFFFFF' }};
     --mo-sub-padding-y: {{ s.vertical_padding | default: 40 }}px;
+    --mo-sub-radius: {{ s.section_radius | default: 20 }}px;
+    --mo-sub-inset: {{ s.section_inset | default: 16 }}px;
   "
 >
   <div class="mo-sub-benefits__header">
@@ -320,6 +322,27 @@
       "step": 2,
       "unit": "px",
       "default": 10
+    },
+    {
+      "type": "range",
+      "id": "section_radius",
+      "label": "Section corner radius",
+      "info": "Rounds the whole section. A small side inset is added so the rounding is actually visible (a full-bleed, edge-to-edge box has nowhere for a radius to show against) — see the section_inset setting below.",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "section_inset",
+      "label": "Side inset (reveals the corner radius)",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
     },
     {
       "type": "range",

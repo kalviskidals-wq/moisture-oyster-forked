@@ -2881,7 +2881,14 @@ mo-review-filter {
    header/review/media all become position:absolute there, which is
    positioned relative to the padding BOX, not the content box, so
    padding-block never created a gap for them.) Top padding is kept — the
-   header sits inside it same as before. */
+   header sits inside it same as before.
+   CUSTOM (2026-07-10): added margin-inline + border-radius so the section
+   reads as a rounded card. Radius alone was invisible before this — a
+   truly edge-to-edge (full-bleed to viewport) box has no exposed corner for
+   a border-radius to clip, on mobile OR desktop. margin-inline insets both
+   sides so the rounded corners actually show against the page background
+   behind it; overflow:hidden (already present) clips the poster/video/
+   overlay content to match. */
 .mo-sub-benefits {
   position: relative;
   display: flex;
@@ -2889,6 +2896,8 @@ mo-review-filter {
   min-height: 100vh;
   min-height: 100dvh;
   box-sizing: border-box;
+  margin-inline: var(--mo-sub-inset, 16px);
+  border-radius: var(--mo-sub-radius, 20px);
   background: var(--mo-sub-header-bg, #e8e7e3);
   padding-block: 30px 0;
   overflow: hidden;
