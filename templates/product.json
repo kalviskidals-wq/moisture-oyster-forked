@@ -793,7 +793,7 @@
             "detail_1_label": "FUNCTION",
             "detail_1_value": "Osmoprotectant — stabilises corneal epithelial cells under hyperosmolar stress (dry eye, screen use, air travel)",
             "detail_2_label": "EVIDENCE",
-            "detail_2_value": "Clinically shown to reduce IL-6 inflammatory signalling and restore corneal cells toward healthy baseline after environmental dry-eye stress",
+            "detail_2_value": "Laboratory studies of L-carnitine, an osmoprotectant, show it helps corneal cells tolerate hyperosmolar (dry-eye) stress",
             "detail_3_label": "",
             "detail_3_value": "",
             "detail_4_label": "",
@@ -859,7 +859,7 @@
           "settings": {
             "tab": "3",
             "title": "No Preservatives",
-            "description": "Preservative-free multi-dose bottle via the Aptar OSD — a one-way-valve system that prevents contamination without chemical preservatives. FDA-cleared."
+            "description": "Preservative-free multi-dose bottle via the Aptar OSD- a one-way valve that prevents bacterial contamination without chemical preservatives"
           }
         },
         "free_from_3": {
