@@ -18,17 +18,17 @@
     assign transparent_enabled = true
   endif
   assign transparent_page_suffixes = s.transparent_page_templates | split: ','
-  if template.name == 'page' and template.suffix != blank
+  if template.name == 'page'
     for suffix in transparent_page_suffixes
       assign trimmed_suffix = suffix | strip
-      if trimmed_suffix == template.suffix
+      if trimmed_suffix == template.suffix or trimmed_suffix == page.handle
         assign transparent_enabled = true
       endif
     endfor
   endif
 -%}
 
-{%- # CUSTOM: transparent-header option, per template — see the "Transparent header" schema settings below. When active, .mo-header--transparent starts with no background (so a full-bleed hero image/video shows through) and mo-header.js adds .mo-header--scrolled once the page has scrolled a bit, which is what actually switches it to the solid background color. This fill lives directly on .mo-header itself, not on the persistent #header-group sticky ancestor (unlike the corner-radius fill attempts documented in project memory, which kept leaving a solid block behind whenever .mo-header transformed away in scroll-up mode) — so it always hides/reveals together with the header, never independently of it. Custom Shopify Pages (templates/page.SUFFIX.json) are matched separately by template.suffix against a merchant-entered comma-separated list, since template.name is just "page" for all of them regardless of which custom template is assigned — covers the in-progress templates/page.homepage.json build and any future custom page templates without needing a code change each time. -%}
+{%- # CUSTOM: transparent-header option, per template — see the "Transparent header" schema settings below. When active, .mo-header--transparent starts with no background (so a full-bleed hero image/video shows through) and mo-header.js adds .mo-header--scrolled once the page has scrolled a bit, which is what actually switches it to the solid background color. This fill lives directly on .mo-header itself, not on the persistent #header-group sticky ancestor (unlike the corner-radius fill attempts documented in project memory, which kept leaving a solid block behind whenever .mo-header transformed away in scroll-up mode) — so it always hides/reveals together with the header, never independently of it. Custom Shopify Pages (templates/page.SUFFIX.json) are matched two ways against the same merchant-entered comma-separated list: template.suffix (the assigned custom template) or the page's own handle, whichever matches first — since template.name is just "page" for all of them regardless of which custom template is assigned, and matching by handle too is a resilient fallback in case a template-suffix quirk on JSON page templates ever prevents the first check from firing. Covers the in-progress templates/page.homepage.json build and any future custom page templates without needing a code change each time. -%}
 <header
   class="mo-header{% if transparent_enabled %} mo-header--transparent{% endif %}"
   id="MoHeader-{{ section.id }}"

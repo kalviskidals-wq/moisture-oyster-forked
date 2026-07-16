@@ -237,7 +237,12 @@ const getMoHeaderScrollY = () =>
   const headers = document.querySelectorAll('.mo-header--transparent');
   if (!headers.length) return;
 
-  const scrolledThreshold = 4;
+  // CUSTOM (fix): 4px was too easy to trip accidentally — mobile Safari's
+  // address bar collapsing/expanding can shift the reported scroll position
+  // by a few px with no real user scroll at all, which made a transparent
+  // header flip to its solid color almost immediately on load on some
+  // phones. Widened to a more forgiving distance.
+  const scrolledThreshold = 24;
 
   const updateScrolledState = () => {
     const isScrolled = getMoHeaderScrollY() > scrolledThreshold;
