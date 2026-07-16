@@ -17,7 +17,6 @@
         "logo": "shopify://shop_images/Vector_1.svg",
         "logo_fallback_text": "moisture\noyster",
         "watermark_logo": "shopify://shop_images/Burger_menu_initials_logo.svg",
-        "drawer_watermark_opacity": 0,
         "menu": "main-menu",
         "show_cart": true,
         "show_account": true,

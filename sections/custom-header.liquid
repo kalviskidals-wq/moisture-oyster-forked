@@ -42,7 +42,6 @@
     --mo-header-drawer-bg: {{ drawer_bg | default: '#093D24' }};
     --mo-header-drawer-label: {{ s.drawer_menu_label_color | default: '#9FC7AE' }};
     --mo-header-drawer-link: {{ s.drawer_link_color | default: '#FFFFFF' }};
-    --mo-header-watermark-opacity: {{ s.drawer_watermark_opacity | default: 15 }}%;
     --mo-header-radius: {{ s.corner_radius | default: 28 }}px;
   "
 >
@@ -221,17 +220,7 @@ oyster' | newline_to_br }}</span>
       "type": "image_picker",
       "id": "watermark_logo",
       "label": "Watermark logomark",
-      "info": "Oversized decorative logomark shown low-opacity at the bottom of the mobile menu. If blank, falls back to a text + inline-SVG drop."
-    },
-    {
-      "type": "range",
-      "id": "drawer_watermark_opacity",
-      "label": "Watermark opacity",
-      "min": 0,
-      "max": 40,
-      "step": 5,
-      "unit": "%",
-      "default": 15
+      "info": "Oversized decorative logomark shown at the bottom of the mobile menu, full opacity exactly as uploaded. If blank, falls back to a text + inline-SVG drop."
     },
     {
       "type": "header",

@@ -5469,13 +5469,14 @@ body {
 }
 
 .mo-header__drawer-watermark {
+  /* CUSTOM (fix): dropped the opacity fade — Kalvis wants the uploaded
+     watermark logo shown exactly as-is, full opacity. */
   position: relative;
   margin-top: auto;
   padding-top: var(--mo-space-8, 40px);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  opacity: var(--mo-header-watermark-opacity, 15%);
   pointer-events: none;
 }
 
