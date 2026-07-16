@@ -617,7 +617,7 @@
             "feature": "Preservative System",
             "mo_value": "check",
             "mo_show_info": true,
-            "mo_tooltip_text": "Add text here",
+            "mo_tooltip_text": "Preservative-free via the Aptar OSD (Ophthalmic Squeeze Dispenser) — one-way-valve technology prevents contamination without chemical preservatives. FDA-cleared.",
             "otc_value": "cross",
             "otc_show_info": false,
             "otc_tooltip_text": "Add text here"
@@ -630,10 +630,10 @@
             "feature": "Hydration Agents",
             "mo_value": "check",
             "mo_show_info": true,
-            "mo_tooltip_text": "Add text here",
+            "mo_tooltip_text": "Triple-action hydration: Glycerin (immediate lubrication) + Sodium Hyaluronate (sustained mucomimetic film) + L-Carnitine (osmoprotection).",
             "otc_value": "cross",
             "otc_show_info": true,
-            "otc_tooltip_text": "Add text here"
+            "otc_tooltip_text": "Most OTC drops contain a single lubricating agent, typically carboxymethylcellulose or polyethylene glycol."
           }
         },
         "row_3": {
@@ -656,10 +656,10 @@
             "feature": "pH Matched to Natural Tears",
             "mo_value": "check",
             "mo_show_info": false,
-            "mo_tooltip_text": "Add text here",
+            "mo_tooltip_text": "",
             "otc_value": "cross",
             "otc_show_info": true,
-            "otc_tooltip_text": "Add text here"
+            "otc_tooltip_text": "Many OTC drops are not pH-optimised to natural tear chemistry (~7.4–7.5), which can cause transient stinging on application."
           }
         },
         "row_5": {
@@ -672,7 +672,7 @@
             "mo_tooltip_text": "Add text here",
             "otc_value": "cross",
             "otc_show_info": true,
-            "otc_tooltip_text": "Add text here"
+            "otc_tooltip_text": "Commonly contains HPMC, carbomer, or CMC — viscosity-enhancing agents associated with post-application blur."
           }
         },
         "row_6": {
@@ -685,7 +685,7 @@
             "mo_tooltip_text": "Add text here",
             "otc_value": "cross",
             "otc_show_info": true,
-            "otc_tooltip_text": "Add text here"
+            "otc_tooltip_text": "Formulated with benzalkonium chloride (BAK) or other preservatives that limit safe daily frequency with prolonged use."
           }
         },
         "row_7": {
@@ -698,7 +698,7 @@
             "mo_tooltip_text": "Add text here",
             "otc_value": "cross",
             "otc_show_info": true,
-            "otc_tooltip_text": "Add text here"
+            "otc_tooltip_text": "General-purpose formula — not engineered for the hyperosmolar, low-blink-rate environment created by extended screen use."
           }
         }
       },
