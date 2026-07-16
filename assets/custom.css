@@ -4160,8 +4160,17 @@ mo-review-filter {
   font-size: 1.25rem;
 }
 
+/* CUSTOM: pins the CTA to the bottom of the card regardless of how tall the
+   meta block above it is (e.g. a longer product title wrapping to 2 lines on
+   a live card vs. a short one-line Coming Soon title) — .mo-range__scroller
+   is a flex row, so its default align-items:stretch already equalizes every
+   card's overall height to the tallest one in that row; without this the
+   button's position depended only on its own card's content height above it,
+   so cards with shorter meta content had their buttons sit visibly higher
+   than a neighbor with a wrapped title. */
 .mo-range__cta {
   width: 100%;
+  margin-top: auto;
   border-radius: var(--mo-radius-pill, 999px);
 }
 
