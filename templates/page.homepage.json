@@ -16,7 +16,7 @@
           "type": "cta",
           "settings": {
             "label": "SHOP NOW",
-            "link": "",
+            "link": "shopify://products/lubricating-eye-drops",
             "style": "shop"
           }
         },
