@@ -4311,10 +4311,22 @@ mo-review-filter {
    if that file is ever removed. UPSTREAM risk LOW — net-new, no Horizon
    file touched.
    ============================================================================ */
+/* CUSTOM (2026-07-16, round 7): mobile now uses the SAME full-bleed overlay
+   architecture as desktop (image spans the whole section, header text
+   floats on top of it) instead of a separate stacked-above-the-image
+   header block — Kalvis confirmed this over the alternative of just
+   making the image area taller. min-height here (not on .mo-eye-health__media
+   anymore) gives the section itself a defined height for the image to
+   fill; header/media both become position:absolute overlays at every
+   breakpoint now (see .mo-eye-health__header/__media below) — this also
+   fixes the "pushes content up" complaint from the previous round, since
+   the header no longer adds its own flow-height on top of the image's. */
 .mo-eye-health {
   position: relative;
   background: var(--mo-eye-header-bg, #f7f5f0);
   padding-block: 30px;
+  min-height: 55vh;
+  min-height: 55dvh;
   border-radius: var(--mo-eye-section-radius, 24px);
   overflow: hidden;
 }
@@ -4325,11 +4337,20 @@ mo-review-filter {
   }
 }
 
+/* CUSTOM: overlay at every breakpoint now (see the .mo-eye-health comment
+   above) — transparent background, top-anchored, no bottom padding since
+   nothing flows below it in normal document flow anymore. Desktop further
+   down only needs to widen the side padding (via the shared max-width rule
+   with .mo-eye-health__cards-wrap) — position/background/top padding are
+   already correct here for both breakpoints. */
 .mo-eye-health__header {
-  position: relative;
+  position: absolute;
   z-index: 4;
-  background: var(--mo-eye-header-bg, #f7f5f0);
-  padding: var(--mo-space-8, 40px) var(--mo-space-5, 20px) var(--mo-space-7, 32px);
+  top: 0;
+  left: 0;
+  right: 0;
+  background: transparent;
+  padding: var(--mo-space-8, 40px) var(--mo-space-5, 20px) 0;
 }
 
 .mo-eye-health__eyebrow {
@@ -4363,20 +4384,22 @@ mo-review-filter {
   opacity: 0.85;
 }
 
-/* CUSTOM (2026-07-16, round 6): fixed-height BACKGROUND treatment, same at
-   both breakpoints now — normal-flow natural-aspect sizing (round 4) let a
-   tall mobile image balloon this element's height and push the rest of the
-   section down with it, so this is sized to a fixed area
-   (min-height:55vh/55dvh, matching .mo-problem__media-wrap /
-   .mo-sub-benefits__media) that does NOT grow/shrink with the image's own
-   intrinsic dimensions, same as desktop's own aspect-ratio:1600/835 box.
-   .mo-eye-health__bg uses object-fit: cover — mobile and desktop are
-   identical now, no more per-breakpoint override needed. */
+/* CUSTOM (2026-07-16, round 7): position:absolute + inset:0 at EVERY
+   breakpoint now — spans the whole section (behind the header too, see
+   .mo-eye-health__header above), sized by .mo-eye-health's own
+   min-height/aspect-ratio rather than its own min-height. `inset:0`
+   (top:0/right:0/bottom:0/left:0) rather than `height:100%` deliberately —
+   stretching between two opposite offsets resolves correctly against a
+   min-height-only parent in every browser, whereas a percentage `height`
+   technically needs the containing block's height to be "definite" first.
+   This is also what let the previous desktop-only override (position/inset/
+   min-height:0/height:100%) be deleted entirely — mobile and desktop are
+   now identical here, no per-breakpoint override left. */
 .mo-eye-health__media {
-  position: relative;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   overflow: hidden;
-  min-height: 55vh;
-  min-height: 55dvh;
 }
 
 .mo-eye-health__picture {
@@ -4630,13 +4653,6 @@ mo-review-filter {
     box-sizing: border-box;
   }
 
-  .mo-eye-health__header {
-    position: absolute;
-    top: 0;
-    background: transparent;
-    padding-block: var(--mo-space-8, 40px) 0;
-  }
-
   .mo-eye-health__eyebrow {
     font-size: 14px;
   }
@@ -4657,14 +4673,6 @@ mo-review-filter {
 
   .mo-eye-health__caption {
     font-size: 16px;
-  }
-
-  .mo-eye-health__media {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    min-height: 0;
-    height: 100%;
   }
 
   .mo-eye-health__cards-wrap {
