@@ -3755,6 +3755,18 @@ mo-review-filter {
   display: contents;
 }
 
+/* CUSTOM (fix): on mobile the hero is the very first section, and when the
+   header's "Transparent header" option is on, #header-group switches to
+   position:fixed (see the #header-group:has(.mo-header--transparent) rule
+   above in this file) — removed from flow entirely so the hero runs
+   underneath it, starting at the true top of the page. That means the
+   rating row (previously at padding-top: var(--mo-space-6, 24px) ≈ 24px)
+   sat directly under the fixed header and got covered by it. Top padding
+   is now sized to clear the header's own box — padding-top + padding-bottom
+   (--mo-header-padding-top/-bottom, 16px default each) plus its tallest
+   child (the 32px logo) — with an extra --mo-space-4 gap so the rating row
+   doesn't sit flush against the header's bottom edge. Desktop resets this to
+   0 in the media query below since it isn't the reported issue there. */
 .mo-home-hero__header {
   position: absolute;
   z-index: 4;
@@ -3762,7 +3774,7 @@ mo-review-filter {
   left: 0;
   right: 0;
   background: transparent;
-  padding: var(--mo-space-6, 24px) var(--mo-space-5, 20px) 0;
+  padding: calc(var(--mo-header-padding-top, 16px) + var(--mo-header-padding-bottom, 16px) + 32px + var(--mo-space-4, 16px)) var(--mo-space-5, 20px) 0;
 }
 
 .mo-home-hero__rating {
@@ -3798,12 +3810,16 @@ mo-review-filter {
 /* ---------- Subhead ----------
    CUSTOM: mobile top-anchors below the header at a fixed pixel offset —
    VERIFY this offset once real copy/heading line-count is confirmed, it can
-   collide with a 3-line heading. Desktop drops this entirely in favor of
-   grid alignment (see media query below). */
+   collide with a 3-line heading. Bumped from 190px to 246px (+56px) to match
+   the transparent-header clearance just added to .mo-home-hero__header's
+   top padding above — without this, the subhead would sit almost flush
+   against the now-lower heading instead of keeping its original ~60px gap.
+   Desktop drops this entirely in favor of grid alignment (see media query
+   below). */
 .mo-home-hero__subhead {
   position: absolute;
   z-index: 3;
-  top: 190px;
+  top: 246px;
   left: 0;
   right: 0;
   padding: 0 var(--mo-space-5, 20px);
