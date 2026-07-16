@@ -2882,13 +2882,13 @@ mo-review-filter {
    positioned relative to the padding BOX, not the content box, so
    padding-block never created a gap for them.) Top padding is kept — the
    header sits inside it same as before.
-   CUSTOM (2026-07-10): added margin-inline + border-radius so the section
-   reads as a rounded card. Radius alone was invisible before this — a
-   truly edge-to-edge (full-bleed to viewport) box has no exposed corner for
-   a border-radius to clip, on mobile OR desktop. margin-inline insets both
-   sides so the rounded corners actually show against the page background
-   behind it; overflow:hidden (already present) clips the poster/video/
-   overlay content to match. */
+   CUSTOM (2026-07-10, revised): border-radius kept on mobile, but
+   margin-inline moved to desktop-only (see media query below) — on mobile
+   the background/image should still bleed full width edge-to-edge; the
+   radius still clips the section's top/bottom corners against whatever
+   sits directly above/below it, no lateral gutter needed for that to read.
+   The margin-inline gutter is only necessary on desktop, where the section
+   sits within a visibly wider page background either side. */
 .mo-sub-benefits {
   position: relative;
   display: flex;
@@ -2896,7 +2896,6 @@ mo-review-filter {
   min-height: 100vh;
   min-height: 100dvh;
   box-sizing: border-box;
-  margin-inline: var(--mo-sub-inset, 16px);
   border-radius: var(--mo-sub-radius, 20px);
   background: var(--mo-sub-header-bg, #e8e7e3);
   padding-block: 30px 0;
@@ -2906,6 +2905,7 @@ mo-review-filter {
 @media screen and (min-width: 750px) {
   .mo-sub-benefits {
     padding-block: var(--mo-sub-padding-y, 40px);
+    margin-inline: var(--mo-sub-inset, 16px);
   }
 }
 
