@@ -5104,6 +5104,17 @@ html.mo-scroll-lock body {
   z-index: 30;
 }
 
+/* CUSTOM (fix, round 6): .mo-header-group--at-top is toggled by
+   mo-header.js based on real scroll position (only true near scrollY 0),
+   so this fill color only ever paints behind .mo-header's rounded corners
+   while the page is genuinely at the top — once scrolled even slightly the
+   class is removed and #header-group goes back to transparent, letting
+   real page content show through the cutout instead of a permanent green
+   "bar" at every scroll position. */
+#header-group.mo-header-group--at-top {
+  background-color: var(--mo-header-group-fill, transparent);
+}
+
 .mo-header {
   /* CUSTOM (fix): needs its own stacking context above .mo-header__drawer
      (position:fixed; z-index:20; inset:0 — covers the whole viewport when
