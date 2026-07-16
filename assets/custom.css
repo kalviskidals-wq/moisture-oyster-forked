@@ -2864,8 +2864,22 @@ mo-review-filter {
    hardcoded fallbacks so this still renders if that file is ever removed.
    UPSTREAM risk LOW — net-new, no Horizon file touched.
    ============================================================================ */
+/* CUSTOM (2026-07-10): mobile now lays out as a flex column — header
+   (natural height, flex-shrink:0) then media (flex:1, fills whatever
+   height remains) — so the review card can be removed from the mobile flow
+   entirely (see .mo-sub-benefits__review below) while the background image
+   still fills the rest of the section instead of stopping at an arbitrary
+   vh value. box-sizing:border-box so padding-block doesn't push the total
+   rendered height past min-height. Desktop is unaffected: header/review/
+   media all switch to position:absolute there, which takes them out of
+   this flex flow entirely. */
 .mo-sub-benefits {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  box-sizing: border-box;
   background: var(--mo-sub-header-bg, #e8e7e3);
   padding-block: 30px;
   overflow: hidden;
@@ -2880,6 +2894,7 @@ mo-review-filter {
 .mo-sub-benefits__header {
   position: relative;
   z-index: 4;
+  flex-shrink: 0;
   background: var(--mo-sub-header-bg, #e8e7e3);
   padding: var(--mo-space-8, 40px) var(--mo-space-5, 20px) var(--mo-space-7, 32px);
 }
@@ -2906,14 +2921,17 @@ mo-review-filter {
   letter-spacing: -0.02em;
 }
 
-/* Sized by viewport height (not aspect-ratio) on mobile so the media area
-   reliably fills most of the screen — same technique as
-   .mo-problem__media-wrap above. */
+/* CUSTOM (2026-07-10, revised): was a flat min-height:70vh heuristic; now
+   fills whatever height remains in the section after the header via
+   flex:1 (see .mo-sub-benefits's flex-column layout above) — the image
+   fits the whole section height exactly instead of an approximate vh
+   guess. min-height:0 overrides flexbox's default min-height:auto, which
+   would otherwise refuse to shrink below the poster/video's intrinsic size. */
 .mo-sub-benefits__media {
   position: relative;
   overflow: hidden;
-  min-height: 70vh;
-  min-height: 70dvh;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .mo-sub-benefits__poster {
@@ -2975,6 +2993,7 @@ mo-review-filter {
    this section never sets the --mo-reviews-* custom properties, so the
    fallbacks are what render. */
 .mo-sub-benefits__review {
+  display: none;
   position: static;
   z-index: 3;
   padding-inline: var(--mo-space-5, 20px);
@@ -3118,7 +3137,11 @@ mo-review-filter {
      past the heading's left edge). The card is capped to 420px on the CARD
      itself below, not the wrapper, so the wrapper keeps doing the alignment
      job and the card just left-aligns inside it like any normal block box. */
+  /* CUSTOM (2026-07-10): review card is mobile-only display:none above —
+     restored here for desktop, where it still overlays the image lower-left
+     per Figma. */
   .mo-sub-benefits__review {
+    display: block;
     position: absolute;
     bottom: var(--mo-space-8, 40px);
     padding-block-end: 0;
