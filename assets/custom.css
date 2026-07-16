@@ -2139,7 +2139,10 @@ tbody tr:last-child .mo-compare__cell {
   border-bottom: 1px solid var(--mo-science-divider, #b8f3d8);
 }
 
-.mo-science__stat:nth-last-child(-n + 2) {
+/* Mobile: single stacked column — only the very last item has no divider
+   after it, so all stacked items (not just the first few) get an even
+   divider + spacing between them. */
+.mo-science__stat:last-child {
   border-bottom: none;
   padding-bottom: 0;
 }
@@ -2170,6 +2173,13 @@ tbody tr:last-child .mo-compare__cell {
 
   .mo-science__stat:nth-child(n + 3) {
     padding-top: var(--mo-space-6, 24px);
+  }
+
+  /* Desktop 2-col grid: the last ROW (last two items, not just the last
+     single item) has no divider below it. */
+  .mo-science__stat:nth-last-child(-n + 2) {
+    border-bottom: none;
+    padding-bottom: 0;
   }
 }
 
