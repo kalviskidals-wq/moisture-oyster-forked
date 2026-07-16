@@ -130,6 +130,40 @@ document.addEventListener('click', (event) => {
   }
 });
 
+// CUSTOM (fix, 2026-07-13): in-page "#anchor" links (e.g. the homepage
+// hero's "HOW IT WORKS" CTA pointing at a section further down the page)
+// silently did nothing on desktop. Root cause: Horizon's own .page-wrapper
+// becomes the real scrolling element (overflow-y: auto) at desktop widths
+// (>=990px, see base.css) while window/document stays fixed — the browser's
+// native hash-navigation (":target" jump on click / on load) only scrolls
+// the document/viewport, so on desktop there was nothing for it to actually
+// scroll. Fixed generically for every same-page hash link on the site (not
+// just the hero's CTA) by intercepting the click and calling
+// scrollIntoView() on the target instead, which correctly finds and scrolls
+// whichever ancestor is actually the scrolling container (.page-wrapper on
+// desktop, window on mobile) rather than assuming it's always the document.
+document.addEventListener('click', (event) => {
+  const link = event.target.closest('a[href^="#"]');
+  if (!link) return;
+
+  const hash = link.getAttribute('href');
+  if (!hash || hash.length < 2) return;
+
+  let target;
+  try {
+    target = document.getElementById(decodeURIComponent(hash.slice(1)));
+  } catch (error) {
+    target = null;
+  }
+  if (!target) return;
+
+  event.preventDefault();
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (window.history && window.history.pushState) {
+    window.history.pushState(null, '', hash);
+  }
+});
+
 // CUSTOM (fix): Horizon's own .page-wrapper becomes the real scrolling
 // element (overflow-y: auto) at desktop widths (>=990px, see base.css),
 // while window/body scrolls normally below that. A "scroll" listener on
