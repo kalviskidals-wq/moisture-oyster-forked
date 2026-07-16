@@ -4325,8 +4325,8 @@ mo-review-filter {
   position: relative;
   background: var(--mo-eye-header-bg, #f7f5f0);
   padding-block: 30px;
-  min-height: 70vh;
-  min-height: 70dvh;
+  min-height: 85vh;
+  min-height: 85dvh;
   border-radius: var(--mo-eye-section-radius, 24px);
   overflow: hidden;
 }
