@@ -426,6 +426,13 @@
     var sectionId = picker.dataset.sectionId;
 
     function getForm() {
+      // CUSTOM: prefer the deterministic id Horizon's buy-buttons block gives this
+      // exact form ('BuyButtons-ProductForm-' + section.id, see blocks/buy-buttons.liquid)
+      // over the looser action*="/cart/add" match, so there's no ambiguity if more than
+      // one cart-add form ever ends up in the DOM (e.g. a quick-add modal).
+      var byId = document.getElementById('BuyButtons-ProductForm-' + sectionId);
+      if (byId) return byId;
+
       var shopifySection = document.getElementById('shopify-section-' + sectionId);
       if (shopifySection) {
         var f = shopifySection.querySelector('form[action*="/cart/add"]');
@@ -561,11 +568,18 @@
       });
     }
 
-    // CUSTOM: compute the initial subscribe-price + save-badge state from the
-    // default-checked cards on load, so the discount badge doesn't stay hidden
-    // until the shopper first clicks a card. writeToForm stays false — Seal owns
-    // the form's initial id/selling_plan values on page load, per the established
-    // "never touch selling_plan on load" rule for this picker.
-    applyState(false);
+    // CUSTOM: sync the cart form (id + selling_plan) to the default-checked cards
+    // on load, not just the displayed price/badge. The card-variant-picker pattern
+    // doc originally said "never write selling_plan on load — Seal initializes its
+    // own input ~600ms after DOM ready, let it own the initial state" — that assumed
+    // Seal's native widget was still running. Since .sealsubs-target-element is now
+    // hidden with display:none (per Kalvis's request to remove the duplicate Seal
+    // UI), Seal's init script no longer reliably sets that input (many subscription
+    // apps skip init when their widget isn't visible/rendered), so the form was
+    // silently staying on the native "no selling plan" default until the shopper
+    // clicked a card — meaning an immediate Add to Bag click added the one-time
+    // variant even though "Subscribe" showed as selected. This picker now fully
+    // owns the initial state to match, since it's the only UI actually driving it.
+    applyState(true);
   })();
 </script>
