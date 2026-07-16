@@ -141,15 +141,18 @@ document.addEventListener('click', (event) => {
 // hash link on the site by intercepting the click and calling
 // scrollIntoView() on the target instead, which correctly finds and scrolls
 // whichever ancestor is actually the scrolling container.
-// Root cause #2 (theme-editor preview only): while testing inside the
-// Shopify customizer's preview iframe, every section's `section.id` gets a
-// `template--{uuid}__` prefix Shopify adds for its own draft-preview
-// versioning — so `id="MoHowItWorks-{{ section.id }}"` renders as
-// `MoHowItWorks-template--12345__custom_how_it_works_rLezhk` there, not the
-// plain id the link points to. That prefix does NOT exist on the live
-// published storefront. Handled below by falling back to an "ends with"
-// attribute match when the exact id isn't found, so the same link works in
-// both the customizer preview and on the live site without edits.
+// Root cause #2 (confirmed on the LIVE published site, not just the
+// customizer preview): any page rendered from its own JSON template (like
+// this "homepage" page template) gets EVERY section's `section.id` prefixed
+// by Shopify with `template--{numeric-id}__`, to keep ids unique across
+// templates — so `id="MoHowItWorks-{{ section.id }}"` actually renders as
+// `MoHowItWorks-template--21808670638220__custom_how_it_works_rLezhk`, with
+// the prefix spliced into the MIDDLE of the id (between our own
+// "MoHowItWorks-" prefix and the section key), not at the very start. A
+// plain "ends with" check for the literal hash can never match that, since
+// "MoHowItWorks-" can only ever appear once, at the true start of the id.
+// Fixed below by stripping any "template--...__" segment from candidate ids
+// before comparing, wherever in the id it happens to fall.
 document.addEventListener('click', (event) => {
   const link = event.target.closest('a[href^="#"]');
   if (!link) return;
@@ -167,10 +170,12 @@ document.addEventListener('click', (event) => {
 
   let target = document.getElementById(idValue);
   if (!target) {
-    try {
-      target = document.querySelector('[id$="' + idValue + '"]');
-    } catch (error) {
-      target = null;
+    const candidates = document.querySelectorAll('[id*="' + idValue.replace(/^.*?-/, '') + '"]');
+    for (const candidate of candidates) {
+      if (candidate.id.replace(/template--[^_]+__/, '') === idValue) {
+        target = candidate;
+        break;
+      }
     }
   }
   if (!target) return;
