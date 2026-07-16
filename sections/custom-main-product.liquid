@@ -131,6 +131,14 @@
       grid-column: 2 / 3;
     }
 
+    /* CUSTOM: mobile sticky add-to-cart bar drops the product name — doesn't fit
+       alongside the image + subscribe-discount text + button in that compact a
+       row. Desktop keeps it (untouched). .sticky-add-to-cart__info only wraps
+       the title now (the variant-title row was removed entirely earlier). */
+    #shopify-section-{{ section.id }} .sticky-add-to-cart__info {
+      display: none;
+    }
+
     /* CUSTOM: product description mobile type spec (Kalvis) — same font-family/weight/color as
        desktop (set above), only size/line-height/letter-spacing differ at this breakpoint. */
     #shopify-section-{{ section.id }} .text-block--mo_description,
