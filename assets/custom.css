@@ -5455,10 +5455,7 @@ body {
    panel). Browsers render their default focus rectangle for that
    programmatic .focus() call, which on iPhone showed as a stray "square"
    around the first link even though the drawer was opened by tapping the
-   burger, not by keyboard. :focus-visible's own heuristic already skips
-   that ring for script-triggered focus in this case, so suppressing plain
-   :focus and opting into :focus-visible only keeps a clean ring for actual
-   keyboard Tab navigation while removing it here. */
+   burger, not by keyboard. */
 .mo-header__drawer-link:focus {
   outline: none;
 }
@@ -5466,6 +5463,21 @@ body {
 .mo-header__drawer-link:focus-visible {
   outline: 2px solid var(--mo-header-drawer-link, #ffffff);
   outline-offset: 6px;
+}
+
+/* CUSTOM (fix): the :focus-visible rule above was meant to only show a ring
+   for real keyboard Tab navigation, relying on :focus-visible's heuristic
+   to skip script-triggered .focus() calls — but that heuristic isn't
+   reliable across browsers (iOS Safari in particular can still match
+   :focus-visible for a programmatic focus), so the white square kept
+   coming back on the drawer's initial auto-focused link. mo-header.js now
+   adds this class for a brief, deterministic window right when it calls
+   .focus() on open, removed a beat later — guaranteed to suppress the
+   outline regardless of any browser's :focus-visible heuristic, since it
+   doesn't depend on one at all. */
+.mo-focus-ring-suppressed:focus,
+.mo-focus-ring-suppressed:focus-visible {
+  outline: none;
 }
 
 .mo-header__drawer-watermark {

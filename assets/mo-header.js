@@ -60,7 +60,20 @@ class MoHeaderDrawer extends HTMLElement {
     window.requestAnimationFrame(() => {
       this.classList.add('is-open');
       const firstFocusable = this.panel && this.panel.querySelector('a[href], button:not([disabled])');
-      if (firstFocusable) firstFocusable.focus();
+      // CUSTOM (fix): relying on :focus-visible to hide the ring for this
+      // programmatic .focus() call wasn't reliable across browsers — iOS
+      // Safari in particular can still match :focus-visible here, showing
+      // a visible outline ("white square") around the first drawer link
+      // even though the drawer was opened by tapping, not by keyboard.
+      // Suppress the ring deterministically with a class instead of
+      // depending on that heuristic, removed a beat later so a real
+      // keyboard Tab press right after still gets its normal :focus-visible
+      // ring (see the matching CSS rule in custom.css).
+      if (firstFocusable) {
+        firstFocusable.classList.add('mo-focus-ring-suppressed');
+        firstFocusable.focus();
+        window.setTimeout(() => firstFocusable.classList.remove('mo-focus-ring-suppressed'), 50);
+      }
     });
   }
 
