@@ -5171,6 +5171,30 @@ body {
   z-index: 30;
 }
 
+/* CUSTOM (fix, round 14): a transparent header still needs to NOT reserve
+   any layout space — position:sticky (above) visually "sticks" during
+   scroll but still occupies its own normal-flow slot at rest, which is
+   exactly what was rendering as a solid band between the header and the
+   first section (revealing body's own background, see the round-8 rule
+   further below) instead of the header floating on top of the first
+   section's own image/video. position:fixed removes #header-group from
+   flow entirely while keeping it pinned to the viewport at all times, so
+   the first section can now start right at the true top of the page and
+   run underneath the header. The scroll-up hide/reveal transform on
+   .mo-header still layers on top of this fine (transform is independent
+   of the position property). z-index repeated here (not just relying on
+   the rule above) so this is self-sufficient even if sticky_behavior is
+   set to "none" while transparent is still enabled. !important because
+   this must win over the sticky rule above regardless of specificity —
+   our own live config combines transparent with "scroll-up" sticky, whose
+   selector is otherwise more specific. */
+#header-group:has(.mo-header--transparent) {
+  position: fixed !important;
+  inset-inline: 0;
+  top: 0;
+  z-index: 30;
+}
+
 /* CUSTOM (fix, round 8): rounds 6-7's scroll-JS-driven fill/radius toggles
    on #header-group are abandoned entirely — every version of "paint a fill
    color on the sticky ancestor" eventually produced a solid block in some
