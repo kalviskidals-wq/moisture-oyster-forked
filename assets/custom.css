@@ -5455,26 +5455,10 @@ body {
   display: none;
 }
 
-/* CUSTOM: audit #1 (2026-07-17) — Figma dev-mode shows the nav links sitting
-   inside a frosted-glass pill (backdrop-blur 30px, radius 20px, white text),
-   not bare on the header background. This is a permanent nav treatment (the
-   captured Figma frame is the hero/first-screen state), separate from the
-   existing .mo-header--transparent/--scrolled solid-bg switch on the header
-   bar itself — the pill sits on top of whichever header background is active.
-   Background opacity/tint wasn't exposed as an explicit fill in the Figma
-   export (blur-only), so a low-opacity white overlay is used here to
-   approximate the frosted-glass look — VERIFY against the live Figma file if
-   it looks off. */
 .mo-header__nav-list {
   display: flex;
   align-items: center;
   gap: var(--mo-space-5, 20px); /* CUSTOM: was 24px — Figma confirms 20px gap between nav links */
-  padding-inline: var(--mo-space-7, 30px); /* CUSTOM: Figma confirms 30px horizontal padding on the pill */
-  border-radius: var(--mo-radius-pill, 20px); /* CUSTOM: Figma confirms 20px radius */
-  background: rgba(255, 255, 255, 0.12); /* CUSTOM: VERIFY — approximated frosted tint, exact opacity not exposed by Figma export */
-  backdrop-filter: blur(30px); /* CUSTOM: Figma confirms 30px blur */
-  -webkit-backdrop-filter: blur(30px);
-  height: 46px; /* CUSTOM: matches Figma's nav row height */
 }
 
 .mo-header__nav-link {

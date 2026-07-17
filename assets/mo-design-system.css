@@ -149,8 +149,8 @@
 .mo-btn--shop { background: var(--mo-mint); color: var(--mo-deep-green); }           /* mint fill */
 .mo-btn--shop:hover { background: var(--mo-green); color: var(--mo-white); }
 
-.mo-btn--bag { background: var(--mo-green); color: var(--mo-white); }                /* accent green */
-.mo-btn--bag:hover { background: var(--mo-deep-green); }
+.mo-btn--bag { background: var(--mo-deep-green); color: var(--mo-white); }           /* CUSTOM: main #093D24 -> hover #0D1B14 per Kalvis (2026-07-17), was #1FA567 fill */
+.mo-btn--bag:hover { background: var(--mo-black); }
 
 .mo-btn--dark { background: var(--mo-deep-green); color: var(--mo-white); }          /* deep green */
 .mo-btn--dark:hover { background: var(--mo-green); }
