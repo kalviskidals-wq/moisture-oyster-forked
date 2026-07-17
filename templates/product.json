@@ -1126,8 +1126,8 @@
         "vertical_padding": 40,
         "background_color": "#093d24",
         "card_background_color": "#115033",
-        "divider_color": "#ffffff1f",
-        "eyebrow_color": "#ffffff",
+        "divider_color": "#b8f3d8",
+        "eyebrow_color": "#ffd5f7",
         "heading_color": "#ffffff",
         "figure_color": "#ffd5f7",
         "unit_color": "#ffffff",
@@ -1137,11 +1137,11 @@
         "bar_label_color": "#ffffff",
         "threshold_color": "#ffd5f7",
         "threshold_pill_bg": "#ffd5f7",
-        "threshold_pill_text": "#093d24",
+        "threshold_pill_text": "#115033",
         "caption_color": "#ffffff",
-        "badge_border_color": "#ffffff66",
+        "badge_border_color": "#ffd5f7",
         "badge_text_color": "#ffffff",
-        "badge_check_color": "#ffd5f7"
+        "badge_check_color": "#ffffff"
       }
     },
     "custom_reviews_mopdp1": {
