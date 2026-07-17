@@ -4536,7 +4536,7 @@ mo-review-filter {
    permanently (still correct, just without the "closed cards shrink to
    their shortest shared caption height" refinement). */
 @supports selector(:has(a)) {
-  .mo-eye-health__cards:not(:has(.mo-eye-health__card:hover, .mo-eye-health__card:focus-within)) {
+  .mo-eye-health__cards:not(:has(.mo-eye-health__card:hover, .mo-eye-health__card:focus-within, .mo-eye-health__card.is-open)) {
     align-items: stretch;
   }
 }
@@ -4571,7 +4571,8 @@ mo-review-filter {
 }
 
 .mo-eye-health__card:hover .mo-eye-health__card-flip,
-.mo-eye-health__card:focus-within .mo-eye-health__card-flip {
+.mo-eye-health__card:focus-within .mo-eye-health__card-flip,
+.mo-eye-health__card.is-open .mo-eye-health__card-flip {
   transform: rotateY(180deg);
   height: 360px;
 }
@@ -4761,7 +4762,8 @@ mo-review-filter {
   }
 
   .mo-eye-health__card:hover .mo-eye-health__card-flip,
-  .mo-eye-health__card:focus-within .mo-eye-health__card-flip {
+  .mo-eye-health__card:focus-within .mo-eye-health__card-flip,
+  .mo-eye-health__card.is-open .mo-eye-health__card-flip {
     height: 400px; /* CUSTOM: bumped expanded-height estimate to match */
   }
 }

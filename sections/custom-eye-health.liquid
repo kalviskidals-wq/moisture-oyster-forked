@@ -24,11 +24,17 @@
   align-items: flex-end so only the hovered/focused card grows — closed
   siblings keep their original height. tabindex="0" makes :focus-within
   reachable via keyboard (and, on many browsers, tap on touch devices).
-  Pure CSS, no JS. UPSTREAM risk LOW — net-new, no Horizon file touched.
+  The flip/expand itself is pure CSS (:hover, :focus-within). One small JS
+  file (mo-eye-health.js) is loaded only to handle touch devices, which have
+  no hover state: it adds/removes an .is-open class so a second tap on an
+  already-open card closes it again (per Kalvis, 2026-07-17) — see that
+  file's own comment for details. UPSTREAM risk LOW — net-new, no Horizon
+  file touched.
 {%- endcomment -%}
 {%- # CUSTOM: load design tokens + the .mo-eye-health rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval, per this project's established per-section pattern. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
 {{ 'custom.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mo-eye-health.js' | asset_url }}" type="module"></script>
 
 {%- # CUSTOM: Shopify auto-wraps this section in a div with id="shopify-section-{{ section.id }}" (per the schema's "class": "mo-eye-health-wrapper") that isn't otherwise reachable from this file's own markup — scoping the "background behind the rounded corners" color to that real wrapper ID here (rather than the global body) keeps the fix local to this specific section instance, safe even if this section is ever placed more than once on a page. -%}
 <style>
