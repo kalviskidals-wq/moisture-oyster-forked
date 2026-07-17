@@ -20,7 +20,7 @@
         "menu": "main-menu",
         "show_cart": true,
         "show_account": true,
-        "sticky_behavior": "scroll-up",
+        "sticky_behavior": "always",
         "enable_transparent_home": true,
         "enable_transparent_product": false,
         "enable_transparent_collection": false,
