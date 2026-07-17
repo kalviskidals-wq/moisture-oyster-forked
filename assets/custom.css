@@ -4492,7 +4492,6 @@ mo-review-filter {
   min-width: 0;
   box-sizing: border-box;
   scroll-snap-align: start;
-  display: flex; /* CUSTOM: audit #6 — lets .mo-eye-health__card-flip fill the stretched card height */
   border-radius: var(--mo-eye-card-radius, 16px); /* CUSTOM: was 10px — Figma dev-mode confirms 16px (audit #5, 2026-07-17) */
   overflow: hidden;
   perspective: 1200px; /* CUSTOM: audit #6 (2026-07-17) — hover-flip reveal, moved here from the product-range cards */
@@ -4504,8 +4503,14 @@ mo-review-filter {
    3D rotation, so both faces below can be sized/positioned against it. */
 .mo-eye-health__card-flip {
   position: relative;
-  flex: 1 1 auto;
   width: 100%;
+  /* CUSTOM FIX: both faces below are position:absolute (removed from flow)
+     so nothing is left in-flow to give this box a height — without an
+     explicit min-height here the whole card collapses to 0px and
+     disappears from the row. Sized generously for a 2-line caption at
+     each breakpoint's figure/caption font sizes (see the desktop override
+     further down). */
+  min-height: 230px;
   transform-style: preserve-3d;
   transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
 }
@@ -4681,6 +4686,10 @@ mo-review-filter {
   .mo-eye-health__card {
     flex: 1 1 0%;
     scroll-snap-align: none;
+  }
+
+  .mo-eye-health__card-flip {
+    min-height: 270px; /* CUSTOM: desktop figure/caption font sizes are larger, needs more room */
   }
 }
 
