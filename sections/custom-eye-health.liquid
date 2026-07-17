@@ -1,4 +1,23 @@
-{%- # CUSTOM: net-new theme section — Homepage "Eye Health Education" problem-agitation block. Full-bleed lifestyle image (light/cream studio backdrop) with eyebrow + heading + subhead overlaid top-left on desktop (static, stacked above the image on mobile — same position:absolute→static breakpoint switch as .mo-problem__header / .mo-sub-benefits__header), and a repeatable row of expandable US dry-eye stat cards along the bottom. Desktop: 3 cards side-by-side, fixed equal width; Mobile: cards are a fixed-width horizontal scroll-snap carousel. On both breakpoints, tapping a card leaves its (and every other card's) width unchanged — only its height grows as the body reveals (native <details> content model, align-items:flex-end on the row so every card shares the same bottom baseline: the open card grows upward, closed siblings neither stretch nor shift), no :has() or JS. Each card is a native <details>/<summary> (zero-JS, keyboard/ARIA accessible out of the box) with a +/× toggle built from snippets/mo-accordion-icon.liquid (rotated 45deg on [open], same technique as .mo-ingredient__toggle). Optional single-open behavior uses the native <details name="..."> exclusive-accordion group (no JS). UPSTREAM risk LOW — net-new, no Horizon file touched. -%}
+{%- comment -%}
+  CUSTOM: net-new theme section — Homepage "Eye Health Education"
+  problem-agitation block. Full-bleed lifestyle image (light/cream studio
+  backdrop) with eyebrow + heading + subhead overlaid top-left on desktop
+  (static, stacked above the image on mobile — same position:absolute→static
+  breakpoint switch as .mo-problem__header / .mo-sub-benefits__header), and a
+  repeatable row of US dry-eye stat cards along the bottom. Desktop: 3 cards
+  side-by-side, fixed equal width; Mobile: cards are a fixed-width horizontal
+  scroll-snap carousel.
+
+  CUSTOM (2026-07-17, audit #6, moved here from the product-range cards per
+  Kalvis): each card is a pure-CSS 3D flip (perspective/rotateY) — hovering
+  or focusing a card flips it to reveal its body copy on the back face. This
+  replaced an earlier native <details>/<summary> click-to-expand version;
+  the toggle glyph from snippets/mo-accordion-icon.liquid is kept as a static
+  visual hint on the front face only. tabindex="0" on the card makes
+  :focus-within reachable via keyboard (and, on many browsers, tap on touch
+  devices), same convention as the (now-reverted) product-card flip.
+  UPSTREAM risk LOW — net-new, no Horizon file touched.
+{%- endcomment -%}
 {%- # CUSTOM: load design tokens + the .mo-eye-health rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval, per this project's established per-section pattern. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
 {{ 'custom.css' | asset_url | stylesheet_tag }}
@@ -19,10 +38,6 @@
   assign has_image_mobile = false
   if s.background_image_mobile != blank
     assign has_image_mobile = true
-  endif
-  assign group_name = ''
-  if s.single_open
-    assign group_name = 'MoEyeHealth-' | append: section.id
   endif
 -%}
 
@@ -99,36 +114,49 @@
     {%- if section.blocks.size > 0 -%}
       <div class="mo-eye-health__cards-wrap">
         <div class="mo-eye-health__cards" aria-label="{{ s.eyebrow | strip_newlines | escape }}">
+          {%- comment -%}
+            CUSTOM: audit #6 (2026-07-17, moved here from the product-range
+            cards per Kalvis) — card flips on hover/focus to reveal the body
+            copy on its back face, replacing the previous click-to-expand
+            <details>/<summary> accordion. tabindex makes the card
+            focusable so keyboard users (and, on many browsers, a tap on
+            touch devices) can trigger :focus-within the same way mouse
+            users trigger :hover — same convention as the product-card flip
+            this replaced. Pure CSS (perspective/rotateY), no JS.
+          {%- endcomment -%}
           {%- for block in section.blocks -%}
             {%- if block.type == 'stat' -%}
               {%- liquid
                 assign bs = block.settings
               -%}
-              <details
+              <div
                 class="mo-eye-health__card"
                 id="MoEyeHealthCard-{{ section.id }}-{{ block.id }}"
-                {% if group_name != blank %}name="{{ group_name }}"{% endif %}
-                {% if bs.open_by_default %}open{% endif %}
+                tabindex="0"
                 {{ block.shopify_attributes }}
               >
-                <summary class="mo-eye-health__card-summary">
-                  <div class="mo-eye-health__card-top">
-                    {%- if bs.figure != blank -%}
-                      <p class="mo-eye-health__figure mo-stat">{{ bs.figure | escape }}</p>
+                <div class="mo-eye-health__card-flip">
+                  <div class="mo-eye-health__card-face mo-eye-health__card-face--front">
+                    <div class="mo-eye-health__card-top">
+                      {%- if bs.figure != blank -%}
+                        <p class="mo-eye-health__figure mo-stat">{{ bs.figure | escape }}</p>
+                      {%- endif -%}
+                      <span class="mo-eye-health__toggle" aria-hidden="true">
+                        {%- render 'mo-accordion-icon' -%}
+                      </span>
+                    </div>
+                    {%- if bs.caption != blank -%}
+                      <p class="mo-eye-health__caption mo-menu">{{ bs.caption | newline_to_br }}</p>
                     {%- endif -%}
-                    <span class="mo-eye-health__toggle" aria-hidden="true">
-                      {%- render 'mo-accordion-icon' -%}
-                    </span>
+                    <hr class="mo-eye-health__divider" aria-hidden="true">
                   </div>
-                  {%- if bs.caption != blank -%}
-                    <p class="mo-eye-health__caption mo-menu">{{ bs.caption | newline_to_br }}</p>
+                  {%- if bs.body != blank -%}
+                    <div class="mo-eye-health__card-face mo-eye-health__card-face--back">
+                      <div class="mo-eye-health__body mo-body">{{ bs.body }}</div>
+                    </div>
                   {%- endif -%}
-                  <hr class="mo-eye-health__divider" aria-hidden="true">
-                </summary>
-                {%- if bs.body != blank -%}
-                  <div class="mo-eye-health__body mo-body">{{ bs.body }}</div>
-                {%- endif -%}
-              </details>
+                </div>
+              </div>
             {%- endif -%}
           {%- endfor -%}
         </div>
@@ -180,17 +208,6 @@
       "id": "background_image_mobile",
       "label": "Background image (mobile, vertical)",
       "info": "Optional separate vertical crop shown below 750px. Falls back to the desktop image above if left blank."
-    },
-    {
-      "type": "header",
-      "content": "Behavior"
-    },
-    {
-      "type": "checkbox",
-      "id": "single_open",
-      "label": "Only allow one stat card open at a time",
-      "default": false,
-      "info": "Uses the native browser exclusive-accordion behavior (no JS)."
     },
     {
       "type": "header",
@@ -346,14 +363,8 @@
         {
           "type": "richtext",
           "id": "body",
-          "label": "Body (revealed on expand)",
+          "label": "Body (revealed on hover/focus)",
           "default": "<p>Add supporting context here.</p>"
-        },
-        {
-          "type": "checkbox",
-          "id": "open_by_default",
-          "label": "Open by default",
-          "default": false
         }
       ]
     }

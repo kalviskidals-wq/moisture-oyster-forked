@@ -169,8 +169,7 @@
           "settings": {
             "figure": "55%",
             "caption": "Decrease in blink rate while on screen",
-            "body": "<p>Staring at screens suppresses your natural blink reflex, reducing tear film renewal and leaving eyes dry, gritty, and fatigued by midday.</p>",
-            "open_by_default": false
+            "body": "<p>Staring at screens suppresses your natural blink reflex, reducing tear film renewal and leaving eyes dry, gritty, and fatigued by midday.</p>"
           }
         },
         "stat_screentime": {
@@ -178,8 +177,7 @@
           "settings": {
             "figure": "10h+",
             "caption": "Average American screen time",
-            "body": "<p>Phones, laptops, and TVs add up fast- more hours on screen means more time your eyes spend under-blinking and under-hydrated.</p>",
-            "open_by_default": false
+            "body": "<p>Phones, laptops, and TVs add up fast- more hours on screen means more time your eyes spend under-blinking and under-hydrated.</p>"
           }
         },
         "stat_dryeye": {
@@ -187,8 +185,7 @@
           "settings": {
             "figure": "16m",
             "caption": "Americans diagnosed with dry eye",
-            "body": "<p>Dry eye disease affects roughly 16 million adults in the US, and screen-driven blink suppression is accelerating diagnoses every year.</p>",
-            "open_by_default": false
+            "body": "<p>Dry eye disease affects roughly 16 million adults in the US, and screen-driven blink suppression is accelerating diagnoses every year.</p>"
           }
         }
       },
@@ -204,7 +201,6 @@
         "subhead": "Triple-action hydration with Glycerin, Hyaluronate, and L-Carnitine. Preservative-free. Multi-dose bottle via Aptar OSD technology. Suitable for use before inserting and after removing contact lenses. Made in the Netherlands by Oté Pharma.",
         "background_image": "shopify://shop_images/The_Silent_Crisi_In_Eye_Health_Hero_image_1.jpg",
         "background_image_mobile": "shopify://shop_images/Mobile_Section_hero_The_silent_crisis_in_eye_health_mobile_1.jpg",
-        "single_open": true,
         "header_background_color": "#f7f5f0",
         "eyebrow_color": "#1fa567",
         "heading_color": "#093d24",

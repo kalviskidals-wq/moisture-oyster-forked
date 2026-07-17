@@ -4210,51 +4210,6 @@ mo-review-filter {
   border-radius: var(--mo-range-card-radius, 10px);
   background: var(--mo-range-card-bg, #115033);
   overflow: hidden;
-  perspective: 1200px; /* CUSTOM: audit #6 (2026-07-17) — hover-flip reveal, ref kitskinkind.com.au/en-eu/pages/ethos */
-}
-
-/* CUSTOM: audit #6 — 3D flip wrapper. .mo-range__media itself keeps overflow:hidden
-   + radius (clips the flip), while this inner element does the actual 3D rotation. */
-.mo-range__media-flip {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-}
-
-.mo-range__card:hover .mo-range__media-flip,
-.mo-range__card:focus-within .mo-range__media-flip {
-  transform: rotateY(180deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mo-range__media-flip { transition: none; }
-}
-
-.mo-range__media-face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.mo-range__media-face--back {
-  transform: rotateY(180deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--mo-space-6, 24px);
-  background: var(--mo-range-card-bg, #115033);
-  text-align: center;
-}
-
-.mo-range__media-back-text {
-  margin: 0;
-  color: var(--mo-range-title, #ffffff);
-  font-family: var(--mo-font-body, 'Manrope', sans-serif);
-  font-size: 14px;
-  line-height: 1.4;
 }
 
 .mo-range__image {
@@ -4359,13 +4314,11 @@ mo-review-filter {
    above), stat cards become a horizontal scroll-snap carousel overlaid on
    the image. Desktop: header switches to position:absolute and overlays the
    image top-left, stat cards sit in a 3-up row along the bottom. Each card
-   is a native <details>/<summary> — no JS. Cards keep a fixed, equal width
-   whether open or closed; tapping/clicking one only grows it vertically as
-   its body reveals via the browser's native <details> content model —
-   .mo-eye-health__cards uses align-items: flex-end so every card's bottom
-   edge shares the row's (bottom-anchored) baseline: the open card grows
-   upward from it, and closed siblings neither stretch nor shift position.
-   The whole box has a merchant-editable corner radius (already relies on
+   is a pure-CSS 3D flip (perspective/rotateY on hover/focus-within, see
+   .mo-eye-health__card-flip below) — no JS. Cards keep a fixed, equal width
+   AND height (row uses align-items: stretch so every card matches the
+   tallest sibling's front face); flipping swaps which face is visible
+   without changing the card's box at all. The whole box has a merchant-editable corner radius (already relies on
    this rule's own overflow:hidden to clip the image/cards to the rounded
    shape); the color that shows through those rounded corners is set on
    Shopify's own auto-generated wrapper div via a scoped <style> block in
@@ -4513,20 +4466,14 @@ mo-review-filter {
    CSS-only carousel (overflow-x + scroll-snap), matching the established
    .mo-howto__steps / .mo-reviews__scroller technique. Keyboard-scrollable
    and momentum-scrolling by default; aria-label set in markup.
-   CUSTOM: align-items: flex-end (not the flex default of stretch, and
-   deliberately not flex-start) so every card's BOTTOM edge sits on this
-   row's bottom edge. .mo-eye-health__cards-wrap is itself bottom-anchored
-   (fixed distance from the image's bottom edge) — with flex-end, that
-   shared bottom baseline never moves, so an open card only grows upward
-   from it and the closed siblings stay exactly where they are. flex-start
-   was tried first and rejected: since the row's own height grows from the
-   tallest (open) child, top-aligning made the row's top edge rise and
-   dragged every card's position up together, even ones that hadn't
-   changed height at all. Cards keep a fixed width whether open or closed
-   (set below); only height changes. */
+   CUSTOM (2026-07-17, audit #6): align-items: stretch — every card matches
+   the tallest sibling's front-face content, and stays that height on
+   hover/focus since flipping no longer changes the card's box (replaced the
+   old flex-end/:has() dance that existed to support the click-to-expand
+   accordion's growing height). */
 .mo-eye-health__cards {
   display: flex;
-  align-items: flex-end;
+  align-items: stretch;
   gap: var(--mo-space-4, 16px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -4534,28 +4481,6 @@ mo-review-filter {
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-block-end: var(--mo-space-2, 8px);
-}
-
-/* CUSTOM: while every card is closed, upgrade to align-items: stretch so
-   closed cards dynamically match whichever one's caption actually wraps
-   the most (2-line caption -> all cards match that height; all captions
-   1-line -> all cards shrink back down together) — real content-driven
-   matching, not a fixed reservation. The moment any card is [open], this
-   is skipped and .mo-eye-health__cards falls back to the base flex-end
-   rule above, so the open card can still grow independently upward
-   without dragging its still-closed siblings along (the round-3 fix).
-   Gated behind @supports selector(:has(a)) as an explicit feature check
-   rather than relying on :has()'s CSS4 forgiving-selector-list fallback
-   behavior, which isn't implemented identically everywhere. Browsers
-   without :has() support simply never get this upgrade and stay on
-   flex-end permanently — see the matching @supports-not fallback on
-   .mo-eye-health__caption below, which reserves a fixed 2-line height
-   instead for those browsers so closed cards still look reasonably
-   uniform, just without the "shrinks to 1-line height" refinement. */
-@supports selector(:has(a)) {
-  .mo-eye-health__cards:not(:has(.mo-eye-health__card[open])) {
-    align-items: stretch;
-  }
 }
 
 .mo-eye-health__cards::-webkit-scrollbar {
@@ -4567,22 +4492,48 @@ mo-review-filter {
   min-width: 0;
   box-sizing: border-box;
   scroll-snap-align: start;
-  background: var(--mo-eye-card-bg, #093d24);
+  display: flex; /* CUSTOM: audit #6 — lets .mo-eye-health__card-flip fill the stretched card height */
   border-radius: var(--mo-eye-card-radius, 16px); /* CUSTOM: was 10px — Figma dev-mode confirms 16px (audit #5, 2026-07-17) */
-  padding: var(--mo-space-5, 20px) var(--mo-space-7, 30px) var(--mo-space-7, 30px); /* CUSTOM: was 24px/20px — Figma confirms 20px top / 30px sides+bottom */
   overflow: hidden;
+  perspective: 1200px; /* CUSTOM: audit #6 (2026-07-17) — hover-flip reveal, moved here from the product-range cards */
 }
 
-.mo-eye-health__card-summary {
-  display: block;
-  cursor: pointer;
-  list-style: none;
+/* CUSTOM: audit #6 — 3D flip wrapper. .mo-eye-health__card itself keeps
+   overflow:hidden + radius (clips the flip); this inner element fills the
+   card (flex:1 1 auto, since the card is display:flex) and does the actual
+   3D rotation, so both faces below can be sized/positioned against it. */
+.mo-eye-health__card-flip {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
 }
 
-.mo-eye-health__card-summary::marker,
-.mo-eye-health__card-summary::-webkit-details-marker {
-  display: none;
-  content: '';
+.mo-eye-health__card:hover .mo-eye-health__card-flip,
+.mo-eye-health__card:focus-within .mo-eye-health__card-flip {
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mo-eye-health__card-flip { transition: none; }
+}
+
+.mo-eye-health__card-face {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  padding: var(--mo-space-5, 20px) var(--mo-space-7, 30px) var(--mo-space-7, 30px); /* CUSTOM: was 24px/20px — Figma confirms 20px top / 30px sides+bottom */
+  background: var(--mo-eye-card-bg, #093d24);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.mo-eye-health__card-face--back {
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  overflow-y: auto; /* CUSTOM: safety net if a merchant's body copy runs longer than the front face's height */
 }
 
 .mo-eye-health__card-top {
@@ -4626,13 +4577,6 @@ mo-review-filter {
 .mo-eye-health__toggle svg {
   width: 14px;
   height: 14px;
-  transition: transform 0.15s ease;
-}
-
-/* Turns the shared "+" glyph into a "×" on open — same rotate(45deg)
-   technique as .mo-ingredient__toggle. */
-.mo-eye-health__card[open] .mo-eye-health__toggle svg {
-  transform: rotate(45deg);
 }
 
 /* CUSTOM: per Figma dev-mode spec (2026-07-15) — mobile 12px/desktop 16px
@@ -4640,11 +4584,7 @@ mo-review-filter {
    at line-height 130% / letter-spacing 10% / uppercase. Margin is 0 here;
    the 20px gap above the divider line comes from the divider's own
    margin-top now (see .mo-eye-health__divider), not this element's margin
-   — keeps the "space around the line" owned by the line itself. No
-   min-height here on purpose — closed-card height matching is handled by
-   .mo-eye-health__cards' :has()-gated align-items: stretch above, which
-   needs cards free to size to their OWN actual content (1 vs 2 caption
-   lines) so it can shrink them all back down together when none wraps. */
+   — keeps the "space around the line" owned by the line itself. */
 .mo-eye-health__caption {
   color: var(--mo-eye-caption, #ffffff);
   margin: 0;
@@ -4654,18 +4594,6 @@ mo-review-filter {
   line-height: 1.3;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-}
-
-/* Fallback for browsers without :has() support (can't feature-detect via
-   @supports selector(:has(a)) and get the dynamic stretch above) — falls
-   back to reserving a fixed 2-line height so closed cards still look
-   reasonably uniform, just without the "shrinks when all captions are
-   1-line" refinement. `em` resolves against this element's own font-size,
-   so it tracks the desktop 16px override automatically. */
-@supports not selector(:has(a)) {
-  .mo-eye-health__caption {
-    min-height: calc(2 * 1.3em);
-  }
 }
 
 /* CUSTOM: per Figma dev-mode spec (2026-07-15) — 1px line, 20px gap above
@@ -4689,7 +4617,6 @@ mo-review-filter {
   color: var(--mo-eye-body, #ffffff);
   opacity: 0.85;
   margin: 0;
-  padding-top: var(--mo-space-5, 20px);
   font-family: var(--mo-font-body, 'Inter', sans-serif);
   font-size: 14px;
   line-height: 1.3;
