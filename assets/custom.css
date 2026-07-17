@@ -4912,7 +4912,7 @@ mo-review-filter {
 .mo-hiw__panel {
   color: var(--mo-hiw-body, #ffffff);
   font-weight: 400;
-  max-width: 383px; /* CUSTOM: no max-width existed before, so text ran full column width — Figma dev-mode measures this text block at 383px (audit #9, 2026-07-17) */
+  max-width: 340px; /* CUSTOM: was 383px (Figma dev-mode measurement, audit #9) — narrowed further per Kalvis (2026-07-17) */
 }
 
 /* CUSTOM (2026-07-14 fix): removed a `.mo-hiw__panel + .mo-hiw__panel`

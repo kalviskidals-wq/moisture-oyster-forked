@@ -12,6 +12,13 @@
 // snippets/mo-ingredient-item.liquid) and are intentionally NOT handled here —
 // they already work with zero JS.
 // UPSTREAM risk LOW — net-new asset, no Horizon file touched.
+//
+// CUSTOM (2026-07-17, per Kalvis): opt-in hover activation for
+// sections/custom-how-it-works.liquid, which sets a `data-hover-activate`
+// attribute on its <mo-tabs> — sections/custom-ingredient-transparency.liquid
+// doesn't set it, so its tabs stay click/tap-only, unchanged. Gated behind
+// `(hover: hover) and (pointer: fine)` so touch devices (which can fire a
+// synthetic mouseenter on tap) still only get tap activation, never hover.
 
 const TAB_SELECTOR = '[role="tab"]';
 
@@ -51,6 +58,14 @@ class MoTabs extends HTMLElement {
     });
 
     tablist.addEventListener('keydown', (event) => this.#handleKeyDown(event), { signal });
+
+    if (this.hasAttribute('data-hover-activate') && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      this.tabs.forEach((tab, index) => {
+        // focus: false — hovering shouldn't steal keyboard focus away from
+        // wherever the user actually is on the page.
+        tab.addEventListener('mouseenter', () => this.#activate(index, { focus: false }), { signal });
+      });
+    }
   }
 
   disconnectedCallback() {

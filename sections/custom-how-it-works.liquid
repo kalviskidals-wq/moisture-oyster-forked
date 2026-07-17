@@ -32,7 +32,8 @@
   "
 >
   <div class="mo-hiw__inner">
-    <mo-tabs class="mo-hiw__tabs">
+    {%- # CUSTOM: data-hover-activate opts this instance into mo-tabs.js's hover-to-activate behavior (desktop only, gated by a pointer/hover media query in that file) per Kalvis (2026-07-17) — tap still activates on touch. -%}
+    <mo-tabs class="mo-hiw__tabs" data-hover-activate>
       <div class="mo-hiw__grid">
         {%- # CUSTOM (2026-07-14 fix): header/body/image now share one .mo-hiw__left wrapper. On desktop it's a real flex column (so the body-to-image gap is a single fixed flex `gap`, never influenced by the tablist's own height/spanning) and on mobile it's `display:contents` (dissolves so header/body/image still promote to their own individually-assigned grid-area, keeping the required header→body→tablist→image stacking order). Replaces the earlier "tablist spans 3 grid rows" technique, which left the left column's exact vertical rhythm dependent on grid row-track distribution math instead of a plain, predictable gap. -%}
         <div class="mo-hiw__left">
