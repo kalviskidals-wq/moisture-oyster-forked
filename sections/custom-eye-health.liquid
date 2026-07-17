@@ -8,21 +8,23 @@
   side-by-side, fixed equal width; Mobile: cards are a fixed-width horizontal
   scroll-snap carousel.
 
-  CUSTOM (2026-07-17, audit #6, corrected against Figma node 578:1714 — the
-  actual hover-state reference): hovering/focusing a card reveals its body
-  copy BELOW the existing figure/caption (which stay visible the whole
-  time) and the card grows taller to fit it — the front content is never
-  replaced or hidden. This is NOT a flip; an earlier pass here briefly
-  built a 3D flip (rotateY) that hid the front face on hover, which doesn't
-  match the reference and has been reverted. Only the hovered/focused card
-  grows — closed siblings keep their original height (row uses
-  align-items: flex-end, same bottom-anchored-baseline technique as the
-  section's original click-to-expand version, just re-triggered by
-  :hover/:focus-within instead of a click). The +/× toggle glyph from
-  snippets/mo-accordion-icon.liquid rotates the same way it did in that
-  original version. tabindex="0" on the card makes :focus-within reachable
-  via keyboard (and, on many browsers, tap on touch devices). Pure CSS, no
-  JS. UPSTREAM risk LOW — net-new, no Horizon file touched.
+  CUSTOM (2026-07-17, audit #6, per Kalvis + Figma node 578:1714): this IS a
+  real 3D flip (perspective/rotateY on hover/focus-within) — not a
+  grow-in-place reveal. The front face shows only figure + caption + divider,
+  no toggle icon. The back face repeats that same figure/caption/divider,
+  adds the body copy below it, AND is where the toggle icon appears
+  (pre-rotated to its "×" state, since the icon only exists on the face
+  that's already open) — i.e. flipping shows "everything the front showed,
+  plus the body," not a replacement. The card's height transitions together
+  with the rotation (see .mo-eye-health__card-flip's `height` in custom.css)
+  so it grows from a collapsed front height to a taller back height as it
+  flips — those two heights are fixed per-breakpoint ESTIMATES (a merchant's
+  body-copy length varies and can't be measured without JS), so they may
+  need a live tuning pass once real content is in. Row uses
+  align-items: flex-end so only the hovered/focused card grows — closed
+  siblings keep their original height. tabindex="0" makes :focus-within
+  reachable via keyboard (and, on many browsers, tap on touch devices).
+  Pure CSS, no JS. UPSTREAM risk LOW — net-new, no Horizon file touched.
 {%- endcomment -%}
 {%- # CUSTOM: load design tokens + the .mo-eye-health rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval, per this project's established per-section pattern. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
@@ -131,31 +133,50 @@
                 tabindex="0"
                 {{ block.shopify_attributes }}
               >
-                <div class="mo-eye-health__card-top">
-                  {%- if bs.figure != blank -%}
-                    <p class="mo-eye-health__figure mo-stat">{{ bs.figure | escape }}</p>
-                  {%- endif -%}
-                  <span class="mo-eye-health__toggle" aria-hidden="true">
-                    {%- render 'mo-accordion-icon' -%}
-                  </span>
-                </div>
-                {%- if bs.caption != blank -%}
-                  <p class="mo-eye-health__caption mo-menu">{{ bs.caption | newline_to_br }}</p>
-                {%- endif -%}
-                <hr class="mo-eye-health__divider" aria-hidden="true">
-                {%- if bs.body != blank -%}
+                <div class="mo-eye-health__card-flip">
                   {%- comment -%}
-                    CUSTOM: grid-template-rows 0fr->1fr is the standard
-                    JS-free technique for animating to an unknown content
-                    height — the inner div supplies the overflow:hidden
-                    boundary grid needs to clip during the transition.
+                    CUSTOM: front face — no toggle icon here on purpose; it
+                    only appears on the back face, once flipped (per Kalvis,
+                    2026-07-17).
                   {%- endcomment -%}
-                  <div class="mo-eye-health__reveal">
-                    <div class="mo-eye-health__reveal-inner">
-                      <div class="mo-eye-health__body mo-body">{{ bs.body }}</div>
+                  <div class="mo-eye-health__card-face mo-eye-health__card-face--front">
+                    <div class="mo-eye-health__card-top">
+                      {%- if bs.figure != blank -%}
+                        <p class="mo-eye-health__figure mo-stat">{{ bs.figure | escape }}</p>
+                      {%- endif -%}
                     </div>
+                    {%- if bs.caption != blank -%}
+                      <p class="mo-eye-health__caption mo-menu">{{ bs.caption | newline_to_br }}</p>
+                    {%- endif -%}
+                    <hr class="mo-eye-health__divider" aria-hidden="true">
                   </div>
-                {%- endif -%}
+                  {%- comment -%}
+                    CUSTOM: back face repeats the SAME figure/caption/divider
+                    as the front (per Kalvis: "all initial info + body" once
+                    flipped, not a replacement) and adds the body copy below
+                    it. The toggle icon lives only here, pre-set to its "×"
+                    state via .mo-eye-health__toggle--open — there's no need
+                    to animate +/× since this face is only ever visible while
+                    already flipped/hovered.
+                  {%- endcomment -%}
+                  <div class="mo-eye-health__card-face mo-eye-health__card-face--back">
+                    <div class="mo-eye-health__card-top">
+                      {%- if bs.figure != blank -%}
+                        <p class="mo-eye-health__figure mo-stat">{{ bs.figure | escape }}</p>
+                      {%- endif -%}
+                      <span class="mo-eye-health__toggle mo-eye-health__toggle--open" aria-hidden="true">
+                        {%- render 'mo-accordion-icon' -%}
+                      </span>
+                    </div>
+                    {%- if bs.caption != blank -%}
+                      <p class="mo-eye-health__caption mo-menu">{{ bs.caption | newline_to_br }}</p>
+                    {%- endif -%}
+                    <hr class="mo-eye-health__divider" aria-hidden="true">
+                    {%- if bs.body != blank -%}
+                      <div class="mo-eye-health__body mo-body">{{ bs.body }}</div>
+                    {%- endif -%}
+                  </div>
+                </div>
               </div>
             {%- endif -%}
           {%- endfor -%}
