@@ -141,9 +141,6 @@
                       {%- if bs.figure != blank -%}
                         <p class="mo-eye-health__figure mo-stat">{{ bs.figure | escape }}</p>
                       {%- endif -%}
-                      <span class="mo-eye-health__toggle" aria-hidden="true">
-                        {%- render 'mo-accordion-icon' -%}
-                      </span>
                     </div>
                     {%- if bs.caption != blank -%}
                       <p class="mo-eye-health__caption mo-menu">{{ bs.caption | newline_to_br }}</p>

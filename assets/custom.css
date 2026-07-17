@@ -4579,10 +4579,6 @@ mo-review-filter {
 }
 
 .mo-eye-health__card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--mo-space-3, 12px);
   margin: 0 0 var(--mo-space-7, 32px); /* CUSTOM: was 12px — Figma dev-mode confirms 32px gap between the stat figure and its caption (audit #5, 2026-07-17) */
 }
 
@@ -4602,24 +4598,10 @@ mo-review-filter {
   text-transform: uppercase;
 }
 
-.mo-eye-health__toggle {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px solid var(--mo-eye-toggle, #ffffff);
-  color: var(--mo-eye-toggle, #ffffff);
-  background: transparent;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
-}
-
-.mo-eye-health__toggle svg {
-  width: 14px;
-  height: 14px;
-}
+/* CUSTOM: .mo-eye-health__toggle rules removed (2026-07-17, per Kalvis) —
+   the "+" toggle icon was a leftover from the old click-to-expand accordion
+   and no longer renders in the markup now that the cards are hover-flip
+   only. */
 
 /* CUSTOM: per Figma dev-mode spec (2026-07-15) — mobile 12px/desktop 16px
    (see the matching .mo-eye-health__caption desktop override below), both
@@ -4630,6 +4612,7 @@ mo-review-filter {
 .mo-eye-health__caption {
   color: var(--mo-eye-caption, #ffffff);
   margin: 0;
+  max-width: 20ch; /* CUSTOM: per Kalvis (2026-07-17) — narrowed so every caption wraps to 2 lines; `ch` scales with font-size so this holds at both the mobile (12px) and desktop (16px) sizes below */
   font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
   font-weight: 500;
   font-size: 12px;
