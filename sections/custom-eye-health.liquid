@@ -8,15 +8,21 @@
   side-by-side, fixed equal width; Mobile: cards are a fixed-width horizontal
   scroll-snap carousel.
 
-  CUSTOM (2026-07-17, audit #6, moved here from the product-range cards per
-  Kalvis): each card is a pure-CSS 3D flip (perspective/rotateY) — hovering
-  or focusing a card flips it to reveal its body copy on the back face. This
-  replaced an earlier native <details>/<summary> click-to-expand version;
-  the toggle glyph from snippets/mo-accordion-icon.liquid is kept as a static
-  visual hint on the front face only. tabindex="0" on the card makes
-  :focus-within reachable via keyboard (and, on many browsers, tap on touch
-  devices), same convention as the (now-reverted) product-card flip.
-  UPSTREAM risk LOW — net-new, no Horizon file touched.
+  CUSTOM (2026-07-17, audit #6, corrected against Figma node 578:1714 — the
+  actual hover-state reference): hovering/focusing a card reveals its body
+  copy BELOW the existing figure/caption (which stay visible the whole
+  time) and the card grows taller to fit it — the front content is never
+  replaced or hidden. This is NOT a flip; an earlier pass here briefly
+  built a 3D flip (rotateY) that hid the front face on hover, which doesn't
+  match the reference and has been reverted. Only the hovered/focused card
+  grows — closed siblings keep their original height (row uses
+  align-items: flex-end, same bottom-anchored-baseline technique as the
+  section's original click-to-expand version, just re-triggered by
+  :hover/:focus-within instead of a click). The +/× toggle glyph from
+  snippets/mo-accordion-icon.liquid rotates the same way it did in that
+  original version. tabindex="0" on the card makes :focus-within reachable
+  via keyboard (and, on many browsers, tap on touch devices). Pure CSS, no
+  JS. UPSTREAM risk LOW — net-new, no Horizon file touched.
 {%- endcomment -%}
 {%- # CUSTOM: load design tokens + the .mo-eye-health rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval, per this project's established per-section pattern. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
@@ -114,16 +120,6 @@
     {%- if section.blocks.size > 0 -%}
       <div class="mo-eye-health__cards-wrap">
         <div class="mo-eye-health__cards" aria-label="{{ s.eyebrow | strip_newlines | escape }}">
-          {%- comment -%}
-            CUSTOM: audit #6 (2026-07-17, moved here from the product-range
-            cards per Kalvis) — card flips on hover/focus to reveal the body
-            copy on its back face, replacing the previous click-to-expand
-            <details>/<summary> accordion. tabindex makes the card
-            focusable so keyboard users (and, on many browsers, a tap on
-            touch devices) can trigger :focus-within the same way mouse
-            users trigger :hover — same convention as the product-card flip
-            this replaced. Pure CSS (perspective/rotateY), no JS.
-          {%- endcomment -%}
           {%- for block in section.blocks -%}
             {%- if block.type == 'stat' -%}
               {%- liquid
@@ -135,24 +131,31 @@
                 tabindex="0"
                 {{ block.shopify_attributes }}
               >
-                <div class="mo-eye-health__card-flip">
-                  <div class="mo-eye-health__card-face mo-eye-health__card-face--front">
-                    <div class="mo-eye-health__card-top">
-                      {%- if bs.figure != blank -%}
-                        <p class="mo-eye-health__figure mo-stat">{{ bs.figure | escape }}</p>
-                      {%- endif -%}
-                    </div>
-                    {%- if bs.caption != blank -%}
-                      <p class="mo-eye-health__caption mo-menu">{{ bs.caption | newline_to_br }}</p>
-                    {%- endif -%}
-                    <hr class="mo-eye-health__divider" aria-hidden="true">
-                  </div>
-                  {%- if bs.body != blank -%}
-                    <div class="mo-eye-health__card-face mo-eye-health__card-face--back">
+                <div class="mo-eye-health__card-top">
+                  {%- if bs.figure != blank -%}
+                    <p class="mo-eye-health__figure mo-stat">{{ bs.figure | escape }}</p>
+                  {%- endif -%}
+                  <span class="mo-eye-health__toggle" aria-hidden="true">
+                    {%- render 'mo-accordion-icon' -%}
+                  </span>
+                </div>
+                {%- if bs.caption != blank -%}
+                  <p class="mo-eye-health__caption mo-menu">{{ bs.caption | newline_to_br }}</p>
+                {%- endif -%}
+                <hr class="mo-eye-health__divider" aria-hidden="true">
+                {%- if bs.body != blank -%}
+                  {%- comment -%}
+                    CUSTOM: grid-template-rows 0fr->1fr is the standard
+                    JS-free technique for animating to an unknown content
+                    height — the inner div supplies the overflow:hidden
+                    boundary grid needs to clip during the transition.
+                  {%- endcomment -%}
+                  <div class="mo-eye-health__reveal">
+                    <div class="mo-eye-health__reveal-inner">
                       <div class="mo-eye-health__body mo-body">{{ bs.body }}</div>
                     </div>
-                  {%- endif -%}
-                </div>
+                  </div>
+                {%- endif -%}
               </div>
             {%- endif -%}
           {%- endfor -%}

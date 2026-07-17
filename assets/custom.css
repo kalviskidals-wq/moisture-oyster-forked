@@ -4351,11 +4351,12 @@ mo-review-filter {
    above), stat cards become a horizontal scroll-snap carousel overlaid on
    the image. Desktop: header switches to position:absolute and overlays the
    image top-left, stat cards sit in a 3-up row along the bottom. Each card
-   is a pure-CSS 3D flip (perspective/rotateY on hover/focus-within, see
-   .mo-eye-health__card-flip below) — no JS. Cards keep a fixed, equal width
-   AND height (row uses align-items: stretch so every card matches the
-   tallest sibling's front face); flipping swaps which face is visible
-   without changing the card's box at all. The whole box has a merchant-editable corner radius (already relies on
+   is a native-feeling hover/focus reveal (grid-template-rows 0fr->1fr, see
+   .mo-eye-health__reveal below) — no JS. Cards keep a fixed, equal width
+   whether hovered or not; only the hovered/focused card grows taller as its
+   body reveals (row uses align-items: flex-end so every card's bottom edge
+   shares the row's bottom-anchored baseline: the growing card expands
+   upward, closed siblings neither stretch nor shift). The whole box has a merchant-editable corner radius (already relies on
    this rule's own overflow:hidden to clip the image/cards to the rounded
    shape); the color that shows through those rounded corners is set on
    Shopify's own auto-generated wrapper div via a scoped <style> block in
@@ -4503,14 +4504,17 @@ mo-review-filter {
    CSS-only carousel (overflow-x + scroll-snap), matching the established
    .mo-howto__steps / .mo-reviews__scroller technique. Keyboard-scrollable
    and momentum-scrolling by default; aria-label set in markup.
-   CUSTOM (2026-07-17, audit #6): align-items: stretch — every card matches
-   the tallest sibling's front-face content, and stays that height on
-   hover/focus since flipping no longer changes the card's box (replaced the
-   old flex-end/:has() dance that existed to support the click-to-expand
-   accordion's growing height). */
+   CUSTOM (2026-07-17, audit #6, corrected against Figma node 578:1714):
+   align-items: flex-end so every card's BOTTOM edge sits on this row's
+   (bottom-anchored) baseline — the hovered/focused card grows upward from
+   it while closed siblings neither stretch nor shift. This is the same
+   technique the section originally used for its click-to-expand version;
+   a brief 3D-flip detour removed it in favor of align-items:stretch, which
+   is wrong for a growing card (it would drag every sibling to match the
+   tallest one). */
 .mo-eye-health__cards {
   display: flex;
-  align-items: stretch;
+  align-items: flex-end;
   gap: var(--mo-space-4, 16px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -4518,6 +4522,22 @@ mo-review-filter {
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-block-end: var(--mo-space-2, 8px);
+}
+
+/* CUSTOM: while no card is hovered/focused, upgrade to align-items: stretch
+   so the closed cards dynamically match whichever one's caption actually
+   wraps the most — real content-driven matching, not a fixed reservation.
+   The moment any card IS hovered/focused, this is skipped and
+   .mo-eye-health__cards falls back to the flex-end rule above, so that
+   card can grow independently upward without dragging its still-closed
+   siblings along. Gated behind @supports selector(:has(a)) as an explicit
+   feature check; browsers without :has() support simply stay on flex-end
+   permanently (still correct, just without the "closed cards shrink to
+   their shortest shared caption height" refinement). */
+@supports selector(:has(a)) {
+  .mo-eye-health__cards:not(:has(.mo-eye-health__card:hover, .mo-eye-health__card:focus-within)) {
+    align-items: stretch;
+  }
 }
 
 .mo-eye-health__cards::-webkit-scrollbar {
@@ -4530,55 +4550,16 @@ mo-review-filter {
   box-sizing: border-box;
   scroll-snap-align: start;
   border-radius: var(--mo-eye-card-radius, 16px); /* CUSTOM: was 10px — Figma dev-mode confirms 16px (audit #5, 2026-07-17) */
-  overflow: hidden;
-  perspective: 1200px; /* CUSTOM: audit #6 (2026-07-17) — hover-flip reveal, moved here from the product-range cards */
-}
-
-/* CUSTOM: audit #6 — 3D flip wrapper. .mo-eye-health__card itself keeps
-   overflow:hidden + radius (clips the flip); this inner element fills the
-   card (flex:1 1 auto, since the card is display:flex) and does the actual
-   3D rotation, so both faces below can be sized/positioned against it. */
-.mo-eye-health__card-flip {
-  position: relative;
-  width: 100%;
-  /* CUSTOM FIX: both faces below are position:absolute (removed from flow)
-     so nothing is left in-flow to give this box a height — without an
-     explicit min-height here the whole card collapses to 0px and
-     disappears from the row. Sized generously for a 2-line caption at
-     each breakpoint's figure/caption font sizes (see the desktop override
-     further down). */
-  min-height: 230px;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-}
-
-.mo-eye-health__card:hover .mo-eye-health__card-flip,
-.mo-eye-health__card:focus-within .mo-eye-health__card-flip {
-  transform: rotateY(180deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mo-eye-health__card-flip { transition: none; }
-}
-
-.mo-eye-health__card-face {
-  position: absolute;
-  inset: 0;
-  box-sizing: border-box;
   padding: var(--mo-space-5, 20px) var(--mo-space-7, 30px) var(--mo-space-7, 30px); /* CUSTOM: was 24px/20px — Figma confirms 20px top / 30px sides+bottom */
   background: var(--mo-eye-card-bg, #093d24);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.mo-eye-health__card-face--back {
-  transform: rotateY(180deg);
-  display: flex;
-  align-items: center;
-  overflow-y: auto; /* CUSTOM: safety net if a merchant's body copy runs longer than the front face's height */
+  overflow: hidden;
 }
 
 .mo-eye-health__card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--mo-space-3, 12px);
   margin: 0 0 var(--mo-space-7, 32px); /* CUSTOM: was 12px — Figma dev-mode confirms 32px gap between the stat figure and its caption (audit #5, 2026-07-17) */
 }
 
@@ -4598,10 +4579,36 @@ mo-review-filter {
   text-transform: uppercase;
 }
 
-/* CUSTOM: .mo-eye-health__toggle rules removed (2026-07-17, per Kalvis) —
-   the "+" toggle icon was a leftover from the old click-to-expand accordion
-   and no longer renders in the markup now that the cards are hover-flip
-   only. */
+/* CUSTOM: restored (2026-07-17) — Figma's hover-state reference (node
+   578:1714) confirms this +/× toggle IS part of the design; a brief
+   detour had removed it under the assumption the interaction was a flip. */
+.mo-eye-health__toggle {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--mo-eye-toggle, #ffffff);
+  color: var(--mo-eye-toggle, #ffffff);
+  background: transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.mo-eye-health__toggle svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s ease;
+}
+
+/* Turns the shared "+" glyph into a "×" while hovered/focused — same
+   rotate(45deg) technique as .mo-ingredient__toggle, just re-triggered by
+   :hover/:focus-within instead of the old <details>'s [open] attribute. */
+.mo-eye-health__card:hover .mo-eye-health__toggle svg,
+.mo-eye-health__card:focus-within .mo-eye-health__toggle svg {
+  transform: rotate(45deg);
+}
 
 /* CUSTOM: per Figma dev-mode spec (2026-07-15) — mobile 12px/desktop 16px
    (see the matching .mo-eye-health__caption desktop override below), both
@@ -4638,10 +4645,36 @@ mo-review-filter {
   padding: 0;
 }
 
+/* CUSTOM (2026-07-17, audit #6, corrected against Figma node 578:1714):
+   grid-template-rows 0fr->1fr is the standard JS-free way to animate to an
+   unknown content height (a merchant can enter any length of body text).
+   The inner div supplies the overflow:hidden boundary the grid needs to
+   actually clip during the transition — grid-template-rows alone doesn't
+   clip its own content. */
+.mo-eye-health__reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+
+.mo-eye-health__card:hover .mo-eye-health__reveal,
+.mo-eye-health__card:focus-within .mo-eye-health__reveal {
+  grid-template-rows: 1fr;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mo-eye-health__reveal { transition: none; }
+}
+
+.mo-eye-health__reveal-inner {
+  overflow: hidden;
+}
+
 .mo-eye-health__body {
   color: var(--mo-eye-body, #ffffff);
   opacity: 0.85;
   margin: 0;
+  padding-top: var(--mo-space-5, 20px);
   font-family: var(--mo-font-body, 'Inter', sans-serif);
   font-size: 14px;
   line-height: 1.3;
@@ -4706,10 +4739,6 @@ mo-review-filter {
   .mo-eye-health__card {
     flex: 1 1 0%;
     scroll-snap-align: none;
-  }
-
-  .mo-eye-health__card-flip {
-    min-height: 270px; /* CUSTOM: desktop figure/caption font sizes are larger, needs more room */
   }
 }
 
