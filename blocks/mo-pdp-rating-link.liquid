@@ -13,12 +13,14 @@
   {%- if bs.rating_text != blank -%}
     <span class="mo-pdp-rating-link__number">{{ bs.rating_text }}</span>
   {%- endif -%}
-  {%- # CUSTOM: was a loop of literal ★/☆ Unicode glyphs — those render with
-     whatever soft/rounded points the active system font happens to draw,
-     which is exactly the "rounded/soft corners" the design audit flagged
-     (audit #15, 2026-07-17). Swapped for the shared sharp-cornered SVG star
-     (snippets/mo-stars.liquid, already used consistently in the reviews
-     section) so this matches everywhere else stars appear on the site. -%}
+  {%- comment -%}
+    CUSTOM: was a loop of literal ★/☆ Unicode glyphs — those render with
+    whatever soft/rounded points the active system font happens to draw,
+    which is exactly the "rounded/soft corners" the design audit flagged
+    (audit #15, 2026-07-17). Swapped for the shared sharp-cornered SVG star
+    (snippets/mo-stars.liquid, already used consistently in the reviews
+    section) so this matches everywhere else stars appear on the site.
+  {%- endcomment -%}
   <span class="mo-pdp-rating-link__stars">
     {%- render 'mo-stars', rating: rating -%}
   </span>

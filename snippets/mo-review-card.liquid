@@ -25,9 +25,11 @@
   {%- elsif badge_style == 'pill' -%}
     <span class="mo-reviews__pro-badge mo-tag--sm">VERIFIED SUBSCRIBER</span>
   {%- else -%}
-    {%- # CUSTOM: added base .mo-tag (mono font-family + uppercase transform) alongside
-       .mo-tag--sm (size override) — was missing, so this rendered in the body font
-       instead of IBM Plex Mono (audit #13/#24, 2026-07-17). -%}
+    {%- comment -%}
+      CUSTOM: added base .mo-tag (mono font-family + uppercase transform) alongside
+      .mo-tag--sm (size override) — was missing, so this rendered in the body font
+      instead of IBM Plex Mono (audit #13/#24, 2026-07-17).
+    {%- endcomment -%}
     <p class="mo-reviews__meta mo-tag mo-tag--sm">
       VERIFIED SUBSCRIBER{% if duration != blank %} · {{ duration | escape | upcase }}{% endif %}
     </p>

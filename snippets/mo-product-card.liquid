@@ -30,11 +30,13 @@
 -%}
 
 <div class="mo-range__card{% if is_live %} mo-range__card--live{% else %} mo-range__card--soon{% endif %}" {{ block.shopify_attributes }}>
-  {%- # CUSTOM: audit #6 (2026-07-17) — media panel flips on hover to reveal
-     back_text; front/back kept to the image panel only (not the whole card,
-     which still shows meta/CTA below at all times) to avoid destabilizing the
-     working Add to Bag form markup. Reference: kitskinkind.com.au/en-eu/pages/ethos.
-     Pure CSS (perspective/rotateY), no JS. -%}
+  {%- comment -%}
+    CUSTOM: audit #6 (2026-07-17) — media panel flips on hover to reveal
+    back_text; front/back kept to the image panel only (not the whole card,
+    which still shows meta/CTA below at all times) to avoid destabilizing the
+    working Add to Bag form markup. Reference: kitskinkind.com.au/en-eu/pages/ethos.
+    Pure CSS (perspective/rotateY), no JS.
+  {%- endcomment -%}
   <div class="mo-range__media">
     <div class="mo-range__media-flip">
       <div class="mo-range__media-face mo-range__media-face--front">
