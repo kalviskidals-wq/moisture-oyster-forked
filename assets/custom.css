@@ -4612,7 +4612,7 @@ mo-review-filter {
 .mo-eye-health__caption {
   color: var(--mo-eye-caption, #ffffff);
   margin: 0;
-  max-width: 20ch; /* CUSTOM: per Kalvis (2026-07-17) — narrowed so every caption wraps to 2 lines; `ch` scales with font-size so this holds at both the mobile (12px) and desktop (16px) sizes below */
+  max-width: 30ch; /* CUSTOM: per Kalvis (2026-07-17) — narrowed so every caption wraps to 2 lines. First attempt at 20ch overshot and broke every caption to 3 lines instead (uppercase + 0.1em letter-spacing on this mono font makes real characters wider than 1ch); widened to 30ch. `ch` scales with font-size so this holds at both the mobile (12px) and desktop (16px) sizes below — flag if any caption still isn't exactly 2 lines live. */
   font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
   font-weight: 500;
   font-size: 12px;
