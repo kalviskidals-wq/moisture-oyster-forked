@@ -277,7 +277,7 @@
           "type": "step",
           "settings": {
             "number": "1",
-            "heading": "Choose your frequency",
+            "heading": "Every 30, 60, or 90 days. You pick",
             "body": "Moisturizer, but for your eyes. Gentle, preservative-free hydration that's designed for daily use, with nothing habit-forming. Choose 30, 60, or 90-day delivery and adjust anytime."
           }
         },
@@ -285,7 +285,7 @@
           "type": "step",
           "settings": {
             "number": "2",
-            "heading": "Free delivery, every time",
+            "heading": "Free delivery on subscription",
             "body": "All subscriptions ship free across the US. Your drops arrive before you run out- every time, guaranteed."
           }
         },
@@ -293,7 +293,7 @@
           "type": "step",
           "settings": {
             "number": "3",
-            "heading": "Pause or cancel freely",
+            "heading": "Leave whenever, no hard feelings",
             "body": "No lock-ins. Pause, skip, or cancel your subscription in one tap- no questions asked."
           }
         }
@@ -423,13 +423,13 @@
           "type": "review",
           "name": "Review",
           "settings": {
-            "name": "Sarah M.",
-            "location": "New York, NY",
+            "name": "Julianna B.",
+            "location": "Miami, FL",
             "meta_type": "subscriber",
             "duration": "3 months",
             "photo": "shopify://shop_images/image_1926988520_1.jpg",
             "rating": 5,
-            "quote": "Finally, eye drops I actually enjoy using. The case makes it so easy to keep in my bag — and my eyes feel genuinely better after two weeks.",
+            "quote": "I spend long hours in front of a computer, so I always keep these eye drops with me. The formula feels very soothing, and they quickly help relieve eye dryness and discomfort I get after staring at a screen all day.",
             "tags": "verified,lens_wearer"
           }
         },
@@ -437,13 +437,13 @@
           "type": "review",
           "name": "Review",
           "settings": {
-            "name": "Dr. James K.",
-            "location": "Chicago, IL",
-            "meta_type": "professional",
+            "name": "Charity K.",
+            "location": "Los Angeles, CA",
+            "meta_type": "subscriber",
             "duration": "3 months",
             "photo": "shopify://shop_images/image_1926988520_2.jpg",
             "rating": 5,
-            "quote": "As an optometrist I'm selective about what I recommend. Preservative-free, pH-correct — the case gets patients to actually use it consistently.",
+            "quote": "From the first time I used Moisture Oyster, my eyes felt soooo much better. I’d been relying on Lumify for a long time because my eyes were always red, but after using these drops, I found myself reaching for Lumify less and less. I also love that they don’t sting or burn like others. These are honestly the best eye drops I’ve used.",
             "tags": "verified,most_helpful"
           }
         },
@@ -451,13 +451,13 @@
           "type": "review",
           "name": "Review",
           "settings": {
-            "name": "Priya L.",
-            "location": "Austin, TX",
+            "name": "Polina S.",
+            "location": "Irvine, CA",
             "meta_type": "subscriber",
             "duration": "5 months",
             "photo": "shopify://shop_images/image_1926988520_3.jpg",
             "rating": 5,
-            "quote": "My optometrist recommended these and they've changed my daily routine. Elegant packaging, serious formula. I'm a subscriber for life.",
+            "quote": "The other night I was watching TV really late, and my eyes started stinging. Like I always do, I reached for my boyfriend’s contact lens solution (odd, I know but it’s just saline!) but I remembered I had Moisture Oyster on my desk, and after just one drop, my eyes felt so much better. I haven’t reached for the contact solution since. Don’t judge me!",
             "tags": "verified,screen_worker,most_helpful"
           }
         }
