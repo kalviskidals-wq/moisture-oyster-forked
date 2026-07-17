@@ -4291,6 +4291,16 @@ mo-review-filter {
   border-radius: var(--mo-radius-md, 10px); /* CUSTOM: was pill (999px) — Figma dev-mode confirms 10px radius for all buttons, not a pill (audit #4, 2026-07-17) */
 }
 
+/* CUSTOM: product-range CTA gets its own primary/hover pair per Kalvis
+   (2026-07-17) — #1FA567 / #62C095 — distinct from the shared .mo-btn--bag
+   colors used elsewhere (e.g. the About section's CTA also has that class). */
+.mo-range__cta.mo-btn--bag {
+  background: #1fa567;
+}
+.mo-range__cta.mo-btn--bag:hover {
+  background: #62c095;
+}
+
 /* CUSTOM: `.mo-btn:disabled` (mo-design-system.css) is a class+pseudo-class
    selector, so a single-class override here would lose the cascade despite
    loading after it — target the disabled state explicitly to win on
