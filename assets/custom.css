@@ -5396,10 +5396,12 @@ body {
    above regardless of source order. */
 .mo-header.mo-header--transparent {
   background: transparent;
+  box-shadow: none; /* CUSTOM: per Kalvis (2026-07-17) — no drop shadow while transparent at the true top of the page; restored below once scrolled (or whenever the header isn't transparent at all, via the base .mo-header rule). */
 }
 
 .mo-header.mo-header--transparent.mo-header--scrolled {
   background: var(--mo-header-bg, #093d24);
+  box-shadow: 0px 0px 10px 0px #00000040;
 }
 
 /* CUSTOM (fix): a transparent header opened before any scroll (still
