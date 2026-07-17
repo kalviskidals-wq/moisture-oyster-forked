@@ -4307,7 +4307,7 @@ mo-review-filter {
    specificity, matching the outline/grey "Coming Soon" look from the brief
    rather than the generic grey-fill disabled style. */
 .mo-range__cta--soon:disabled {
-  background: transparent;
+  background: #115033; /* CUSTOM: per Kalvis (2026-07-17) — was transparent */
   border: none; /* CUSTOM: audit #4 — "Coming soon" should have no border (was bordered outline look) */
   color: var(--mo-range-soon-color, #e8e7e3);
   opacity: 0.6;
