@@ -100,12 +100,15 @@
   --mo-space-8: 40px;
 
   /* --------------------------------------------------------------------------
-     04 · RADIUS / BORDER — VERIFY (read from button/pill shapes, not specced)
+     04 · RADIUS / BORDER
+     --mo-radius-md confirmed 10px via Figma dev-mode inspection (2026-07-17) —
+     this is the button radius site-wide, NOT a pill. --mo-radius-pill kept for
+     genuinely circular elements (dots, avatar frames), not buttons.
      -------------------------------------------------------------------------- */
   --mo-radius-sm: 6px;
   --mo-radius-md: 10px;
   --mo-radius-pill: 999px;
-  --mo-border-width: 1.5px;
+  --mo-border-width: 1px; /* CUSTOM: confirmed 1px (0.948px in Figma) via dev-mode inspection, was 1.5px */
 }
 
 /* ============================================================================
@@ -131,10 +134,10 @@
    ============================================================================ */
 .mo-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--mo-space-2);
-  font-family: var(--mo-font-mono); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: var(--mo-font-mono); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
   font-size: var(--mo-body-size); line-height: 1;
-  padding: var(--mo-space-3) var(--mo-space-6);
-  border: var(--mo-border-width) solid transparent; border-radius: var(--mo-radius-sm);
+  height: 40px; padding: 0 var(--mo-space-7); /* CUSTOM: confirmed h-40px, px-32px via Figma dev-mode (2026-07-17) */
+  border: var(--mo-border-width) solid transparent; border-radius: var(--mo-radius-md); /* CUSTOM: was --mo-radius-sm (6px); Figma confirms 10px, not a pill */
   cursor: pointer; text-decoration: none;
   transition: background-color .15s ease, color .15s ease, opacity .15s ease;
 }
@@ -152,7 +155,7 @@
 .mo-btn--dark { background: var(--mo-deep-green); color: var(--mo-white); }          /* deep green */
 .mo-btn--dark:hover { background: var(--mo-green); }
 
-.mo-btn--outline { background: transparent; border-color: var(--mo-green); color: var(--mo-green); border-radius: var(--mo-radius-pill); } /* ALL / VERIFIED */
+.mo-btn--outline { background: transparent; border-color: var(--mo-green); color: var(--mo-green); } /* CUSTOM: dropped pill radius override — Figma confirms all buttons share the 10px base radius, not a pill (2026-07-17) */
 .mo-btn--outline:hover { background: var(--mo-green); color: var(--mo-white); }
 
 /* ============================================================================

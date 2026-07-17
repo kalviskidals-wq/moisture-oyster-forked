@@ -476,8 +476,8 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 40px; /* CUSTOM: was 36px — Figma dev-mode confirms 40px icons site-wide (audit #11, 2026-07-17) */
+  height: 40px;
   color: var(--mo-trustbar-icon, #f2a2ff);
 }
 
@@ -731,8 +731,8 @@ body {
 .mo-problem__factor-icon {
   flex-shrink: 0;
   display: inline-flex;
-  width: 36px;
-  height: 36px;
+  width: 40px; /* CUSTOM: was 36px — Figma dev-mode confirms 40px icons site-wide (audit #11, 2026-07-17) */
+  height: 40px;
   color: var(--mo-problem-factor-icon, #ffd5f7);
 }
 
@@ -1686,13 +1686,13 @@ tbody tr:last-child .mo-compare__cell {
 
 .mo-ingredient__toggle {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  width: 40px; /* CUSTOM: was 32px — Figma dev-mode confirms 40px accordion/toggle circles (audit #11, 2026-07-17) */
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid var(--mo-ingredients-tab-border, #1fa567);
+  border: 1px solid var(--mo-ingredients-tab-border, #1fa567); /* CUSTOM: was 1.5px — Figma confirms ~1px (0.948px) stroke (audit #19) */
   color: var(--mo-ingredients-tab-border, #1fa567);
   background: transparent;
   transition: background-color 0.15s ease, border-color 0.15s ease;
@@ -1734,7 +1734,7 @@ tbody tr:last-child .mo-compare__cell {
 
 .mo-ingredient__row-label {
   color: var(--mo-ingredients-heading, #093d24);
-  font-size: 11px;
+  font-size: 14px; /* CUSTOM: was 11px — audit #21 specifies 14px for FUNCTION/EVIDENCE row labels (2026-07-17) */
   white-space: nowrap;
 }
 
@@ -2198,7 +2198,7 @@ tbody tr:last-child .mo-compare__cell {
   .mo-science__stat-top {
     flex-direction: column;
     align-items: flex-start;
-    row-gap: var(--mo-space-2, 8px);
+    row-gap: 10px; /* CUSTOM: was 8px — Figma dev-mode measures ~10px between figure and unit label on 3 of 4 cards (one card showed 12px, likely a mockup slip — flagged, not matched); standardized to 10px (audit #23, 2026-07-17) */
   }
 }
 
@@ -2338,11 +2338,14 @@ tbody tr:last-child .mo-compare__cell {
 
 .mo-science__bar-track {
   position: relative;
-  width: 56px;
+  width: 48px; /* CUSTOM: was 56px — Figma dev-mode confirms 48px (audit #22, 2026-07-17) */
   max-width: 70%;
   height: 100%;
   display: flex;
   align-items: flex-end;
+  background: rgba(184, 243, 216, 0.3); /* CUSTOM: track had no visible background at all before — Figma confirms a mint-tinted track behind the fill */
+  border-radius: var(--mo-radius-md, 10px); /* CUSTOM: Figma confirms 10px radius on the track */
+  overflow: hidden;
 }
 
 .mo-science__bar-fill {
@@ -2350,7 +2353,7 @@ tbody tr:last-child .mo-compare__cell {
   width: 100%;
   height: calc(var(--v, 0) * 1%);
   background: var(--mo-science-bar, #1fa567);
-  border-radius: var(--mo-radius-sm, 6px) var(--mo-radius-sm, 6px) 0 0;
+  border-radius: var(--mo-radius-md, 10px); /* CUSTOM: was 6px top-corners-only — Figma confirms 10px on all corners */
   overflow: hidden;
 }
 
@@ -2591,8 +2594,8 @@ mo-review-filter {
   flex-direction: column;
   gap: var(--mo-space-5, 20px);
   background: var(--mo-reviews-card-bg, #ffffff);
-  border-radius: var(--mo-reviews-card-radius, 20px);
-  padding: var(--mo-space-6, 24px);
+  border-radius: var(--mo-reviews-card-radius, 16px); /* CUSTOM: was 20px — Figma dev-mode confirms 16px (audit #13/#24, 2026-07-17) */
+  padding: var(--mo-space-7, 30px); /* CUSTOM: was 24px — Figma confirms 30px */
 }
 
 @media screen and (min-width: 750px) {
@@ -2609,6 +2612,8 @@ mo-review-filter {
 .mo-reviews__location {
   margin: 0;
   color: var(--mo-reviews-name, #093d24);
+  font-size: 24px; /* CUSTOM: was inherited from .mo-h4 (20px) — Figma dev-mode confirms 24px (audit #13/#24, 2026-07-17) */
+  font-weight: 700;
 }
 
 .mo-reviews__meta {
@@ -2632,7 +2637,7 @@ mo-review-filter {
 }
 
 .mo-reviews__photo {
-  border-radius: var(--mo-radius-md, 10px);
+  border-radius: 16px; /* CUSTOM: was --mo-radius-md (10px) — Figma dev-mode confirms 16px (audit #13/#24, 2026-07-17) */
   overflow: hidden;
   aspect-ratio: 4 / 2.8;
 }
@@ -2654,6 +2659,8 @@ mo-review-filter {
 .mo-reviews__rating-value {
   margin: 0;
   color: var(--mo-reviews-rating-value, #093d24);
+  font-size: 24px; /* CUSTOM: was inherited from .mo-h5 (18px) — Figma dev-mode confirms 24px (audit #13/#24, 2026-07-17) */
+  font-weight: 700;
 }
 
 .mo-reviews__rating .mo-stars {
@@ -2795,6 +2802,7 @@ mo-review-filter {
   font-size: 14px;
   line-height: 120%;
   letter-spacing: -0.02em;
+  max-width: 672px; /* CUSTOM: no width limit existed — Figma dev-mode measures the question text container at 672px (audit #25, 2026-07-17) */
 }
 
 @media screen and (min-width: 750px) {
@@ -2809,10 +2817,10 @@ mo-review-filter {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 40px; /* CUSTOM: was 32px — Figma dev-mode confirms 40px accordion toggle circle (audit #26, 2026-07-17) */
+  height: 40px;
   border-radius: var(--mo-radius-pill, 999px);
-  border: 1.5px solid var(--mo-faq-toggle, #ffffff);
+  border: 1px solid var(--mo-faq-toggle, #ffffff); /* CUSTOM: was 1.5px — Figma confirms ~1px (audit #19/#26) */
   color: var(--mo-faq-toggle, #ffffff);
 }
 
@@ -3235,23 +3243,29 @@ mo-review-filter {
 .mo-icon-card {
   display: flex;
   flex-direction: column;
-  gap: var(--mo-space-3, 12px);
+  gap: var(--mo-space-7, 32px); /* CUSTOM: was 12px — Figma dev-mode confirms 32px between the icon/heading row and the body text (audit #27, 2026-07-17) */
   background: var(--mo-icon-card-bg, #115033);
-  border-radius: var(--mo-icon-card-radius, 10px);
-  padding: var(--mo-space-6, 24px);
+  border-radius: var(--mo-icon-card-radius, 16px); /* CUSTOM: was 10px — Figma confirms 16px */
+  padding: var(--mo-space-5, 20px) var(--mo-space-7, 30px) var(--mo-space-7, 30px); /* CUSTOM: was 24px all sides — Figma confirms 20px top / 30px sides+bottom */
 }
 
 .mo-icon-card__head {
   display: flex;
   align-items: center;
-  gap: var(--mo-space-3, 12px);
+  gap: var(--mo-space-5, 20px); /* CUSTOM: was 12px — Figma dev-mode confirms 20px between icon and heading (audit #27, 2026-07-17) */
 }
 
 .mo-icon-card__icon {
+  /* CUSTOM: no wrapper border here — mo-subscribe-icon.liquid's SVGs already bake
+     their own ring circle into the path (stroke-width 1.4, same convention as
+     mo-benefit-icon/mo-factor-icon/mo-step-icon), so a CSS border on this wrapper
+     would draw a second, redundant ring. Sizing only. */
   flex-shrink: 0;
   display: inline-flex;
-  width: 32px;
-  height: 32px;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* CUSTOM: was 32px — Figma dev-mode confirms 40px icon circle here (audit #11/#27, 2026-07-17) */
+  height: 40px;
   color: var(--mo-icon-card-icon, #ffd5f7);
 }
 
@@ -3487,9 +3501,14 @@ mo-review-filter {
   align-items: center;
   justify-content: space-between;
   gap: var(--mo-space-3, 12px);
-  color: var(--mo-footer-menu-heading, #ffffff);
+  color: var(--mo-footer-menu-heading, #ffd5f7);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace); /* CUSTOM: was unset (inherited body font) — Figma confirms mono (audit #14, 2026-07-17) */
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   cursor: pointer;
   list-style: none;
+  margin-block-end: var(--mo-space-7, 32px); /* CUSTOM: was 16px via mobile .mo-footer__col-list padding-block-start — Figma confirms 32px header-to-list gap */
 }
 
 .mo-footer__col summary::-webkit-details-marker {
@@ -3513,19 +3532,23 @@ mo-review-filter {
 }
 
 .mo-footer__col-list {
-  padding-block-start: var(--mo-space-4, 16px);
+  padding-block-start: 0; /* CUSTOM: was 16px — gap now comes from summary's margin-block-end (32px) instead, so it isn't doubled up (audit #14, 2026-07-17) */
 }
 
 .mo-footer__col-list ul {
   display: flex;
   flex-direction: column;
-  gap: var(--mo-space-3, 12px);
+  gap: var(--mo-space-4, 16px); /* CUSTOM: was 12px — Figma confirms 16px between links (audit #14) */
   margin: 0;
   padding: 0;
 }
 
 .mo-footer__col-link {
   color: var(--mo-footer-menu-link, #ffffff);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace); /* CUSTOM: was unset (inherited body font) — Figma confirms mono uppercase (audit #14) */
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   text-decoration: none;
   opacity: 0.85;
 }
@@ -3549,7 +3572,7 @@ mo-review-filter {
   .mo-footer__col summary {
     cursor: default;
     pointer-events: none;
-    margin-block-end: var(--mo-space-4, 16px);
+    /* margin-block-end: 32px now set unconditionally in the base rule above (audit #14) */
   }
 
   .mo-footer__col-toggle {
@@ -4187,6 +4210,51 @@ mo-review-filter {
   border-radius: var(--mo-range-card-radius, 10px);
   background: var(--mo-range-card-bg, #115033);
   overflow: hidden;
+  perspective: 1200px; /* CUSTOM: audit #6 (2026-07-17) — hover-flip reveal, ref kitskinkind.com.au/en-eu/pages/ethos */
+}
+
+/* CUSTOM: audit #6 — 3D flip wrapper. .mo-range__media itself keeps overflow:hidden
+   + radius (clips the flip), while this inner element does the actual 3D rotation. */
+.mo-range__media-flip {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.mo-range__card:hover .mo-range__media-flip,
+.mo-range__card:focus-within .mo-range__media-flip {
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mo-range__media-flip { transition: none; }
+}
+
+.mo-range__media-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.mo-range__media-face--back {
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--mo-space-6, 24px);
+  background: var(--mo-range-card-bg, #115033);
+  text-align: center;
+}
+
+.mo-range__media-back-text {
+  margin: 0;
+  color: var(--mo-range-title, #ffffff);
+  font-family: var(--mo-font-body, 'Manrope', sans-serif);
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .mo-range__image {
@@ -4265,11 +4333,7 @@ mo-review-filter {
 .mo-range__cta {
   width: 100%;
   margin-top: auto;
-  border-radius: var(--mo-radius-pill, 999px);
-}
-
-.mo-range__cta-icon {
-  font-size: 1.1em;
+  border-radius: var(--mo-radius-md, 10px); /* CUSTOM: was pill (999px) — Figma dev-mode confirms 10px radius for all buttons, not a pill (audit #4, 2026-07-17) */
 }
 
 /* CUSTOM: `.mo-btn:disabled` (mo-design-system.css) is a class+pseudo-class
@@ -4279,7 +4343,7 @@ mo-review-filter {
    rather than the generic grey-fill disabled style. */
 .mo-range__cta--soon:disabled {
   background: transparent;
-  border-color: var(--mo-range-soon-color, #e8e7e3);
+  border: none; /* CUSTOM: audit #4 — "Coming soon" should have no border (was bordered outline look) */
   color: var(--mo-range-soon-color, #e8e7e3);
   opacity: 0.6;
   cursor: not-allowed;
@@ -4504,8 +4568,8 @@ mo-review-filter {
   box-sizing: border-box;
   scroll-snap-align: start;
   background: var(--mo-eye-card-bg, #093d24);
-  border-radius: var(--mo-eye-card-radius, 10px);
-  padding: var(--mo-space-6, 24px) var(--mo-space-5, 20px);
+  border-radius: var(--mo-eye-card-radius, 16px); /* CUSTOM: was 10px — Figma dev-mode confirms 16px (audit #5, 2026-07-17) */
+  padding: var(--mo-space-5, 20px) var(--mo-space-7, 30px) var(--mo-space-7, 30px); /* CUSTOM: was 24px/20px — Figma confirms 20px top / 30px sides+bottom */
   overflow: hidden;
 }
 
@@ -4526,7 +4590,7 @@ mo-review-filter {
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--mo-space-3, 12px);
-  margin: 0 0 var(--mo-space-3, 12px);
+  margin: 0 0 var(--mo-space-7, 32px); /* CUSTOM: was 12px — Figma dev-mode confirms 32px gap between the stat figure and its caption (audit #5, 2026-07-17) */
 }
 
 /* CUSTOM: fully redeclares typography (not just relying on the shared
@@ -4824,7 +4888,7 @@ mo-review-filter {
 
 @media screen and (min-width: 750px) {
   .mo-hiw__heading {
-    font-size: 64px;
+    font-size: 40px; /* CUSTOM: was 64px — swapped with .mo-hiw__tab-heading; Figma confirms "How it works" = 40px (H2 token), audit #7, 2026-07-17 */
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -4837,6 +4901,7 @@ mo-review-filter {
 .mo-hiw__panel {
   color: var(--mo-hiw-body, #ffffff);
   font-weight: 400;
+  max-width: 383px; /* CUSTOM: no max-width existed before, so text ran full column width — Figma dev-mode measures this text block at 383px (audit #9, 2026-07-17) */
 }
 
 /* CUSTOM (2026-07-14 fix): removed a `.mo-hiw__panel + .mo-hiw__panel`
@@ -4931,7 +4996,7 @@ mo-review-filter {
 
 @media screen and (min-width: 750px) {
   .mo-hiw__tab-heading {
-    font-size: 44px;
+    font-size: 64px; /* CUSTOM: was 44px — swapped with .mo-hiw__heading; Figma confirms step headings ("Choose your frequency" etc.) = 64px (H3 Large token), audit #7, 2026-07-17 */
   }
 }
 
@@ -5139,14 +5204,14 @@ mo-review-filter {
 .mo-about__item {
   display: flex;
   align-items: center;
-  gap: var(--mo-space-3, 12px);
+  gap: var(--mo-space-4, 16px); /* CUSTOM: was --mo-space-3 (12px) — Figma dev-mode measures 16px between icon and label here (2026-07-17) */
 }
 
 .mo-about__item-icon,
 .mo-about__item-icon-img {
   display: block;
-  width: 28px;
-  height: 28px;
+  width: 40px; /* CUSTOM: was 28px — Figma dev-mode confirms exactly 40px for this credential icon row (audit #11, 2026-07-17) */
+  height: 40px;
   color: var(--mo-about-icon, #f2a2ff);
   flex: 0 0 auto;
 }
@@ -5390,10 +5455,26 @@ body {
   display: none;
 }
 
+/* CUSTOM: audit #1 (2026-07-17) — Figma dev-mode shows the nav links sitting
+   inside a frosted-glass pill (backdrop-blur 30px, radius 20px, white text),
+   not bare on the header background. This is a permanent nav treatment (the
+   captured Figma frame is the hero/first-screen state), separate from the
+   existing .mo-header--transparent/--scrolled solid-bg switch on the header
+   bar itself — the pill sits on top of whichever header background is active.
+   Background opacity/tint wasn't exposed as an explicit fill in the Figma
+   export (blur-only), so a low-opacity white overlay is used here to
+   approximate the frosted-glass look — VERIFY against the live Figma file if
+   it looks off. */
 .mo-header__nav-list {
   display: flex;
   align-items: center;
-  gap: var(--mo-space-6, 24px);
+  gap: var(--mo-space-5, 20px); /* CUSTOM: was 24px — Figma confirms 20px gap between nav links */
+  padding-inline: var(--mo-space-7, 30px); /* CUSTOM: Figma confirms 30px horizontal padding on the pill */
+  border-radius: var(--mo-radius-pill, 20px); /* CUSTOM: Figma confirms 20px radius */
+  background: rgba(255, 255, 255, 0.12); /* CUSTOM: VERIFY — approximated frosted tint, exact opacity not exposed by Figma export */
+  backdrop-filter: blur(30px); /* CUSTOM: Figma confirms 30px blur */
+  -webkit-backdrop-filter: blur(30px);
+  height: 46px; /* CUSTOM: matches Figma's nav row height */
 }
 
 .mo-header__nav-link {

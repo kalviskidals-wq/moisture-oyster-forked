@@ -257,10 +257,10 @@
     align-items: flex-start;
     justify-content: center;
     cursor: pointer;
-    border: 1.5px solid var(--mo-card-border-inactive, #1fa567);
+    border: 1px solid var(--mo-card-border-inactive, #1fa567); /* CUSTOM: was 1.5px — Figma dev-mode confirms 1px (audit #19, 2026-07-17) */
     background: var(--mo-card-bg-inactive, #fff);
     border-radius: var(--mo-radius-md, 10px);
-    padding: var(--mo-space-4, 16px);
+    padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px) var(--mo-space-3, 12px); /* CUSTOM: was 16px all sides — Figma confirms 8px top / 12px sides+bottom (audit #17) */
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   }
 
@@ -285,7 +285,7 @@
 
   .mo-vpicker__qty-number {
     font-family: var(--mo-font-heading, sans-serif);
-    font-weight: 800;
+    font-weight: 700; /* CUSTOM: was 800 — Figma dev-mode confirms Bold/700 (audit #17, 2026-07-17) */
     font-size: 1.5rem;
     line-height: 1;
     color: inherit;
@@ -294,7 +294,7 @@
   .mo-vpicker__qty-unit {
     margin-top: 2px;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
-    font-size: 0.6875rem;
+    font-size: 0.625rem; /* CUSTOM: was 0.6875rem (11px) — Figma confirms 10px (audit #17) */
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -312,7 +312,7 @@
     font-size: 0.625rem;
     font-weight: 600;
     letter-spacing: 0.04em;
-    padding: 3px 8px;
+    padding: 4px 6px; /* CUSTOM: was 3px/8px — Figma confirms 4px vertical / 6px horizontal (audit #16/#17) */
     border-radius: 999px;
     background: var(--mo-bubble-bg, #ffd5f7);
     color: var(--mo-bubble-text, #093d24);
@@ -372,7 +372,7 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--mo-space-3, 12px);
-    border: 1.5px solid var(--mo-card-border-inactive, #1fa567);
+    border: 1px solid var(--mo-card-border-inactive, #1fa567); /* CUSTOM: was 1.5px — consistent 1px stroke (audit #19, 2026-07-17) */
     border-radius: var(--mo-radius-md, 10px);
     padding: var(--mo-space-3, 12px) var(--mo-space-4, 16px);
   }

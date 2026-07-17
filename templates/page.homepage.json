@@ -220,7 +220,7 @@
         "wrapper_background_color": "#093d24",
         "section_radius": 24,
         "image_aspect_ratio_mobile": 0.9,
-        "card_radius": 10,
+        "card_radius": 16,
         "vertical_padding": 0
       }
     },
@@ -369,7 +369,7 @@
         "object_position_mobile": "center center",
         "background_color": "#093d24",
         "scrim_color": "#093d24",
-        "scrim_opacity": 20,
+        "scrim_opacity": 0,
         "heading_color": "#ffffff",
         "icon_color": "#f2a2ff",
         "label_color": "#ffffff",
@@ -484,7 +484,7 @@
         "reviews_link": "",
         "all_filter_label": "All",
         "filter_group_label": "Filter reviews",
-        "card_radius": 20,
+        "card_radius": 16,
         "vertical_padding": 64,
         "background_color": "#093d24",
         "rating_color": "#ffd5f7",

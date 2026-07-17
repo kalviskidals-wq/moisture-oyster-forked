@@ -26,13 +26,28 @@
   endif
 
   assign cta_label = card.cta_label | default: 'Add to Bag'
+  assign back_text = card.back_text
 -%}
 
 <div class="mo-range__card{% if is_live %} mo-range__card--live{% else %} mo-range__card--soon{% endif %}" {{ block.shopify_attributes }}>
+  {%- # CUSTOM: audit #6 (2026-07-17) — media panel flips on hover to reveal
+     back_text; front/back kept to the image panel only (not the whole card,
+     which still shows meta/CTA below at all times) to avoid destabilizing the
+     working Add to Bag form markup. Reference: kitskinkind.com.au/en-eu/pages/ethos.
+     Pure CSS (perspective/rotateY), no JS. -%}
   <div class="mo-range__media">
-    {%- if card_image != blank -%}
-      {{ card_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 33vw, 85vw', class: 'mo-range__image' }}
-    {%- endif -%}
+    <div class="mo-range__media-flip">
+      <div class="mo-range__media-face mo-range__media-face--front">
+        {%- if card_image != blank -%}
+          {{ card_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 33vw, 85vw', class: 'mo-range__image' }}
+        {%- endif -%}
+      </div>
+      {%- if back_text != blank -%}
+        <div class="mo-range__media-face mo-range__media-face--back" aria-hidden="true">
+          <p class="mo-range__media-back-text">{{ back_text | escape }}</p>
+        </div>
+      {%- endif -%}
+    </div>
   </div>
 
   <div class="mo-range__meta">
@@ -50,7 +65,6 @@
   {%- if is_live -%}
     <a href="{{ product.url }}" class="mo-btn mo-btn--bag mo-range__cta">
       <span>{{ cta_label | upcase }}</span>
-      <span class="mo-range__cta-icon" aria-hidden="true">+</span>
     </a>
   {%- else -%}
     <button type="button" class="mo-btn mo-range__cta mo-range__cta--soon" disabled>

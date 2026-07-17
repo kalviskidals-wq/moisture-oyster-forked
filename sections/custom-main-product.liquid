@@ -664,8 +664,8 @@
     background: var(--mo-deep-green, #093d24);
     color: var(--mo-white, #ffffff);
     border: none;
-    border-radius: var(--mo-radius-sm, 6px);
-    padding: 16px 24px;
+    border-radius: var(--mo-radius-md, 10px); /* CUSTOM: was --mo-radius-sm (6px) — Figma dev-mode confirms 10px, matching the site-wide button radius (audit #29, 2026-07-17) */
+    padding: 10px 30px; /* CUSTOM: was 16px/24px — Figma confirms 10px vertical / 30px horizontal for this button */
     font-family: var(--mo-font-mono, 'IBM Plex Mono', monospace);
     font-weight: 500;
     font-size: 14px;

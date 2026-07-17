@@ -21,13 +21,13 @@
     align-items: center;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-weight: 500;
-    font-size: 0.6875rem;
+    font-size: 10px; /* CUSTOM: was 0.6875rem (11px) — Figma dev-mode confirms 10px (audit #16, 2026-07-17) */
     letter-spacing: 0.08em;
     text-transform: uppercase;
     background: var(--mo-badge-bg, #b8f3d8);
     color: var(--mo-badge-text, #093d24);
-    border-radius: 999px;
-    padding: 6px 14px;
+    border-radius: 9px; /* CUSTOM: was 999px (full pill) — Figma confirms ~9px (9.127px) rounded-rect, not a pill */
+    padding: 4px 6px; /* CUSTOM: was 6px/14px — Figma confirms 4px vertical / 6px horizontal */
   }
 {% endstylesheet %}
 

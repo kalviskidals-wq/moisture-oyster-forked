@@ -2,7 +2,6 @@
 {%- liquid
   assign bs = block.settings
   assign rating = bs.rating | default: 5
-  assign full_stars = rating | floor
 %}
 
 <a
@@ -14,10 +13,14 @@
   {%- if bs.rating_text != blank -%}
     <span class="mo-pdp-rating-link__number">{{ bs.rating_text }}</span>
   {%- endif -%}
-  <span class="mo-pdp-rating-link__stars" aria-hidden="true">
-    {%- for i in (1..5) -%}
-      {%- if i <= full_stars -%}★{%- else -%}☆{%- endif -%}
-    {%- endfor -%}
+  {%- # CUSTOM: was a loop of literal ★/☆ Unicode glyphs — those render with
+     whatever soft/rounded points the active system font happens to draw,
+     which is exactly the "rounded/soft corners" the design audit flagged
+     (audit #15, 2026-07-17). Swapped for the shared sharp-cornered SVG star
+     (snippets/mo-stars.liquid, already used consistently in the reviews
+     section) so this matches everywhere else stars appear on the site. -%}
+  <span class="mo-pdp-rating-link__stars">
+    {%- render 'mo-stars', rating: rating -%}
   </span>
   {%- if bs.review_count_text != blank -%}
     <span class="mo-pdp-rating-link__count">{{ bs.review_count_text | escape }}</span>
@@ -41,9 +44,9 @@
   }
 
   .mo-pdp-rating-link__stars {
-    color: var(--mo-rating-color, #1fa567);
-    letter-spacing: 0.1em;
-    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    color: var(--mo-rating-color, #1fa567); /* CUSTOM: now colors the mo-stars SVG via currentColor, was for the old Unicode glyphs */
   }
 
   .mo-pdp-rating-link__count {
