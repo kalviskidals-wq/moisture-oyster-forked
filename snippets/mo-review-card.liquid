@@ -1,5 +1,12 @@
 {%- # CUSTOM: net-new snippet — renders one review card. Accepts explicit named params (not a bundled settings/block object) so it can be called either from a repeatable block (sections/custom-reviews.liquid) or from plain section settings (sections/custom-subscribe-benefits.liquid's single testimonial) without needing matching field ids in both places. Computes the card's data-tags attribute (merchant-entered comma tags + an auto "has_photos" tag when a photo is set) which assets/mo-review-filter.js reads to decide visibility per active filter pill. UPSTREAM risk LOW — no Horizon file touched. -%}
 {%- # Params: name, location, meta_type ('subscriber' or 'professional'), duration, photo, rating, quote, tags (comma-separated string), shopify_attributes (optional, pass block.shopify_attributes when rendering from a block), badge_style (optional: 'auto' [default] shows a mint pill only for meta_type 'professional' and mono meta text for 'subscriber'; 'pill' always renders a mint pill, used by custom-subscribe-benefits.liquid per its Figma reference) -%}
+{%- comment -%}
+  CUSTOM FIX (2026-07-17, per Kalvis + Figma node 633:591): `round: 1` alone
+  drops the decimal for whole-number ratings (5 -> "5", not "5.0") — Liquid's
+  round filter returns an Integer, not a Float, when the input is already a
+  whole Integer (block.settings.rating can be, even with a 0.5 step range).
+  `times: 1.0` coerces to Float first so round always keeps one decimal.
+{%- endcomment -%}
 {%- liquid
   assign shopify_attributes = shopify_attributes | default: ''
   assign badge_style = badge_style | default: 'auto'
@@ -8,7 +15,7 @@
     assign tags_final = tags_final | append: ',has_photos'
   endif
   assign tags_final = tags_final | split: ',' | join: ','
-  assign rating_display = rating | round: 1
+  assign rating_display = rating | times: 1.0 | round: 1
 -%}
 <article class="mo-reviews__card" data-tags="{{ tags_final }}" {{ shopify_attributes }}>
   <div class="mo-reviews__card-head">
