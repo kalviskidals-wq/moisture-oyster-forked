@@ -2348,7 +2348,14 @@ tbody tr:last-child .mo-compare__cell {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(var(--v, 0) * 1% + var(--mo-space-2, 8px));
+  /* CUSTOM FIX (2026-07-17, Kalvis screenshot): was `bottom: calc(var(--v) * 1% + 8px)`,
+     which ties each label's vertical position to THAT bar's own fill % — since the
+     3 values differ (97.6/93.8/96.2), the labels ended up at 3 different heights
+     instead of one aligned row. Figma keeps every value label in a fixed row above
+     the (fixed-height) track regardless of fill %; a constant `top` here (relative
+     to .mo-science__bar-col, which is the same height for every column) reproduces
+     that without touching the fill/track/threshold-line math. */
+  top: -29px;
   color: var(--mo-science-bar-label, #ffffff);
   white-space: nowrap;
   /* CUSTOM: this used to inherit the shared .mo-tag class (mono, uppercase,
@@ -2381,15 +2388,11 @@ tbody tr:last-child .mo-compare__cell {
   overflow: hidden;
 }
 
-.mo-science__bar-fill::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 14px;
-  background: var(--mo-science-bar-cap, #b8f3d8);
-}
+/* CUSTOM FIX (2026-07-17, Kalvis screenshot): removed the ::after "cap" strip
+   that used to sit on top of the fill — Figma's bars only have 2 colors: the
+   track's translucent mint background (rgba(184,243,216,0.3), showing through
+   the small unfilled sliver above each fill) and the solid green fill itself.
+   The extra solid-mint cap wasn't in the reference and read as a 3rd color. */
 
 .mo-science__bar-labels {
   display: flex;
