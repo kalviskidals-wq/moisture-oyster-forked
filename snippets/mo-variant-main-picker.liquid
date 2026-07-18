@@ -307,9 +307,11 @@
     color: inherit;
   }
 
+  /* CUSTOM FIX (2026-07-18, per Kalvis screenshot): was top:-8px, overhanging
+     above the card's border — should sit fully INSIDE the tab instead. */
   .mo-vpicker__tier-badge {
     position: absolute;
-    top: -8px;
+    top: 8px;
     right: 8px;
     max-width: calc(100% - 16px);
     white-space: nowrap;
@@ -373,16 +375,16 @@
   }
 
   /* CUSTOM FIX (2026-07-18, node 633:213): was inline next to the "Subscribe"
-     label at the bottom of the card — Figma actually floats this badge near
-     the TOP-RIGHT of the card (overhanging the border slightly, same
-     treatment as .mo-vpicker__tier-badge on the quantity cards), not inline
-     with the title text. .mo-vpicker__card--purchase already has
-     position:relative via the shared base .mo-vpicker__card rule, so this
-     positions correctly against the card regardless of its DOM nesting
-     inside .mo-vpicker__purchase-title. */
+     label at the bottom of the card — floats near the TOP-RIGHT instead,
+     fully INSIDE the tab (not overhanging the border, per Kalvis screenshot
+     — same treatment as .mo-vpicker__tier-badge above), not inline with the
+     title text. .mo-vpicker__card--purchase already has position:relative
+     via the shared base .mo-vpicker__card rule, so this positions correctly
+     against the card regardless of its DOM nesting inside
+     .mo-vpicker__purchase-title. */
   .mo-vpicker__save-badge {
     position: absolute;
-    top: -8px;
+    top: 8px;
     right: 8px;
     display: inline-flex;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
