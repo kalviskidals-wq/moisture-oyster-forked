@@ -226,15 +226,17 @@
     align-self: stretch;
   }
 
+  /* CUSTOM FIX (2026-07-18, Figma nodes 633:185 / 633:213): was 11px, deep-green
+     #093d24 at 0.7 opacity — Figma confirms 10px, solid (no dimming) green
+     #115033 for both the "QUANTITY" and "PURCHASE OPTION" labels. */
   .mo-vpicker__label {
     margin: 0 0 var(--mo-space-2, 8px);
     font-family: var(--mo-font-mono, ui-monospace, monospace);
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--mo-card-text-inactive, #093d24);
-    opacity: 0.7;
+    color: #115033;
   }
 
   .mo-vpicker__cards {
@@ -287,19 +289,22 @@
     font-family: var(--mo-font-heading, sans-serif);
     font-weight: 700; /* CUSTOM: was 800 — Figma dev-mode confirms Bold/700 (audit #17, 2026-07-17) */
     font-size: 1.5rem;
-    line-height: 1;
+    line-height: 1.1;
+    letter-spacing: -0.02em; /* CUSTOM FIX (2026-07-18, node 633:185): Figma confirms -0.48px/-2% tracking, was unset. */
     color: inherit;
   }
 
+  /* CUSTOM FIX (2026-07-18, node 633:185): letter-spacing was 0.08em, Figma
+     confirms 0.1em (1px/10px). Also removed the 0.8 opacity dim — Figma
+     shows this at full opacity, same as the number above it. */
   .mo-vpicker__qty-unit {
     margin-top: 2px;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.625rem; /* CUSTOM: was 0.6875rem (11px) — Figma confirms 10px (audit #17) */
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: inherit;
-    opacity: 0.8;
   }
 
   .mo-vpicker__tier-badge {
@@ -325,32 +330,60 @@
     border: 1px solid var(--mo-badge-value-border, #c4c1ba);
   }
 
+  /* CUSTOM FIX (2026-07-18, Figma node 633:213): was auto-height, centered,
+     with the base card's asymmetric 8/12/12 padding — Figma confirms a
+     FIXED 65px height with symmetric 8px vertical / 12px horizontal
+     padding and price-top/label-bottom via space-between (no explicit gap
+     needed, the fixed height + space-between does it for both the
+     subscribe card, which also has a floating badge, and the plain
+     one-time card alike). */
   .mo-vpicker__card--purchase {
     flex-direction: column;
-    gap: 2px;
+    justify-content: space-between;
+    height: 65px;
+    padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px);
+    gap: 0;
   }
 
+  /* CUSTOM FIX (2026-07-18, node 633:213): was 20px/800 weight — Figma
+     confirms 24px/Bold(700), -0.48px/-2% tracking (same H3-small metrics as
+     the quantity number). */
   .mo-vpicker__purchase-price {
     font-family: var(--mo-font-heading, sans-serif);
-    font-weight: 800;
-    font-size: 1.25rem;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
     color: inherit;
   }
 
+  /* CUSTOM FIX (2026-07-18, node 633:213): was 11px/0.08em/0.85 opacity —
+     Figma confirms 10px/0.1em, full opacity (matches the quantity unit
+     label's fix above). */
   .mo-vpicker__purchase-title {
     display: inline-flex;
     align-items: center;
     gap: var(--mo-space-2, 8px);
     font-family: var(--mo-font-mono, ui-monospace, monospace);
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: inherit;
-    opacity: 0.85;
   }
 
+  /* CUSTOM FIX (2026-07-18, node 633:213): was inline next to the "Subscribe"
+     label at the bottom of the card — Figma actually floats this badge near
+     the TOP-RIGHT of the card (overhanging the border slightly, same
+     treatment as .mo-vpicker__tier-badge on the quantity cards), not inline
+     with the title text. .mo-vpicker__card--purchase already has
+     position:relative via the shared base .mo-vpicker__card rule, so this
+     positions correctly against the card regardless of its DOM nesting
+     inside .mo-vpicker__purchase-title. */
   .mo-vpicker__save-badge {
+    position: absolute;
+    top: -8px;
+    right: 8px;
     display: inline-flex;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.625rem;
@@ -361,20 +394,26 @@
     color: var(--mo-badge-save-text, #b8f3d8);
     text-transform: none;
     opacity: 1;
+    z-index: 1;
   }
 
   .mo-vpicker__save-badge[hidden] {
     display: none;
   }
 
+  /* CUSTOM FIX (2026-07-18, Figma node 633:213): border was accent-green
+     #1fa567 — Figma confirms a neutral grey #d9d9d9 for this row (unlike the
+     quantity/purchase cards, which really do use green). Also fixed height
+     34px (was padding-driven, taller) with matching 8px/12px padding. */
   .mo-vpicker__frequency {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--mo-space-3, 12px);
-    border: 1px solid var(--mo-card-border-inactive, #1fa567); /* CUSTOM: was 1.5px — consistent 1px stroke (audit #19, 2026-07-17) */
+    height: 34px;
+    border: 1px solid #d9d9d9;
     border-radius: var(--mo-radius-md, 10px);
-    padding: var(--mo-space-3, 12px) var(--mo-space-4, 16px);
+    padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px);
   }
 
   .mo-vpicker__frequency-label {
@@ -389,25 +428,36 @@
     color: #115033;
   }
 
+  /* CUSTOM FIX (2026-07-18, node 633:213): was 11px/0.08em/deep-green
+     #093d24 — Figma shows this styled identically to .mo-vpicker__frequency-label
+     next to it (10px/0.1em/#115033), just swapped in as the dynamic value. */
   .mo-vpicker__frequency-static {
     font-family: var(--mo-font-mono, ui-monospace, monospace);
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--mo-card-text-inactive, #093d24);
+    color: #115033;
   }
 
   .mo-vpicker__frequency-select {
     font-family: var(--mo-font-mono, ui-monospace, monospace);
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--mo-card-text-inactive, #093d24);
+    color: #115033;
     background: transparent;
     border: none;
     cursor: pointer;
+    /* CUSTOM (2026-07-18): swap the browser's native select arrow for a
+       small flat chevron matching Figma's minimal down-arrow. */
+    appearance: none;
+    padding-right: 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5' fill='none'%3E%3Cpath d='M1 1L4 4L7 1' stroke='%23115033' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 8px 5px;
   }
 
   @media screen and (max-width: 389px) {
