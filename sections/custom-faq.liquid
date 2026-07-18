@@ -19,6 +19,7 @@
     --mo-faq-question: {{ s.question_color | default: '#FFFFFF' }};
     --mo-faq-answer: {{ s.answer_color | default: '#FFFFFF' }};
     --mo-faq-toggle: {{ s.toggle_color | default: '#B8F3D8' }};
+    --mo-faq-toggle-open-icon: {{ s.toggle_open_icon_color | default: '#093D24' }};
     --mo-faq-divider: {{ s.divider_color | default: '#B8F3D8' }};
     --mo-faq-padding-y: {{ s.vertical_padding | default: 40 }}px;
   "
@@ -166,6 +167,13 @@
       "id": "toggle_color",
       "label": "Toggle icon + circle outline color",
       "default": "#B8F3D8"
+    },
+    {
+      "type": "color",
+      "id": "toggle_open_icon_color",
+      "label": "Toggle icon color (open state)",
+      "default": "#093D24",
+      "info": "CUSTOM (2026-07-18): when open, the circle fills solid with the color above (border disappears) — this is the icon color needed for contrast against that fill, matching the open-state treatment in the \"What's Inside\" section."
     },
     {
       "type": "color",

@@ -2919,8 +2919,22 @@ mo-review-filter {
   width: 40px; /* CUSTOM: was 32px — Figma dev-mode confirms 40px accordion toggle circle (audit #26, 2026-07-17) */
   height: 40px;
   border-radius: var(--mo-radius-pill, 999px);
-  border: 1px solid var(--mo-faq-toggle, #ffffff); /* CUSTOM: was 1.5px — Figma confirms ~1px (audit #19/#26) */
-  color: var(--mo-faq-toggle, #ffffff);
+  border: 1px solid var(--mo-faq-toggle, #b8f3d8); /* CUSTOM: was 1.5px — Figma confirms ~1px (audit #19/#26) */
+  color: var(--mo-faq-toggle, #b8f3d8);
+  background: transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+/* CUSTOM FIX (2026-07-18, per Kalvis): matches the same open-state color
+   swap used in the "What's Inside" section (.mo-ingredient[open] .mo-ingredient__toggle)
+   — border disappears, the circle fills with a solid color. That section's
+   card is white so it fills with a pale tint; this section's card is dark
+   green, so it fills with the mint itself and the icon flips to deep-green
+   for contrast (a mint "×" on a mint circle would be invisible). */
+.mo-faq__item[open] .mo-faq__toggle {
+  background: var(--mo-faq-toggle, #b8f3d8);
+  border-color: transparent;
+  color: var(--mo-faq-toggle-open-icon, #093d24);
 }
 
 /* CUSTOM FIX (2026-07-18, per Kalvis): was hiding the vertical stroke to
