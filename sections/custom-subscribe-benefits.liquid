@@ -1,4 +1,4 @@
-{%- # CUSTOM: net-new theme section — PDP "Subscription Deep-Dive": post-reviews subscription pitch pairing a peer-validated testimonial card with three reasons recurring delivery wins, framed as a supported programme. Desktop: eyebrow/heading overlay top-left directly on a full-bleed lifestyle image, a review card overlays lower-left, benefit cards stack in a column on the right. Mobile: eyebrow/heading render first in a solid light block above the image (not overlaid — same position:absolute→static breakpoint switch as .mo-problem__header in custom-problem-agitation.liquid), then the review card + a horizontal scroll-snap benefit-card carousel overlay the bottom of the image. UPSTREAM risk LOW — net-new, no Horizon file touched. -%}
+{%- # CUSTOM (2026-07-18: review card removed per Kalvis): net-new theme section — PDP "Subscription Deep-Dive": post-reviews subscription pitch with three reasons recurring delivery wins, framed as a supported programme. Desktop: eyebrow/heading overlay top-left directly on a full-bleed lifestyle image, benefit cards stack in a column on the right. Mobile: eyebrow/heading render first in a solid light block above the image (not overlaid — same position:absolute→static breakpoint switch as .mo-problem__header in custom-problem-agitation.liquid), then a horizontal scroll-snap benefit-card carousel overlays the bottom of the image. UPSTREAM risk LOW — net-new, no Horizon file touched. -%}
 {%- # CUSTOM: load design tokens + the .mo-sub-benefits / .mo-icon-card rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
 {{ 'custom.css' | asset_url | stylesheet_tag }}
@@ -12,10 +12,6 @@
   assign has_poster = false
   if s.background_image != blank
     assign has_poster = true
-  endif
-  assign has_review = false
-  if s.review_name != blank or s.review_quote != blank
-    assign has_review = true
   endif
 -%}
 
@@ -46,23 +42,6 @@
       <h2 class="mo-sub-benefits__heading mo-h2">{{ s.heading | newline_to_br }}</h2>
     {%- endif -%}
   </div>
-
-  {%- # CUSTOM (2026-07-10 fix): review card is a normal-flow sibling of header/media, not nested inside the image overlay — on mobile it renders in document order (after the header, before the image) instead of being layered on the photo, since a photo-bearing card is tall enough to collide with the header when overlaid. Desktop switches it to position:absolute via CSS (see .mo-sub-benefits__review in custom.css) so it still overlays the image lower-left there, matching Figma. -%}
-  {%- if has_review -%}
-    <div class="mo-sub-benefits__review">
-      {%- render 'mo-review-card',
-        name: s.review_name,
-        location: s.review_location,
-        meta_type: s.review_meta_type,
-        duration: s.review_duration,
-        photo: s.review_photo,
-        rating: s.review_rating,
-        quote: s.review_quote,
-        tags: s.review_tags,
-        badge_style: 'pill'
-      -%}
-    </div>
-  {%- endif -%}
 
   <div class="mo-sub-benefits__media">
     {%- if has_poster -%}
@@ -183,67 +162,6 @@
       "id": "background_video",
       "label": "Background video",
       "info": "Optional, included for consistency with other PDP sections. Autoplays muted, looped, no controls. Falls back to the background image above if left blank — this frame shows an image, not a video."
-    },
-    {
-      "type": "header",
-      "content": "Review card (single testimonial)"
-    },
-    {
-      "type": "text",
-      "id": "review_name",
-      "label": "Name",
-      "default": "Priya L."
-    },
-    {
-      "type": "text",
-      "id": "review_location",
-      "label": "Location",
-      "default": "Austin, TX"
-    },
-    {
-      "type": "select",
-      "id": "review_meta_type",
-      "label": "Reviewer type",
-      "options": [
-        { "value": "subscriber", "label": "Verified Subscriber (mint badge)" },
-        { "value": "professional", "label": "Verified Eye Care Professional (mint badge)" }
-      ],
-      "default": "subscriber"
-    },
-    {
-      "type": "text",
-      "id": "review_duration",
-      "label": "Subscriber duration",
-      "info": "Not shown on this card — this section always displays the mint badge style. Kept for consistency with the Reviews section's fields.",
-      "default": "5 months"
-    },
-    {
-      "type": "image_picker",
-      "id": "review_photo",
-      "label": "Photo",
-      "info": "Optional close-up photo shown on the card."
-    },
-    {
-      "type": "range",
-      "id": "review_rating",
-      "label": "Rating",
-      "min": 1,
-      "max": 5,
-      "step": 0.5,
-      "default": 5
-    },
-    {
-      "type": "textarea",
-      "id": "review_quote",
-      "label": "Quote",
-      "default": "I set it to 60 days and completely forget about it. My eyes have never felt better."
-    },
-    {
-      "type": "text",
-      "id": "review_tags",
-      "label": "Tags",
-      "info": "Comma-separated. Only relevant if this card is ever cross-referenced with the Reviews section's filters.",
-      "default": "verified,subscriber"
     },
     {
       "type": "header",
