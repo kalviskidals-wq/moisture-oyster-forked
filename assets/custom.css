@@ -2678,6 +2678,19 @@ mo-review-filter {
   padding: var(--mo-space-7, 30px); /* CUSTOM: was 24px — Figma confirms 30px */
 }
 
+/* CUSTOM FIX (2026-07-18, per Kalvis — actual root cause of "filters don't
+   filter"): .mo-reviews__card sets display:flex as a class rule, which has
+   the SAME specificity (0,1,0) as the browser's native `[hidden] {
+   display:none }` UA rule. Since this author stylesheet loads after the UA
+   stylesheet, our display:flex was winning even on cards the JS correctly
+   marked hidden=true — they stayed rendered regardless of which filter was
+   active. This attribute-selector override (0,2,0) reliably outranks it,
+   same specificity trick already used for .mo-footer__field .mo-footer__input
+   elsewhere in this file. */
+.mo-reviews__card[hidden] {
+  display: none;
+}
+
 @media screen and (min-width: 750px) {
   .mo-reviews__card {
     flex: 0 0 calc((100% - 2 * var(--mo-space-4, 16px)) / 3);
