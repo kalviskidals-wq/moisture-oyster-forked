@@ -5482,6 +5482,24 @@ body {
   background-color: var(--mo-deep-green, #093d24);
 }
 
+/* CUSTOM (fix): cart/search/filter drawers rendered above the header at all
+   viewport widths. Horizon's own drawer dialog (shared/native, deduplicated
+   snippet, not edited directly) sets its z-index from --layer-sticky (8)
+   plus a stack-order offset. Below Horizon's own modal breakpoint the drawer
+   opens as a true native modal (browser top layer, immune to z-index either
+   way), but at wider widths it opens non-modally and is subject to ordinary
+   stacking. This site's header sits at z-index 21 unconditionally, and at
+   z-index 30 while sticky or in the homepage's transparent mode — both
+   above the drawer's ~8-10, so the header painted over an open drawer on
+   desktop. Reported on the homepage's transparent header, but the same gap
+   exists on any page with a sticky header, so this fix is site-wide rather
+   than scoped to one template. Extra type-selector specificity (not just
+   matching class) guarantees this wins regardless of which stylesheet the
+   native rule ends up compiled into. Per Kalvis (2026-07-18). */
+html body .theme-drawer__dialog {
+  z-index: calc(31 + var(--drawer-stack-order, 0));
+}
+
 /* CUSTOM (fix): position:sticky lives on #header-group, NOT on .mo-header
    itself. .mo-header's real DOM parent is Shopify's auto-generated
    .shopify-section wrapper div, whose box is exactly the header's own
