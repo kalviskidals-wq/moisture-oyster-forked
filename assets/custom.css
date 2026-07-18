@@ -769,7 +769,8 @@ body {
 .mo-problem__stat-card {
   background: var(--mo-problem-card-bg, #093d24);
   border-radius: var(--mo-radius-md, 10px);
-  padding: var(--mo-space-7, 32px) var(--mo-space-6, 24px);
+  /* CUSTOM FIX (2026-07-18, per Kalvis): was 32px/24px — set to a uniform 30px. */
+  padding: 30px;
 }
 
 .mo-problem__stat-figure {
