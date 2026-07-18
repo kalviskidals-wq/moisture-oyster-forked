@@ -2923,16 +2923,13 @@ mo-review-filter {
   color: var(--mo-faq-toggle, #ffffff);
 }
 
+/* CUSTOM FIX (2026-07-18, per Kalvis): was hiding the vertical stroke to
+   turn "+" into "−" on open — Kalvis wants "×" instead (rotate 45deg),
+   matching the same +/× toggle symbol used in the "What's Inside" section
+   (.mo-ingredient__toggle svg). */
 .mo-faq__toggle svg {
   width: 14px;
   height: 14px;
-}
-
-/* CUSTOM FIX (2026-07-18, per Kalvis): was hiding the vertical stroke to
-   turn "+" into "−" on open — Kalvis wants "×" instead (rotate 45deg),
-   matching the toggle behavior already used elsewhere in this project
-   (.mo-eye-health__card, .mo-footer__col). */
-.mo-faq__toggle svg {
   transition: transform 0.2s ease;
 }
 
