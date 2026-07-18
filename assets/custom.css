@@ -3388,19 +3388,25 @@ mo-review-filter {
   margin: 0 0 var(--mo-space-3, 12px);
 }
 
+/* CUSTOM FIX (2026-07-18, Figma node 457:2089): was a large responsive
+   clamp(2rem,5vw,2.75rem)/800 weight — Figma confirms a fixed 24px/700
+   weight/1.1 line-height (letter-spacing -0.02em already matched). */
 .mo-footer__heading {
   font-family: var(--mo-font-heading);
   color: var(--mo-footer-heading, #ffffff);
-  font-weight: 800;
-  font-size: clamp(2rem, 5vw, 2.75rem);
-  line-height: 1.05;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.1;
   letter-spacing: -0.02em;
   margin: 0 0 var(--mo-space-4, 16px);
 }
 
+/* CUSTOM FIX (2026-07-18, Figma node 457:2089): was dimmed (opacity 0.85);
+   Figma shows full-opacity white, Manrope Medium (weight 500) — the .mo-body
+   class it now pairs with (was .mo-body-lg) doesn't set a weight itself. */
 .mo-footer__desc {
   color: var(--mo-footer-desc, #ffffff);
-  opacity: 0.85;
+  font-weight: 500;
   margin: 0 0 var(--mo-space-6, 24px);
   max-width: 420px;
 }
@@ -3442,7 +3448,8 @@ mo-review-filter {
 }
 
 .mo-footer__field .mo-footer__input::placeholder {
-  color: color-mix(in srgb, var(--mo-footer-input-text, #ffffff) 60%, transparent);
+  /* CUSTOM FIX (2026-07-18, Figma node 457:2089): was 60% — confirmed 50%. */
+  color: color-mix(in srgb, var(--mo-footer-input-text, #ffffff) 50%, transparent);
 }
 
 .mo-footer__button {
@@ -3577,11 +3584,11 @@ mo-review-filter {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
-  opacity: 0.85;
+  /* CUSTOM FIX (2026-07-18, Figma node 457:2089): was dimmed to opacity 0.85 —
+     Figma shows full-opacity white at rest. */
 }
 
 .mo-footer__col-link:hover {
-  opacity: 1;
   text-decoration: underline;
 }
 
@@ -3665,17 +3672,19 @@ mo-review-filter {
   display: block;
 }
 
+/* CUSTOM FIX (2026-07-18, Figma node 457:2089): font-size was 12px, Figma
+   confirms 10px. */
 .mo-footer__legal {
   color: var(--mo-footer-legal, #ffffffb3);
-  font-size: 12px;
+  font-size: 10px;
   line-height: 1.4;
   margin-block-start: var(--mo-space-6, 24px);
   max-width: 480px;
 }
 
-/* CUSTOM: legal/regulatory line is mobile-only per Kalvis (2026-07-13) —
-   desktop gets a separate mobile-only bottom logo instead (added outside
-   this section). */
+/* CUSTOM: legal/regulatory line is mobile-only per Kalvis (2026-07-13,
+   reconfirmed 2026-07-18) — desktop gets a separate mobile-only bottom logo
+   instead (added outside this section). */
 @media screen and (min-width: 750px) {
   .mo-footer__legal {
     display: none;

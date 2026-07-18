@@ -32,14 +32,21 @@
   <div class="mo-footer__inner">
     <div class="mo-footer__top">
       <div class="mo-footer__signup">
+        {%- comment -%}
+          CUSTOM FIX (2026-07-18, Figma node 457:2089): eyebrow was missing
+          .mo-tag--sm, so it rendered at the 14px .mo-tag size instead of the
+          10px size Figma shows. Description was .mo-body-lg (16px, 0.85
+          opacity) — Figma shows 14px full-opacity Manrope Medium, i.e.
+          .mo-body (font-weight added via .mo-footer__desc override in CSS).
+        {%- endcomment -%}
         {%- if s.eyebrow != blank -%}
-          <p class="mo-footer__eyebrow mo-tag">{{ s.eyebrow | escape }}</p>
+          <p class="mo-footer__eyebrow mo-tag mo-tag--sm">{{ s.eyebrow | escape }}</p>
         {%- endif -%}
         {%- if s.heading != blank -%}
           <h2 class="mo-footer__heading">{{ s.heading | newline_to_br }}</h2>
         {%- endif -%}
         {%- if s.description != blank -%}
-          <div class="mo-footer__desc mo-body-lg">{{ s.description }}</div>
+          <div class="mo-footer__desc mo-body">{{ s.description }}</div>
         {%- endif -%}
 
         {%- # CUSTOM: native customer form, mirrors sections/custom-prelaunch.liquid's pattern. Tagging note: this is a SECOND native customer-signup form on the site (prelaunch onepager is the first) — a generic Shopify Flow "customer created" trigger cannot distinguish which form a signup came from, so applying a distinct `vitamins-waitlist` tag here vs `prelaunch-subscriber` there needs a real disambiguation strategy (e.g. separate Flow logic keyed off referring page, or accept one shared tag) — flagged to Kalvis, not resolved here. -%}
@@ -273,7 +280,8 @@
       "type": "color",
       "id": "eyebrow_color",
       "label": "Eyebrow color",
-      "default": "#B8F3D8"
+      "default": "#FFD5F7",
+      "info": "CUSTOM (2026-07-18, Figma node 457:2089): was mint — confirmed pink. Live footer-group.json already overrides this correctly; syncing the schema default to match."
     },
     {
       "type": "color",
@@ -291,8 +299,8 @@
       "type": "color",
       "id": "input_border_color",
       "label": "Input border color",
-      "default": "#2C5940",
-      "info": "VERIFY against Figma — estimated subtle border on the dark field."
+      "default": "#B8F3D8",
+      "info": "CUSTOM (2026-07-18, Figma node 457:2089): confirmed mint, not the previously estimated dark green."
     },
     {
       "type": "color",
@@ -355,7 +363,8 @@
       "max": 40,
       "step": 1,
       "unit": "px",
-      "default": 16
+      "default": 10,
+      "info": "CUSTOM (2026-07-18, Figma node 457:2089): was 16 — confirmed 10px."
     },
     {
       "type": "range",
