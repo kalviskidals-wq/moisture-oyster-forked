@@ -1053,7 +1053,11 @@ body {
   .mo-compare__inner {
     padding-inline: var(--page-margin, 40px);
     display: grid;
-    grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr);
+    /* CUSTOM FIX (2026-07-18, per Kalvis): was 1fr/3fr (~25%/75%) — matched
+       to the same ~32%/68% left/right split as .mo-ingredients__card,
+       .mo-howto__layout, and .mo-faq__inner, so all four PDP sections'
+       right-side content columns line up at the same width/left edge. */
+    grid-template-columns: minmax(240px, 32%) 1fr;
     align-items: start;
     gap: var(--mo-space-8, 40px);
   }
@@ -1458,8 +1462,12 @@ tbody tr:last-child .mo-compare__cell {
 }
 
 @media screen and (min-width: 750px) {
+  /* CUSTOM FIX (2026-07-18, per Kalvis): was 38% — matched to the same ~32%
+     left / ~68% right split used by .mo-compare__inner, .mo-howto__layout,
+     and .mo-faq__inner, so all four PDP sections' right-side content
+     columns line up at the same width/left edge. */
   .mo-ingredients__card {
-    grid-template-columns: minmax(240px, 38%) 1fr;
+    grid-template-columns: minmax(240px, 32%) 1fr;
     align-items: start;
   }
 }
@@ -1906,9 +1914,16 @@ tbody tr:last-child .mo-compare__cell {
 }
 
 @media screen and (min-width: 750px) {
+  /* CUSTOM FIX (2026-07-18, per Kalvis): was a fixed 380px — switched to a
+     percentage flex-basis (~32%, matching .mo-compare__inner,
+     .mo-ingredients__card, and .mo-faq__inner's left columns) so this scales
+     proportionally with the container instead of a fixed px width, keeping
+     the right-side content (.mo-howto__media) at a consistent ~68% and its
+     left edge aligned with the other three PDP sections. */
   .mo-howto__steps {
     flex-direction: column;
-    flex: 0 0 380px;
+    flex: 0 0 32%;
+    min-width: 240px;
     overflow-x: visible;
     scroll-snap-type: none;
     padding-block-end: 0;
@@ -2741,9 +2756,15 @@ mo-review-filter {
 }
 
 @media screen and (min-width: 750px) {
+  /* CUSTOM FIX (2026-07-18, per Kalvis): was a fixed minmax(280px,420px) —
+     matched to the same ~32%/68% left/right split as .mo-compare__inner,
+     .mo-ingredients__card, and .mo-howto__layout, so all four PDP sections'
+     right-side content columns line up at the same width/left edge (a fixed
+     px left column doesn't scale proportionally with the container the way
+     the other three now do). */
   .mo-faq__inner {
     padding-inline: var(--page-margin, 40px);
-    grid-template-columns: minmax(280px, 420px) 1fr;
+    grid-template-columns: minmax(240px, 32%) 1fr;
     gap: var(--mo-space-8, 40px);
     align-items: start;
   }
