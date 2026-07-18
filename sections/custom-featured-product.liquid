@@ -117,6 +117,52 @@
   #shopify-section-{{ section.id }} .sealsubs-target-element {
     display: none !important;
   }
+
+  @media screen and (max-width: 749px) {
+    /* CUSTOM: replicate the PDP's mobile hero image treatment exactly (Kalvis,
+       2026-07-18) — same rules as sections/custom-main-product.liquid's own
+       inline style block. Horizon's product-information-content snippet
+       hardcodes the media column to grid-column: 1 / -1 on mobile (deliberate
+       full-bleed-by-default), which reads as "full width, no padding" — this
+       overrides it to match the product-details column's own inset instead,
+       so the image sits with the same side padding as the rest of the page. */
+    #shopify-section-{{ section.id }} .product-information__media {
+      grid-column: 2 / 3;
+    }
+
+    /* CUSTOM: hero image crops to a 1:1 square with a 10px radius on mobile,
+       matching the PDP. Desktop keeps aspect_ratio: adapt (each photo's own
+       natural ratio) — untouched, this is mobile-only. */
+    #shopify-section-{{ section.id }} .product-information__media .product-media-container {
+      aspect-ratio: 1 / 1 !important;
+      border-radius: 10px !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-information__media .product-media-container :is(img, video, .deferred-media__poster-image) {
+      object-fit: cover !important;
+      border-radius: 10px !important;
+    }
+
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails-container {
+      padding-block-start: 0;
+      justify-content: flex-start !important;
+      width: 100% !important;
+    }
+
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails {
+      padding-block: 10px;
+      margin-block-start: 0 !important;
+      margin-inline: 0 !important;
+      justify-content: flex-start !important;
+      align-self: flex-start !important;
+      width: fit-content !important;
+    }
+
+    #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
+      justify-content: flex-start !important;
+      align-items: flex-start !important;
+    }
+  }
 {% endstyle %}
 
 {%- liquid
