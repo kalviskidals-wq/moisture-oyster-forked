@@ -2928,10 +2928,16 @@ mo-review-filter {
   height: 14px;
 }
 
-/* Turns the shared "+" glyph into a "−" on open by hiding only its vertical
-   stroke (the icon's first <path>) — no separate close-state asset. */
-.mo-faq__item[open] .mo-faq__toggle svg path:first-child {
-  opacity: 0;
+/* CUSTOM FIX (2026-07-18, per Kalvis): was hiding the vertical stroke to
+   turn "+" into "−" on open — Kalvis wants "×" instead (rotate 45deg),
+   matching the toggle behavior already used elsewhere in this project
+   (.mo-eye-health__card, .mo-footer__col). */
+.mo-faq__toggle svg {
+  transition: transform 0.2s ease;
+}
+
+.mo-faq__item[open] .mo-faq__toggle svg {
+  transform: rotate(45deg);
 }
 
 .mo-faq__answer {

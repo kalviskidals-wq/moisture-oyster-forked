@@ -1382,8 +1382,8 @@
         "support_text_color": "#ffffff",
         "question_color": "#ffffff",
         "answer_color": "#ffffff",
-        "toggle_color": "#ffffff",
-        "divider_color": "#b8f3d833",
+        "toggle_color": "#b8f3d8",
+        "divider_color": "#b8f3d8",
         "vertical_padding": 64
       }
     },

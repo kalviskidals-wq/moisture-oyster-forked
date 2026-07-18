@@ -18,8 +18,8 @@
     --mo-faq-support: {{ s.support_text_color | default: '#FFFFFF' }};
     --mo-faq-question: {{ s.question_color | default: '#FFFFFF' }};
     --mo-faq-answer: {{ s.answer_color | default: '#FFFFFF' }};
-    --mo-faq-toggle: {{ s.toggle_color | default: '#FFFFFF' }};
-    --mo-faq-divider: {{ s.divider_color | default: '#B8F3D833' }};
+    --mo-faq-toggle: {{ s.toggle_color | default: '#B8F3D8' }};
+    --mo-faq-divider: {{ s.divider_color | default: '#B8F3D8' }};
     --mo-faq-padding-y: {{ s.vertical_padding | default: 40 }}px;
   "
 >
@@ -165,14 +165,14 @@
       "type": "color",
       "id": "toggle_color",
       "label": "Toggle icon + circle outline color",
-      "default": "#FFFFFF"
+      "default": "#B8F3D8"
     },
     {
       "type": "color",
       "id": "divider_color",
       "label": "Row divider color",
-      "default": "#B8F3D833",
-      "info": "VERIFY against Figma — estimated subtle light-green divider."
+      "default": "#B8F3D8",
+      "info": "CUSTOM (2026-07-18, per Kalvis): was a 20%-alpha mint — confirmed solid #B8F3D8."
     },
     {
       "type": "header",
