@@ -3375,13 +3375,17 @@ mo-review-filter {
 }
 
 @media screen and (min-width: 750px) {
+  /* CUSTOM FIX (2026-07-18): even 1fr 1fr split (was minmax(280px,460px) 1fr)
+     so the columns track's left edge lands exactly at the section's
+     horizontal center — signup content's own max-widths already keep it from
+     overflowing the left half. */
   .mo-footer__top {
     display: grid;
-    grid-template-columns: minmax(280px, 460px) 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: var(--mo-space-8, 40px);
-    /* CUSTOM FIX (2026-07-18): explicit start (was relying on the stretch
-       default) so the eyebrow and the SHOP/SUPPORT/COMPANY headers are
-       guaranteed to sit flush on the same top line. */
+    /* explicit start (was relying on the stretch default) so the eyebrow and
+       the SHOP/SUPPORT/COMPANY headers are guaranteed to sit flush on the
+       same top line. */
     align-items: start;
   }
 }
