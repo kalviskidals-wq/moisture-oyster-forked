@@ -3521,22 +3521,25 @@ mo-review-filter {
 
 /* CUSTOM FIX (2026-07-18, Figma node 633:1234, mobile): input/button were
    sized purely by padding (~56-60px tall, and not matching each other) —
-   Figma confirms a compact, equal 36px height for both, 20px/15px
-   horizontal padding respectively. MUST come after the base
-   .mo-footer__field .mo-footer__input / .mo-footer__button rules above (not
-   before, as an earlier pass had it) — same selector specificity in both
-   places means source order decides the tie, and this needs to be the
+   Figma confirms a compact, equal 36px height for both. MUST come after the
+   base .mo-footer__field .mo-footer__input / .mo-footer__button rules above
+   (not before, as an earlier pass had it) — same selector specificity in
+   both places means source order decides the tie, and this needs to be the
    later one to actually win. Scoped to mobile only so it can't fight the
-   desktop 272x40/151x40 override below. */
+   desktop 272x40/151x40 override below.
+   Vertical padding is real, not 0 — Figma's own spec is h-36 WITH py-10
+   (input) / py-12 (button), i.e. the 36px total height already accounts for
+   that padding (border-box), so zeroing it out (an earlier pass's mistake)
+   just made the text sit flush against the border with no breathing room. */
 @media screen and (max-width: 749px) {
   .mo-footer__field .mo-footer__input {
     height: 36px;
-    padding: 0 var(--mo-space-5, 20px);
+    padding: 10px 20px;
   }
 
   .mo-footer__button {
     height: 36px;
-    padding: 0 15px;
+    padding: 12px 15px;
   }
 }
 
