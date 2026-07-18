@@ -10,7 +10,8 @@
   {{ featured_product | structured_data }}
 </script>
 
-{%- # CUSTOM: two SEPARATE _product-details block instances (same native block type, different ids) — the same "duplicate a block type under two ids" technique already used on the PDP for its mobile-testimonial instance (see [[moisture-oyster-project]]). "product-details" is the slim, always-visible card (title + price only); "product-details-full" holds the REAL mo-tier-picker + buy-buttons (full quantity/subscribe options + working add-to-cart), rendered normally at page load but visually hidden inside a <dialog> until "Purchase Options" is clicked — deliberately NOT using Horizon's shared native quick-add-dialog/AJAX pipeline (snippets/quick-add-modal.liquid), since that's built around fetching a product-card's own quick-add section over AJAX and re-mounting its contents; our mo-variant-main-picker's mount script isn't written to handle being injected after the fact, so server-rendering the full picker inline (just hidden) and only toggling the dialog's [open] state is the safer, more predictable choice. Passing closest.product explicitly to both, matching the confirmed-working pattern already used in sections/custom-main-product.liquid. -%}
+{%- # CUSTOM (2026-07-18 fix — "section is broken"): the dialog's content used to be a SECOND `_product-details` block instance, same native type as the slim visible one — but `blocks/_product-details.liquid` hardcodes `id="ProductInformation-{{ section.id }}"` keyed ONLY on section.id (not the block's own id), so both instances rendered the exact same DOM id twice on one page. Switched the dialog's content to a plain `group` block instead (`blocks/group.liquid` has no section-id-only DOM id — it's namespaced by the block's own id), which is the same block type the real PDP already uses for its "MO Buy Box Card" wrapper. -%}
+{%- # CUSTOM: "product-details" is the slim, always-visible card (title + price only); the dialog's "dialog-buybox" group holds the REAL mo-tier-picker + buy-buttons (full quantity/subscribe options + working add-to-cart), rendered normally at page load but visually hidden inside a <dialog> until "Purchase Options" is clicked — deliberately NOT using Horizon's shared native quick-add-dialog/AJAX pipeline (snippets/quick-add-modal.liquid), since that's built around fetching a product-card's own quick-add section over AJAX and re-mounting its contents; our mo-variant-main-picker's mount script isn't written to handle being injected after the fact, so server-rendering the full picker inline (just hidden) and only toggling the dialog's [open] state is the safer, more predictable choice. Passing closest.product explicitly to both, matching the confirmed-working pattern already used in sections/custom-main-product.liquid. -%}
 {% capture media_gallery %}
   {% content_for 'block',
     type: '_product-media-gallery',
@@ -50,8 +51,8 @@
 
 {% capture product_details_full %}
   {% content_for 'block',
-    type: '_product-details',
-    id: 'product-details-full',
+    type: 'group',
+    id: 'dialog-buybox',
     closest.product: featured_product
   %}
 {% endcapture %}
@@ -192,7 +193,7 @@
     width: calc(100% - var(--mo-space-8, 40px));
   }
 
-  .mo-featured-product__dialog-content .product-details {
+  .mo-featured-product__dialog-content .group-block {
     padding: 0;
   }
 {% endstylesheet %}
@@ -387,18 +388,22 @@
           },
           "block_order": ["mo_title", "mo_price"]
         },
-        "product-details-full": {
-          "type": "_product-details",
+        "dialog-buybox": {
+          "type": "group",
           "static": true,
           "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 20,
             "width": "fill",
             "custom_width": 100,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
             "height": "fit",
-            "details_position": "flex-start",
-            "gap": 20,
-            "sticky_details_desktop": false,
             "background_media": "none",
             "border": "none"
           },
