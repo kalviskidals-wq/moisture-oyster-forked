@@ -376,10 +376,10 @@
         "vertical_padding": 0
       }
     },
-    "custom_reviews_KtWmqa": {
+    "custom_reviews_A6riyN": {
       "type": "custom-reviews",
       "blocks": {
-        "filter_q9CX4W": {
+        "filter_FRAikP": {
           "type": "filter",
           "name": "Filter",
           "settings": {
@@ -387,15 +387,16 @@
             "tag_key": "verified"
           }
         },
-        "filter_Nb4JAA": {
+        "filter_DbqqjL": {
           "type": "filter",
           "name": "Filter",
+          "disabled": true,
           "settings": {
             "label": "Most Helpful",
             "tag_key": "most_helpful"
           }
         },
-        "filter_pDJYYG": {
+        "filter_B9V8qn": {
           "type": "filter",
           "name": "Filter",
           "settings": {
@@ -403,7 +404,7 @@
             "tag_key": "lens_wearer"
           }
         },
-        "filter_D93a3T": {
+        "filter_DkUbNp": {
           "type": "filter",
           "name": "Filter",
           "settings": {
@@ -411,66 +412,81 @@
             "tag_key": "screen_worker"
           }
         },
-        "filter_fi8x6h": {
+        "filter_iW8hTY": {
           "type": "filter",
           "name": "Filter",
+          "disabled": true,
           "settings": {
             "label": "Has Photos",
             "tag_key": "has_photos"
           }
         },
-        "review_RP7z9A": {
+        "review_CeyqAU": {
           "type": "review",
           "name": "Review",
           "settings": {
-            "name": "Julianna B.",
-            "location": "Miami, FL",
+            "name": "Julianna",
+            "location": "New York, NY",
             "meta_type": "subscriber",
             "duration": "3 months",
             "photo": "shopify://shop_images/image_1926988520_1.jpg",
             "rating": 5,
-            "quote": "I spend long hours in front of a computer, so I always keep these eye drops with me. The formula feels very soothing, and they quickly help relieve eye dryness and discomfort I get after staring at a screen all day.",
-            "tags": "verified,lens_wearer"
+            "quote": "I spend long hours in front of a computer, so I always keep these eye drops with me. The formula feels very soothing, and they quickly help relieve the dryness and discomfort I get after staring at a screen all day.",
+            "tags": "verified,lens_wearer,screen_worker"
           }
         },
-        "review_xVFmR4": {
+        "review_9dFJtt": {
           "type": "review",
           "name": "Review",
           "settings": {
-            "name": "Charity K.",
-            "location": "Los Angeles, CA",
+            "name": "Charity",
+            "location": "Chicago, IL",
             "meta_type": "subscriber",
-            "duration": "3 months",
+            "duration": "6 months",
             "photo": "shopify://shop_images/image_1926988520_2.jpg",
             "rating": 5,
-            "quote": "From the first time I used Moisture Oyster, my eyes felt soooo much better. I’d been relying on Lumify for a long time because my eyes were always red, but after using these drops, I found myself reaching for Lumify less and less. I also love that they don’t sting or burn like others. These are honestly the best eye drops I’ve used.",
+            "quote": "From the first time I used Moisture Oyster, my eyes felt so much better. I’d been relying on Lumify for a long time because my eyes were always red, but after using these drops, I found myself reaching for Lumify less and less. I also love that they don’t sting or burn like Systane does for me. I had tried BioTears before, but it just didn’t feel as moisturizing. These are honestly the best eye drops I’ve used.",
             "tags": "verified,most_helpful"
           }
         },
-        "review_bRmUzQ": {
+        "review_UTJea4": {
           "type": "review",
           "name": "Review",
           "settings": {
-            "name": "Polina S.",
-            "location": "Irvine, CA",
+            "name": "Polina",
+            "location": "Austin, TX",
             "meta_type": "subscriber",
             "duration": "5 months",
             "photo": "shopify://shop_images/image_1926988520_3.jpg",
             "rating": 5,
-            "quote": "The other night I was watching TV really late, and my eyes started stinging. Like I always do, I reached for my boyfriend’s contact lens solution (odd, I know but it’s just saline!) but I remembered I had Moisture Oyster on my desk, and after just one drop, my eyes felt so much better. I haven’t reached for the contact solution since. Don’t judge me!",
+            "quote": "The other night I was watching TV really late, and my eyes started stinging. Like I always do, I reached for my boyfriend’s contact lens solution (odd, I know but it’s just saline!) but I kept putting it in my eyes and it really wasn’t helping. Then I remembered I had Moisture Oyster on my desk, and after just one drop, my eyes felt so much better. I haven’t reached for the contact solution since. Don’t judge me!",
             "tags": "verified,screen_worker,most_helpful"
+          }
+        },
+        "review_Thtm9b": {
+          "type": "review",
+          "settings": {
+            "name": "Igor",
+            "location": "",
+            "meta_type": "subscriber",
+            "duration": "8 months",
+            "photo": "shopify://shop_images/image_1926988520_2.jpg",
+            "rating": 5,
+            "quote": "Very gentle formula I really like how it feels on my eyes. At first, the application felt a little unusual, then I realized I'd only ever used eye drops with preservatives before. Now it makes perfect sense.",
+            "tags": "verified"
           }
         }
       },
       "block_order": [
-        "filter_q9CX4W",
-        "filter_Nb4JAA",
-        "filter_pDJYYG",
-        "filter_D93a3T",
-        "filter_fi8x6h",
-        "review_RP7z9A",
-        "review_xVFmR4",
-        "review_bRmUzQ"
+        "filter_FRAikP",
+        "filter_DbqqjL",
+        "filter_B9V8qn",
+        "filter_DkUbNp",
+        "filter_iW8hTY",
+        "review_CeyqAU",
+        "review_9dFJtt",
+        "review_UTJea4",
+        "review_Thtm9b"
       ],
       "name": "MO Reviews",
       "settings": {
@@ -481,7 +497,7 @@
         "all_filter_label": "All",
         "filter_group_label": "Filter reviews",
         "card_radius": 16,
-        "vertical_padding": 64,
+        "vertical_padding": 40,
         "background_color": "#093d24",
         "rating_color": "#ffd5f7",
         "header_star_color": "#f2a2ff",
@@ -509,6 +525,6 @@
     "main",
     "custom_how_it_works_rLezhk",
     "custom_about_mohp1",
-    "custom_reviews_KtWmqa"
+    "custom_reviews_A6riyN"
   ]
 }
