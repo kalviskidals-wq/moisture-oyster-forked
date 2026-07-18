@@ -2114,17 +2114,14 @@ tbody tr:last-child .mo-compare__cell {
 }
 
 @media screen and (min-width: 750px) {
-  /* CUSTOM FIX (2026-07-18, per Kalvis + Figma node 633:525): was
-     align-items:stretch, forcing the stats card to match the (usually
-     taller) chart card's height — that leftover height then had to collect
-     SOMEWHERE inside the stats card (previously split top/bottom via
-     justify-content:center, then all at the bottom once that was changed to
-     flex-start). Figma sizes the stats card to just its own 40px padding +
-     content, so removing the stretch removes the extra gap at its source
-     instead of just relocating it. */
+  /* CUSTOM (2026-07-18, per Kalvis): back to align-items:stretch — both
+     cards should match height. The extra height this creates in the stats
+     card is now absorbed by .mo-science__stat's justify-content:space-between
+     (grows the internal gap between each quadrant's figure/unit group and
+     its description) instead of showing up as dead space below the grid. */
   .mo-science__grid {
     grid-template-columns: 1.7fr 1fr;
-    align-items: start;
+    align-items: stretch;
     gap: var(--mo-space-6, 24px);
   }
 }
@@ -2160,8 +2157,12 @@ tbody tr:last-child .mo-compare__cell {
 }
 
 /* ---------- Stats card ---------- */
+/* CUSTOM (2026-07-18): flex:1 so this fills .mo-science__stats-card's full
+   (stretched-to-match-chart-card) height, rather than sizing to its own
+   content and leaving dead space below it. */
 .mo-science__stats-grid {
   display: grid;
+  flex: 1;
   grid-template-columns: 1fr;
   row-gap: var(--mo-space-6, 24px);
 }
@@ -2174,11 +2175,29 @@ tbody tr:last-child .mo-compare__cell {
      right where it should cross the vertical divider. */
   .mo-science__stats-grid {
     grid-template-columns: 1fr 1fr;
+    /* CUSTOM (2026-07-18): explicit equal-fr rows so the two rows actually
+       share this grid's full (now taller) height instead of auto-sizing to
+       content — this is what lets each .mo-science__stat cell grow taller
+       and its own justify-content:space-between spread out to fill it. */
+    grid-template-rows: 1fr 1fr;
     column-gap: 0;
   }
 }
 
+/* CUSTOM FIX (2026-07-18, per Kalvis + Figma node 633:525): was a plain
+   block (spacing to the description came from .mo-science__stat-top's own
+   fixed margin-bottom) — switched to a flex column with
+   justify-content:space-between (gap as the floor) so that when the stats
+   card is stretched to match the taller chart card's height (restored
+   below on .mo-science__grid), the EXTRA height grows the space between the
+   figure/unit group and the description text in each quadrant, instead of
+   collecting as dead space at the bottom of the whole card. Matches Figma,
+   which uses this same justify-between technique per stat cell. */
 .mo-science__stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--mo-space-4, 16px);
   padding-bottom: var(--mo-space-6, 24px);
   border-bottom: 1px solid var(--mo-science-divider, #b8f3d8);
 }
@@ -2240,7 +2259,8 @@ tbody tr:last-child .mo-compare__cell {
   flex-wrap: wrap;
   column-gap: var(--mo-space-3, 12px);
   row-gap: var(--mo-space-2, 8px);
-  margin-bottom: var(--mo-space-4, 16px);
+  /* CUSTOM (2026-07-18): margin-bottom removed — the gap to .mo-science__stat-desc
+     now comes from the parent .mo-science__stat's gap/justify-content:space-between instead. */
 }
 
 @media screen and (min-width: 750px) {
