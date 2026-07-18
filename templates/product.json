@@ -1158,6 +1158,7 @@
         "filter_2": {
           "type": "filter",
           "name": "Filter",
+          "disabled": true,
           "settings": {
             "label": "Most Helpful",
             "tag_key": "most_helpful"
@@ -1182,6 +1183,7 @@
         "filter_5": {
           "type": "filter",
           "name": "Filter",
+          "disabled": true,
           "settings": {
             "label": "Has Photos",
             "tag_key": "has_photos"
@@ -1191,27 +1193,27 @@
           "type": "review",
           "name": "Review",
           "settings": {
-            "name": "Sarah M.",
+            "name": "Julianna",
             "location": "New York, NY",
             "meta_type": "subscriber",
             "duration": "3 months",
             "photo": "shopify://shop_images/image_1926988520_1.jpg",
             "rating": 5,
-            "quote": "Finally, eye drops I actually enjoy using. The case makes it so easy to keep in my bag — and my eyes feel genuinely better after two weeks.",
-            "tags": "verified,lens_wearer"
+            "quote": "I spend long hours in front of a computer, so I always keep these eye drops with me. The formula feels very soothing, and they quickly help relieve the dryness and discomfort I get after staring at a screen all day.",
+            "tags": "verified,lens_wearer, screen_worker"
           }
         },
         "review_2": {
           "type": "review",
           "name": "Review",
           "settings": {
-            "name": "Dr. James K.",
+            "name": "Charity",
             "location": "Chicago, IL",
-            "meta_type": "professional",
-            "duration": "3 months",
+            "meta_type": "subscriber",
+            "duration": "6 months",
             "photo": "shopify://shop_images/image_1926988520_2.jpg",
             "rating": 5,
-            "quote": "As an optometrist I'm selective about what I recommend. Preservative-free, pH-correct — the case gets patients to actually use it consistently.",
+            "quote": "From the first time I used Moisture Oyster, my eyes felt so much better. I’d been relying on Lumify for a long time because my eyes were always red, but after using these drops, I found myself reaching for Lumify less and less. I also love that they don’t sting or burn like Systane does for me. I had tried BioTears before, but it just didn’t feel as moisturizing. These are honestly the best eye drops I’ve used.",
             "tags": "verified,most_helpful"
           }
         },
@@ -1219,14 +1221,27 @@
           "type": "review",
           "name": "Review",
           "settings": {
-            "name": "Priya L.",
+            "name": "Polina",
             "location": "Austin, TX",
             "meta_type": "subscriber",
             "duration": "5 months",
             "photo": "shopify://shop_images/image_1926988520_3.jpg",
             "rating": 5,
-            "quote": "My optometrist recommended these and they've changed my daily routine. Elegant packaging, serious formula. I'm a subscriber for life.",
+            "quote": "The other night I was watching TV really late, and my eyes started stinging. Like I always do, I reached for my boyfriend’s contact lens solution (odd, I know but it’s just saline!) but I kept putting it in my eyes and it really wasn’t helping. Then I remembered I had Moisture Oyster on my desk, and after just one drop, my eyes felt so much better. I haven’t reached for the contact solution since. Don’t judge me!",
             "tags": "verified,screen_worker,most_helpful"
+          }
+        },
+        "review_3B386y": {
+          "type": "review",
+          "settings": {
+            "name": "Igor",
+            "location": "",
+            "meta_type": "subscriber",
+            "duration": "8 months",
+            "photo": "shopify://shop_images/image_1926988520_2.jpg",
+            "rating": 5,
+            "quote": "Very gentle formula I really like how it feels on my eyes. At first, the application felt a little unusual, then I realized I'd only ever used eye drops with preservatives before. Now it makes perfect sense.",
+            "tags": "verified"
           }
         }
       },
@@ -1238,7 +1253,8 @@
         "filter_5",
         "review_1",
         "review_2",
-        "review_3"
+        "review_3",
+        "review_3B386y"
       ],
       "name": "MO Reviews",
       "settings": {
