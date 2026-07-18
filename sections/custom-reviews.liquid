@@ -66,9 +66,18 @@
           <button type="button" class="mo-reviews__filter-pill is-active" data-filter="all" aria-pressed="true">{{ s.all_filter_label | default: 'All' | escape }}</button>
           {%- for block in section.blocks -%}
             {%- if block.type == 'filter' -%}
+              {%- comment -%}
+                CUSTOM FIX (2026-07-18, per Kalvis): matches the same
+                underscore/hyphen stripping now in snippets/mo-review-card.liquid
+                — this preset uses e.g. "most_helpful" but a review's tags
+                field is more likely to contain "Most Helpful", and only
+                stripping spaces here left them permanently mismatched
+                ("mosthelpful" vs "most_helpful"), so filters never actually
+                narrowed the results.
+              {%- endcomment -%}
               {%- liquid
                 assign fs = block.settings
-                assign tag_key = fs.tag_key | strip | downcase | remove: ' '
+                assign tag_key = fs.tag_key | strip | downcase | remove: ' ' | remove: '_' | remove: '-'
               -%}
               {%- if fs.label != blank and tag_key != blank -%}
                 <button type="button" class="mo-reviews__filter-pill" data-filter="{{ tag_key }}" aria-pressed="false" {{ block.shopify_attributes }}>{{ fs.label | escape }}</button>

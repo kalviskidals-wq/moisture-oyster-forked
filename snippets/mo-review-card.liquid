@@ -7,10 +7,20 @@
   whole Integer (block.settings.rating can be, even with a 0.5 step range).
   `times: 1.0` coerces to Float first so round always keeps one decimal.
 {%- endcomment -%}
+{%- comment -%}
+  CUSTOM FIX (2026-07-18, per Kalvis): filter pills' tag_key presets use
+  underscores (e.g. "most_helpful", "lens_wearer") but a merchant typing tags
+  naturally into this field (e.g. "Most Helpful") only had SPACES stripped
+  here, not converted to underscores — "most helpful" -> "mosthelpful",
+  which never matched "most_helpful", so no filter ever showed a narrowed
+  result. Now strips underscores/hyphens too (on both this side and the
+  filter pill's tag_key in custom-reviews.liquid) so "Most Helpful",
+  "most_helpful", and "most-helpful" all normalize to the same string.
+{%- endcomment -%}
 {%- liquid
   assign shopify_attributes = shopify_attributes | default: ''
   assign badge_style = badge_style | default: 'auto'
-  assign tags_final = tags | strip | downcase | remove: ' '
+  assign tags_final = tags | strip | downcase | remove: ' ' | remove: '_' | remove: '-'
   if photo != blank
     assign tags_final = tags_final | append: ',has_photos'
   endif
