@@ -254,10 +254,10 @@
                     "card_border_active": "#1fa567",
                     "card_text_active": "#ffffff",
                     "card_text_inactive": "#093d24",
-                    "badge_save_bg": "#1fa567",
-                    "badge_save_text": "#b8f3d8",
+                    "badge_save_bg": "#ffffff",
+                    "badge_save_text": "#115033",
                     "badge_value_bg": "#ffffff",
-                    "badge_value_text": "#0d1b14",
+                    "badge_value_text": "#115033",
                     "badge_value_border": "#c4c1ba",
                     "bubble_bg": "#ffd5f7",
                     "bubble_text": "#093d24"

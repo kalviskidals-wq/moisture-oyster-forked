@@ -326,10 +326,12 @@
     z-index: 1;
   }
 
+  /* CUSTOM FIX (2026-07-18, per Kalvis): active-tab bubble text was near-black
+     #0d1b14 with a grey border — Figma (node 633:185) shows a plain white
+     pill, no border, with #115033 text. */
   .mo-vpicker__card--qty.is-selected .mo-vpicker__tier-badge {
     background: var(--mo-badge-value-bg, #fff);
-    color: var(--mo-badge-value-text, #0d1b14);
-    border: 1px solid var(--mo-badge-value-border, #c4c1ba);
+    color: var(--mo-badge-value-text, #115033);
   }
 
   /* CUSTOM FIX (2026-07-18, Figma node 633:213): was auto-height, centered,
@@ -382,6 +384,10 @@
      via the shared base .mo-vpicker__card rule, so this positions correctly
      against the card regardless of its DOM nesting inside
      .mo-vpicker__purchase-title. */
+  /* CUSTOM FIX (2026-07-18, per Kalvis + node 633:213): was green bg / mint
+     text — Figma actually shows the same white-bg/#115033-text treatment as
+     the active quantity badge above (this only ever shows on the
+     already-selected Subscribe card, so it's always the "active" state). */
   .mo-vpicker__save-badge {
     position: absolute;
     top: 8px;
@@ -392,8 +398,8 @@
     font-weight: 600;
     padding: 2px 7px;
     border-radius: 999px;
-    background: var(--mo-badge-save-bg, #1fa567);
-    color: var(--mo-badge-save-text, #b8f3d8);
+    background: var(--mo-badge-save-bg, #ffffff);
+    color: var(--mo-badge-save-text, #115033);
     text-transform: none;
     opacity: 1;
     z-index: 1;
