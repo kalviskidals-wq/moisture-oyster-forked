@@ -4794,15 +4794,18 @@ mo-review-filter {
   grid-area: header;
 }
 
-/* CUSTOM (2026-07-14 fix): fixed min-height sized to ~3 lines of mo-body-lg
-   copy (16px / line-height 1.3) so the gap to the image below stays constant
-   regardless of which step's body text is currently active — panels vary
-   from 1-3 lines depending on copy length, and without this the "body" box
-   would shrink/grow per tab, dragging the image up or down with it. VERIFY
-   if a future step's body copy runs longer than 3 lines. */
+/* CUSTOM FIX (2026-07-17, per Kalvis): was `min-height` — a floor only stops
+   the box shrinking below 3 lines, it doesn't stop it GROWING taller for a
+   step whose body copy runs longer than 3 lines, which changed the section's
+   own height (and shifted the image below it) when switching to that tab.
+   A fixed `height` + overflow-y:auto turns the same 3-line budget into a
+   ceiling too, so the section's height genuinely never changes when
+   switching tabs — any step whose copy is longer than 3 lines scrolls
+   inside this box instead of growing it. */
 .mo-hiw__body {
   grid-area: body;
-  min-height: calc(1.3em * 3);
+  height: calc(1.3em * 3);
+  overflow-y: auto;
 }
 
 .mo-hiw__tablist {
