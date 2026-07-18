@@ -1,8 +1,16 @@
 {%- # CUSTOM: net-new theme block — verified-professional testimonial card, right-rail on PDP, above the buy box. UPSTREAM risk LOW (no Horizon file touched). -%}
+{%- comment -%}
+  CUSTOM FIX (2026-07-18, per Kalvis, same fix as snippets/mo-review-card.liquid):
+  `round: 1` alone drops the decimal for whole-number ratings (5 -> "5", not
+  "5.0") — Liquid's round filter returns an Integer, not a Float, when the
+  input is already a whole Integer. `times: 1.0` coerces to Float first so
+  round always keeps one decimal.
+{%- endcomment -%}
 {%- liquid
   assign bs = block.settings
   assign rating = bs.rating | default: 5
   assign full_stars = rating | floor
+  assign rating_display = rating | times: 1.0 | round: 1
 %}
 
 <div
@@ -17,7 +25,7 @@
 >
   {%- if bs.rating != blank -%}
     <div class="mo-pdp-testimonial__rating">
-      <span class="mo-pdp-testimonial__rating-number">{{ bs.rating }}</span>
+      <span class="mo-pdp-testimonial__rating-number">{{ rating_display }}</span>
       <span class="mo-pdp-testimonial__stars" aria-hidden="true">
         {%- for i in (1..5) -%}
           {%- if i <= full_stars -%}★{%- else -%}☆{%- endif -%}
