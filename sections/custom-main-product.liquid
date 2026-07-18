@@ -469,9 +469,10 @@
     z-index: calc(var(--layer-sticky) - 1); /* Below sticky header */
     display: block;
     width: 600px;
-    border-radius: calc(
-      var(--style-border-radius-buttons-primary) + min(var(--padding-sm), var(--style-border-radius-buttons-primary))
-    );
+    /* CUSTOM: was Horizon's native calc() token — matched to the same radius
+       used site-wide for cards/buttons (mo-design-system.css --mo-radius-md),
+       not the theme's default button-radius token. Per Kalvis (2026-07-18). */
+    border-radius: var(--mo-radius-md, 10px);
     box-shadow: var(--shadow-popover);
     padding: var(--padding-sm);
     /* Layout styling */
@@ -606,7 +607,11 @@
       bottom: 0;
       width: 100%;
       max-width: none;
-      border-radius: 0;
+      /* CUSTOM: top corners only (flush with the screen's bottom edge) —
+         matches the header nav's mobile corner radius (--mo-header-radius,
+         set in custom-header.liquid) so the two fixed bars bookend the page
+         with a consistent rounded look. Per Kalvis (2026-07-18). */
+      border-radius: var(--mo-header-radius, 28px) var(--mo-header-radius, 28px) 0 0;
 
       &::before {
         --border: 1px;
@@ -631,6 +636,17 @@
 
     .sticky-add-to-cart__price {
       font-size: var(--font-paragraph-small--size);
+    }
+
+    /* CUSTOM: narrower than the 9rem desktop max-width — at mobile's smaller
+       font-size, 9rem let the phrase fit almost entirely on one line, stranding
+       a single word ("ORDER") alone on the second. A tighter width forces an
+       earlier wrap so both lines carry a comparable number of words. Needs the
+       id-prefixed selector to out-specificity (and come after) the base
+       max-width rule above — see this project's CSS-specificity gotchas.
+       Per Kalvis (2026-07-18). */
+    #shopify-section-{{ section.id }} .sticky-add-to-cart__price {
+      max-width: 6.5rem;
     }
 
     .sticky-add-to-cart__button {
