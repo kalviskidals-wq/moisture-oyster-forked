@@ -2114,9 +2114,17 @@ tbody tr:last-child .mo-compare__cell {
 }
 
 @media screen and (min-width: 750px) {
+  /* CUSTOM FIX (2026-07-18, per Kalvis + Figma node 633:525): was
+     align-items:stretch, forcing the stats card to match the (usually
+     taller) chart card's height — that leftover height then had to collect
+     SOMEWHERE inside the stats card (previously split top/bottom via
+     justify-content:center, then all at the bottom once that was changed to
+     flex-start). Figma sizes the stats card to just its own 40px padding +
+     content, so removing the stretch removes the extra gap at its source
+     instead of just relocating it. */
   .mo-science__grid {
     grid-template-columns: 1.7fr 1fr;
-    align-items: stretch;
+    align-items: start;
     gap: var(--mo-space-6, 24px);
   }
 }
