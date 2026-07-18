@@ -286,6 +286,9 @@
   }
 
   .mo-vpicker__qty-number {
+    align-self: flex-start; /* CUSTOM FIX (2026-07-18, per Kalvis screenshot): still rendering centered live despite the parent's align-items:flex-start — forcing it directly on the item itself. */
+    width: fit-content;
+    text-align: left;
     font-family: var(--mo-font-heading, sans-serif);
     font-weight: 700; /* CUSTOM: was 800 — Figma dev-mode confirms Bold/700 (audit #17, 2026-07-17) */
     font-size: 1.5rem;
@@ -296,8 +299,13 @@
 
   /* CUSTOM FIX (2026-07-18, node 633:185): letter-spacing was 0.08em, Figma
      confirms 0.1em (1px/10px). Also removed the 0.8 opacity dim — Figma
-     shows this at full opacity, same as the number above it. */
+     shows this at full opacity, same as the number above it. Same
+     align-self/width/text-align defensive fix as .mo-vpicker__qty-number
+     above (still rendering centered despite the parent's align-items). */
   .mo-vpicker__qty-unit {
+    align-self: flex-start;
+    width: fit-content;
+    text-align: left;
     margin-top: 2px;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.625rem; /* CUSTOM: was 0.6875rem (11px) — Figma confirms 10px (audit #17) */
@@ -343,6 +351,7 @@
      one-time card alike). */
   .mo-vpicker__card--purchase {
     flex-direction: column;
+    align-items: flex-start; /* CUSTOM (2026-07-18): restated explicitly, see the defensive fix note on .mo-vpicker__purchase-price below. */
     justify-content: space-between;
     height: 65px;
     padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px);
@@ -351,8 +360,14 @@
 
   /* CUSTOM FIX (2026-07-18, node 633:213): was 20px/800 weight — Figma
      confirms 24px/Bold(700), -0.48px/-2% tracking (same H3-small metrics as
-     the quantity number). */
+     the quantity number). align-self/width/text-align added defensively —
+     this was still rendering centered live despite the parent's
+     align-items:flex-start (same fix applied to the quantity number/unit
+     above). */
   .mo-vpicker__purchase-price {
+    align-self: flex-start;
+    width: fit-content;
+    text-align: left;
     font-family: var(--mo-font-heading, sans-serif);
     font-weight: 700;
     font-size: 1.5rem;
@@ -363,8 +378,11 @@
 
   /* CUSTOM FIX (2026-07-18, node 633:213): was 11px/0.08em/0.85 opacity —
      Figma confirms 10px/0.1em, full opacity (matches the quantity unit
-     label's fix above). */
+     label's fix above). Same align-self/width/text-align defensive fix. */
   .mo-vpicker__purchase-title {
+    align-self: flex-start;
+    width: fit-content;
+    text-align: left;
     display: inline-flex;
     align-items: center;
     gap: var(--mo-space-2, 8px);
