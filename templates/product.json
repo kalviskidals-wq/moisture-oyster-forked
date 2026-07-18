@@ -330,7 +330,7 @@
                   "type": "mo-pdp-payment-badges",
                   "name": "MO Payment Badges",
                   "settings": {
-                    "text": "Apple Pay · Visa · Mastercard · Aferpay",
+                    "text": "Apple Pay · Visa · Mastercard · Afterpay",
                     "text_color": "#093d24"
                   },
                   "blocks": {}
