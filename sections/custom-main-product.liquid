@@ -567,6 +567,39 @@
     position: relative;
   }
 
+  /* CUSTOM: reskin the sticky bar's button with the same brand button (UI kit
+     "Add to Bag +" / DeepGreen variant, Figma node 514-4994) already used on the
+     main buybox's add-to-cart button below — was left on Horizon's generic
+     .button styling (default theme color/radius/font), not the brand system.
+     Kept the existing icon + "Add to cart" text/quantity structure (unlike the
+     buybox button's ::after relabel trick) since this button isn't a
+     content_for slot — no id-generation constraint here, just a plain custom
+     element — and this markup already drives the mobile icon-only collapse,
+     quantity badge, and "added" checkmark swap; only the visual skin changes.
+     Per Kalvis (2026-07-18). UPSTREAM risk LOW — scoped selector, no Horizon
+     file touched. */
+  #shopify-section-{{ section.id }} .sticky-add-to-cart__button {
+    background: var(--mo-deep-green, #093d24);
+    color: var(--mo-white, #ffffff);
+    border: none;
+    border-radius: var(--mo-radius-md, 10px);
+    font-family: var(--mo-font-mono, 'IBM Plex Mono', monospace);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  #shopify-section-{{ section.id }} .sticky-add-to-cart__button:hover:not(:disabled) {
+    background: var(--mo-green-mid, #115033);
+  }
+
+  #shopify-section-{{ section.id }} .sticky-add-to-cart__button:disabled {
+    background: var(--mo-color-disabled, #9a9a9a);
+    color: var(--mo-white, #ffffff);
+    opacity: 0.85;
+  }
+
   /* Mobile adjustments */
   @media screen and (max-width: 749px) {
     .sticky-add-to-cart__bar {
