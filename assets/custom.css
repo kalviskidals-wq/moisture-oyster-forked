@@ -4505,17 +4505,15 @@ mo-review-filter {
    CSS-only carousel (overflow-x + scroll-snap), matching the established
    .mo-howto__steps / .mo-reviews__scroller technique. Keyboard-scrollable
    and momentum-scrolling by default; aria-label set in markup.
-   CUSTOM (2026-07-17, audit #6, corrected against Figma node 578:1714):
-   align-items: flex-end so every card's BOTTOM edge sits on this row's
-   (bottom-anchored) baseline — the hovered/focused card grows upward from
-   it while closed siblings neither stretch nor shift. This is the same
-   technique the section originally used for its click-to-expand version;
-   a brief 3D-flip detour removed it in favor of align-items:stretch, which
-   is wrong for a growing card (it would drag every sibling to match the
-   tallest one). */
+   CUSTOM (2026-07-17, per Kalvis): plain align-items: stretch — every card
+   is the same fixed height whether flipped or not (see
+   .mo-eye-health__card-flip below), so there's no more "growing card"
+   case to special-case for. Earlier passes here needed a flex-end/:has()
+   dance specifically to support a card that changed height on flip/hover;
+   that's no longer needed now that flipping only swaps content, not size. */
 .mo-eye-health__cards {
   display: flex;
-  align-items: flex-end;
+  align-items: stretch;
   gap: var(--mo-space-4, 16px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -4523,22 +4521,6 @@ mo-review-filter {
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-block-end: var(--mo-space-2, 8px);
-}
-
-/* CUSTOM: while no card is hovered/focused, upgrade to align-items: stretch
-   so the closed cards dynamically match whichever one's caption actually
-   wraps the most — real content-driven matching, not a fixed reservation.
-   The moment any card IS hovered/focused, this is skipped and
-   .mo-eye-health__cards falls back to the flex-end rule above, so that
-   card can grow independently upward without dragging its still-closed
-   siblings along. Gated behind @supports selector(:has(a)) as an explicit
-   feature check; browsers without :has() support simply stay on flex-end
-   permanently (still correct, just without the "closed cards shrink to
-   their shortest shared caption height" refinement). */
-@supports selector(:has(a)) {
-  .mo-eye-health__cards:not(:has(.mo-eye-health__card:hover, .mo-eye-health__card:focus-within, .mo-eye-health__card.is-open)) {
-    align-items: stretch;
-  }
 }
 
 .mo-eye-health__cards::-webkit-scrollbar {
@@ -4552,29 +4534,27 @@ mo-review-filter {
   scroll-snap-align: start;
   border-radius: var(--mo-eye-card-radius, 16px); /* CUSTOM: was 10px — Figma dev-mode confirms 16px (audit #5, 2026-07-17) */
   overflow: hidden;
-  perspective: 1200px; /* CUSTOM (2026-07-17, per Kalvis): real 3D flip, not a grow-in-place reveal */
+  perspective: 1200px; /* CUSTOM (2026-07-17, per Kalvis): real 3D flip */
 }
 
-/* CUSTOM (2026-07-17, per Kalvis): the flip wrapper's `height` transitions
-   together with the `transform` — collapsed (front) height on rest,
-   expanded (back, figure+caption+body) height on hover/focus. Both values
-   are fixed per-breakpoint ESTIMATES, since a merchant's body-copy length
-   varies and can't be measured without JS; .mo-eye-health__card-face--back
-   has overflow-y:auto as a safety net if real content ends up taller than
-   estimated. Re-tune these two numbers per breakpoint after a live check. */
+/* CUSTOM (2026-07-17, per Kalvis): fixed height, same for front and back —
+   flipping swaps which face is visible without changing the card's box at
+   all. Sized generously for a 2-line caption at each breakpoint's
+   figure/caption font sizes (see the desktop override further down); the
+   back face's body copy uses overflow-y:auto as a safety net if a
+   merchant's text ends up taller than this fixed height. */
 .mo-eye-health__card-flip {
   position: relative;
   width: 100%;
-  height: 220px;
+  height: 230px;
   transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1), height 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
 }
 
 .mo-eye-health__card:hover .mo-eye-health__card-flip,
 .mo-eye-health__card:focus-within .mo-eye-health__card-flip,
 .mo-eye-health__card.is-open .mo-eye-health__card-flip {
   transform: rotateY(180deg);
-  height: 360px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4593,7 +4573,9 @@ mo-review-filter {
 
 .mo-eye-health__card-face--back {
   transform: rotateY(180deg);
-  overflow-y: auto; /* CUSTOM: safety net if a merchant's body copy runs taller than the estimated expanded height above */
+  display: flex;
+  align-items: center;
+  overflow-y: auto; /* CUSTOM: safety net if a merchant's body copy runs taller than the fixed card height */
 }
 
 .mo-eye-health__card-top {
@@ -4620,36 +4602,9 @@ mo-review-filter {
   text-transform: uppercase;
 }
 
-/* CUSTOM: restored (2026-07-17) — Figma's hover-state reference (node
-   578:1714) confirms this +/× toggle IS part of the design. Per Kalvis, it
-   only renders on the back face (markup only outputs it there) — since
-   that face is never visible except while already flipped/hovered, the
-   icon is pre-set to its "×" state below rather than needing its own
-   hover-triggered rotation. */
-.mo-eye-health__toggle {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px solid var(--mo-eye-toggle, #ffffff);
-  color: var(--mo-eye-toggle, #ffffff);
-  background: transparent;
-}
-
-.mo-eye-health__toggle svg {
-  width: 14px;
-  height: 14px;
-}
-
-/* Turns the shared "+" glyph into a "×" — same rotate(45deg) technique as
-   .mo-ingredient__toggle, just applied as a static state here since this
-   icon only ever appears already-open (see comment above). */
-.mo-eye-health__toggle--open svg {
-  transform: rotate(45deg);
-}
+/* CUSTOM: .mo-eye-health__toggle rules removed (2026-07-17, per Kalvis) —
+   the back face now shows only body copy, so there's no "+/× open state"
+   for this icon to represent anymore. */
 
 /* CUSTOM: per Figma dev-mode spec (2026-07-15) — mobile 12px/desktop 16px
    (see the matching .mo-eye-health__caption desktop override below), both
@@ -4690,7 +4645,6 @@ mo-review-filter {
   color: var(--mo-eye-body, #ffffff);
   opacity: 0.85;
   margin: 0;
-  padding-top: var(--mo-space-5, 20px);
   font-family: var(--mo-font-body, 'Inter', sans-serif);
   font-size: 14px;
   line-height: 1.3;
@@ -4758,13 +4712,7 @@ mo-review-filter {
   }
 
   .mo-eye-health__card-flip {
-    height: 260px; /* CUSTOM: desktop figure/caption font sizes are larger — bumped collapsed-height estimate to match */
-  }
-
-  .mo-eye-health__card:hover .mo-eye-health__card-flip,
-  .mo-eye-health__card:focus-within .mo-eye-health__card-flip,
-  .mo-eye-health__card.is-open .mo-eye-health__card-flip {
-    height: 400px; /* CUSTOM: bumped expanded-height estimate to match */
+    height: 270px; /* CUSTOM: desktop figure/caption font sizes are larger — bumped fixed-height estimate to match */
   }
 }
 

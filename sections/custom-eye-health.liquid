@@ -8,28 +8,22 @@
   side-by-side, fixed equal width; Mobile: cards are a fixed-width horizontal
   scroll-snap carousel.
 
-  CUSTOM (2026-07-17, audit #6, per Kalvis + Figma node 578:1714): this IS a
-  real 3D flip (perspective/rotateY on hover/focus-within) — not a
-  grow-in-place reveal. The front face shows only figure + caption + divider,
-  no toggle icon. The back face repeats that same figure/caption/divider,
-  adds the body copy below it, AND is where the toggle icon appears
-  (pre-rotated to its "×" state, since the icon only exists on the face
-  that's already open) — i.e. flipping shows "everything the front showed,
-  plus the body," not a replacement. The card's height transitions together
-  with the rotation (see .mo-eye-health__card-flip's `height` in custom.css)
-  so it grows from a collapsed front height to a taller back height as it
-  flips — those two heights are fixed per-breakpoint ESTIMATES (a merchant's
-  body-copy length varies and can't be measured without JS), so they may
-  need a live tuning pass once real content is in. Row uses
-  align-items: flex-end so only the hovered/focused card grows — closed
-  siblings keep their original height. tabindex="0" makes :focus-within
-  reachable via keyboard (and, on many browsers, tap on touch devices).
-  The flip/expand itself is pure CSS (:hover, :focus-within). One small JS
-  file (mo-eye-health.js) is loaded only to handle touch devices, which have
-  no hover state: it adds/removes an .is-open class so a second tap on an
-  already-open card closes it again (per Kalvis, 2026-07-17) — see that
-  file's own comment for details. UPSTREAM risk LOW — net-new, no Horizon
-  file touched.
+  CUSTOM (2026-07-17, audit #6, per Kalvis + Figma node 578:1714): a real 3D
+  flip (perspective/rotateY on hover/focus-within). The front face shows
+  figure + caption + divider; the back face shows ONLY the body copy (no
+  duplicated figure/caption, no toggle icon) — flipping swaps the content
+  entirely rather than adding to it. Both faces are the SAME fixed card
+  size (per Kalvis, 2026-07-17 — an earlier pass had the card grow taller
+  on flip to fit "front content + body," which has been simplified away).
+  Since every card is always the same height whether flipped or not, the
+  row can just use align-items: stretch — no more flex-end/:has() dance for
+  a growing card. tabindex="0" makes :focus-within reachable via keyboard
+  (and, on many browsers, tap on touch devices). The flip itself is pure
+  CSS (:hover, :focus-within). One small JS file (mo-eye-health.js) is
+  loaded only to handle touch devices, which have no hover state: it
+  adds/removes an .is-open class so a second tap on an already-open card
+  closes it again (per Kalvis, 2026-07-17) — see that file's own comment
+  for details. UPSTREAM risk LOW — net-new, no Horizon file touched.
 {%- endcomment -%}
 {%- # CUSTOM: load design tokens + the .mo-eye-health rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval, per this project's established per-section pattern. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
@@ -141,9 +135,10 @@
               >
                 <div class="mo-eye-health__card-flip">
                   {%- comment -%}
-                    CUSTOM: front face — no toggle icon here on purpose; it
-                    only appears on the back face, once flipped (per Kalvis,
-                    2026-07-17).
+                    CUSTOM: front face — figure + caption + divider, no
+                    toggle icon (removed per Kalvis, 2026-07-17 — the back
+                    face now shows only body copy, so there's no "+/× open
+                    state" for an icon to represent anymore).
                   {%- endcomment -%}
                   <div class="mo-eye-health__card-face mo-eye-health__card-face--front">
                     <div class="mo-eye-health__card-top">
@@ -157,27 +152,13 @@
                     <hr class="mo-eye-health__divider" aria-hidden="true">
                   </div>
                   {%- comment -%}
-                    CUSTOM: back face repeats the SAME figure/caption/divider
-                    as the front (per Kalvis: "all initial info + body" once
-                    flipped, not a replacement) and adds the body copy below
-                    it. The toggle icon lives only here, pre-set to its "×"
-                    state via .mo-eye-health__toggle--open — there's no need
-                    to animate +/× since this face is only ever visible while
-                    already flipped/hovered.
+                    CUSTOM (2026-07-17, per Kalvis): back face shows ONLY the
+                    body copy — no repeated figure/caption/divider, no toggle
+                    icon. Same fixed card size as the front (see
+                    .mo-eye-health__card-flip in custom.css), so flipping
+                    swaps the content rather than growing the card.
                   {%- endcomment -%}
                   <div class="mo-eye-health__card-face mo-eye-health__card-face--back">
-                    <div class="mo-eye-health__card-top">
-                      {%- if bs.figure != blank -%}
-                        <p class="mo-eye-health__figure mo-stat">{{ bs.figure | escape }}</p>
-                      {%- endif -%}
-                      <span class="mo-eye-health__toggle mo-eye-health__toggle--open" aria-hidden="true">
-                        {%- render 'mo-accordion-icon' -%}
-                      </span>
-                    </div>
-                    {%- if bs.caption != blank -%}
-                      <p class="mo-eye-health__caption mo-menu">{{ bs.caption | newline_to_br }}</p>
-                    {%- endif -%}
-                    <hr class="mo-eye-health__divider" aria-hidden="true">
                     {%- if bs.body != blank -%}
                       <div class="mo-eye-health__body mo-body">{{ bs.body }}</div>
                     {%- endif -%}
