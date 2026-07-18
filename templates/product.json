@@ -1292,7 +1292,7 @@
           "name": "FAQ",
           "settings": {
             "question": "Can I use Moisture Oyster with contact lenses?",
-            "answer": "<p>Yes- preservative-free and BAK-free, which makes it well suited to contact lens wearers. Use it before inserting your lenses and after removing them- it is not a rewetting drop, so don't apply it while your lenses are in.</p>",
+            "answer": "<p>It is not a rewetting drop, so don't apply it while your lenses are in. Otherwise, yes. Use it before inserting your lenses and after removing them. </p>",
             "open_by_default": false
           }
         },
@@ -1301,7 +1301,7 @@
           "name": "FAQ",
           "settings": {
             "question": "How does the preservative-free multi-dose bottle work?",
-            "answer": "<p>Our bottle uses the Aptar OSD (Ophthalmic Squeeze Dispenser) — a one-way-valve system that prevents contamination without chemical preservatives. FDA-cleared technology.</p>",
+            "answer": "<p>Our bottle uses the Aptar OSD (Ophthalmic Squeeze Dispenser), a one-way valve system that keeps every drop sterile without chemical preservatives, about 200 drops per bottle. FDA-cleared technology.</p>",
             "open_by_default": false
           }
         },
@@ -1319,7 +1319,7 @@
           "name": "FAQ",
           "settings": {
             "question": "What if I forget a delivery is coming?",
-            "answer": "<p>We send a reminder 3 days before every delivery — time to skip, delay, or adjust before it ships.</p>",
+            "answer": "<p>You can skip, delay, or adjust before it ships.</p>",
             "open_by_default": false
           }
         },
