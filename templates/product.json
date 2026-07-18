@@ -1158,6 +1158,7 @@
         "filter_2": {
           "type": "filter",
           "name": "Filter",
+          "disabled": true,
           "settings": {
             "label": "Most Helpful",
             "tag_key": "most_helpful"
@@ -1182,6 +1183,7 @@
         "filter_5": {
           "type": "filter",
           "name": "Filter",
+          "disabled": true,
           "settings": {
             "label": "Has Photos",
             "tag_key": "has_photos"
@@ -1198,7 +1200,7 @@
             "photo": "shopify://shop_images/image_1926988520_1.jpg",
             "rating": 5,
             "quote": "I spend long hours in front of a computer, so I always keep these eye drops with me. The formula feels very soothing, and they quickly help relieve the dryness and discomfort I get after staring at a screen all day.",
-            "tags": "verified,lens_wearer"
+            "tags": "verified,lens_wearer, screen_worker"
           }
         },
         "review_2": {
