@@ -3371,7 +3371,10 @@ mo-review-filter {
 .mo-footer__top {
   display: flex;
   flex-direction: column;
-  gap: var(--mo-space-7, 32px);
+  /* CUSTOM FIX (2026-07-18, Figma node 633:1234, mobile): was 32px — Figma's
+     outer Container confirms 40px between the signup block and the menu
+     nav section. */
+  gap: var(--mo-space-8, 40px);
 }
 
 @media screen and (min-width: 750px) {
@@ -3399,38 +3402,62 @@ mo-review-filter {
 }
 
 /* ---------- Signup ---------- */
+/* CUSTOM FIX (2026-07-18, Figma node 633:1234, mobile): was 12px — Figma
+   confirms 8px between the eyebrow and heading (same both breakpoints). */
 .mo-footer__eyebrow {
   color: var(--mo-footer-eyebrow, #b8f3d8);
-  margin: 0 0 var(--mo-space-3, 12px);
+  margin: 0 0 var(--mo-space-2, 8px);
 }
 
-/* CUSTOM FIX (2026-07-18, Figma node 457:2089): was a large responsive
-   clamp(2rem,5vw,2.75rem)/800 weight — Figma confirms a fixed 24px/700
-   weight/1.1 line-height (letter-spacing -0.02em already matched). */
+/* CUSTOM FIX (2026-07-18): Figma gives DIFFERENT fixed heading sizes per
+   breakpoint — 28px on mobile (node 633:1234), 24px on desktop (node
+   457:2089) — mobile is the larger one here, so this is the mobile-first
+   base; desktop shrinks it back down in the min-width:750 block below. */
 .mo-footer__heading {
   font-family: var(--mo-font-heading);
   color: var(--mo-footer-heading, #ffffff);
   font-weight: 700;
-  font-size: 24px;
+  font-size: 28px;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  margin: 0 0 var(--mo-space-4, 16px);
+  margin: 0 0 var(--mo-space-5, 20px);
 }
 
-/* CUSTOM FIX (2026-07-18, Figma node 457:2089): was dimmed (opacity 0.85);
-   Figma shows full-opacity white, Manrope Medium (weight 500) — the .mo-body
-   class it now pairs with (was .mo-body-lg) doesn't set a weight itself. */
+/* CUSTOM FIX (2026-07-18): was dimmed (opacity 0.85); Figma shows
+   full-opacity white, Manrope Medium (weight 500) on both breakpoints. Font
+   size differs per breakpoint though — 12px mobile (node 633:1234) vs 14px
+   desktop (node 457:2089, the .mo-body class this pairs with) — mobile size
+   set explicitly here, desktop reset back to 14px in the min-width:750
+   block below. Bottom margin: Figma's mobile Product Info block confirms
+   32px between this and the signup form (was 24px). */
 .mo-footer__desc {
   color: var(--mo-footer-desc, #ffffff);
   font-weight: 500;
-  margin: 0 0 var(--mo-space-6, 24px);
+  font-size: 12px;
+  margin: 0 0 var(--mo-space-7, 32px);
   max-width: 420px;
 }
 
+@media screen and (min-width: 750px) {
+  /* Desktop-confirmed sizes (node 457:2089) — mobile (node 633:1234) uses
+     the larger heading (28px) and smaller description (12px) set as the
+     base rules above. */
+  .mo-footer__heading {
+    font-size: 24px;
+  }
+
+  .mo-footer__desc {
+    font-size: var(--mo-body-size, 0.875rem);
+  }
+}
+
+/* CUSTOM FIX (2026-07-18, Figma node 633:1234, mobile): was 12px — Figma
+   confirms 10px between the input and button (matches the desktop row gap
+   below, so this is now consistent at both breakpoints). */
 .mo-footer__field {
   display: flex;
   flex-direction: column;
-  gap: var(--mo-space-3, 12px);
+  gap: 10px;
   max-width: 420px;
 }
 
@@ -3440,6 +3467,23 @@ mo-review-filter {
     align-items: stretch;
     gap: 10px;
     max-width: none;
+  }
+}
+
+/* CUSTOM FIX (2026-07-18, Figma node 633:1234, mobile): input/button were
+   sized purely by padding (~56-60px tall) — Figma confirms a compact 36px
+   height with 20px/15px horizontal padding respectively. Scoped to mobile
+   only (matches the base rules' own specificity so it can't leak into or
+   fight the desktop 272x40/151x40 override further down). */
+@media screen and (max-width: 749px) {
+  .mo-footer__field .mo-footer__input {
+    height: 36px;
+    padding: 0 var(--mo-space-5, 20px);
+  }
+
+  .mo-footer__button {
+    height: 36px;
+    padding: 0 15px;
   }
 }
 
@@ -3479,7 +3523,9 @@ mo-review-filter {
   padding: var(--mo-space-5, 20px) var(--mo-space-7, 32px);
   font-family: var(--mo-font-mono);
   font-weight: 500;
-  letter-spacing: 0.08em;
+  /* CUSTOM FIX (2026-07-18): was 0.08em — Figma confirms 0.1em (1.4px/14px
+     desktop, 1.2px/12px mobile — both work out to the same 10% ratio). */
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
   white-space: nowrap;
@@ -3523,6 +3569,11 @@ mo-review-filter {
 .mo-footer__columns {
   display: flex;
   flex-direction: column-reverse; /* DOM order Shop/Support/Company -> visual Company/Support/Shop on mobile, matching the Figma mobile frame, with zero JS. */
+  /* CUSTOM FIX (2026-07-18, Figma node 633:1234, mobile): Navigation Section
+     confirms 24px between rows — previously came from each row's own
+     border/padding below, replaced with a plain gap now that the divider
+     lines are gone. */
+  gap: var(--mo-space-6, 24px);
 }
 
 @media screen and (min-width: 750px) {
@@ -3540,25 +3591,34 @@ mo-review-filter {
    won't take up space as a grid/flex item in .mo-footer__columns. The actual
    <details>/<summary>/panel markup is nested one level inside it; descendant
    selectors below still reach it fine. */
+/* CUSTOM FIX (2026-07-18, Figma node 633:1234, mobile): the border-top
+   divider + 20px padding-block were never in the mobile reference — rows
+   are separated purely by .mo-footer__columns' own 24px gap above now. */
 .mo-footer__col {
   display: block;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  padding-block: var(--mo-space-5, 20px);
 }
 
+/* CUSTOM FIX (2026-07-18, Figma node 633:1234, mobile): was a full-width
+   space-between row (label left, chevron flush right) at 10px pink —
+   Figma's mobile reference shows the label + a small round icon button
+   hugging together on the left at 12px WHITE, with no header-to-list
+   margin (that gap now lives on .mo-footer__col-list below instead so it
+   doesn't stack with .mo-footer__columns' row gap when closed). Desktop
+   (still 10px, pink, 32px margin) is restored in the min-width:750 block
+   further down. */
 .mo-footer__col summary {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--mo-space-3, 12px);
-  color: var(--mo-footer-menu-heading, #ffd5f7);
+  justify-content: flex-start;
+  gap: 6px;
+  color: #ffffff;
   font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace); /* CUSTOM: was unset (inherited body font) — Figma confirms mono (audit #14, 2026-07-17) */
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
   list-style: none;
-  margin-block-end: var(--mo-space-7, 32px); /* CUSTOM: was 16px via mobile .mo-footer__col-list padding-block-start — Figma confirms 32px header-to-list gap */
+  margin-block-end: 0;
 }
 
 .mo-footer__col summary::-webkit-details-marker {
@@ -3569,12 +3629,29 @@ mo-review-filter {
   content: '';
 }
 
+/* CUSTOM FIX (2026-07-18, Figma node 633:1234, mobile): was a bare 18x18
+   icon — Figma shows it inside a 24x24 circular pill with a 1px mint
+   border, icon itself sized down to ~8px inside. Kalvis is uploading the
+   actual "+" SVG via the theme editor (toggle_icon_image below); this just
+   fixes the container. Desktop still hides this entirely. */
 .mo-footer__col-toggle {
   display: inline-flex;
-  width: 18px;
-  height: 18px;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border: 1px solid var(--mo-footer-toggle-border, #b8f3d8);
+  border-radius: 50%;
   color: var(--mo-footer-toggle, #ffffff);
   transition: transform 0.2s ease;
+}
+
+.mo-footer__col-toggle svg,
+.mo-footer__col-toggle img {
+  width: 8px;
+  height: 8px;
+  display: block;
 }
 
 .mo-footer__col details[open] .mo-footer__col-toggle {
@@ -3582,7 +3659,10 @@ mo-review-filter {
 }
 
 .mo-footer__col-list {
-  padding-block-start: 0; /* CUSTOM: was 16px — gap now comes from summary's margin-block-end (32px) instead, so it isn't doubled up (audit #14, 2026-07-17) */
+  /* CUSTOM FIX (2026-07-18, mobile): was 0 (gap came from summary's own
+     32px margin, now removed on mobile) — small gap so opened content
+     doesn't sit flush against its own heading. Desktop stays 0 below. */
+  padding-block-start: var(--mo-space-4, 16px);
 }
 
 .mo-footer__col-list ul {
@@ -3609,11 +3689,6 @@ mo-review-filter {
 }
 
 @media screen and (min-width: 750px) {
-  .mo-footer__col {
-    border-top: none;
-    padding-block: 0;
-  }
-
   /* accordion-custom-component's own JS blocks the toggle on desktop
      (disable_on_desktop + open_by_default_on_desktop, passed from the
      section) and keeps `details.open = true` in sync on every breakpoint
@@ -3622,7 +3697,12 @@ mo-review-filter {
   .mo-footer__col summary {
     cursor: default;
     pointer-events: none;
-    /* margin-block-end: 32px now set unconditionally in the base rule above (audit #14) */
+    /* CUSTOM (2026-07-18): restores the desktop-confirmed values (node
+       457:2089) now that the base rule above is mobile's 12px/white/no-margin
+       instead. */
+    color: var(--mo-footer-menu-heading, #ffd5f7);
+    font-size: 10px;
+    margin-block-end: var(--mo-space-7, 32px);
   }
 
   .mo-footer__col-toggle {
@@ -3688,13 +3768,16 @@ mo-review-filter {
   display: block;
 }
 
-/* CUSTOM FIX (2026-07-18, Figma node 457:2089): font-size was 12px, Figma
-   confirms 10px. */
+/* CUSTOM FIX (2026-07-18, Figma node 633:1234, mobile): this element is
+   display:none at 750px+ (see below), so mobile is the ONLY breakpoint it's
+   ever actually visible at — the 10px value briefly set here from the
+   desktop node (457:2089) was never rendered. Corrected to the real mobile
+   spec: 8px, 14px gap from the wordmark above (was 24px). */
 .mo-footer__legal {
   color: var(--mo-footer-legal, #ffffffb3);
-  font-size: 10px;
+  font-size: 8px;
   line-height: 1.4;
-  margin-block-start: var(--mo-space-6, 24px);
+  margin-block-start: 14px;
   max-width: 480px;
 }
 
