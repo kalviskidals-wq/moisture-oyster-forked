@@ -3643,7 +3643,7 @@ mo-review-filter {
   flex-shrink: 0;
   border: 1px solid var(--mo-footer-toggle-border, #b8f3d8);
   border-radius: 50%;
-  color: var(--mo-footer-toggle, #ffffff);
+  color: var(--mo-footer-toggle, #b8f3d8);
   transition: transform 0.2s ease;
 }
 
