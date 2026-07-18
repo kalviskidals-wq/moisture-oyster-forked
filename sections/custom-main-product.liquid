@@ -159,11 +159,12 @@
        2. Capping the width of the text itself (inline-block child, centered
        by the parent's text-align:center) forces an earlier, more balanced
        wrap without giving up the gap-filling behavior above. Per Kalvis
-       (2026-07-18). This has to live in this {% style %} block, not
-       {% stylesheet %} — {% stylesheet %} compiles into the theme's shared
-       <head> asset, which always loses equal-specificity ties to this
-       section's own inline {% style %} tag (rendered later, in <body>),
-       regardless of source order within the file. */
+       (2026-07-18). This has to live in this inline style block, not the
+       deduplicated stylesheet block further down this file — the
+       deduplicated one compiles into the theme's shared head-loaded asset,
+       which always loses equal-specificity ties to this section's own
+       inline style tag (rendered later, in the body), regardless of source
+       order within the file. */
     #shopify-section-{{ section.id }} .sticky-add-to-cart__price-label {
       display: inline-block;
       max-width: 8.5rem;
