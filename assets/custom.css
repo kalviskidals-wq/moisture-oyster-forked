@@ -3470,23 +3470,6 @@ mo-review-filter {
   }
 }
 
-/* CUSTOM FIX (2026-07-18, Figma node 633:1234, mobile): input/button were
-   sized purely by padding (~56-60px tall) — Figma confirms a compact 36px
-   height with 20px/15px horizontal padding respectively. Scoped to mobile
-   only (matches the base rules' own specificity so it can't leak into or
-   fight the desktop 272x40/151x40 override further down). */
-@media screen and (max-width: 749px) {
-  .mo-footer__field .mo-footer__input {
-    height: 36px;
-    padding: 0 var(--mo-space-5, 20px);
-  }
-
-  .mo-footer__button {
-    height: 36px;
-    padding: 0 15px;
-  }
-}
-
 /* CUSTOM: doubled-up selector (.mo-footer__field .mo-footer__input, not just
    .mo-footer__input) is deliberate, not a typo — base.css has
    `input:not([type='checkbox'], [type='radio']) { background-color: var(--color-input-background) }`
@@ -3534,6 +3517,27 @@ mo-review-filter {
 
 .mo-footer__button:hover {
   opacity: 0.85;
+}
+
+/* CUSTOM FIX (2026-07-18, Figma node 633:1234, mobile): input/button were
+   sized purely by padding (~56-60px tall, and not matching each other) —
+   Figma confirms a compact, equal 36px height for both, 20px/15px
+   horizontal padding respectively. MUST come after the base
+   .mo-footer__field .mo-footer__input / .mo-footer__button rules above (not
+   before, as an earlier pass had it) — same selector specificity in both
+   places means source order decides the tie, and this needs to be the
+   later one to actually win. Scoped to mobile only so it can't fight the
+   desktop 272x40/151x40 override below. */
+@media screen and (max-width: 749px) {
+  .mo-footer__field .mo-footer__input {
+    height: 36px;
+    padding: 0 var(--mo-space-5, 20px);
+  }
+
+  .mo-footer__button {
+    height: 36px;
+    padding: 0 15px;
+  }
 }
 
 /* CUSTOM: exact desktop signup dimensions per Kalvis (2026-07-13) — field
