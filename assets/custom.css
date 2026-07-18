@@ -2138,14 +2138,17 @@ tbody tr:last-child .mo-compare__cell {
   padding: 30px; /* CUSTOM: no exact 30px token exists (--mo-space-7 is 32px) — hardcoded to match Figma exactly */
 }
 
-/* CUSTOM: the stats card is usually shorter than its neighboring chart card,
-   and .mo-science__grid stretches both cards to equal height — center the
-   stat rows vertically so the leftover space splits evenly top/bottom
-   instead of collecting entirely below the content. */
+/* CUSTOM FIX (2026-07-18, per Kalvis + Figma node 633:525): was
+   justify-content:center — when .mo-science__grid stretches this card to
+   match the taller chart card's height, centering added extra vertical
+   space on top of the declared 40px padding (visible in devtools as the
+   padding box growing well beyond 40px). Figma shows the stat grid filling
+   the card at a flat 40px on all sides, so this now sits flush at the top
+   instead of auto-centering into any leftover height. */
 .mo-science__stats-card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 /* ---------- Stats card ---------- */
