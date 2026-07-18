@@ -3514,18 +3514,10 @@ mo-review-filter {
 }
 
 @media screen and (min-width: 750px) {
-  /* CUSTOM FIX (2026-07-18, Figma reference): columns were repeat(3, 1fr) —
-     stretched to fill the whole remaining track (40px gap), spreading SHOP/
-     SUPPORT/COMPANY out further than the design and further left than
-     intended. Figma shows each column hugging its own content at a tighter
-     20px gap, with the whole group sitting toward the right of the
-     available space — max-content columns + justify-content:end achieves
-     both without disturbing .mo-footer__top's own track widths. */
   .mo-footer__columns {
     display: grid;
-    grid-template-columns: repeat(3, max-content);
-    justify-content: center;
-    gap: var(--mo-space-6, 24px) var(--mo-space-5, 20px);
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--mo-space-6, 24px) var(--mo-space-8, 40px);
     align-items: start;
   }
 }
