@@ -4801,10 +4801,18 @@ mo-review-filter {
    A fixed `height` + overflow-y:auto turns the same 3-line budget into a
    ceiling too, so the section's height genuinely never changes when
    switching tabs — any step whose copy is longer than 3 lines scrolls
-   inside this box instead of growing it. */
+   inside this box instead of growing it.
+   CUSTOM FIX 2: the first attempt used `calc(1.3em * 3)`, which resolves
+   against THIS element's own font-size — .mo-hiw__body never sets one, so
+   it was inheriting whatever size cascaded down from further up the page
+   (not necessarily 16px), while the actual text inside is .mo-hiw__panel's
+   .mo-body-lg at a fixed 16px/1.3 line-height. That mismatch made the box
+   shorter than 3 REAL lines of the visible text, clipping it. Spelled out
+   in explicit px (16px font-size × 1.3 line-height × 3 lines) instead, so
+   it no longer depends on inheritance at all. */
 .mo-hiw__body {
   grid-area: body;
-  height: calc(1.3em * 3);
+  height: calc(16px * 1.3 * 3);
   overflow-y: auto;
 }
 
