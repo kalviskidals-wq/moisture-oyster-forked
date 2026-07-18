@@ -1,130 +1,77 @@
-{%- # CUSTOM: net-new "Hero Product Feature" homepage section — a SHORTENED teaser version of the PDP buy box (image + title + price + 2 CTAs only, no testimonial/badge/description/rating/payment-badges), per Kalvis (2026-07-18): "shortened version, but with a possibility to add to cart all options... no testimonial all other not essential elements stripped, 2 buttons: 1. purchase options - opens buying options 2. view full info - opens the product page." Forked from Horizon's native featured-product-information.liquid (not product-information.liquid) since this needs a merchant-editable Product picker — there's no implicit product resource on the homepage/page template the way there is on templates/product.json. UPSTREAM risk MEDIUM — thin fork, re-diff against featured-product-information.liquid after Horizon theme updates. -%}
+{%- # CUSTOM: net-new "Hero Product Feature" homepage section (2026-07-18, per Kalvis). Forked from Horizon's native featured-product-information.liquid (not product-information.liquid) since this needs a merchant-editable Product picker — there's no implicit product resource on the homepage/page template the way there is on templates/product.json. UPSTREAM risk MEDIUM — thin fork, re-diff against featured-product-information.liquid after Horizon theme updates. -%}
+{%- # CUSTOM (2026-07-18 revision): right side now mirrors the real PDP's "MO Buy Box Card" exactly (eyebrow, title, GLP badge, description, rating link, mo-tier-picker, buy button) with NO custom CTA buttons/modal (that earlier "shortened + 2 buttons" build was scrapped per Kalvis) — everything the PDP shows AFTER the add-to-cart button (accelerated-checkout's dynamic payment buttons + whatever subscription/recurring-payment disclosure Shopify renders alongside them, and mo-pdp-payment-badges) is simply left out of this section's block composition rather than hidden via CSS, since accelerated-checkout is a separate content_for'd block (see blocks/buy-buttons.liquid) that renders nothing at all if it's never declared. No testimonial (per the original shortened-version ask, still true here). -%}
 {%- # CUSTOM: load design tokens here (not layout/theme.liquid) since site-wide inclusion is still pending approval — every mo-* block on this page also ships hardcoded var() fallbacks, so it still renders correctly if this tag is ever removed. UPSTREAM risk LOW. -%}
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
 
-{%- liquid
-  assign featured_product = section.settings.product
--%}
+{%- # CUSTOM: uses the non-deduplicated inline style tag (not the deduplicated stylesheet tag) for every rule that keys off the section's own id — stylesheet tags are deduplicated per SECTION TYPE, so a section-id-scoped selector inside one only reliably matches a single page instance; style tags render inline per instance instead. Same convention already documented in sections/custom-main-product.liquid and this project's feedback-shopify-theme-validation-gotchas memory. UPSTREAM risk LOW — scoped entirely to this section's own id, no Horizon file touched. -%}
+{% style %}
+  /* CUSTOM: replicate the PDP's thumbnail treatment exactly (Kalvis, 2026-07-18) — same rules as sections/custom-main-product.liquid's own inline style block. Force thumbnails to a 1:1 box regardless of each photo's native aspect ratio. */
+  #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
+    aspect-ratio: 1 / 1 !important;
+  }
 
-<script type="application/ld+json">
-  {{ featured_product | structured_data }}
-</script>
+  /* First thumbnail duplicates the main hero image already showing, so it's hidden rather than removed from the loop. */
+  #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control:first-child {
+    display: none;
+  }
 
-{%- # CUSTOM (2026-07-18 fix — "section is broken"): the dialog's content used to be a SECOND `_product-details` block instance, same native type as the slim visible one — but `blocks/_product-details.liquid` hardcodes `id="ProductInformation-{{ section.id }}"` keyed ONLY on section.id (not the block's own id), so both instances rendered the exact same DOM id twice on one page. Switched the dialog's content to a plain `group` block instead (`blocks/group.liquid` has no section-id-only DOM id — it's namespaced by the block's own id), which is the same block type the real PDP already uses for its "MO Buy Box Card" wrapper. -%}
-{%- # CUSTOM: "product-details" is the slim, always-visible card (title + price only); the dialog's "dialog-buybox" group holds the REAL mo-tier-picker + buy-buttons (full quantity/subscribe options + working add-to-cart), rendered normally at page load but visually hidden inside a <dialog> until "Purchase Options" is clicked — deliberately NOT using Horizon's shared native quick-add-dialog/AJAX pipeline (snippets/quick-add-modal.liquid), since that's built around fetching a product-card's own quick-add section over AJAX and re-mounting its contents; our mo-variant-main-picker's mount script isn't written to handle being injected after the fact, so server-rendering the full picker inline (just hidden) and only toggling the dialog's [open] state is the safer, more predictable choice. Passing closest.product explicitly to both, matching the confirmed-working pattern already used in sections/custom-main-product.liquid. -%}
-{% capture media_gallery %}
-  {% content_for 'block',
-    type: '_product-media-gallery',
-    id: 'media-gallery',
-    closest.product: featured_product
-  %}
-{% endcapture %}
+  /* No border/outline on the active thumbnail, per design. */
+  #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control[aria-selected='true'] {
+    outline: none;
+    border: none;
+  }
 
-{% capture product_details %}
-  {% content_for 'block',
-    type: '_product-details',
-    id: 'product-details',
-    closest.product: featured_product
-  %}
-{% endcapture %}
+  /* No prev/next arrows over the main image. */
+  #shopify-section-{{ section.id }} slideshow-arrows {
+    display: none;
+  }
 
-{% capture cta_row %}
-  <div class="mo-featured-product__ctas">
-    <button
-      type="button"
-      class="mo-btn mo-btn--bag mo-featured-product__cta"
-      data-mo-fp-open
-    >
-      Purchase Options
-    </button>
-    <a
-      href="{{ featured_product.url }}"
-      class="mo-btn mo-btn--outline mo-featured-product__cta"
-    >
-      View Full Info
-    </a>
-  </div>
-{% endcapture %}
-
-{%- # CUSTOM: appends the CTA row's markup directly onto the slim product-details capture (both are just strings at this point) so the buttons render inside the SAME details column, right under title + price — no extra grid wiring needed. -%}
-{% assign product_details = product_details | append: cta_row %}
-
-{% capture product_details_full %}
-  {% content_for 'block',
-    type: 'group',
-    id: 'dialog-buybox',
-    closest.product: featured_product
-  %}
-{% endcapture %}
-
-{% capture additional_blocks %}
-  {% content_for 'blocks' %}
-{% endcapture %}
-
-<featured-product-information id="{{ section.id }}">
-  <h2 class="visually-hidden">{{ featured_product.title | escape }}</h2>
-  {% render 'product-information-content',
-    product: featured_product,
-    section_id: section.id,
-    settings: section.settings,
-    media_gallery: media_gallery,
-    product_details: product_details,
-    additional_blocks: additional_blocks
-  %}
-</featured-product-information>
-
-<dialog
-  id="MoFeaturedProductDialog-{{ section.id }}"
-  class="dialog-modal color-custom-popover mo-featured-product__dialog"
->
-  <button
-    type="button"
-    class="button button-unstyled close-button mo-featured-product__dialog-close"
-    aria-label="{{ 'accessibility.close_dialog' | t }}"
-    data-mo-fp-close
-  >
-    {{- 'icon-close.svg' | inline_asset_content -}}
-  </button>
-  <div class="mo-featured-product__dialog-content">
-    {{ product_details_full }}
-  </div>
-</dialog>
-
-{%- # CUSTOM: plain scoped vanilla JS (no shared component), matching the small inline-script pattern already used for the sticky-add-to-cart scroll-to-buybox behavior in sections/custom-main-product.liquid. Deliberately simple: no focus-trap/animation-out choreography beyond what .dialog-modal's own CSS already provides via the native [open] attribute. UPSTREAM risk LOW — scoped entirely to this section's own ids. -%}
-<script>
-  (function () {
-    var dialog = document.getElementById('MoFeaturedProductDialog-{{ section.id }}');
-    var openBtn = document.querySelector('#shopify-section-{{ section.id }} [data-mo-fp-open]');
-    if (!dialog || !openBtn || openBtn.dataset.mounted === 'true') return;
-    openBtn.dataset.mounted = 'true';
-
-    var closeBtn = dialog.querySelector('[data-mo-fp-close]');
-
-    openBtn.addEventListener('click', function () {
-      dialog.showModal();
-    });
-
-    if (closeBtn) {
-      closeBtn.addEventListener('click', function () {
-        dialog.close();
-      });
+  @media screen and (min-width: 750px) {
+    /* CUSTOM: anchor the thumbnail overlay on slideshow-component (not media-gallery itself) —
+       media-gallery already carries Horizon's native sticky-content class (position: sticky), and
+       setting position: relative directly on it here would override that native rule. */
+    #shopify-section-{{ section.id }} .media-gallery--carousel slideshow-component {
+      position: relative;
     }
 
-    dialog.addEventListener('click', function (event) {
-      if (event.target === dialog) dialog.close();
-    });
-  })();
-</script>
+    #shopify-section-{{ section.id }} .product-information__media {
+      align-self: stretch;
+    }
 
-{% stylesheet %}
+    #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
+      position: absolute;
+      left: 30px;
+      bottom: 30px;
+      top: auto;
+      transform: none;
+      flex-direction: column;
+      width: auto;
+      height: auto;
+      max-height: calc(100% - 60px);
+      z-index: var(--layer-raised, 2);
+    }
+
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails-container {
+      width: auto;
+      max-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails {
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      gap: var(--gap-xs, 8px);
+    }
+  }
+
   /* CUSTOM: reskin the native add-to-cart button as "Add to Bag +", matching
      the PDP's own buy box exactly (sections/custom-main-product.liquid) — same
      id-prefix technique, since content_for 'block' slots (quantity/add-to-cart/
      accelerated-checkout inside buy-buttons) can't have their block TYPE
      swapped for a custom one (see feedback-shopify-theme-validation-gotchas
-     memory), only restyled via CSS targeting the deterministic id prefix.
-     Applies inside the dialog too, since it's the same section id. Per Kalvis
-     (2026-07-18). UPSTREAM risk LOW — scoped to this section only. */
+     memory), only restyled via CSS targeting the deterministic id prefix. */
   #shopify-section-{{ section.id }} [id^='BuyButtons-ProductSubmitButton-'] {
     width: 100%;
     background: var(--mo-deep-green, #093d24);
@@ -170,33 +117,48 @@
   #shopify-section-{{ section.id }} .sealsubs-target-element {
     display: none !important;
   }
+{% endstyle %}
 
-  /* CUSTOM: the two-button CTA row appended to the slim product-details card. */
-  .mo-featured-product__ctas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--mo-space-4, 16px);
-    margin-top: var(--mo-space-5, 20px);
-  }
+{%- liquid
+  assign featured_product = section.settings.product
+-%}
 
-  .mo-featured-product__cta {
-    flex: 1 1 auto;
-    min-width: 200px;
-  }
+<script type="application/ld+json">
+  {{ featured_product | structured_data }}
+</script>
 
-  /* CUSTOM: dialog content just needs some breathing room inside the shared
-     .dialog-modal chrome (border/shadow/backdrop/open-close animation all
-     come from that class already, see assets/base.css). */
-  .mo-featured-product__dialog {
-    padding: var(--mo-space-8, 40px);
-    max-width: 480px;
-    width: calc(100% - var(--mo-space-8, 40px));
-  }
+{%- # CUSTOM: passing closest.product explicitly, matching the confirmed-working pattern already used in sections/custom-main-product.liquid (closest.product: closest.product) and documented in snippets/product-information-content.liquid's @example. -%}
+{% capture media_gallery %}
+  {% content_for 'block',
+    type: '_product-media-gallery',
+    id: 'media-gallery',
+    closest.product: featured_product
+  %}
+{% endcapture %}
 
-  .mo-featured-product__dialog-content .group-block {
-    padding: 0;
-  }
-{% endstylesheet %}
+{% capture product_details %}
+  {% content_for 'block',
+    type: '_product-details',
+    id: 'product-details',
+    closest.product: featured_product
+  %}
+{% endcapture %}
+
+{% capture additional_blocks %}
+  {% content_for 'blocks' %}
+{% endcapture %}
+
+<featured-product-information id="{{ section.id }}">
+  <h2 class="visually-hidden">{{ featured_product.title | escape }}</h2>
+  {% render 'product-information-content',
+    product: featured_product,
+    section_id: section.id,
+    settings: section.settings,
+    media_gallery: media_gallery,
+    product_details: product_details,
+    additional_blocks: additional_blocks
+  %}
+</featured-product-information>
 
 {% schema %}
 {
@@ -281,7 +243,7 @@
       "type": "color",
       "id": "background_color",
       "label": "t:settings.background_color",
-      "placeholder": "t:settings.default"
+      "default": "#093D24"
     },
     {
       "type": "header",
@@ -315,6 +277,7 @@
       "settings": {
         "gap": 40,
         "equal_columns": true,
+        "background_color": "#093D24",
         "padding-block-start": 40,
         "padding-block-end": 40
       },
@@ -353,112 +316,161 @@
             "custom_width_mobile": 100,
             "height": "fit",
             "details_position": "flex-start",
-            "gap": 12,
+            "gap": 20,
             "sticky_details_desktop": true,
             "background_media": "none",
             "border": "none"
           },
           "blocks": {
-            "mo_title": {
-              "type": "product-title",
-              "name": "t:names.product_title",
+            "mo_buybox_card": {
+              "type": "group",
+              "name": "MO Buy Box Card",
               "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h2",
-                "font": "var(--font-body--family)",
-                "font_size": "1.5rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "#093d24"
-              }
-            },
-            "mo_price": {
-              "type": "price",
-              "name": "t:names.product_price",
-              "settings": {
-                "show_installments": false,
-                "show_tax_info": false,
-                "alignment": "left"
-              }
-            }
-          },
-          "block_order": ["mo_title", "mo_price"]
-        },
-        "dialog-buybox": {
-          "type": "group",
-          "static": true,
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 20,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "background_media": "none",
-            "border": "none"
-          },
-          "blocks": {
-            "mo_tier_picker": {
-              "type": "mo-tier-picker",
-              "name": "MO Tier + Sub Picker",
-              "settings": {
-                "quantity_label": "Quantity",
-                "purchase_label": "Purchase Option",
-                "subscribe_title": "Subscribe",
-                "onetime_title": "One-Time",
-                "deliver_prefix": "Deliver every",
-                "card_bg_inactive": "#ffffff",
-                "card_border_inactive": "#1fa567",
-                "card_bg_active": "#1fa567",
-                "card_border_active": "#1fa567",
-                "card_text_active": "#ffffff",
-                "card_text_inactive": "#093d24",
-                "badge_save_bg": "#ffffff",
-                "badge_save_text": "#115033",
-                "badge_value_bg": "#ffffff",
-                "badge_value_text": "#115033",
-                "badge_value_border": "#c4c1ba",
-                "bubble_bg": "#ffd5f7",
-                "bubble_text": "#093d24"
-              }
-            },
-            "mo_buy_buttons": {
-              "type": "buy-buttons",
-              "name": "t:names.product_buy_buttons",
-              "settings": {
-                "stacking": true
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 20,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "background_media": "none",
+                "background_color": "#ffffff",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "#e8e7e3",
+                "border_radius": 20,
+                "padding-block-start": 28,
+                "padding-block-end": 28,
+                "padding-inline-start": 28,
+                "padding-inline-end": 28
               },
               "blocks": {
-                "quantity": {
-                  "type": "quantity",
-                  "static": true
-                },
-                "add-to-cart": {
-                  "type": "add-to-cart",
-                  "static": true,
+                "mo_eyebrow": {
+                  "type": "mo-pdp-eyebrow",
+                  "name": "MO Eyebrow",
                   "settings": {
-                    "style_class": "button"
+                    "text": "Clinical Eye Care",
+                    "text_color": "#1fa567"
                   }
                 },
-                "accelerated-checkout": {
-                  "type": "accelerated-checkout",
-                  "static": true
+                "mo_title": {
+                  "type": "product-title",
+                  "name": "t:names.product_title",
+                  "settings": {
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h2",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "#093d24"
+                  }
+                },
+                "mo_glp_badge": {
+                  "type": "mo-pdp-badge",
+                  "name": "MO Badge Pill",
+                  "settings": {
+                    "text": "GLP Non-Irritant · OECD 492B",
+                    "background_color": "#b8f3d8",
+                    "text_color": "#115033"
+                  }
+                },
+                "mo_description": {
+                  "type": "product-description",
+                  "name": "t:names.product_description",
+                  "settings": {
+                    "text": "{{ closest.product.description }}",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "#0d1b14"
+                  }
+                },
+                "mo_rating_link": {
+                  "type": "mo-pdp-rating-link",
+                  "name": "MO Rating Link (stub)",
+                  "settings": {
+                    "rating_text": "4.9",
+                    "rating": 5,
+                    "review_count_text": "580+ Reviews",
+                    "reviews_anchor": "",
+                    "star_color": "#1fa567"
+                  }
+                },
+                "mo_tier_picker": {
+                  "type": "mo-tier-picker",
+                  "name": "MO Tier + Sub Picker",
+                  "settings": {
+                    "quantity_label": "Quantity",
+                    "purchase_label": "Purchase Option",
+                    "subscribe_title": "Subscribe",
+                    "onetime_title": "One-Time",
+                    "deliver_prefix": "Deliver every",
+                    "card_bg_inactive": "#ffffff",
+                    "card_border_inactive": "#1fa567",
+                    "card_bg_active": "#1fa567",
+                    "card_border_active": "#1fa567",
+                    "card_text_active": "#ffffff",
+                    "card_text_inactive": "#093d24",
+                    "badge_save_bg": "#ffffff",
+                    "badge_save_text": "#115033",
+                    "badge_value_bg": "#ffffff",
+                    "badge_value_text": "#115033",
+                    "badge_value_border": "#c4c1ba",
+                    "bubble_bg": "#ffd5f7",
+                    "bubble_text": "#093d24"
+                  }
+                },
+                "mo_buy_buttons": {
+                  "type": "buy-buttons",
+                  "name": "t:names.product_buy_buttons",
+                  "settings": {
+                    "stacking": true
+                  },
+                  "blocks": {
+                    "quantity": {
+                      "type": "quantity",
+                      "static": true
+                    },
+                    "add-to-cart": {
+                      "type": "add-to-cart",
+                      "static": true,
+                      "settings": {
+                        "style_class": "button"
+                      }
+                    }
+                  },
+                  "block_order": []
                 }
               },
-              "block_order": []
+              "block_order": [
+                "mo_eyebrow",
+                "mo_title",
+                "mo_glp_badge",
+                "mo_description",
+                "mo_rating_link",
+                "mo_tier_picker",
+                "mo_buy_buttons"
+              ]
             }
           },
-          "block_order": ["mo_tier_picker", "mo_buy_buttons"]
+          "block_order": ["mo_buybox_card"]
         }
       }
     }
