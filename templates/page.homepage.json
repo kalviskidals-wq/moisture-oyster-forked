@@ -161,6 +161,237 @@
         "padding_y": 64
       }
     },
+    "custom_featured_product_mohp1": {
+      "type": "custom-featured-product",
+      "blocks": {
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "media_presentation": "carousel",
+            "media_columns": "one",
+            "image_gap": 4,
+            "large_first_image": false,
+            "icons_style": "chevron",
+            "slideshow_controls_style": "thumbnails",
+            "slideshow_mobile_controls_style": "thumbnails",
+            "thumbnail_position": "bottom",
+            "thumbnail_width": 56,
+            "thumbnail_radius": 12,
+            "aspect_ratio": "adapt",
+            "constrain_to_viewport": true,
+            "media_fit": "contain",
+            "media_radius": 24,
+            "extend_media": false,
+            "zoom": false,
+            "video_loop": false,
+            "hide_variants": true
+          }
+        },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "details_position": "flex-start",
+            "gap": 20,
+            "sticky_details_desktop": true,
+            "background_media": "none",
+            "border": "none"
+          },
+          "blocks": {
+            "mo_testimonial": {
+              "type": "mo-pdp-testimonial",
+              "name": "MO Testimonial Card",
+              "settings": {
+                "rating": 5,
+                "author_name": "Dr. James K.",
+                "author_role": "Optometrist, Chicago, IL",
+                "quote": "Moisture Oyster checks several important boxes for me: a protected multidose bottle, easy dispensing, immediate comfort, and no blurry vision after instillation. It made a great first impression.",
+                "background_color": "#115033",
+                "text_color": "#ffffff",
+                "star_color": "#ffffff",
+                "quote_color": "#ffffff"
+              }
+            },
+            "mo_buybox_card": {
+              "type": "group",
+              "name": "MO Buy Box Card",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 20,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "background_media": "none",
+                "background_color": "#ffffff",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "#e8e7e3",
+                "border_radius": 20,
+                "padding-block-start": 28,
+                "padding-block-end": 28,
+                "padding-inline-start": 28,
+                "padding-inline-end": 28
+              },
+              "blocks": {
+                "mo_eyebrow": {
+                  "type": "mo-pdp-eyebrow",
+                  "name": "MO Eyebrow",
+                  "settings": {
+                    "text": "Clinical Eye Care",
+                    "text_color": "#1fa567"
+                  }
+                },
+                "mo_title": {
+                  "type": "product-title",
+                  "name": "t:names.product_title",
+                  "settings": {
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h2",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "#093d24"
+                  }
+                },
+                "mo_glp_badge": {
+                  "type": "mo-pdp-badge",
+                  "name": "MO Badge Pill",
+                  "settings": {
+                    "text": "GLP Non-Irritant · OECD 492B",
+                    "background_color": "#b8f3d8",
+                    "text_color": "#115033"
+                  }
+                },
+                "mo_description": {
+                  "type": "product-description",
+                  "name": "t:names.product_description",
+                  "settings": {
+                    "text": "{{ closest.product.description }}",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "#0d1b14"
+                  }
+                },
+                "mo_rating_link": {
+                  "type": "mo-pdp-rating-link",
+                  "name": "MO Rating Link (stub)",
+                  "settings": {
+                    "rating_text": "4.9",
+                    "rating": 5,
+                    "review_count_text": "580+ Reviews",
+                    "reviews_anchor": "",
+                    "star_color": "#1fa567"
+                  }
+                },
+                "mo_tier_picker": {
+                  "type": "mo-tier-picker",
+                  "name": "MO Tier + Sub Picker",
+                  "settings": {
+                    "quantity_label": "Quantity",
+                    "purchase_label": "Purchase Option",
+                    "subscribe_title": "Subscribe",
+                    "onetime_title": "One-Time",
+                    "deliver_prefix": "Deliver every",
+                    "card_bg_inactive": "#ffffff",
+                    "card_border_inactive": "#1fa567",
+                    "card_bg_active": "#1fa567",
+                    "card_border_active": "#1fa567",
+                    "card_text_active": "#ffffff",
+                    "card_text_inactive": "#093d24",
+                    "badge_save_bg": "#ffffff",
+                    "badge_save_text": "#115033",
+                    "badge_value_bg": "#ffffff",
+                    "badge_value_text": "#115033",
+                    "badge_value_border": "#c4c1ba",
+                    "bubble_bg": "#ffd5f7",
+                    "bubble_text": "#093d24"
+                  }
+                },
+                "mo_buy_buttons": {
+                  "type": "buy-buttons",
+                  "name": "t:names.product_buy_buttons",
+                  "settings": {
+                    "stacking": true
+                  },
+                  "blocks": {
+                    "quantity": {
+                      "type": "quantity",
+                      "disabled": true,
+                      "static": true
+                    },
+                    "add-to-cart": {
+                      "type": "add-to-cart",
+                      "static": true,
+                      "settings": {
+                        "style_class": "button"
+                      }
+                    },
+                    "accelerated-checkout": {
+                      "type": "accelerated-checkout",
+                      "static": true
+                    }
+                  },
+                  "block_order": []
+                },
+                "mo_payment_badges": {
+                  "type": "mo-pdp-payment-badges",
+                  "name": "MO Payment Badges",
+                  "settings": {
+                    "text": "Apple Pay · Visa · Mastercard · Aferpay",
+                    "text_color": "#093d24"
+                  }
+                }
+              },
+              "block_order": [
+                "mo_eyebrow",
+                "mo_title",
+                "mo_glp_badge",
+                "mo_description",
+                "mo_rating_link",
+                "mo_tier_picker",
+                "mo_buy_buttons",
+                "mo_payment_badges"
+              ]
+            }
+          },
+          "block_order": ["mo_testimonial", "mo_buybox_card"]
+        }
+      },
+      "name": "Hero Product Feature",
+      "settings": {
+        "product": "lubricating-eye-drops",
+        "gap": 40,
+        "equal_columns": true,
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
     "custom_eye_health_mohp1": {
       "type": "custom-eye-health",
       "blocks": {
@@ -521,6 +752,7 @@
     "custom_home_hero_mohp1",
     "custom_marquee_bar_mohp1",
     "custom_range_grid_mohp1",
+    "custom_featured_product_mohp1",
     "custom_eye_health_mohp1",
     "main",
     "custom_how_it_works_rLezhk",
