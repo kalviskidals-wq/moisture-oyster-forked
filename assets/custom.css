@@ -772,8 +772,8 @@ body {
 .mo-problem__stat-card {
   background: var(--mo-problem-card-bg, #093d24);
   border-radius: var(--mo-radius-md, 10px);
-  /* CUSTOM FIX (2026-07-18, per Kalvis): was 32px/24px — set to a uniform 30px. */
-  padding: 30px;
+  /* CUSTOM FIX (2026-07-18, per Kalvis): was uniform 30px — top reduced to 20px, sides/bottom stay 30px. */
+  padding: 20px 30px 30px;
 }
 
 .mo-problem__stat-figure {
