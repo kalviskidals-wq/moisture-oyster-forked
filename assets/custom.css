@@ -601,9 +601,10 @@ body {
   position: relative;
   z-index: 4;
   background: var(--mo-problem-bg, #093d24);
-  /* CUSTOM FIX (2026-07-18, per Kalvis): top padding was 40px, set to 30px
-     to match the stat card's own 30px padding. */
-  padding: 30px var(--mo-space-5, 20px) var(--mo-space-7, 32px);
+  /* CUSTOM FIX (2026-07-18, per Kalvis): top padding was 40px, then 30px —
+     set to 20px to compensate for extra visual space the heading's own
+     line-height adds above its text. */
+  padding: 20px var(--mo-space-5, 20px) var(--mo-space-7, 32px);
 }
 
 /* CUSTOM: typography per Figma spec (2026-07-09) — deliberately overrides
@@ -841,8 +842,9 @@ body {
     top: 0;
     bottom: auto;
     background: transparent;
-    /* CUSTOM FIX (2026-07-18, per Kalvis): was 40px, set to 30px. */
-    padding-block: 30px 0;
+    /* CUSTOM FIX (2026-07-18, per Kalvis): was 40px, then 30px, now 20px to
+       compensate for the heading's own line-height space above its text. */
+    padding-block: 20px 0;
   }
 
   .mo-problem__eyebrow,
