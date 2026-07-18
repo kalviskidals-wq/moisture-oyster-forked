@@ -3524,7 +3524,7 @@ mo-review-filter {
   .mo-footer__columns {
     display: grid;
     grid-template-columns: repeat(3, max-content);
-    justify-content: end;
+    justify-content: center;
     gap: var(--mo-space-6, 24px) var(--mo-space-5, 20px);
     align-items: start;
   }
