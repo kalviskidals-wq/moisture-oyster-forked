@@ -1651,17 +1651,18 @@ tbody tr:last-child .mo-compare__cell {
   content: '';
 }
 
+/* CUSTOM FIX (2026-07-18, per Kalvis): was 28px circle / 11px font — set to 20px / 10px. */
 .mo-ingredient__number {
   flex-shrink: 0;
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--mo-ingredients-number-bg, #ffd5f7);
   color: var(--mo-ingredients-heading, #093d24);
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .mo-ingredient__name-wrap {
