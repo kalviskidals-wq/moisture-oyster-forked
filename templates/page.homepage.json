@@ -186,8 +186,13 @@
             "extend_media": false,
             "zoom": false,
             "video_loop": false,
-            "hide_variants": true
-          }
+            "hide_variants": true,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         },
         "product-details": {
           "type": "_product-details",
@@ -202,7 +207,18 @@
             "gap": 20,
             "sticky_details_desktop": true,
             "background_media": "none",
-            "border": "none"
+            "background_color": "",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {
             "mo_buybox_card": {
@@ -213,6 +229,7 @@
                 "vertical_on_mobile": true,
                 "horizontal_alignment": "flex-start",
                 "vertical_alignment": "center",
+                "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
                 "gap": 20,
@@ -221,13 +238,23 @@
                 "width_mobile": "fill",
                 "custom_width_mobile": 100,
                 "height": "fit",
+                "custom_height": 100,
                 "background_media": "none",
                 "background_color": "#ffffff",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
                 "border": "solid",
                 "border_width": 1,
                 "border_opacity": 100,
                 "border_color": "#e8e7e3",
                 "border_radius": 20,
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
                 "padding-block-start": 28,
                 "padding-block-end": 28,
                 "padding-inline-start": 28,
@@ -237,10 +264,12 @@
                 "mo_eyebrow": {
                   "type": "mo-pdp-eyebrow",
                   "name": "MO Eyebrow",
+                  "disabled": true,
                   "settings": {
                     "text": "Clinical Eye Care",
                     "text_color": "#1fa567"
-                  }
+                  },
+                  "blocks": {}
                 },
                 "mo_title": {
                   "type": "product-title",
@@ -256,8 +285,16 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "text_color": "#093d24"
-                  }
+                    "text_color": "#093d24",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
                 },
                 "mo_glp_badge": {
                   "type": "mo-pdp-badge",
@@ -266,7 +303,8 @@
                     "text": "GLP Non-Irritant · OECD 492B",
                     "background_color": "#b8f3d8",
                     "text_color": "#115033"
-                  }
+                  },
+                  "blocks": {}
                 },
                 "mo_description": {
                   "type": "product-description",
@@ -278,12 +316,21 @@
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
+                    "font_size": "1rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "text_color": "#0d1b14"
-                  }
+                    "text_color": "#0d1b14",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
                 },
                 "mo_rating_link": {
                   "type": "mo-pdp-rating-link",
@@ -294,7 +341,8 @@
                     "review_count_text": "580+ Reviews",
                     "reviews_anchor": "",
                     "star_color": "#1fa567"
-                  }
+                  },
+                  "blocks": {}
                 },
                 "mo_tier_picker": {
                   "type": "mo-tier-picker",
@@ -318,25 +366,67 @@
                     "badge_value_border": "#c4c1ba",
                     "bubble_bg": "#ffd5f7",
                     "bubble_text": "#093d24"
-                  }
+                  },
+                  "blocks": {}
                 },
                 "mo_buy_buttons": {
                   "type": "buy-buttons",
                   "name": "t:names.product_buy_buttons",
                   "settings": {
-                    "stacking": true
+                    "stacking": true,
+                    "text_color": "",
+                    "show_pickup_availability": true,
+                    "gift_card_form": true,
+                    "recipient_button_style": "default",
+                    "recipient_button_background": "{{ settings.color_palette.background }}",
+                    "recipient_button_text": "{{ settings.color_palette.foreground }}",
+                    "recipient_button_border": "{{ settings.color_palette.foreground }}",
+                    "selected_recipient_button_style": "default",
+                    "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
+                    "selected_recipient_button_text": "{{ settings.color_palette.background }}",
+                    "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
+                    "input_style": "default",
+                    "input_background_color": "{{ settings.color_palette.background }}",
+                    "input_text_color": "{{ settings.color_palette.foreground }}",
+                    "input_border_color": "{{ settings.color_palette.foreground }}",
+                    "border_width": 1,
+                    "border_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {
                     "quantity": {
                       "type": "quantity",
-                      "static": true
+                      "disabled": true,
+                      "static": true,
+                      "settings": {
+                        "input_style": "default",
+                        "input_background_color": "{{ settings.color_palette.background }}",
+                        "input_text_color": "{{ settings.color_palette.foreground }}",
+                        "input_border_color": "{{ settings.color_palette.foreground }}",
+                        "border_width": 1,
+                        "border_radius": 0
+                      },
+                      "blocks": {}
                     },
                     "add-to-cart": {
                       "type": "add-to-cart",
                       "static": true,
                       "settings": {
-                        "style_class": "button"
-                      }
+                        "style_class": "button",
+                        "custom_button_background": "{{ settings.color_palette.foreground }}",
+                        "custom_button_text": "{{ settings.color_palette.background }}",
+                        "custom_button_border": "{{ settings.color_palette.background }}"
+                      },
+                      "blocks": {}
+                    },
+                    "accelerated-checkout": {
+                      "type": "accelerated-checkout",
+                      "static": true,
+                      "settings": {},
+                      "blocks": {}
                     }
                   },
                   "block_order": []
@@ -353,15 +443,20 @@
               ]
             }
           },
-          "block_order": ["mo_buybox_card"]
+          "block_order": [
+            "mo_buybox_card"
+          ]
         }
       },
       "name": "Hero Product Feature",
       "settings": {
         "product": "lubricating-eye-drops",
-        "gap": 40,
+        "content_width": "content-center-aligned",
+        "desktop_media_position": "left",
         "equal_columns": true,
-        "background_color": "#093D24",
+        "limit_details_width": false,
+        "gap": 40,
+        "background_color": "#093d24",
         "padding-block-start": 40,
         "padding-block-end": 40
       }
