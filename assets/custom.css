@@ -3375,18 +3375,26 @@ mo-review-filter {
 }
 
 @media screen and (min-width: 750px) {
-  /* CUSTOM FIX (2026-07-18): left track hugs its own content (max-content) —
-     was 1fr, which stretched it to half the section and left the signup
-     column wider than the description/input+button content sitting inside
-     it. Right track (columns) still takes all remaining space. */
+  /* CUSTOM FIX (2026-07-18): tracks are an even 1fr 1fr so the columns
+     track's left edge lands exactly at the section's horizontal center
+     (a max-content left track made that boundary follow signup's content
+     width instead, which moved the columns off-center). .mo-footer__signup
+     gets justify-self:start below so IT still only hugs its own content
+     width within that 50% cell, rather than stretching to fill it —
+     satisfies both "columns start at center" and "signup isn't wider than
+     its content" at the same time. */
   .mo-footer__top {
     display: grid;
-    grid-template-columns: max-content 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: var(--mo-space-8, 40px);
     /* explicit start (was relying on the stretch default) so the eyebrow and
        the SHOP/SUPPORT/COMPANY headers are guaranteed to sit flush on the
        same top line. */
     align-items: start;
+  }
+
+  .mo-footer__signup {
+    justify-self: start;
   }
 }
 
