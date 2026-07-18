@@ -3375,13 +3375,13 @@ mo-review-filter {
 }
 
 @media screen and (min-width: 750px) {
-  /* CUSTOM FIX (2026-07-18): even 1fr 1fr split (was minmax(280px,460px) 1fr)
-     so the columns track's left edge lands exactly at the section's
-     horizontal center — signup content's own max-widths already keep it from
-     overflowing the left half. */
+  /* CUSTOM FIX (2026-07-18): left track hugs its own content (max-content) —
+     was 1fr, which stretched it to half the section and left the signup
+     column wider than the description/input+button content sitting inside
+     it. Right track (columns) still takes all remaining space. */
   .mo-footer__top {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: max-content 1fr;
     gap: var(--mo-space-8, 40px);
     /* explicit start (was relying on the stretch default) so the eyebrow and
        the SHOP/SUPPORT/COMPANY headers are guaranteed to sit flush on the
