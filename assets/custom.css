@@ -4571,10 +4571,21 @@ mo-review-filter {
   -webkit-backface-visibility: hidden;
 }
 
+/* CUSTOM (2026-07-17, per Kalvis): bottom-anchors the figure/caption/divider
+   stack instead of leaving it top-aligned in the (now fixed-height) card —
+   this makes the divider sit exactly on the face's own 30px bottom padding,
+   with the caption's existing 20px margin-top on the divider giving the
+   20px caption-to-line gap, with no new hardcoded values needed. */
+.mo-eye-health__card-face--front {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
 .mo-eye-health__card-face--back {
   transform: rotateY(180deg);
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* CUSTOM: was center — Kalvis wants the body copy top-aligned, not vertically centered */
   overflow-y: auto; /* CUSTOM: safety net if a merchant's body copy runs taller than the fixed card height */
 }
 
