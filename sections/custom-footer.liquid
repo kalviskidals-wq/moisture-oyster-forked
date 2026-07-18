@@ -22,7 +22,6 @@
     --mo-footer-menu-heading: {{ s.menu_heading_color | default: '#FFFFFF' }};
     --mo-footer-menu-link: {{ s.menu_link_color | default: '#FFFFFF' }};
     --mo-footer-toggle: {{ s.toggle_color | default: '#FFFFFF' }};
-    --mo-footer-toggle-border: {{ s.toggle_border_color | default: '#B8F3D8' }};
     --mo-footer-wordmark: {{ s.wordmark_color | default: '#FFD5F7' }};
     --mo-footer-legal: {{ s.legal_color | default: '#FFFFFFB3' }};
     --mo-footer-field-radius: {{ s.field_radius | default: 16 }}px;
@@ -98,17 +97,7 @@
                 <summary class="mo-footer__col-heading mo-menu">
                   <span>{{ block.settings.heading | escape }}</span>
                   <span class="mo-footer__col-toggle" aria-hidden="true">
-                    {%- # CUSTOM (2026-07-18, Figma node 633:1234, mobile): now sits inside a
-                      round mint-bordered pill (see .mo-footer__col-toggle in custom.css).
-                      toggle_icon_image lets Kalvis upload the exact "+" SVG from Figma via
-                      the theme editor; falls back to the existing plus/times snippet
-                      (rotates 45deg to an "x" on open, same as elsewhere on the site) if
-                      nothing's uploaded. -%}
-                    {%- if s.toggle_icon_image != blank -%}
-                      {{ s.toggle_icon_image | image_url: width: 32 | image_tag: loading: 'lazy', alt: '' }}
-                    {%- else -%}
-                      {%- render 'mo-accordion-icon' -%}
-                    {%- endif -%}
+                    {%- render 'mo-accordion-icon' -%}
                   </span>
                 </summary>
                 {%- if block.settings.menu != blank -%}
@@ -334,9 +323,9 @@
     {
       "type": "color",
       "id": "menu_heading_color",
-      "label": "Menu column heading color (desktop)",
+      "label": "Menu column heading color",
       "default": "#FFD5F7",
-      "info": "CUSTOM (audit #14, 2026-07-17): was white — Figma dev-mode confirms pink for the Shop/Support/Company headings on desktop. Mobile is hardcoded to white in CSS instead (Figma node 633:1234, 2026-07-18) since the two breakpoints use different colors — this setting only affects desktop."
+      "info": "CUSTOM (audit #14, 2026-07-17): was white — Figma dev-mode confirms pink for the Shop/Support/Company headings."
     },
     {
       "type": "color",
@@ -347,22 +336,8 @@
     {
       "type": "color",
       "id": "toggle_color",
-      "label": "Mobile accordion toggle icon color",
-      "default": "#B8F3D8",
-      "info": "CUSTOM (2026-07-18): was white — icon now matches the mint border color."
-    },
-    {
-      "type": "color",
-      "id": "toggle_border_color",
-      "label": "Mobile accordion toggle pill border color",
-      "default": "#B8F3D8",
-      "info": "CUSTOM (2026-07-18, Figma node 633:1234): the mint ring around the mobile +/x toggle icon."
-    },
-    {
-      "type": "image_picker",
-      "id": "toggle_icon_image",
-      "label": "Mobile accordion toggle icon (optional)",
-      "info": "CUSTOM (2026-07-18): upload the exact '+' icon SVG from Figma here to replace the built-in plus/times icon. Still rotates 45° to look like an '×' when a row is open."
+      "label": "Mobile accordion toggle color",
+      "default": "#FFFFFF"
     },
     {
       "type": "color",
