@@ -1383,6 +1383,7 @@
         "question_color": "#ffffff",
         "answer_color": "#ffffff",
         "toggle_color": "#b8f3d8",
+        "toggle_open_icon_color": "#093d24",
         "divider_color": "#b8f3d8",
         "vertical_padding": 64
       }
@@ -1395,6 +1396,7 @@
           "name": "Benefit",
           "settings": {
             "icon_preset": "frequency",
+            "icon_image": "shopify://shop_images/choose_your_frequency.svg",
             "title": "Choose your frequency",
             "description": "After your first order we send a guide to building a daily eye care habit."
           }
@@ -1404,6 +1406,7 @@
           "name": "Benefit",
           "settings": {
             "icon_preset": "delivery",
+            "icon_image": "shopify://shop_images/free_delivery_always.svg",
             "title": "Free delivery, always",
             "description": "Every subscription ships free across the US. No threshold, no conditions."
           }
@@ -1413,6 +1416,7 @@
           "name": "Benefit",
           "settings": {
             "icon_preset": "guide",
+            "icon_image": "shopify://shop_images/your_eye_care_guide.svg",
             "title": "Your eye care guide",
             "description": "After your first order we send a guide to building a daily eye care habit."
           }
