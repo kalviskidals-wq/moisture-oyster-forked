@@ -1358,7 +1358,7 @@
       "settings": {
         "eyebrow": "FAQ",
         "heading": "Questions,\nanswered",
-        "support_text": "<p>Anything else? <br/>Write to <a href=\"mailto:care@moistureoyster.com\">care@moistureoyster.com</a>, a human replies within a day.</p>",
+        "support_text": "<p>Anything else? <br/>Write to <a href=\"mailto:care@moistureoyster.com\">care@moistureoyster.com</a>, <br/>a human replies within a day.</p>",
         "enable_faq_schema": true,
         "background_color": "#093d24",
         "eyebrow_color": "#ffd5f7",
