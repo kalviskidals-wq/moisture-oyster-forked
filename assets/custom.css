@@ -4721,9 +4721,10 @@ mo-review-filter {
    viewport's bounds, so a left inset here meant a card could never scroll
    all the way to the true left edge, only to that 20px boundary. Right was
    already 0 for the same reason (peek-carousel convention, see above). The
-   visual 20px rest-state inset is preserved via padding-inline-start on
-   .mo-eye-health__cards itself instead (reset back to 0 on desktop, which
-   gets its inset from the shared page-width/padding-inline rule below). */
+   visual 20px rest-state inset is preserved via a leading spacer element
+   inside .mo-eye-health__cards instead (see .mo-eye-health__cards-spacer),
+   hidden on desktop, which gets its inset from the shared page-width/
+   padding-inline rule below instead. */
 .mo-eye-health__cards-wrap {
   position: absolute;
   z-index: 2;
@@ -4752,10 +4753,26 @@ mo-review-filter {
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-block-end: var(--mo-space-2, 8px);
-  /* CUSTOM (2026-07-19): keeps the first card's rest-state left edge at the
-     20px page inset now that .mo-eye-health__cards-wrap's own left is 0 —
-     see that rule's comment. Reset to 0 on desktop below. */
-  padding-inline-start: var(--mo-space-5, 20px);
+}
+
+/* CUSTOM (fix, 2026-07-19, per Kalvis): a padding-inline-start on the
+   scroll track (first attempt at this) turned out unreliable in practice —
+   scroll-snap engines don't consistently treat a scroll container's own
+   CSS padding as scrollable-away content the way a real flex item does
+   (this project already hit the same class of bug twice before and gave up
+   on true edge-bleed in .mo-howto__steps/.mo-reviews__scroller rather than
+   fight it further — see those rules' own comments). An explicit spacer
+   element is the deterministic version of the same idea: it has no
+   scroll-snap-align, so it's never a snap target, and being a real flex
+   item it definitely scrolls out of view like any card would. Rest state
+   (scrollLeft: 0) shows the 20px gap before the first card; scroll even
+   slightly and the spacer scrolls away for good, letting every card reach
+   the true left edge from then on. Hidden entirely on desktop, which gets
+   its inset from .mo-eye-health__cards-wrap's own padding-inline instead
+   (shared page-width rule below). */
+.mo-eye-health__cards-spacer {
+  flex: 0 0 var(--mo-space-5, 20px);
+  width: var(--mo-space-5, 20px);
 }
 
 .mo-eye-health__cards::-webkit-scrollbar {
@@ -4953,10 +4970,13 @@ mo-review-filter {
     overflow: visible;
     scroll-snap-type: none;
     padding-block-end: 0;
-    /* Desktop gets its inset from .mo-eye-health__cards-wrap's own
-       padding-inline (shared page-width rule above) — resets the
-       mobile-only padding-inline-start so it isn't doubled. */
-    padding-inline-start: 0;
+  }
+
+  /* Desktop gets its inset from .mo-eye-health__cards-wrap's own
+     padding-inline (shared page-width rule above) — the mobile leading
+     spacer isn't needed there. */
+  .mo-eye-health__cards-spacer {
+    display: none;
   }
 
   .mo-eye-health__card {

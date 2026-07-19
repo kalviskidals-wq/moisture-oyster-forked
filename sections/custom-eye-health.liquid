@@ -122,6 +122,8 @@
     {%- if section.blocks.size > 0 -%}
       <div class="mo-eye-health__cards-wrap">
         <div class="mo-eye-health__cards" aria-label="{{ s.eyebrow | strip_newlines | escape }}">
+          {%- # CUSTOM (2026-07-19, per Kalvis): mobile-only leading spacer — see custom.css's .mo-eye-health__cards-spacer comment for why this replaces a padding-inline-start approach. -%}
+          <div class="mo-eye-health__cards-spacer" aria-hidden="true"></div>
           {%- for block in section.blocks -%}
             {%- if block.type == 'stat' -%}
               {%- liquid
