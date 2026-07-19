@@ -5385,12 +5385,19 @@ mo-review-filter {
   }
 }
 
+/* CUSTOM (fix, 2026-07-19, per Kalvis): replaced the flat merchant-tinted
+   overlay (color + opacity settings) with this exact bottom-fade gradient —
+   transparent until 55.08%, fading to 50% black at the very bottom edge,
+   for legibility of the provenance list/CTA overlaid there. Applies at
+   every breakpoint (not scoped, since no mobile/desktop difference was
+   given). The section's existing scrim_color/scrim_opacity settings are
+   unused now but left in the schema rather than ripped out, in case a flat
+   tint is wanted again later. */
 .mo-about__scrim {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: var(--mo-about-scrim, #093d24);
-  opacity: var(--mo-about-scrim-opacity, 0.2);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55.08%, rgba(0, 0, 0, 0.5) 100%);
   pointer-events: none;
 }
 
