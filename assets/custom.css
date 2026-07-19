@@ -4716,10 +4716,18 @@ mo-review-filter {
    card's peek got clipped at that inset boundary instead of bleeding to the
    true edge. `right: 0` matches the established peek-carousel convention
    used by .mo-sub-benefits__overlay/.mo-howto__steps/.mo-reviews__scroller. */
+/* CUSTOM (fix, 2026-07-19, per Kalvis): left inset dropped to 0 on mobile
+   (was var(--mo-space-5, 20px)) — the wrap's own box is the scroll
+   viewport's bounds, so a left inset here meant a card could never scroll
+   all the way to the true left edge, only to that 20px boundary. Right was
+   already 0 for the same reason (peek-carousel convention, see above). The
+   visual 20px rest-state inset is preserved via padding-inline-start on
+   .mo-eye-health__cards itself instead (reset back to 0 on desktop, which
+   gets its inset from the shared page-width/padding-inline rule below). */
 .mo-eye-health__cards-wrap {
   position: absolute;
   z-index: 2;
-  left: var(--mo-space-5, 20px);
+  left: 0;
   right: 0;
   bottom: var(--mo-space-5, 20px);
 }
@@ -4744,6 +4752,10 @@ mo-review-filter {
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-block-end: var(--mo-space-2, 8px);
+  /* CUSTOM (2026-07-19): keeps the first card's rest-state left edge at the
+     20px page inset now that .mo-eye-health__cards-wrap's own left is 0 —
+     see that rule's comment. Reset to 0 on desktop below. */
+  padding-inline-start: var(--mo-space-5, 20px);
 }
 
 .mo-eye-health__cards::-webkit-scrollbar {
@@ -4784,11 +4796,14 @@ mo-review-filter {
   .mo-eye-health__card-flip { transition: none; }
 }
 
+/* CUSTOM (2026-07-19, per Kalvis): mobile-only card padding — 10px top,
+   15px right/bottom/left. Desktop keeps its original 20px/30px spec (see
+   the min-width:750px override below). */
 .mo-eye-health__card-face {
   position: absolute;
   inset: 0;
   box-sizing: border-box;
-  padding: var(--mo-space-5, 20px) var(--mo-space-7, 30px) var(--mo-space-7, 30px); /* CUSTOM: was 24px/20px — Figma confirms 20px top / 30px sides+bottom */
+  padding: 10px 15px 15px;
   background: var(--mo-eye-card-bg, #093d24);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -4938,6 +4953,10 @@ mo-review-filter {
     overflow: visible;
     scroll-snap-type: none;
     padding-block-end: 0;
+    /* Desktop gets its inset from .mo-eye-health__cards-wrap's own
+       padding-inline (shared page-width rule above) — resets the
+       mobile-only padding-inline-start so it isn't doubled. */
+    padding-inline-start: 0;
   }
 
   .mo-eye-health__card {
@@ -4947,6 +4966,12 @@ mo-review-filter {
 
   .mo-eye-health__card-flip {
     height: 270px; /* CUSTOM: desktop figure/caption font sizes are larger — bumped fixed-height estimate to match */
+  }
+
+  /* Restores the original desktop card padding (20px top / 30px sides+bottom
+     — Figma-confirmed) now that the base rule above is mobile-only. */
+  .mo-eye-health__card-face {
+    padding: var(--mo-space-5, 20px) var(--mo-space-7, 30px) var(--mo-space-7, 30px);
   }
 }
 
