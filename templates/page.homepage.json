@@ -794,7 +794,7 @@
         "vertical_padding": 40,
         "background_color": "#093d24",
         "rating_color": "#ffd5f7",
-        "header_star_color": "#f2a2ff",
+        "header_star_color": "#ffffff",
         "count_link_color": "#ffffff",
         "filter_border_color": "#b8f3d8",
         "filter_text_color": "#ffffff",

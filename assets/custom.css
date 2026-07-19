@@ -2548,11 +2548,12 @@ tbody tr:last-child .mo-compare__cell {
   margin: 0;
 }
 
+/* CUSTOM (2026-07-19, per Kalvis): top overall rating stars — was #f2a2ff. */
 .mo-reviews__rating-meta {
   display: flex;
   flex-direction: column;
   gap: var(--mo-space-2, 8px);
-  color: var(--mo-reviews-header-star, #f2a2ff);
+  color: var(--mo-reviews-header-star, #ffffff);
 }
 
 .mo-reviews__count-link {
