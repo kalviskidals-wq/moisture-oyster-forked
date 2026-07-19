@@ -4803,7 +4803,21 @@ mo-review-filter {
   transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
 }
 
-.mo-eye-health__card:hover .mo-eye-health__card-flip,
+/* CUSTOM (fix, 2026-07-19, per Kalvis — tap should loop cleanly between
+   flipped/initial on every tap): :hover scoped to real pointer devices
+   only. Touch browsers can apply (and get stuck on) :hover after a tap
+   with no real mouse to trigger :hover's usual leave/clear, which fought
+   the .is-open toggle mo-eye-health.js drives — a tap could remove
+   is-open and blur the card, yet it stayed visually flipped because
+   :hover was still matching. Touch devices now rely purely on .is-open
+   (and :focus-within, which JS explicitly clears via blur()) for their
+   loop, with no CSS-hover interference. */
+@media (hover: hover) and (pointer: fine) {
+  .mo-eye-health__card:hover .mo-eye-health__card-flip {
+    transform: rotateY(180deg);
+  }
+}
+
 .mo-eye-health__card:focus-within .mo-eye-health__card-flip,
 .mo-eye-health__card.is-open .mo-eye-health__card-flip {
   transform: rotateY(180deg);
