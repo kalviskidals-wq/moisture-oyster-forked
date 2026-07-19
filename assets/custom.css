@@ -4783,6 +4783,18 @@ mo-review-filter {
   width: var(--mo-space-5, 20px);
 }
 
+/* CUSTOM (fix, 2026-07-19, per Kalvis): the leading spacer specifically
+   needs to be a valid scroll-snap target — without this, scrollLeft: 0
+   isn't itself a snap point under `scroll-snap-type: x mandatory` (only
+   each card's own start edge is), so some browsers force-snapped straight
+   to card 1 immediately on load/layout, eating the intended left padding
+   before the user ever touched the carousel. NOT applied to the trailing
+   spacer — making that one a snap target would let momentum scroll land on
+   empty space past the last card instead of on the card itself. */
+.mo-eye-health__cards-spacer--lead {
+  scroll-snap-align: start;
+}
+
 .mo-eye-health__cards::-webkit-scrollbar {
   display: none;
 }

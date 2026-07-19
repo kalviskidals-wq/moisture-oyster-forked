@@ -26,7 +26,14 @@ document.addEventListener('click', (event) => {
 
   if (card.classList.contains('is-open')) {
     card.classList.remove('is-open');
-    card.blur();
+    // CUSTOM FIX (2026-07-19, per Kalvis — 2nd tap wasn't closing the
+    // card): calling blur() synchronously here lost a race against the
+    // browser's own default focus-on-click behavior for this same click
+    // event — the card immediately regained focus right after blur() ran,
+    // so :focus-within kept matching and the card never visually closed.
+    // Deferring to the next frame lets that native refocus happen first,
+    // so this blur() is the one that actually sticks.
+    requestAnimationFrame(() => card.blur());
   } else {
     card.classList.add('is-open');
   }
