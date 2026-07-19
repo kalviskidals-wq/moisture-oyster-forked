@@ -5028,7 +5028,9 @@ mo-review-filter {
    ============================================================================ */
 .mo-hiw {
   background: var(--mo-hiw-bg, #093d24);
-  padding-block: 30px;
+  /* CUSTOM (2026-07-19, per Kalvis): was 30px — mobile-only bump. Desktop
+     keeps its own --mo-hiw-padding-y-driven value below. */
+  padding-block: 60px;
 }
 
 @media screen and (min-width: 750px) {
@@ -5058,8 +5060,7 @@ mo-review-filter {
   grid-template-areas:
     'header'
     'body'
-    'tablist'
-    'image';
+    'tablist';
   row-gap: var(--mo-space-7, 32px);
 }
 
@@ -5076,45 +5077,32 @@ mo-review-filter {
   grid-area: header;
 }
 
-/* CUSTOM FIX (2026-07-17, per Kalvis): was `min-height` — a floor only stops
-   the box shrinking below 3 lines, it doesn't stop it GROWING taller for a
-   step whose body copy runs longer than 3 lines, which changed the section's
-   own height (and shifted the image below it) when switching to that tab.
-   A fixed `height` + overflow-y:auto turns the same 3-line budget into a
-   ceiling too, so the section's height genuinely never changes when
-   switching tabs — any step whose copy is longer than 3 lines scrolls
-   inside this box instead of growing it.
-   CUSTOM FIX 2: the first attempt used `calc(1.3em * 3)`, which resolves
-   against THIS element's own font-size — .mo-hiw__body never sets one, so
-   it was inheriting whatever size cascaded down from further up the page
-   (not necessarily 16px), while the actual text inside is .mo-hiw__panel's
-   .mo-body-lg at a fixed 16px/1.3 line-height. That mismatch made the box
-   shorter than 3 REAL lines of the visible text, clipping it. Spelled out
-   in explicit px (16px font-size × 1.3 line-height × 3 lines) instead, so
-   it no longer depends on inheritance at all. */
+/* CUSTOM FIX (2026-07-19, per Kalvis — mobile: box was clipping any step's
+   body copy longer than 3 lines, and just switching to auto-height would've
+   made the tablist below jump position every time a shorter/longer step's
+   text swapped in. Fixed properly instead: every panel (including the
+   [hidden] ones) is stacked into the SAME single grid cell here, so this
+   box's height is always the tallest panel's natural height, regardless of
+   which one is currently active — genuinely "matches the longest," and
+   never shifts on tab switch since that height never changes.
+   .mo-hiw__panel's own grid-row/column placement + the [hidden] override
+   are just below. Desktop restores its original fixed 3-line height +
+   overflow-y:auto instead (see the min-width:750px block) — an explicit
+   height there simply wins over this grid's own auto-sizing, so the same
+   markup/CSS works for both without scoping this rule to mobile only. */
 .mo-hiw__body {
   grid-area: body;
-  height: calc(16px * 1.3 * 3);
-  overflow-y: auto;
+  display: grid;
 }
 
 .mo-hiw__tablist {
   grid-area: tablist;
 }
 
-.mo-hiw__image {
-  grid-area: image;
-}
-
 /* CUSTOM (2026-07-14, round 3 fix): replaced the earlier "tablist spans all
    3 left-column grid rows" technique with a plain 2-cell grid — 'left'
-   (header+body+image, now a real flex column) beside 'tablist'. The old
-   spanning-row technique left the exact gap between the body panel and the
-   image dependent on CSS Grid's auto-track distribution once a multi-row-
-   spanning sibling (the tablist) was in the mix, which produced a much
-   bigger and non-obvious gap than intended. A flex column has no such
-   ambiguity: the body-to-image gap is just the flex `gap` value below,
-   period, regardless of the tablist's own height. */
+   (header + body, a real flex column — the image that used to also live
+   here was removed 2026-07-19) beside 'tablist'. */
 @media screen and (min-width: 750px) {
   .mo-hiw__grid {
     grid-template-columns: minmax(280px, 38%) 1fr;
@@ -5129,14 +5117,15 @@ mo-review-filter {
     grid-area: left;
   }
 
-  /* CUSTOM (2026-07-14, round 5 fix): swapped the flex column's uniform
-     `gap` for two independently-tuned margins — Kalvis wants the body-to-
-     image gap specifically at 175px (much larger than a normal rhythm gap),
-     while header-to-body stays tight. A single `gap` value can't express
-     two different spacings between 3 stacked children, so each gap is now
-     its own explicit margin-block-start instead. */
   .mo-hiw__body {
     margin-block-start: var(--mo-space-2, 8px);
+    /* CUSTOM (2026-07-19, per Kalvis): desktop keeps the original fixed
+       3-line height + scroll — this was reverted to auto/grid-stack sizing
+       on mobile only (see the base .mo-hiw__body/.mo-hiw__panel rules
+       above), since an explicit height here simply overrides that grid's
+       own auto-sizing regardless of breakpoint. */
+    height: calc(16px * 1.3 * 3);
+    overflow-y: auto;
   }
 }
 
@@ -5166,9 +5155,22 @@ mo-review-filter {
    active state); mo-tabs.js toggles [hidden] on click same as it does for
    .mo-ingredients__panel. */
 .mo-hiw__panel {
+  grid-row: 1;
+  grid-column: 1;
   color: var(--mo-hiw-body, #ffffff);
   font-weight: 400;
   max-width: 340px; /* CUSTOM: was 383px (Figma dev-mode measurement, audit #9) — narrowed further per Kalvis (2026-07-17) */
+}
+
+/* CUSTOM (2026-07-19, per Kalvis): overrides the UA default of [hidden]
+   (display: none, which would drop it out of the grid sizing entirely,
+   defeating .mo-hiw__body's display:grid trick above) — visibility:hidden
+   still removes it from view and a11y the same way [hidden] normally would,
+   while keeping it "in" the grid cell for height purposes. */
+.mo-hiw__panel[hidden] {
+  display: block;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* CUSTOM (2026-07-14 fix): removed a `.mo-hiw__panel + .mo-hiw__panel`
@@ -5180,46 +5182,31 @@ mo-review-filter {
    Since only one panel is ever visible at a time, no inter-panel spacing is
    needed at all. */
 
-.mo-hiw__image {
-  position: relative;
-  width: 100%;
-  aspect-ratio: var(--mo-hiw-image-aspect-mobile, 1);
-  border-radius: var(--mo-hiw-image-radius, 10px);
-  overflow: hidden;
-}
-
-/* CUSTOM (2026-07-14, round 4 fix): the image was reading noticeably bigger
-   than the reference design once it had the full left-column width — sized
-   down via a merchant-editable width percentage (default 70%, i.e. ~30%
-   smaller) instead of stretching to fill .mo-hiw__left. Left-aligned by
-   default (no margin-inline auto), matching the reference's flush-left
-   image; mobile is untouched (still full-width, matching that frame). */
-@media screen and (min-width: 750px) {
-  .mo-hiw__image {
-    aspect-ratio: var(--mo-hiw-image-aspect-desktop, 1);
-    width: var(--mo-hiw-image-width-desktop, 70%);
-    margin-block-start: 175px;
-  }
-}
-
-.mo-hiw__image-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+/* CUSTOM (2026-07-19, per Kalvis): image removed from this section entirely
+   (both breakpoints) — .mo-hiw__image/.mo-hiw__image-img rules and the
+   related schema settings (image picker, aspect ratios, width) were
+   removed too; see sections/custom-how-it-works.liquid. */
 
 .mo-hiw__tablist {
   display: flex;
   flex-direction: column;
 }
 
+/* CUSTOM (fix, 2026-07-19, per Kalvis — number bubble had unwanted extra
+   left space and didn't line up with the heading/other elements above):
+   this is a native <button>, and only padding-block was ever set here — the
+   UA stylesheet's own default padding-inline (Chrome/Safari ship a small
+   non-zero horizontal button padding) was still in effect, offsetting
+   everything inside from the true left edge. Explicit padding-inline: 0
+   removes it. gap is confirmed at 16px (--mo-space-4) between the number
+   and heading. */
 .mo-hiw__tab {
   display: flex;
   align-items: flex-start;
   gap: var(--mo-space-4, 16px);
   width: 100%;
   padding-block: var(--mo-space-5, 20px);
+  padding-inline: 0;
   border: none;
   border-top: 1px solid var(--mo-hiw-divider, #b8f3d8);
   background: transparent;

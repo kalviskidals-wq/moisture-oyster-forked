@@ -605,10 +605,6 @@
       "name": "MO How It Works",
       "settings": {
         "heading": "Never Run Dry",
-        "image": "shopify://shop_images/image_1926988503.jpg",
-        "image_aspect_ratio_desktop": 1,
-        "image_aspect_ratio_mobile": 1.3,
-        "image_width_desktop": 70,
         "background_color": "#093d24",
         "heading_color": "#ffffff",
         "body_color": "#ffffff",
@@ -617,7 +613,6 @@
         "number_pill_color": "#ffd5f7",
         "number_pill_text_color": "#093d24",
         "divider_color": "#b8f3d8",
-        "image_radius": 22,
         "vertical_padding": 64
       }
     },

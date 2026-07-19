@@ -1,4 +1,4 @@
-{%- # CUSTOM: net-new theme section — Homepage "How It Works" subscription explainer. Left column (a .mo-hiw__left wrapper holding the heading + a body panel showing the active step's copy + a lifestyle image, stacked with a fixed flex gap) sits beside a right column of repeatable step blocks that act as tabs (number pill + large heading). Desktop: .mo-hiw__left becomes a real flex column and .mo-hiw__tablist a separate grid cell beside it, so the body-to-image spacing is a single fixed gap never influenced by the tablist's own height. Mobile: .mo-hiw__left switches to display:contents so header/body/image promote back out to their own individually-assigned grid areas, reflowing into source order (header, body, tablist, image) via a mobile grid-template-areas override — no absolute-position overlay trick needed since there is no full-bleed photo background here. Tabs + panels reuse assets/mo-tabs.js (already built for custom-ingredient-transparency.liquid) for click + arrow-key/Home/End roving-tabindex nav. Unlike that section's progressive-enhancement convention (all panels visible, JS-only hiding), this section's a11y spec calls for the non-active panels to ship server-hidden via the `hidden` attribute directly (first step server-rendered active), since mo-tabs.js's own connectedCallback re-applies the same hidden state on load regardless, so behavior is identical either way. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # CUSTOM: net-new theme section — Homepage "How It Works" subscription explainer. Left column (a .mo-hiw__left wrapper holding the heading + a body panel showing the active step's copy, stacked with a fixed flex gap) sits beside a right column of repeatable step blocks that act as tabs (number pill + large heading). Desktop: .mo-hiw__left becomes a real flex column and .mo-hiw__tablist a separate grid cell beside it. Mobile: .mo-hiw__left switches to display:contents so header/body promote back out to their own individually-assigned grid areas, reflowing into source order (header, body, tablist) via a mobile grid-template-areas override — no absolute-position overlay trick needed since there is no full-bleed photo background here. Tabs + panels reuse assets/mo-tabs.js (already built for custom-ingredient-transparency.liquid) for click + arrow-key/Home/End roving-tabindex nav. Unlike that section's progressive-enhancement convention (all panels visible, JS-only hiding), this section's a11y spec calls for the non-active panels to ship server-hidden via the `hidden` attribute directly (first step server-rendered active), since mo-tabs.js's own connectedCallback re-applies the same hidden state on load regardless, so behavior is identical either way. CUSTOM (2026-07-19, per Kalvis): the lifestyle image this section originally also carried (below the body panel) was removed entirely, both breakpoints — no image setting/markup remains. UPSTREAM risk LOW — no Horizon file touched. -%}
 {%- # CUSTOM: load design tokens + the .mo-hiw rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval. Every mo-* element also ships hardcoded var() fallbacks so this still renders correctly if either tag is ever removed. -%}
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
 {{ 'custom.css' | asset_url | stylesheet_tag }}
@@ -6,10 +6,6 @@
 
 {%- liquid
   assign s = section.settings
-  assign has_image = false
-  if s.image != blank
-    assign has_image = true
-  endif
 -%}
 
 <section
@@ -23,11 +19,7 @@
     --mo-hiw-tab-heading-active: {{ s.tab_heading_active_color | default: '#B8F3D8' }};
     --mo-hiw-number-bg: {{ s.number_pill_color | default: '#FFD5F7' }};
     --mo-hiw-number-text: {{ s.number_pill_text_color | default: '#093D24' }};
-    --mo-hiw-divider: {{ s.divider_color | default: '#B8F3D833' }};
-    --mo-hiw-image-radius: {{ s.image_radius | default: 16 }}px;
-    --mo-hiw-image-aspect-desktop: {{ s.image_aspect_ratio_desktop | default: 1 }};
-    --mo-hiw-image-aspect-mobile: {{ s.image_aspect_ratio_mobile | default: 1 }};
-    --mo-hiw-image-width-desktop: {{ s.image_width_desktop | default: 70 }}%;
+    --mo-hiw-divider: {{ s.divider_color | default: '#B8F3D8' }};
     --mo-hiw-padding-y: {{ s.vertical_padding | default: 40 }}px;
   "
 >
@@ -65,21 +57,6 @@
             {%- endfor -%}
           </div>
 
-          {%- if has_image -%}
-            <div class="mo-hiw__image">
-              {{
-                s.image
-                | image_url: width: 900
-                | image_tag:
-                  width: s.image.width,
-                  height: s.image.height,
-                  alt: s.image.alt,
-                  sizes: '(min-width: 750px) 38vw, 100vw',
-                  class: 'mo-hiw__image-img',
-                  loading: 'lazy'
-              }}
-            </div>
-          {%- endif -%}
         </div>
 
         <div class="mo-hiw__tablist" role="tablist" aria-label="{{ s.heading | strip_newlines | escape }}">
@@ -137,43 +114,6 @@
     },
     {
       "type": "header",
-      "content": "Image (left column, below body)"
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Lifestyle image"
-    },
-    {
-      "type": "range",
-      "id": "image_aspect_ratio_desktop",
-      "label": "Image aspect ratio (desktop)",
-      "min": 0.5,
-      "max": 2,
-      "step": 0.1,
-      "default": 1
-    },
-    {
-      "type": "range",
-      "id": "image_aspect_ratio_mobile",
-      "label": "Image aspect ratio (mobile)",
-      "min": 0.5,
-      "max": 2,
-      "step": 0.1,
-      "default": 1
-    },
-    {
-      "type": "range",
-      "id": "image_width_desktop",
-      "label": "Image width (desktop, % of left column)",
-      "min": 30,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "default": 70
-    },
-    {
-      "type": "header",
       "content": "Colors"
     },
     {
@@ -227,16 +167,6 @@
     {
       "type": "header",
       "content": "Layout"
-    },
-    {
-      "type": "range",
-      "id": "image_radius",
-      "label": "Image corner radius",
-      "min": 0,
-      "max": 40,
-      "step": 2,
-      "unit": "px",
-      "default": 16
     },
     {
       "type": "range",
