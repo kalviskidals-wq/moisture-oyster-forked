@@ -122,6 +122,8 @@
     {%- if section.blocks.size > 0 -%}
       <div class="mo-eye-health__cards-wrap">
         <div class="mo-eye-health__cards" aria-label="{{ s.eyebrow | strip_newlines | escape }}">
+          {%- # CUSTOM (2026-07-19, per Kalvis): mobile-only leading spacer, mirrors the trailing one below. scroll-padding-inline-start (see custom.css) already gives every card the same 20px gap once the carousel has been scrolled/snapped at least once, but the very first paint — before any scroll/snap event has run — just uses the raw scrollLeft:0 default, which this spacer alone provides the gap for. -%}
+          <div class="mo-eye-health__cards-spacer" aria-hidden="true"></div>
           {%- for block in section.blocks -%}
             {%- if block.type == 'stat' -%}
               {%- liquid
