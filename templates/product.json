@@ -35,13 +35,11 @@
           "name": "MO Testimonial (mobile)",
           "static": true,
           "settings": {
-            "rating": 5,
             "author_name": "Dr. James K.",
             "author_role": "Optometrist, Chicago, IL",
             "quote": "Moisture Oyster checks several important boxes for me: a protected multidose bottle, easy dispensing, immediate comfort, and no blurry vision after instillation. It made a great first impression.",
             "background_color": "{{ settings.color_palette.background }}",
             "text_color": "#093d24",
-            "star_color": "#093d24",
             "quote_color": "#093d24"
           },
           "blocks": {}
@@ -106,13 +104,11 @@
               "type": "mo-pdp-testimonial",
               "name": "MO Testimonial Card",
               "settings": {
-                "rating": 5,
                 "author_name": "Dr. Arthur Benjamin",
                 "author_role": "Ophthalmologist, Beverly Hills, CA",
                 "quote": "Moisture Oyster checks several important boxes for me: a protected multidose bottle, easy dispensing, immediate comfort, and no blurry vision after instillation. It made a great first impression.",
                 "background_color": "{{ settings.color_palette.background }}",
                 "text_color": "#093d24",
-                "star_color": "#093d24",
                 "quote_color": "#093d24"
               },
               "blocks": {}
@@ -1260,7 +1256,7 @@
       "settings": {
         "rating_number": "4.9",
         "rating_stars": 4.9,
-        "review_count_text": "580+ Verified Reviews",
+        "review_count_text": "",
         "reviews_link": "",
         "all_filter_label": "All",
         "filter_group_label": "Filter reviews",
