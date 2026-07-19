@@ -4020,13 +4020,18 @@ mo-review-filter {
    (--mo-header-padding-top/-bottom, 16px default each) plus its tallest
    child (the 32px logo) — with an extra --mo-space-4 gap so the rating row
    doesn't sit flush against the header's bottom edge. Desktop resets this to
-   0 in the media query below since it isn't the reported issue there. */
+   0 in the media query below since it isn't the reported issue there.
+   CUSTOM (fix, 2026-07-19, per Kalvis): dropped `position: absolute` here —
+   this and the subhead below used to be two independently-floating
+   absolute-positioned blocks with the subhead's gap to the heading guessed
+   as a fixed pixel offset (246px), which is exactly the fragility this
+   file's own earlier comment on .mo-home-hero__subhead flagged ("can
+   collide with a 3-line heading"). Now header/subhead stack in normal flow
+   instead, so the gap between them is a real margin (see .mo-home-hero__
+   subhead) that holds regardless of how many lines the heading wraps to.
+   .mo-home-hero__content (the parent) stays position:absolute;inset:0 so
+   the CTA overlay below can still pin to the true bottom of the section. */
 .mo-home-hero__header {
-  position: absolute;
-  z-index: 4;
-  top: 0;
-  left: 0;
-  right: 0;
   background: transparent;
   padding: calc(var(--mo-header-padding-top, 16px) + var(--mo-header-padding-bottom, 16px) + 32px + var(--mo-space-4, 16px)) var(--mo-space-5, 20px) 0;
 }
@@ -4055,27 +4060,26 @@ mo-review-filter {
   font-size: 12px;
 }
 
+/* CUSTOM (2026-07-19, per Kalvis, exact mobile type spec): Manrope ExtraBold
+   44px / 90% line-height / -2% letter-spacing. */
 .mo-home-hero__heading {
   color: var(--mo-home-hero-heading, #f2a2ff);
   margin: 0;
-  font-size: 32px;
+  font-family: var(--mo-font-heading);
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
 }
 
 /* ---------- Subhead ----------
-   CUSTOM: mobile top-anchors below the header at a fixed pixel offset —
-   VERIFY this offset once real copy/heading line-count is confirmed, it can
-   collide with a 3-line heading. Bumped from 190px to 246px (+56px) to match
-   the transparent-header clearance just added to .mo-home-hero__header's
-   top padding above — without this, the subhead would sit almost flush
-   against the now-lower heading instead of keeping its original ~60px gap.
-   Desktop drops this entirely in favor of grid alignment (see media query
-   below). */
+   CUSTOM (fix, 2026-07-19, per Kalvis): now a normal-flow sibling of the
+   header block (see the .mo-home-hero__header comment above) with an exact
+   20px margin to the heading, replacing the old fixed-pixel top offset —
+   holds regardless of how many lines the heading wraps to. Desktop drops
+   this in favor of grid alignment (see media query below). */
 .mo-home-hero__subhead {
-  position: absolute;
-  z-index: 3;
-  top: 246px;
-  left: 0;
-  right: 0;
+  margin-top: 20px;
   padding: 0 var(--mo-space-5, 20px);
   background: transparent;
 }
@@ -4104,6 +4108,9 @@ mo-review-filter {
 .mo-home-hero__cta {
   flex: 1 1 0;
   text-align: center;
+  /* CUSTOM (2026-07-19, per Kalvis): CTA label must never wrap to a 2nd
+     row at any breakpoint. */
+  white-space: nowrap;
 }
 
 /* Desktop (Figma desktop frame): header overlays the full-bleed image
@@ -4197,6 +4204,9 @@ mo-review-filter {
   }
 
   .mo-home-hero__subhead {
+    /* Resets the mobile-only margin-top: 20px (header/subhead are separate
+       grid columns here, not a vertical stack). */
+    margin-top: 0;
     position: static;
     padding: 0;
     background: transparent;
