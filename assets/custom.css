@@ -3639,6 +3639,10 @@ mo-review-filter {
   border: var(--mo-border-width, 1.5px) solid var(--mo-footer-input-border, #2c5940);
   border-radius: var(--mo-footer-field-radius, 16px);
   color: var(--mo-footer-input-text, #ffffff);
+  /* CUSTOM (2026-07-19, per Kalvis): overrides .mo-menu's uppercase — typed
+     email text and the placeholder should read in normal sentence case,
+     not all-caps. */
+  text-transform: none;
   font-family: var(--mo-font-mono);
   font-size: var(--mo-body-size, 0.875rem);
   padding: var(--mo-space-5, 20px) var(--mo-space-5, 20px);
