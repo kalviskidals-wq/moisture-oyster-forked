@@ -169,6 +169,8 @@
               </div>
             {%- endif -%}
           {%- endfor -%}
+          {%- # CUSTOM (2026-07-19, per Kalvis): mobile-only trailing spacer, mirrors the leading one — without it, scrolling all the way to the end let the last card's own right edge scroll flush to the true screen edge (no padding), instead of matching the same 20px gap the first card gets on its left. -%}
+          <div class="mo-eye-health__cards-spacer" aria-hidden="true"></div>
         </div>
       </div>
     {%- endif -%}
