@@ -3688,8 +3688,13 @@ mo-review-filter {
    just made the text sit flush against the border with no breathing room. */
 @media screen and (max-width: 749px) {
   .mo-footer__field .mo-footer__input {
+    /* box-sizing forced explicitly (belt-and-braces) + padding trimmed by
+       the border's total width (1px top + 1px bottom, --mo-border-width)
+       per Kalvis — accounts for the border being added on top of height
+       instead of being contained within it. */
+    box-sizing: border-box;
     height: 36px;
-    padding: 10px 20px;
+    padding: 9px 20px;
   }
 
   .mo-footer__button {
