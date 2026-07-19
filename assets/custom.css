@@ -603,8 +603,14 @@ body {
   background: var(--mo-problem-bg, #093d24);
   /* CUSTOM FIX (2026-07-18, per Kalvis): top padding was 40px, then 30px —
      set to 20px to compensate for extra visual space the heading's own
-     line-height adds above its text. */
-  padding: 20px var(--mo-space-5, 20px) var(--mo-space-7, 32px);
+     line-height adds above its text.
+     CUSTOM FIX (2026-07-19, per Kalvis, mobile-only): bottom padding — the
+     gap from the subhead text down to the video below — was 32px, now
+     40px. Desktop already overrides padding-block entirely (see the
+     min-width:750px block below, where the video becomes a full-bleed
+     absolute overlay instead of stacking below this header), so this
+     mobile change can't leak into desktop. */
+  padding: 20px var(--mo-space-5, 20px) var(--mo-space-8, 40px);
 }
 
 /* CUSTOM: typography per Figma spec (2026-07-09) — deliberately overrides
@@ -624,9 +630,11 @@ body {
   text-transform: uppercase;
 }
 
+/* CUSTOM (2026-07-19, per Kalvis, mobile-only): gap to the subhead below
+   bumped from 16px to 24px — reset back to 16px on desktop further down. */
 .mo-problem__heading {
   color: var(--mo-problem-heading, #ffffff);
-  margin: 0 0 var(--mo-space-4, 16px);
+  margin: 0 0 var(--mo-space-6, 24px);
   font-family: var(--mo-font-heading, 'Manrope', sans-serif);
   font-weight: 700;
   font-size: 28px;
@@ -863,6 +871,8 @@ body {
   .mo-problem__heading {
     font-size: 40px;
     line-height: 1.1;
+    /* Resets the mobile-only 24px bump above back to its original 16px. */
+    margin-bottom: var(--mo-space-4, 16px);
   }
 
   .mo-problem__subhead {
