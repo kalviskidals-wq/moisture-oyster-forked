@@ -1,16 +1,13 @@
 {%- # CUSTOM: net-new theme block — verified-professional testimonial card, right-rail on PDP, above the buy box. UPSTREAM risk LOW (no Horizon file touched). -%}
 {%- comment -%}
-  CUSTOM FIX (2026-07-18, per Kalvis, same fix as snippets/mo-review-card.liquid):
-  `round: 1` alone drops the decimal for whole-number ratings (5 -> "5", not
-  "5.0") — Liquid's round filter returns an Integer, not a Float, when the
-  input is already a whole Integer. `times: 1.0` coerces to Float first so
-  round always keeps one decimal.
+  CUSTOM FIX (2026-07-19, per Kalvis): removed the star-rating display
+  entirely — this card is a professional/doctor testimonial, not a customer
+  review, so a star score didn't belong here. Left the `rating` schema
+  setting in place (harmless if populated in existing block instances) but
+  it's no longer rendered.
 {%- endcomment -%}
 {%- liquid
   assign bs = block.settings
-  assign rating = bs.rating | default: 5
-  assign full_stars = rating | floor
-  assign rating_display = rating | times: 1.0 | round: 1
 %}
 
 <div
@@ -18,22 +15,10 @@
   style="
     --mo-testimonial-bg: {{ bs.background_color | default: '#093D24' }};
     --mo-testimonial-text: {{ bs.text_color | default: '#FFFFFF' }};
-    --mo-testimonial-star: {{ bs.star_color | default: '#FFFFFF' }};
     --mo-testimonial-quote: {{ bs.quote_color | default: '#FFFFFF' }};
   "
   {{ block.shopify_attributes }}
 >
-  {%- if bs.rating != blank -%}
-    <div class="mo-pdp-testimonial__rating">
-      <span class="mo-pdp-testimonial__rating-number">{{ rating_display }}</span>
-      <span class="mo-pdp-testimonial__stars" aria-hidden="true">
-        {%- for i in (1..5) -%}
-          {%- if i <= full_stars -%}★{%- else -%}☆{%- endif -%}
-        {%- endfor -%}
-      </span>
-    </div>
-  {%- endif -%}
-
   {%- if bs.author_name != blank -%}
     <p class="mo-pdp-testimonial__author">
       {{- bs.author_name | escape -}}
@@ -61,24 +46,6 @@
   /* CUSTOM: desktop right-rail card font spec (Kalvis, exact Figma type values). The mobile duplicate
      instance of this same block overrides these via a scoped selector in custom-main-product.liquid
      (higher specificity), so these base rules only ever apply to the desktop card. */
-  .mo-pdp-testimonial__rating {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--mo-space-2, 8px);
-    font-family: var(--mo-font-heading, 'Manrope', sans-serif);
-    font-weight: 800;
-    color: var(--mo-testimonial-text, #fff);
-    font-size: 14px;
-    line-height: 14.68px;
-    letter-spacing: 0;
-  }
-
-  .mo-pdp-testimonial__stars {
-    color: var(--mo-testimonial-star, #fff);
-    letter-spacing: 0.1em;
-  }
-
   .mo-pdp-testimonial__author {
     margin: 0;
     font-family: var(--mo-font-heading, 'Manrope', sans-serif);
@@ -116,19 +83,6 @@
   "settings": [
     {
       "type": "header",
-      "content": "Rating"
-    },
-    {
-      "type": "range",
-      "id": "rating",
-      "label": "Rating",
-      "min": 1,
-      "max": 5,
-      "step": 0.1,
-      "default": 5
-    },
-    {
-      "type": "header",
       "content": "Author"
     },
     {
@@ -163,12 +117,6 @@
       "type": "color",
       "id": "text_color",
       "label": "Author text color",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "color",
-      "id": "star_color",
-      "label": "Star color",
       "default": "#FFFFFF"
     },
     {
