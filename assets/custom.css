@@ -5130,13 +5130,15 @@ mo-review-filter {
 }
 
 /* CUSTOM (2026-07-19, per Kalvis, exact mobile type spec): Manrope Bold
-   36px / 100% line-height / -2% letter-spacing. Desktop keeps its own
-   distinct spec in the min-width:750px override below. */
+   28px / 100% line-height / -2% letter-spacing (corrected from 36px — that
+   spec was actually for .mo-hiw__tab-heading, the per-step heading, not
+   this section heading). Desktop keeps its own distinct spec in the
+   min-width:750px override below. */
 .mo-hiw__heading {
   font-family: var(--mo-font-heading);
   font-weight: 700;
   color: var(--mo-hiw-heading, #ffffff);
-  font-size: 36px;
+  font-size: 28px;
   line-height: 1;
   letter-spacing: -0.02em;
   margin: 0;
