@@ -3479,10 +3479,16 @@ mo-review-filter {
   background: var(--mo-footer-bg, #093d24);
 }
 
+/* CUSTOM FIX (2026-07-19, per Kalvis): mobile side inset was Horizon's own
+   var(--page-margin, 16px) — every other custom section overrides this to
+   the project's own var(--mo-space-5, 20px) on mobile (see e.g. the
+   .mo-compare__inner comment above), which is why this one read as
+   inconsistent. Desktop already matched var(--page-margin, 40px), so it's
+   untouched. */
 .mo-footer__inner {
   max-width: var(--page-width, var(--normal-page-width, 1280px));
   margin-inline: auto;
-  padding-inline: var(--page-margin, 16px);
+  padding-inline: var(--mo-space-5, 20px);
   padding-block: var(--mo-footer-padding-top, 64px) var(--mo-footer-padding-bottom, 40px);
 }
 
