@@ -3619,14 +3619,20 @@ mo-review-filter {
    here — white text + white-ish placeholder on a light field, all invisible.
    The two-class selector (0,2,0) reliably outranks it. */
 /* CUSTOM FIX (2026-07-19, per Kalvis — mobile height measured 40px despite
-   an explicit height:36px below): native <input> elements keep their
-   platform default form-control chrome/sizing unless appearance is
-   explicitly reset, which can make the browser render a few px taller than
-   whatever height is actually specified. appearance: none hands sizing
-   fully over to this stylesheet's own height/padding/border, so the
-   mobile 36px (and desktop's 40px) rules render at their exact value. */
+   an explicit height:36px below; appearance:none alone didn't fix it):
+   real root cause is a flexbox default — .mo-footer__field is a COLUMN flex
+   container on mobile, and flex items get an implicit `min-height: auto`,
+   which for a column container resolves to the item's own CONTENT-driven
+   minimum size along the main axis (height). The input's native line-height/
+   font metrics make that content-based minimum taller than 36px, and an
+   automatic flex minimum always wins over a smaller explicit height — same
+   mechanism the button next to it just happens not to hit, since its own
+   content fits under 36px naturally. min-height: 0 defeats the automatic
+   minimum so the explicit height (36px mobile / 40px desktop) is what
+   actually renders, at both breakpoints. */
 .mo-footer__field .mo-footer__input {
   flex: 1;
+  min-height: 0;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
