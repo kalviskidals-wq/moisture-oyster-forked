@@ -5247,18 +5247,26 @@ mo-review-filter {
   vertical-align: middle;
 }
 
+/* CUSTOM (2026-07-19, per Kalvis, exact mobile type spec): Manrope Bold
+   36px / 100% line-height / -2% letter-spacing. Desktop restores its own
+   previous weight/line-height in the min-width:750px override below (only
+   font-size differed there before). */
 .mo-hiw__tab-heading {
   font-family: var(--mo-font-heading);
-  font-weight: 800;
+  font-weight: 700;
   color: var(--mo-hiw-tab-heading, #ffffff);
-  font-size: 28px;
-  line-height: 1.15;
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: -0.02em;
   transition: color 0.15s ease;
 }
 
 @media screen and (min-width: 750px) {
   .mo-hiw__tab-heading {
     font-size: 64px; /* CUSTOM: was 44px — swapped with .mo-hiw__heading; Figma confirms step headings ("Choose your frequency" etc.) = 64px (H3 Large token), audit #7, 2026-07-17 */
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: normal;
   }
 
   /* Restores the original desktop bubble spec — the mobile-only rule above
