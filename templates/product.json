@@ -35,8 +35,8 @@
           "name": "MO Testimonial (mobile)",
           "static": true,
           "settings": {
-            "author_name": "Dr. James K.",
-            "author_role": "Optometrist, Chicago, IL",
+            "author_name": "Dr. Arthur Benjamin",
+            "author_role": "Ophthalmologist, Beverly Hills, CA",
             "quote": "Moisture Oyster checks several important boxes for me: a protected multidose bottle, easy dispensing, immediate comfort, and no blurry vision after instillation. It made a great first impression.",
             "background_color": "{{ settings.color_palette.background }}",
             "text_color": "#093d24",
