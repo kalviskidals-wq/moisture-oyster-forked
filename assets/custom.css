@@ -2585,6 +2585,18 @@ tbody tr:last-child .mo-compare__cell {
   height: 20px;
 }
 
+/* CUSTOM FIX (2026-07-19, per Kalvis — header_star_color setting had no
+   visible effect): mo-design-system.css's own `.mo-stars { color: var(
+   --mo-green); }` rule targets the <span class="mo-stars"> element
+   directly, which wins over .mo-reviews__rating-meta's color further up —
+   an element's own explicit color always beats inheriting one from an
+   ancestor, regardless of which stylesheet each rule lives in. Same
+   override pattern already used for the review-card stars just below
+   (.mo-reviews__rating .mo-stars) and the homepage hero's rating stars. */
+.mo-reviews__rating-meta .mo-stars {
+  color: var(--mo-reviews-header-star, #ffffff);
+}
+
 /* Custom elements default to `display: inline` with no CSS rule of their own,
    which breaks the negative-margin bleed math below (it needs a normal
    block-level parent, same as the plain <div> wrapper mo-howto__steps sits
