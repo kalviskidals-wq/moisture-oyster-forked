@@ -22,6 +22,7 @@
     --mo-footer-menu-heading: {{ s.menu_heading_color | default: '#FFFFFF' }};
     --mo-footer-menu-link: {{ s.menu_link_color | default: '#FFFFFF' }};
     --mo-footer-toggle: {{ s.toggle_color | default: '#FFFFFF' }};
+    --mo-footer-toggle-open-icon: {{ s.toggle_open_icon_color | default: '#093D24' }};
     --mo-footer-wordmark: {{ s.wordmark_color | default: '#FFD5F7' }};
     --mo-footer-legal: {{ s.legal_color | default: '#FFFFFFB3' }};
     --mo-footer-field-radius: {{ s.field_radius | default: 16 }}px;
@@ -338,6 +339,13 @@
       "id": "toggle_color",
       "label": "Mobile accordion toggle color",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "toggle_open_icon_color",
+      "label": "Toggle icon color (open state)",
+      "default": "#093D24",
+      "info": "CUSTOM (2026-07-19): matches the FAQ section's open-state treatment — when open, the circle fills solid with the color above (border disappears), so this is the icon color needed for contrast against that fill."
     },
     {
       "type": "color",

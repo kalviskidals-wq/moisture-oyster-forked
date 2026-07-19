@@ -3781,6 +3781,13 @@ mo-review-filter {
    border, icon itself sized down to ~8px inside. Kalvis is uploading the
    actual "+" SVG via the theme editor (toggle_icon_image below); this just
    fixes the container. Desktop still hides this entirely. */
+/* CUSTOM FIX (2026-07-19, per Kalvis — no visible border/icon color from
+   the "Mobile accordion toggle color" setting): border referenced
+   --mo-footer-toggle-border, a variable this section never actually
+   defines anywhere (only --mo-footer-toggle exists) — always silently fell
+   back to the hardcoded default regardless of the setting. Now reuses the
+   real variable, matching how .mo-faq__toggle drives both its border and
+   icon color off one setting. */
 .mo-footer__col-toggle {
   display: inline-flex;
   align-items: center;
@@ -3788,10 +3795,11 @@ mo-review-filter {
   width: 24px;
   height: 24px;
   flex-shrink: 0;
-  border: 1px solid var(--mo-footer-toggle-border, #b8f3d8);
+  border: 1px solid var(--mo-footer-toggle, #b8f3d8);
   border-radius: 50%;
   color: var(--mo-footer-toggle, #b8f3d8);
-  transition: transform 0.2s ease;
+  background: transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.2s ease;
 }
 
 .mo-footer__col-toggle svg,
@@ -3801,8 +3809,16 @@ mo-review-filter {
   display: block;
 }
 
+/* CUSTOM FIX (2026-07-19, per Kalvis — "dropdown + icon should be
+   consistent with the FAQ section"): open state was only rotating the
+   icon 45deg, with no background/border/icon-color swap at all — FAQ's
+   .mo-faq__item[open] .mo-faq__toggle fills the circle solid and flips the
+   icon color for contrast; this now does the same. */
 .mo-footer__col details[open] .mo-footer__col-toggle {
   transform: rotate(45deg);
+  background: var(--mo-footer-toggle, #b8f3d8);
+  border-color: transparent;
+  color: var(--mo-footer-toggle-open-icon, #093d24);
 }
 
 .mo-footer__col-list {
