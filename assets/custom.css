@@ -5140,12 +5140,16 @@ mo-review-filter {
   }
 }
 
+/* CUSTOM (2026-07-19, per Kalvis, exact mobile type spec): Manrope Bold
+   36px / 100% line-height / -2% letter-spacing. Desktop keeps its own
+   distinct spec in the min-width:750px override below. */
 .mo-hiw__heading {
   font-family: var(--mo-font-heading);
-  font-weight: 800;
+  font-weight: 700;
   color: var(--mo-hiw-heading, #ffffff);
-  font-size: 24px;
-  line-height: 1.1;
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: -0.02em;
   margin: 0;
 }
 
@@ -5217,7 +5221,7 @@ mo-review-filter {
   width: 100%;
   padding-block: var(--mo-space-5, 20px);
   border: none;
-  border-top: 1px solid var(--mo-hiw-divider, #b8f3d833);
+  border-top: 1px solid var(--mo-hiw-divider, #b8f3d8);
   background: transparent;
   text-align: left;
   cursor: pointer;
@@ -5233,19 +5237,27 @@ mo-review-filter {
   outline-offset: 4px;
 }
 
+/* CUSTOM (2026-07-19, per Kalvis, mobile-only): bubble down to 20px (was
+   26px), number type set to IBM Plex Mono Medium 10px / 130% line-height /
+   0.29% letter-spacing, right-aligned. Desktop restores the original
+   26px/11px spec in the min-width:750px override below. */
 .mo-hiw__tab-number {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: var(--mo-hiw-number-bg, #ffd5f7);
   color: var(--mo-hiw-number-text, #093d24);
   font-family: var(--mo-font-mono);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.0029em;
+  text-align: right;
+  vertical-align: middle;
 }
 
 .mo-hiw__tab-heading {
@@ -5260,6 +5272,16 @@ mo-review-filter {
 @media screen and (min-width: 750px) {
   .mo-hiw__tab-heading {
     font-size: 64px; /* CUSTOM: was 44px — swapped with .mo-hiw__heading; Figma confirms step headings ("Choose your frequency" etc.) = 64px (H3 Large token), audit #7, 2026-07-17 */
+  }
+
+  /* Restores the original desktop bubble spec — the mobile-only rule above
+     now sets 20px/10px instead of these. */
+  .mo-hiw__tab-number {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+    letter-spacing: normal;
+    text-align: center;
   }
 }
 
