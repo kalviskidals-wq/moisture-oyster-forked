@@ -4743,56 +4743,36 @@ mo-review-filter {
    case to special-case for. Earlier passes here needed a flex-end/:has()
    dance specifically to support a card that changed height on flip/hover;
    that's no longer needed now that flipping only swaps content, not size. */
+/* CUSTOM (fix, 2026-07-19, per Kalvis — every card should look inset by
+   the same 20px whenever it's the current/focused one, not just card 1):
+   earlier passes tried a padding-inline-start on this element, then a
+   one-off leading spacer <div> — both only ever gave CARD 1 specifically
+   its left gap, since neither travels with whichever card is currently
+   snapped into view. scroll-padding-inline-start is the CSS-native tool
+   for exactly this: it insets where scroll-snap-align: start considers
+   "the start of the viewport" for EVERY card's snap point, not just the
+   first, while .mo-eye-health__cards-wrap stays true edge-to-edge (see
+   that rule) so a peeking neighbor card still bleeds all the way to the
+   real screen edge rather than being clipped at the 20px line. A trailing
+   spacer (see the markup) still adds real scrollable width after the last
+   card, so it gets the same 20px gap on its right once scrolled all the
+   way to the end. */
 .mo-eye-health__cards {
   display: flex;
   align-items: stretch;
   gap: var(--mo-space-4, 16px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  scroll-padding-inline-start: var(--mo-space-5, 20px);
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-block-end: var(--mo-space-2, 8px);
 }
 
-/* CUSTOM (fix, 2026-07-19, per Kalvis): a padding-inline-start on the
-   scroll track (first attempt at this) turned out unreliable in practice —
-   scroll-snap engines don't consistently treat a scroll container's own
-   CSS padding as scrollable-away content the way a real flex item does
-   (this project already hit the same class of bug twice before and gave up
-   on true edge-bleed in .mo-howto__steps/.mo-reviews__scroller rather than
-   fight it further — see those rules' own comments). An explicit spacer
-   element is the deterministic version of the same idea: it has no
-   scroll-snap-align, so it's never a snap target, and being a real flex
-   item it definitely scrolls out of view like any card would.
-
-   Used at BOTH ends of the track (see the markup): the leading spacer
-   gives the first card its 20px left gap at rest (scrollLeft: 0); the
-   trailing spacer gives the last card the SAME 20px gap on its right once
-   scrolled all the way to the end — without it the last card scrolled
-   flush to the true right edge with no padding at all, asymmetric with the
-   first card. Between those two rest states, .mo-eye-health__cards-wrap
-   spans the true edge-to-edge width (left/right: 0, see that rule), so a
-   peeking neighbor card is never clipped early by a padding boundary — it
-   bleeds all the way to the true screen edge as it scrolls past, on
-   either side. Hidden entirely on desktop, which gets its symmetric inset
-   from .mo-eye-health__cards-wrap's own padding-inline instead (shared
-   page-width rule below). */
 .mo-eye-health__cards-spacer {
   flex: 0 0 var(--mo-space-5, 20px);
   width: var(--mo-space-5, 20px);
-}
-
-/* CUSTOM (fix, 2026-07-19, per Kalvis): the leading spacer specifically
-   needs to be a valid scroll-snap target — without this, scrollLeft: 0
-   isn't itself a snap point under `scroll-snap-type: x mandatory` (only
-   each card's own start edge is), so some browsers force-snapped straight
-   to card 1 immediately on load/layout, eating the intended left padding
-   before the user ever touched the carousel. NOT applied to the trailing
-   spacer — making that one a snap target would let momentum scroll land on
-   empty space past the last card instead of on the card itself. */
-.mo-eye-health__cards-spacer--lead {
-  scroll-snap-align: start;
 }
 
 .mo-eye-health__cards::-webkit-scrollbar {

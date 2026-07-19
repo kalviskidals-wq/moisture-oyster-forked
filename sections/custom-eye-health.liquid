@@ -122,8 +122,6 @@
     {%- if section.blocks.size > 0 -%}
       <div class="mo-eye-health__cards-wrap">
         <div class="mo-eye-health__cards" aria-label="{{ s.eyebrow | strip_newlines | escape }}">
-          {%- # CUSTOM (2026-07-19, per Kalvis): mobile-only leading spacer — see custom.css's .mo-eye-health__cards-spacer comment for why this replaces a padding-inline-start approach. --lead gets scroll-snap-align so scrollLeft:0 is itself a valid mandatory-snap position (otherwise the browser force-snapped straight to card 1 on load, eating the padding before the user ever scrolled). -%}
-          <div class="mo-eye-health__cards-spacer mo-eye-health__cards-spacer--lead" aria-hidden="true"></div>
           {%- for block in section.blocks -%}
             {%- if block.type == 'stat' -%}
               {%- liquid
@@ -169,7 +167,7 @@
               </div>
             {%- endif -%}
           {%- endfor -%}
-          {%- # CUSTOM (2026-07-19, per Kalvis): mobile-only trailing spacer, mirrors the leading one — without it, scrolling all the way to the end let the last card's own right edge scroll flush to the true screen edge (no padding), instead of matching the same 20px gap the first card gets on its left. -%}
+          {%- # CUSTOM (2026-07-19, per Kalvis): mobile-only trailing spacer — real scrollable width added after the last card so it can get the same 20px trailing gap every other card gets on its left (via scroll-padding-inline-start on .mo-eye-health__cards, see custom.css) once scrolled all the way to the end. -%}
           <div class="mo-eye-health__cards-spacer" aria-hidden="true"></div>
         </div>
       </div>
