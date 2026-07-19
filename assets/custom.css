@@ -2649,39 +2649,57 @@ mo-review-filter {
 }
 
 /* ---------- Review cards: mobile 1-up / desktop 3-up scroll-snap carousel ----------
-   Deliberately does NOT use the negative-margin bleed-to-edge trick that
-   .mo-howto__steps uses — that trick relies on cancelling out one specific
-   ancestor's padding, and here the scroller sits inside the <mo-review-filter>
-   custom element rather than a plain <div>, which made the first card's left
-   edge land flush at the viewport edge instead of matching the header/filter
-   pills' inset. Simpler and more robust: no margin/padding surgery at all, so
-   the scroller just inherits .mo-reviews__inner's padding-inline like any
-   other child — guarantees the first card's left edge is pixel-identical to
-   the header and filter pills above it. Trade-off: the peek of the next card
-   stops at .mo-reviews__inner's right padding rather than bleeding to the
-   true viewport edge — acceptable, matches the reference frames closely. */
+   CUSTOM FIX (2026-07-19, per Kalvis — same issue just fixed for
+   sections/custom-eye-health.liquid's carousel): this used to deliberately
+   avoid any breakout trick and just inherit .mo-reviews__inner's
+   padding-inline, which kept the first card's left edge pixel-identical to
+   the header/filter pills above — but it also meant a peeking neighbor card
+   was clipped at that same 20px page-margin boundary on BOTH sides instead
+   of bleeding to the true screen edge. Fixed properly now: the scroller
+   itself breaks out to full viewport width (the classic position:relative;
+   left:50%; transform:translateX(-50%); width:100vw combo — mathematically
+   cancels out whatever the ancestor's own padding/centering is, landing this
+   box's edges at the true viewport edges regardless, so it isn't the fragile
+   negative-margin variant that depended on a specific padding value; see the
+   custom-element display:block fix below, still needed for this to compute
+   correctly). scroll-padding-inline-start + leading/trailing spacer elements
+   (see the markup and .mo-reviews__scroller-spacer below) restore the exact
+   same 20px inset for whichever card is currently snapped/focused — matching
+   the header above — while peeks bleed all the way to the true edge in
+   between. Reset to normal (no breakout) on desktop, which shows a plain
+   3-up row instead of a scrolling carousel. */
 .mo-reviews__scroller {
   display: flex;
   gap: var(--mo-space-4, 16px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  scroll-padding-inline-start: var(--mo-space-5, 20px);
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-block-end: var(--mo-space-2, 8px);
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .mo-reviews__scroller::-webkit-scrollbar {
   display: none;
 }
 
+.mo-reviews__scroller-spacer {
+  flex: 0 0 var(--mo-space-5, 20px);
+  width: var(--mo-space-5, 20px);
+}
+
 .mo-reviews__card {
-  /* Sized relative to the (now unbled) scroll container's own width, not the
-     viewport, so the leftover space reliably shows a peek of the next card —
-     a straight 85vw basis left ~0px of peek once the container itself was
-     already inset by .mo-reviews__inner's padding on both sides. The 56px
-     subtracted leaves ~40px of peek (56px minus the 16px gap before it). */
-  flex: 0 0 calc(100% - 56px);
+  /* CUSTOM (2026-07-19): viewport-relative now that the scroller itself is
+     full-bleed (was calc(100% - 56px), sized against the old padded
+     container) — 86vw keeps a similar card size/peek amount to before,
+     matching the vw-based convention used by the other fixed carousels
+     (.mo-eye-health__card's 82vw, .mo-sub-benefits__card's 78vw). */
+  flex: 0 0 86vw;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
@@ -2705,6 +2723,20 @@ mo-review-filter {
 }
 
 @media screen and (min-width: 750px) {
+  /* Desktop shows a plain 3-up row, not a scrolling carousel — undoes the
+     mobile-only full-bleed breakout so it sits back inside the normal
+     page column like every other element here. */
+  .mo-reviews__scroller {
+    width: auto;
+    position: static;
+    left: auto;
+    transform: none;
+  }
+
+  .mo-reviews__scroller-spacer {
+    display: none;
+  }
+
   .mo-reviews__card {
     flex: 0 0 calc((100% - 2 * var(--mo-space-4, 16px)) / 3);
   }

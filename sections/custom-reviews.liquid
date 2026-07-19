@@ -88,6 +88,8 @@
       {%- endif -%}
 
       <div class="mo-reviews__scroller" tabindex="0" aria-label="{{ s.heading | default: 'Customer reviews' | escape }}">
+        {%- # CUSTOM (2026-07-19, per Kalvis): mobile-only leading spacer — same fix as sections/custom-eye-health.liquid's carousel (see custom.css's .mo-reviews__scroller comment). Peeking neighbor cards used to be clipped at the page-margin boundary instead of bleeding to the true screen edge. -%}
+        <div class="mo-reviews__scroller-spacer" aria-hidden="true"></div>
         {%- for block in section.blocks -%}
           {%- if block.type == 'review' -%}
             {%- # CUSTOM: mo-review-card.liquid takes explicit named params (not a block/settings bundle) so it can also be called from custom-subscribe-benefits.liquid's plain section settings — see that snippet's header comment. -%}
@@ -104,6 +106,8 @@
             -%}
           {%- endif -%}
         {%- endfor -%}
+        {%- # CUSTOM (2026-07-19, per Kalvis): mobile-only trailing spacer, mirrors the leading one — gives the last card the same gap on its right once scrolled to the end. -%}
+        <div class="mo-reviews__scroller-spacer" aria-hidden="true"></div>
       </div>
     </mo-review-filter>
   </div>
