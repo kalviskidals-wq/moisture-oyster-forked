@@ -4273,6 +4273,15 @@ mo-review-filter {
     display: flex;
     align-items: center;
   }
+
+  /* CUSTOM (2026-07-19, per Kalvis): mobile scroll felt too fast — runs at
+     1.6x the configured duration (i.e. ~60% slower) here, scaled off the
+     section's own "Scroll duration" setting (--mo-marquee-duration) rather
+     than a hardcoded value, so a merchant's speed change still applies
+     proportionally on mobile. */
+  .mo-marquee__track {
+    animation-duration: calc(var(--mo-marquee-duration, 30s) * 1.6);
+  }
 }
 
 @media screen and (min-width: 750px) {
