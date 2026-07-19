@@ -3698,7 +3698,10 @@ mo-review-filter {
   }
 
   .mo-footer__button {
-    height: 36px;
+    /* CUSTOM (2026-07-19, per Kalvis): was 36px — the input wouldn't budge
+       below 40px no matter what, so matching the button UP to 40px instead
+       of chasing the input down. */
+    height: 40px;
     padding: 12px 15px;
   }
 }
