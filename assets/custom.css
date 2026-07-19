@@ -3618,8 +3618,17 @@ mo-review-filter {
    default (light) input background regardless of `background: transparent`
    here — white text + white-ish placeholder on a light field, all invisible.
    The two-class selector (0,2,0) reliably outranks it. */
+/* CUSTOM FIX (2026-07-19, per Kalvis — mobile height measured 40px despite
+   an explicit height:36px below): native <input> elements keep their
+   platform default form-control chrome/sizing unless appearance is
+   explicitly reset, which can make the browser render a few px taller than
+   whatever height is actually specified. appearance: none hands sizing
+   fully over to this stylesheet's own height/padding/border, so the
+   mobile 36px (and desktop's 40px) rules render at their exact value. */
 .mo-footer__field .mo-footer__input {
   flex: 1;
+  appearance: none;
+  -webkit-appearance: none;
   background: transparent;
   border: var(--mo-border-width, 1.5px) solid var(--mo-footer-input-border, #2c5940);
   border-radius: var(--mo-footer-field-radius, 16px);
