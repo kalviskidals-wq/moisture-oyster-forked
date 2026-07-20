@@ -13,6 +13,10 @@
   if s.background_image != blank
     assign has_poster = true
   endif
+  assign has_poster_mobile = false
+  if s.background_image_mobile != blank
+    assign has_poster_mobile = true
+  endif
 -%}
 
 <section
@@ -45,6 +49,20 @@
 
   <div class="mo-sub-benefits__media">
     {%- if has_poster -%}
+      {%- comment -%}
+        CUSTOM (2026-07-20, per Kalvis): mobile can use a different
+        background image than desktop. When a mobile-specific image is
+        set, this desktop image gets the `--desktop-only` modifier
+        (hidden below 750px, see custom.css) and the mobile-specific
+        image below takes over; when no mobile image is set, this image
+        has no modifier and stays visible at all widths (fallback).
+      {%- endcomment -%}
+      {%- liquid
+        assign poster_class = 'mo-sub-benefits__poster'
+        if has_poster_mobile
+          assign poster_class = poster_class | append: ' mo-sub-benefits__poster--desktop-only'
+        endif
+      -%}
       {{
         s.background_image
         | image_url: width: 1600
@@ -53,7 +71,22 @@
           height: s.background_image.height,
           alt: s.background_image.alt,
           sizes: '100vw',
-          class: 'mo-sub-benefits__poster',
+          class: poster_class,
+          loading: 'lazy',
+          fetchpriority: 'low'
+      }}
+    {%- endif -%}
+
+    {%- if has_poster_mobile -%}
+      {{
+        s.background_image_mobile
+        | image_url: width: 1600
+        | image_tag:
+          width: s.background_image_mobile.width,
+          height: s.background_image_mobile.height,
+          alt: s.background_image_mobile.alt,
+          sizes: '100vw',
+          class: 'mo-sub-benefits__poster mo-sub-benefits__poster--mobile-only',
           loading: 'lazy',
           fetchpriority: 'low'
       }}
@@ -159,6 +192,12 @@
       "id": "background_image",
       "label": "Background image",
       "info": "Always-present base layer — lifestyle photo. Shown alone if no video is set, and whenever the visitor's device has reduced motion enabled."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "Background image (mobile)",
+      "info": "Optional. Overrides the background image above on mobile only. Leave blank to reuse the same image on mobile."
     },
     {
       "type": "video",

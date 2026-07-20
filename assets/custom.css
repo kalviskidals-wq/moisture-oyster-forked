@@ -3271,11 +3271,18 @@ mo-review-filter {
   }
 }
 
+/* CUSTOM (2026-07-20, per Kalvis): Horizon's base.css has a global
+   `summary { padding-block: var(--padding-sm); }` rule (≈11.2px) that
+   this class never overrode — it was stacking on top of
+   .mo-faq__item's own 20px padding-block, inflating the gap between
+   questions beyond the intended 20px. Zeroed here since this component
+   owns all its spacing via .mo-faq__item instead. */
 .mo-faq__summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--mo-space-4, 16px);
+  padding-block: 0;
   cursor: pointer;
   list-style: none;
 }
@@ -3536,6 +3543,26 @@ mo-review-filter {
   object-fit: cover;
   display: block;
   z-index: 0;
+}
+
+/* CUSTOM (2026-07-20, per Kalvis): mobile-specific background image
+   override — only applied when a mobile image is actually set (see
+   has_poster_mobile in custom-subscribe-benefits.liquid); without it,
+   the desktop poster has no modifier class and shows on both
+   breakpoints as the fallback. Same pattern as
+   .mo-howto__video-wrap--desktop-only. */
+.mo-sub-benefits__poster--desktop-only {
+  display: none;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-sub-benefits__poster--desktop-only {
+    display: block;
+  }
+
+  .mo-sub-benefits__poster--mobile-only {
+    display: none;
+  }
 }
 
 .mo-sub-benefits__video-wrap {
