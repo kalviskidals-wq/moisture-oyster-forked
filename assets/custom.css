@@ -1961,9 +1961,13 @@ tbody tr:last-child .mo-compare__cell {
    right column at equal height (flex `align-items: stretch`).
    UPSTREAM risk LOW — no Horizon file touched.
    ============================================================================ */
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only): top padding set to 20px
+   specifically (was 30px, shared with bottom via the shorthand) — bottom
+   stays 30px. Desktop untouched. */
 .mo-howto {
   background: var(--mo-howto-bg, #093d24);
-  padding-block: 30px;
+  padding-block-start: 20px;
+  padding-block-end: 30px;
 }
 
 @media screen and (min-width: 750px) {
@@ -1988,9 +1992,18 @@ tbody tr:last-child .mo-compare__cell {
   }
 }
 
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only): eyebrow hidden on mobile —
+   restored on desktop below. */
 .mo-howto__eyebrow {
+  display: none;
   color: var(--mo-howto-eyebrow, #ffffff);
   margin: 0 0 var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-howto__eyebrow {
+    display: block;
+  }
 }
 
 .mo-howto__layout {
@@ -2170,6 +2183,24 @@ tbody tr:last-child .mo-compare__cell {
 
 .mo-howto__video {
   object-position: center;
+}
+
+/* CUSTOM (2026-07-20, per Kalvis): mobile-specific video override — only
+   applied when a mobile video is actually set (see has_video_mobile in
+   custom-how-to-use.liquid); hidden without it, the desktop wrap has no
+   modifier class and shows on both breakpoints as the fallback. */
+.mo-howto__video-wrap--desktop-only {
+  display: none;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-howto__video-wrap--desktop-only {
+    display: block;
+  }
+
+  .mo-howto__video-wrap--mobile-only {
+    display: none;
+  }
 }
 
 /* Video layers over the poster; poster remains the always-present fallback

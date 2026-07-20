@@ -13,6 +13,10 @@
   if s.poster_image != blank
     assign has_poster = true
   endif
+  assign has_video_mobile = false
+  if s.video_mobile != blank
+    assign has_video_mobile = true
+  endif
 -%}
 
 <section
@@ -96,7 +100,15 @@
             }}
           {%- endif -%}
           {%- if has_video -%}
-            <div class="mo-howto__video-wrap">
+            {%- comment -%}
+              CUSTOM (2026-07-20, per Kalvis): mobile can use a different
+              video than desktop. When a mobile-specific video is set, this
+              desktop wrap gets the `--desktop-only` modifier (hidden below
+              750px, see custom.css) and the mobile-specific wrap below
+              takes over; when no mobile video is set, this wrap has no
+              modifier and stays visible at all widths (fallback).
+            {%- endcomment -%}
+            <div class="mo-howto__video-wrap{% if has_video_mobile %} mo-howto__video-wrap--desktop-only{% endif %}">
               {{
                 s.video
                 | video_tag:
@@ -109,6 +121,23 @@
                   preload: 'metadata',
                   class: 'mo-howto__video',
                   data-testid: 'how-to-use-video'
+              }}
+            </div>
+          {%- endif -%}
+          {%- if has_video_mobile -%}
+            <div class="mo-howto__video-wrap mo-howto__video-wrap--mobile-only">
+              {{
+                s.video_mobile
+                | video_tag:
+                  poster: nil,
+                  autoplay: true,
+                  loop: true,
+                  controls: false,
+                  muted: true,
+                  playsinline: true,
+                  preload: 'metadata',
+                  class: 'mo-howto__video',
+                  data-testid: 'how-to-use-video-mobile'
               }}
             </div>
           {%- endif -%}
@@ -149,6 +178,12 @@
       "id": "video",
       "label": "Demo video",
       "info": "Optional. Autoplays muted, looped, no controls. Falls back to the poster image above if left blank."
+    },
+    {
+      "type": "video",
+      "id": "video_mobile",
+      "label": "Demo video (mobile)",
+      "info": "Optional. Overrides the video above on mobile only. Leave blank to reuse the same video on mobile."
     },
     {
       "type": "header",
