@@ -3657,6 +3657,9 @@ mo-review-filter {
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-block-end: var(--mo-space-2, 8px);
+  /* CUSTOM (2026-07-20, per Kalvis): needed for the last card's end-aligned
+     snap below — see .mo-sub-benefits__card--last. */
+  scroll-padding-inline-end: var(--mo-space-5, 20px);
 }
 
 .mo-sub-benefits__benefits::-webkit-scrollbar {
@@ -3668,24 +3671,35 @@ mo-review-filter {
   scroll-snap-align: start;
 }
 
-/* CUSTOM (2026-07-20, per Kalvis, mobile-only): trailing spacer so the
-   last card gets the same 20px breathing room on the right that the
-   overlay's own left:20px inset already gives the first card — same
-   peek-carousel convention established for .mo-eye-health__cards and
-   .mo-reviews__scroller. Without it the last card sat flush against the
-   true viewport edge (this carousel's right side already bleeds to 0,
-   see .mo-sub-benefits__overlay above) with no trailing gap. Hidden on
-   desktop, where this becomes a non-scrolling stacked column. */
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only): the last card snaps by its
+   END edge instead of its start — combined with scroll-padding-inline-end
+   (20px) on .mo-sub-benefits__benefits above and the trailing spacer
+   below, this makes "last card's right edge sits 20px from the viewport
+   edge" an exactly-reachable snap position (the math: content's true max
+   scrollLeft now lands exactly on this alignment, with no clamping
+   conflict). Making the LAST card start-aligned like the others (an
+   earlier attempt) instead required scrolling past the physical end of
+   the content to achieve a clean alignment, which isn't reachable — the
+   browser clamped to the max scroll position instead, which happened to
+   partially reveal the PREVIOUS card peeking in on the left (the "cut
+   off" bug reported). */
+/* CUSTOM (2026-07-20, per Kalvis): uses an explicit modifier class
+   (mo-sub-benefits__card--last, set via forloop.last in the liquid loop)
+   rather than :last-child — the trailing spacer div is now the actual
+   last DOM child of .mo-sub-benefits__benefits, so :last-child would
+   target the spacer, not the last card. */
+.mo-sub-benefits__card--last {
+  scroll-snap-align: end;
+}
+
+/* Trailing spacer: physically extends the scrollable content so the
+   end-aligned snap position above (20px gutter after the last card) is
+   actually reachable — without it there isn't enough scrollable width for
+   that exact alignment to exist. Hidden on desktop, where this becomes a
+   non-scrolling stacked column (see the min-width:750px block below). */
 .mo-sub-benefits__benefits-spacer {
   flex: 0 0 var(--mo-space-5, 20px);
   width: var(--mo-space-5, 20px);
-  /* CUSTOM (2026-07-20, per Kalvis): with `scroll-snap-type: x mandatory`,
-     a spacer with no snap-align of its own isn't a valid rest position —
-     same "mandatory snap forces past a non-snap-target spacer" bug hit
-     (and fixed the same way) on .mo-eye-health__cards. Without this, a
-     fling gesture springs back to the last CARD's start-aligned snap
-     point and never settles with the trailing 20px actually in view. */
-  scroll-snap-align: start;
 }
 
 /* Desktop (Figma desktop frame): header overlays the full-bleed image

@@ -109,11 +109,17 @@
                   {%- render 'mo-subscribe-icon', icon: bs.icon_preset -%}
                 {%- endif -%}
               {%- endcapture -%}
+              {%- liquid
+                assign card_extra_class = 'mo-sub-benefits__card'
+                if forloop.last
+                  assign card_extra_class = card_extra_class | append: ' mo-sub-benefits__card--last'
+                endif
+              -%}
               {%- render 'mo-icon-card',
                 icon_html: icon_markup,
                 title: bs.title,
                 description: bs.description,
-                extra_class: 'mo-sub-benefits__card',
+                extra_class: card_extra_class,
                 list_item: true,
                 shopify_attributes: block.shopify_attributes
               -%}
