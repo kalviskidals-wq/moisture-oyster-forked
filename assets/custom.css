@@ -1626,7 +1626,19 @@ tbody tr:last-child .mo-compare__cell {
   display: none;
 }
 
+/* CUSTOM FIX (2026-07-19, per Kalvis — text still wasn't vertically
+   centered): a plain <button> centers text horizontally fine via
+   text-align, but VERTICAL centering within a fixed height depends on
+   line-height matching that height exactly — this button never set an
+   explicit line-height, so the ambient inherited one didn't line up with
+   the fixed 25px box, pushing the text off-center. inline-flex +
+   align-items/justify-content center sidesteps line-height entirely, the
+   same reliable technique already used for .mo-footer__button and
+   .mo-hiw__tab-number elsewhere in this file. */
 .mo-ingredients__tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--mo-font-mono);
   font-size: 10px;
   font-weight: 500;
