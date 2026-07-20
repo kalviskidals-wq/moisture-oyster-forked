@@ -3505,6 +3505,20 @@ mo-review-filter {
   padding: var(--mo-space-8, 40px) var(--mo-space-5, 20px) var(--mo-space-7, 32px);
 }
 
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only): this header's own 40px
+   top padding was stacking on top of .mo-sub-benefits' own 30px top
+   padding above (30+40=70px total before the eyebrow) — every other PDP
+   section uses a single ~30px top inset, not a doubled-up one. Zeroed
+   here so the section's own 30px is the only top gap, matching that
+   convention. Desktop keeps its original 40px (untouched, unscoped
+   above) since the header becomes position:absolute there instead of
+   stacking in normal flow. */
+@media screen and (max-width: 749px) {
+  .mo-sub-benefits__header {
+    padding-top: 0;
+  }
+}
+
 /* CUSTOM (2026-07-20, per Kalvis, mobile-only): eyebrow-to-heading gap
    and heading line-height brought in line with the shared PDP top-text
    convention confirmed across Clinical Science / FAQ / Ingredient Detail
