@@ -1601,23 +1601,29 @@ tbody tr:last-child .mo-compare__cell {
 }
 
 /* ---------- Tabs ----------
-   CUSTOM (2026-07-09, mobile fix v2): Kalvis wants the 4 tabs to always fit
-   on one row on mobile with zero overflow/cropping — no horizontal scroll
-   (the earlier scroll-fallback version cropped "SPECS" at the viewport edge
-   with no visible scroll affordance, which read as broken). Mobile now uses
-   `flex: 1 1 0` so all 4 pills split the available row width equally and
-   shrink together to fit, instead of sizing to their own text content.
-   Desktop reverts to content-sized pills (roomier, not equal-width) since
-   there's ample space there. */
-/* CUSTOM (2026-07-19, per Kalvis, mobile-only exact spec): gap 12px (was
-   6px), tab height 25px, border 1px solid, border-radius 6px, padding
-   8px/10px/8px/10px, opacity 1 (default, unchanged). Desktop's own distinct
-   pill styling below is untouched. */
+   CUSTOM FIX (2026-07-19, per Kalvis — reverses the 2026-07-09 decision
+   below): the equal-width `flex: 1 1 0` + `min-width: 0` + ellipsis combo
+   was cropping "INACTIVE"/"FREE FROM" mid-word, and text-align:center
+   doesn't reliably center text once text-overflow:ellipsis is truncating
+   it (a real cross-browser quirk, not just this instance) — that's why the
+   visible label sat flush left in the cropped pills instead of centered.
+   Tabs are content-sized now (flex: 0 0 auto, no truncation), same as
+   desktop already does, and the tablist scrolls horizontally if all 4
+   don't fit a narrow screen — a small scroll affordance is preferable to
+   silently cropped words. */
 .mo-ingredients__tablist {
   display: flex;
   flex-wrap: nowrap;
   gap: 12px;
   margin-block-end: var(--mo-space-6, 24px);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mo-ingredients__tablist::-webkit-scrollbar {
+  display: none;
 }
 
 .mo-ingredients__tab {
@@ -1627,10 +1633,7 @@ tbody tr:last-child .mo-compare__cell {
   letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 0 0 auto;
   height: 25px;
   opacity: 1;
   text-align: center;
