@@ -21,6 +21,20 @@
     border: none;
   }
 
+  /* CUSTOM FIX (2026-07-20, per Kalvis — reported on a MacBook Air 13.6"
+     screen, but affects desktop generally): Horizon's own media_radius
+     (24px)/thumbnail_radius (12px) settings from templates/product.json's
+     media-gallery block aren't rendering — the main image and thumbnails
+     both show sharp corners at desktop widths. Rather than chase why
+     Horizon's own --media-radius-driven CSS (snippets/product-media.liquid,
+     slideshow-controls.liquid) isn't taking effect, reapplied directly
+     here on the same selector already confirmed working for the
+     mobile-only radius fix further down this file. */
+  #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
+    border-radius: 12px !important;
+    overflow: hidden;
+  }
+
   /* No prev/next arrows over the main image. */
   #shopify-section-{{ section.id }} slideshow-arrows {
     display: none;
@@ -118,6 +132,23 @@
       margin: 0;
       padding: 0;
       gap: var(--gap-xs, 8px);
+    }
+
+    /* CUSTOM FIX (2026-07-20, per Kalvis — reported on a MacBook Air 13.6"):
+       the main hero image was rendering with sharp corners at desktop widths
+       even though templates/product.json's media-gallery block has
+       media_radius: 24 configured, and Horizon's own --media-radius-driven
+       CSS (snippets/product-media.liquid) targets slideshow-container, not
+       this .product-media-container wrapper. Reapplying the radius directly
+       here, at the same value (24px), mirrors the mobile-only fix above and
+       guarantees it renders regardless of that mismatch. */
+    #shopify-section-{{ section.id }} .product-information__media .product-media-container {
+      border-radius: 24px !important;
+      overflow: hidden;
+    }
+
+    #shopify-section-{{ section.id }} .product-information__media .product-media-container :is(img, video, .deferred-media__poster-image) {
+      border-radius: 24px !important;
     }
   }
 
