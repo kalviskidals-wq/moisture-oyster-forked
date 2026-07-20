@@ -1230,6 +1230,7 @@
         },
         "review_3B386y": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "name": "Igor",
             "location": "",
