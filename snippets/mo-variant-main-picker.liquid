@@ -82,19 +82,14 @@
             assign v_number = v_title | split: ' ' | first
             assign v_label = v_title | remove_first: v_number | strip
 
-            # CUSTOM (2026-07-20, per Kalvis): price-per-bottle helper text on
-            # multi-packs (2/3-bottle tiers), so shoppers can compare value
-            # without doing the math themselves. v_number is a string parsed
-            # from the variant title above (e.g. "2" from "2 Bottles") —
-            # `times: 1` coerces it to a real number for the > 1 check and the
-            # division below. Only shown when the pack actually has more than
-            # 1 bottle; a single-bottle tier has nothing to divide.
+            # CUSTOM (2026-07-20, per Kalvis): bottle count per variant, coerced
+            # to a real number (v_number is a string parsed from the title
+            # above, e.g. "2" from "2 Bottles"). Not rendered on this card —
+            # stashed on the radio as data-bottle-count so the Subscribe/
+            # One-time purchase cards below can show a price-per-bottle line
+            # for whichever qty tier is currently selected (see the JS further
+            # down, which recomputes this on every qty-card change).
             assign v_number_int = v_number | times: 1
-            assign show_per_bottle = false
-            if v_number_int > 1
-              assign show_per_bottle = true
-              assign price_per_bottle = variant.price | times: 1.0 | divided_by: v_number_int | round
-            endif
 
             assign badge_text = variant.metafields.custom.badge_label
             assign discount_pct = 0
@@ -140,6 +135,7 @@
               data-variant-id="{{ variant.id }}"
               data-price="{{ variant.price }}"
               data-compare-at-price="{{ variant.compare_at_price }}"
+              data-bottle-count="{{ v_number_int }}"
               data-allocations='{{ allocs_json }}'
               {% if is_selected %}checked{% endif %}
               {% unless variant.available %}disabled{% endunless %}
@@ -149,9 +145,6 @@
             {%- endif -%}
             <span class="mo-vpicker__qty-number">{{ v_number }}</span>
             <span class="mo-vpicker__qty-unit">{{ v_label | default: 'Bottle' }}</span>
-            {%- if show_per_bottle -%}
-              <span class="mo-vpicker__qty-per-bottle">{{ price_per_bottle | money }}/bottle</span>
-            {%- endif -%}
           </label>
         {%- endfor -%}
       </div>
@@ -165,6 +158,28 @@
       assign subscribe_price = onetime_price
       if first_alloc != blank
         assign subscribe_price = first_alloc.price | money
+      endif
+
+      # CUSTOM (2026-07-20, per Kalvis): price-per-bottle helper text on the
+      # Subscribe/One-time cards (not the qty cards) — only meaningful once a
+      # multi-bottle tier (2/3-pack) is selected. current_variant's own title
+      # is parsed the same way as each qty card's above. JS recomputes/shows-
+      # hides both spans on every qty-card change via each radio's
+      # data-bottle-count (see the qty loop above + the script further down);
+      # this is just the correct initial (pre-JS) render for the
+      # currently-selected variant on first paint.
+      assign current_v_number = current_variant.title | split: ' ' | first
+      assign current_bottle_count = current_v_number | times: 1
+      assign show_per_bottle = false
+      assign onetime_price_per_bottle = current_variant.price
+      assign subscribe_price_per_bottle = current_variant.price
+      if first_alloc != blank
+        assign subscribe_price_per_bottle = first_alloc.price
+      endif
+      if current_bottle_count > 1
+        assign show_per_bottle = true
+        assign onetime_price_per_bottle = current_variant.price | times: 1.0 | divided_by: current_bottle_count | round
+        assign subscribe_price_per_bottle = subscribe_price_per_bottle | times: 1.0 | divided_by: current_bottle_count | round
       endif
     -%}
     <div class="mo-vpicker__section">
@@ -184,6 +199,7 @@
             checked
           >
           <span class="mo-vpicker__purchase-price" data-role="subscribe-price">{{ subscribe_price }}</span>
+          <span class="mo-vpicker__purchase-per-bottle" data-role="subscribe-price-per-bottle"{% unless show_per_bottle %} hidden{% endunless %}>{{ subscribe_price_per_bottle | money }}/bottle</span>
           <span class="mo-vpicker__purchase-title">
             {{ bs.subscribe_title | default: 'Subscribe' }}
             <span class="mo-vpicker__save-badge" data-role="subscribe-badge" hidden></span>
@@ -197,6 +213,7 @@
             class="mo-vpicker__radio-input"
           >
           <span class="mo-vpicker__purchase-price" data-role="onetime-price">{{ onetime_price }}</span>
+          <span class="mo-vpicker__purchase-per-bottle" data-role="onetime-price-per-bottle"{% unless show_per_bottle %} hidden{% endunless %}>{{ onetime_price_per_bottle | money }}/bottle</span>
           <span class="mo-vpicker__purchase-title">{{ bs.onetime_title | default: 'One-Time' }}</span>
         </label>
       </div>
@@ -365,12 +382,22 @@
      padding and price-top/label-bottom via space-between (no explicit gap
      needed, the fixed height + space-between does it for both the
      subscribe card, which also has a floating badge, and the plain
-     one-time card alike). */
+     one-time card alike).
+     CUSTOM FIX (2026-07-20, per Kalvis): switched from a fixed 65px height +
+     space-between to min-height 65px + height:auto + justify-content:
+     flex-start, to make room for the new price-per-bottle line on
+     multi-pack tiers (see .mo-vpicker__purchase-per-bottle below) without
+     clipping. .mo-vpicker__purchase-title's own margin-top:auto (added
+     below) reproduces the exact original space-between look — pinned to
+     the bottom of the 65px box — whenever the per-bottle line is hidden
+     (single-bottle tier), and still sits directly under the extra line
+     when it's shown, growing the card past 65px only when needed. */
   .mo-vpicker__card--purchase {
     flex-direction: column;
     align-items: flex-start; /* CUSTOM (2026-07-18): restated explicitly, see the defensive fix note on .mo-vpicker__purchase-price below. */
-    justify-content: space-between;
-    height: 65px;
+    justify-content: flex-start;
+    min-height: 65px;
+    height: auto;
     padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px);
     gap: 0;
   }
@@ -403,12 +430,38 @@
     display: inline-flex;
     align-items: center;
     gap: var(--mo-space-2, 8px);
+    margin-top: auto; /* CUSTOM (2026-07-20): pins to the bottom of .mo-vpicker__card--purchase's min-height:65px box — see that rule's comment. */
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.625rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: inherit;
+  }
+
+  /* CUSTOM (2026-07-20, per Kalvis): price-per-bottle helper text on the
+     Subscribe/One-time cards, shown only once a multi-bottle tier (2/3-pack)
+     is selected — see the show_per_bottle liquid assign + the JS further
+     down, which toggles the [hidden] attribute on qty-card change. Sits
+     directly under the big price, small/muted so it reads as a secondary
+     detail; .mo-vpicker__purchase-title's margin-top:auto (above) still
+     pins the Subscribe/One-Time label to the card's bottom regardless of
+     whether this line is shown. */
+  .mo-vpicker__purchase-per-bottle {
+    align-self: flex-start;
+    width: fit-content;
+    text-align: left;
+    margin-top: 2px;
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-size: 0.5625rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    opacity: 0.75;
+    color: inherit;
+  }
+
+  .mo-vpicker__purchase-per-bottle[hidden] {
+    display: none;
   }
 
   /* CUSTOM FIX (2026-07-18, node 633:213): was inline next to the "Subscribe"
@@ -509,25 +562,6 @@
     }
   }
 
-  /* CUSTOM (2026-07-20, per Kalvis): price-per-bottle helper text, shown only
-     on multi-bottle tiers (see the show_per_bottle liquid assign above).
-     Small/muted so it reads as a secondary detail under the qty unit label,
-     not competing with the card's own big number + badge. Inherits the
-     card's text color (var(--mo-card-text-active)/inactive) same as the
-     other card text, so it stays legible against both the selected (filled)
-     and unselected (outline) card backgrounds. */
-  .mo-vpicker__qty-per-bottle {
-    align-self: flex-start;
-    width: fit-content;
-    text-align: left;
-    margin-top: 4px;
-    font-family: var(--mo-font-mono, ui-monospace, monospace);
-    font-size: 0.5625rem;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    opacity: 0.75;
-    color: inherit;
-  }
 {% endstylesheet %}
 
 <script>
@@ -628,6 +662,11 @@
 
       var variantId = qtyRadio.dataset.variantId;
       var variantPrice = parseInt(qtyRadio.dataset.price, 10);
+      // CUSTOM (2026-07-20, per Kalvis): bottle count for whichever qty tier
+      // is currently selected, used below to show/hide + recompute the
+      // price-per-bottle line on the Subscribe/One-time cards. Defaults to 1
+      // (no per-bottle line) if the attribute is ever missing/non-numeric.
+      var bottleCount = parseInt(qtyRadio.dataset.bottleCount, 10) || 1;
       var allocations = getAllocations(qtyRadio);
       // CUSTOM: use the radio's own value ('subscribe'/'onetime'), not .dataset.mode — data-mode
       // lives on the wrapping <label class="mo-vpicker__card--purchase" data-mode="...">, not on
@@ -642,7 +681,20 @@
       var onetimeEl = picker.querySelector('[data-role="onetime-price"]');
       if (onetimeEl) onetimeEl.textContent = formatMoney(variantPrice);
 
+      // CUSTOM (2026-07-20, per Kalvis): price-per-bottle line on the
+      // One-time card — only shown once bottleCount > 1.
+      var onetimePerBottleEl = picker.querySelector('[data-role="onetime-price-per-bottle"]');
+      if (onetimePerBottleEl) {
+        if (bottleCount > 1) {
+          onetimePerBottleEl.textContent = formatMoney(Math.round(variantPrice / bottleCount)) + '/bottle';
+          onetimePerBottleEl.hidden = false;
+        } else {
+          onetimePerBottleEl.hidden = true;
+        }
+      }
+
       var subscribeEl = picker.querySelector('[data-role="subscribe-price"]');
+      var subscribePerBottleEl = picker.querySelector('[data-role="subscribe-price-per-bottle"]');
       var badgeEl = picker.querySelector('[data-role="subscribe-badge"]');
       var chosenPlanId = null;
 
@@ -655,6 +707,17 @@
 
         chosenPlanId = alloc.selling_plan_id;
         if (subscribeEl) subscribeEl.textContent = formatMoney(alloc.price);
+        // CUSTOM (2026-07-20, per Kalvis): price-per-bottle line on the
+        // Subscribe card — mirrors the one-time line above, but off the
+        // selling-plan allocation's own (often discounted) price.
+        if (subscribePerBottleEl) {
+          if (bottleCount > 1) {
+            subscribePerBottleEl.textContent = formatMoney(Math.round(alloc.price / bottleCount)) + '/bottle';
+            subscribePerBottleEl.hidden = false;
+          } else {
+            subscribePerBottleEl.hidden = true;
+          }
+        }
         if (badgeEl) {
           if (variantPrice > 0 && alloc.price < variantPrice) {
             var pct = Math.round((1 - alloc.price / variantPrice) * 100);
@@ -664,6 +727,8 @@
             badgeEl.hidden = true;
           }
         }
+      } else if (subscribePerBottleEl) {
+        subscribePerBottleEl.hidden = true;
       }
 
       if (writeToForm) {
