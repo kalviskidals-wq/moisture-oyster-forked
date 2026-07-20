@@ -305,6 +305,29 @@
                   },
                   "blocks": {}
                 },
+                "price_VQUxT9": {
+                  "type": "price",
+                  "name": "t:names.product_price",
+                  "settings": {
+                    "show_sale_price_first": true,
+                    "show_installments": false,
+                    "show_tax_info": false,
+                    "type_preset": "",
+                    "width": "100%",
+                    "alignment": "left",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "text_color": "",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
                 "mo_description": {
                   "type": "product-description",
                   "name": "t:names.product_description",
@@ -435,6 +458,7 @@
                 "mo_eyebrow",
                 "mo_title",
                 "mo_glp_badge",
+                "price_VQUxT9",
                 "mo_description",
                 "mo_rating_link",
                 "mo_tier_picker",
