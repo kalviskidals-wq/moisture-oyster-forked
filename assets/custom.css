@@ -1514,8 +1514,11 @@ tbody tr:last-child .mo-compare__cell {
    the top of the LEFT column, with a small fixed-aspect-ratio video/image box
    below them (inset within the column's normal padding, not edge-to-edge),
    and the right column is tabs + panel content only. Rebuilt to match. */
+/* CUSTOM (2026-07-19, per Kalvis, mobile-only): top padding (the gap above
+   the eyebrow) bumped to 30px — other sides stay at the shared 20px inset.
+   Desktop's uniform 40px override below is untouched. */
 .mo-ingredients__media-col {
-  padding: var(--mo-space-5, 20px);
+  padding: 30px var(--mo-space-5, 20px) var(--mo-space-5, 20px);
 }
 
 @media screen and (min-width: 750px) {
@@ -1606,10 +1609,14 @@ tbody tr:last-child .mo-compare__cell {
    shrink together to fit, instead of sizing to their own text content.
    Desktop reverts to content-sized pills (roomier, not equal-width) since
    there's ample space there. */
+/* CUSTOM (2026-07-19, per Kalvis, mobile-only exact spec): gap 12px (was
+   6px), tab height 25px, border 1px solid, border-radius 6px, padding
+   8px/10px/8px/10px, opacity 1 (default, unchanged). Desktop's own distinct
+   pill styling below is untouched. */
 .mo-ingredients__tablist {
   display: flex;
   flex-wrap: nowrap;
-  gap: var(--mo-space-1, 6px);
+  gap: 12px;
   margin-block-end: var(--mo-space-6, 24px);
 }
 
@@ -1624,10 +1631,12 @@ tbody tr:last-child .mo-compare__cell {
   text-overflow: ellipsis;
   flex: 1 1 0;
   min-width: 0;
+  height: 25px;
+  opacity: 1;
   text-align: center;
-  padding: 6px 4px;
-  border-radius: var(--mo-radius-pill, 999px);
-  border: 1.5px solid var(--mo-ingredients-tab-border, #1fa567);
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--mo-ingredients-tab-border, #1fa567);
   background: transparent;
   color: var(--mo-ingredients-tab-text, #1fa567);
   cursor: pointer;
@@ -1645,6 +1654,11 @@ tbody tr:last-child .mo-compare__cell {
     line-height: 1.1;
     letter-spacing: 0.1em;
     padding: var(--mo-space-2, 8px) var(--mo-space-5, 20px);
+    /* Restores the original pill shape/border now that the mobile-only
+       rule above sets its own 6px radius / 1px border / fixed height. */
+    height: auto;
+    border-radius: var(--mo-radius-pill, 999px);
+    border-width: 1.5px;
   }
 }
 
