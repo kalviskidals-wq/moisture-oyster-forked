@@ -3668,6 +3668,19 @@ mo-review-filter {
   scroll-snap-align: start;
 }
 
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only): trailing spacer so the
+   last card gets the same 20px breathing room on the right that the
+   overlay's own left:20px inset already gives the first card — same
+   peek-carousel convention established for .mo-eye-health__cards and
+   .mo-reviews__scroller. Without it the last card sat flush against the
+   true viewport edge (this carousel's right side already bleeds to 0,
+   see .mo-sub-benefits__overlay above) with no trailing gap. Hidden on
+   desktop, where this becomes a non-scrolling stacked column. */
+.mo-sub-benefits__benefits-spacer {
+  flex: 0 0 var(--mo-space-5, 20px);
+  width: var(--mo-space-5, 20px);
+}
+
 /* Desktop (Figma desktop frame): header overlays the full-bleed image
    instead of stacking above it; review card lower-left, benefit column
    lower-right, both bottom-aligned. */
@@ -3780,6 +3793,10 @@ mo-review-filter {
     flex: 0 0 auto;
     width: 100%;
     scroll-snap-align: none;
+  }
+
+  .mo-sub-benefits__benefits-spacer {
+    display: none;
   }
 }
 
