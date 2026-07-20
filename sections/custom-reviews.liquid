@@ -63,6 +63,8 @@
       -%}
       {%- if has_filters -%}
         <div class="mo-reviews__filters" data-mo-reviews-filters role="group" aria-label="{{ s.filter_group_label | default: 'Filter reviews' | escape }}" hidden>
+          {%- # CUSTOM (2026-07-20, per Kalvis): mobile-only leading spacer — same fix as .mo-reviews__scroller's carousel just below (see custom.css's .mo-reviews__filters comment). Peeking pills used to be clipped at the page-margin boundary instead of bleeding to the true screen edge. -%}
+          <div class="mo-reviews__filters-spacer" aria-hidden="true"></div>
           <button type="button" class="mo-reviews__filter-pill is-active" data-filter="all" aria-pressed="true">{{ s.all_filter_label | default: 'All' | escape }}</button>
           {%- for block in section.blocks -%}
             {%- if block.type == 'filter' -%}
@@ -84,6 +86,7 @@
               {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
+          <div class="mo-reviews__filters-spacer" aria-hidden="true"></div>
         </div>
       {%- endif -%}
 

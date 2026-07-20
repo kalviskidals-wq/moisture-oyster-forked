@@ -2897,19 +2897,53 @@ mo-review-filter {
   display: block;
 }
 
-/* ---------- Filter pills ---------- */
+/* ---------- Filter pills ----------
+   CUSTOM FIX (2026-07-20, per Kalvis — same left/right peek-clipping bug
+   already fixed on .mo-reviews__scroller/.mo-eye-health__cards/etc.): this
+   just inherited .mo-reviews__inner's padding-inline, so a peeking pill
+   was clipped at the 20px page-margin boundary on both sides instead of
+   bleeding to the true viewport edge. Same fix pattern: full-bleed
+   breakout (width:100vw + left:50%/translateX(-50%), cancels out the
+   ancestor's padding/centering regardless of its value) + a leading
+   spacer (first paint, before scroll-padding-inline-start has a chance to
+   apply) + a trailing spacer (so the last pill gets a matching gap once
+   scrolled to the end). Reset to normal (no breakout) on desktop, where
+   the pill row isn't expected to overflow. */
 .mo-reviews__filters {
   display: flex;
   gap: var(--mo-space-3, 12px);
   overflow-x: auto;
+  scroll-padding-inline-start: var(--mo-space-5, 20px);
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-bottom: var(--mo-space-2, 8px);
   margin-bottom: var(--mo-space-6, 24px);
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .mo-reviews__filters::-webkit-scrollbar {
   display: none;
+}
+
+.mo-reviews__filters-spacer {
+  flex: 0 0 var(--mo-space-5, 20px);
+  width: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-reviews__filters {
+    width: auto;
+    position: static;
+    left: auto;
+    transform: none;
+  }
+
+  .mo-reviews__filters-spacer {
+    display: none;
+  }
 }
 
 .mo-reviews__filter-pill {
