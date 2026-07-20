@@ -3688,10 +3688,13 @@ mo-review-filter {
   scroll-snap-align: start;
 }
 
-/* Trailing spacer — plain, no snap-align, matching
-   .mo-eye-health__cards-spacer: physically extends the scrollable content
-   so the last card gets the same 20px gap on its right once scrolled all
-   the way to the end. Hidden on desktop, where this becomes a
+/* Leading + trailing spacer (same element, used twice in the markup) —
+   plain, no snap-align, matching .mo-eye-health__cards-spacer exactly:
+   the trailing one physically extends the scrollable content so the
+   last card gets the same 20px gap on its right once scrolled all the
+   way to the end; the leading one covers the very first paint, before
+   any scroll/snap event has run and scroll-padding-inline-start hasn't
+   had a chance to apply yet. Hidden on desktop, where this becomes a
    non-scrolling stacked column (see the min-width:750px block below). */
 .mo-sub-benefits__benefits-spacer {
   flex: 0 0 var(--mo-space-5, 20px);
