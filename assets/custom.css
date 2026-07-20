@@ -5823,7 +5823,7 @@ mo-review-filter {
   }
 
   .mo-hiw__body {
-    margin-block-start: var(--mo-space-2, 8px);
+    margin-block-start: var(--mo-space-6, 24px); /* CUSTOM FIX (2026-07-20, per Kalvis): was 8px */
     /* CUSTOM (2026-07-19, per Kalvis): desktop keeps the original fixed
        3-line height + scroll — this was reverted to auto/grid-stack sizing
        on mobile only (see the base .mo-hiw__body/.mo-hiw__panel rules
