@@ -1516,9 +1516,13 @@ tbody tr:last-child .mo-compare__cell {
    and the right column is tabs + panel content only. Rebuilt to match. */
 /* CUSTOM (2026-07-19, per Kalvis, mobile-only): top padding (the gap above
    the eyebrow) bumped to 30px — other sides stay at the shared 20px inset.
+   Bottom padding zeroed out (was 20px) so the heading-to-tabs gap is owned
+   entirely by .mo-ingredients__content's own 20px top padding below —
+   these two stack directly as adjacent grid rows on mobile (no video
+   shown by default), so combined they'd otherwise double up to 40px.
    Desktop's uniform 40px override below is untouched. */
 .mo-ingredients__media-col {
-  padding: 30px var(--mo-space-5, 20px) var(--mo-space-5, 20px);
+  padding: 30px var(--mo-space-5, 20px) 0 var(--mo-space-5, 20px);
 }
 
 @media screen and (min-width: 750px) {
@@ -1611,11 +1615,14 @@ tbody tr:last-child .mo-compare__cell {
    desktop already does, and the tablist scrolls horizontally if all 4
    don't fit a narrow screen — a small scroll affordance is preferable to
    silently cropped words. */
+/* CUSTOM (2026-07-19, per Kalvis, mobile-only): gap down to the panel/
+   ingredient list below bumped to 32px (was 24px) — reset back to 24px on
+   desktop further down. */
 .mo-ingredients__tablist {
   display: flex;
   flex-wrap: nowrap;
   gap: 12px;
-  margin-block-end: var(--mo-space-6, 24px);
+  margin-block-end: var(--mo-space-7, 32px);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -1661,6 +1668,8 @@ tbody tr:last-child .mo-compare__cell {
 @media screen and (min-width: 750px) {
   .mo-ingredients__tablist {
     gap: var(--mo-space-3, 12px);
+    /* Resets the mobile-only 32px bump above back to its original 24px. */
+    margin-block-end: var(--mo-space-6, 24px);
   }
 
   .mo-ingredients__tab {
