@@ -3137,6 +3137,15 @@ mo-review-filter {
   border-radius: 16px; /* CUSTOM: was --mo-radius-md (10px) — Figma dev-mode confirms 16px (audit #13/#24, 2026-07-17) */
   overflow: hidden;
   aspect-ratio: 280 / 185; /* CUSTOM FIX (2026-07-20, node 633:610): was 4/2.8 (~1.43) — the frame's real image box is 280x185 (~1.51), a visibly different crop. */
+  /* CUSTOM FIX (2026-07-20, per Kalvis screenshot + Figma node 633:637):
+     was stretching to the card's full content width (.mo-reviews__card
+     never set align-items, so this flex item defaulted to stretch) — every
+     card width past ~340px rendered the photo (and, via its aspect-ratio,
+     its height) way bigger than intended. Figma confirms a FIXED 280px
+     width for this image, centered in the card, regardless of how wide the
+     card itself is. */
+  max-width: 280px;
+  align-self: center;
   margin-bottom: 12px; /* CUSTOM (2026-07-20): 12px gap to the rating row below */
 }
 
@@ -3728,6 +3737,12 @@ mo-review-filter {
    now-taller card enough room so it doesn't collide with the header. */
 .mo-sub-benefits__review .mo-reviews__photo {
   aspect-ratio: 3 / 2;
+  /* CUSTOM (2026-07-20): resets the new fixed 280px cap added to the base
+     .mo-reviews__photo rule (for the standalone Reviews section) — this
+     testimonial photo deliberately scales with its own card's width per
+     the 2026-07-10 note above, so it shouldn't inherit that fixed size. */
+  max-width: none;
+  align-self: auto;
 }
 
 /* CUSTOM (2026-07-10): matches the benefit cards' heading typography
