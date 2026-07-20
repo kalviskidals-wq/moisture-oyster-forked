@@ -557,6 +557,30 @@
             "label": "AIR CONDITIONING"
           }
         },
+        "factor_4B7WaQ": {
+          "type": "factor",
+          "settings": {
+            "icon_preset": "air_conditioning",
+            "icon_image": "shopify://shop_images/Air_Conditioning.svg",
+            "label": "AIR CONDITIONING"
+          }
+        },
+        "factor_jBmiyj": {
+          "type": "factor",
+          "settings": {
+            "icon_preset": "air_conditioning",
+            "icon_image": "shopify://shop_images/Air_Conditioning.svg",
+            "label": "AIR CONDITIONING"
+          }
+        },
+        "factor_aC8XKf": {
+          "type": "factor",
+          "settings": {
+            "icon_preset": "air_conditioning",
+            "icon_image": "shopify://shop_images/Air_Conditioning.svg",
+            "label": "AIR CONDITIONING"
+          }
+        },
         "factor_wrFVQP": {
           "type": "factor",
           "settings": {
@@ -577,6 +601,9 @@
       },
       "block_order": [
         "factor_cKkrEb",
+        "factor_4B7WaQ",
+        "factor_jBmiyj",
+        "factor_aC8XKf",
         "factor_wrFVQP",
         "factor_6WUNEH"
       ],
