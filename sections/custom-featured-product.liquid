@@ -26,6 +26,21 @@
     display: none;
   }
 
+  /* CUSTOM FIX (2026-07-20, per Kalvis): hides the subscription/deferred-
+     purchase consent disclaimer Shop Pay's accelerated-checkout script
+     injects under the payment buttons (<small id="shopify-buyer-consent">,
+     inside <shopify-accelerated-checkout> — not theme markup, so it can't be
+     removed from Liquid, only hidden with CSS). Same fix as
+     sections/custom-main-product.liquid. Note: this section's own header
+     comment (top of file) claims accelerated-checkout was left out of this
+     "shortened" build's block composition entirely — that's stale; the live
+     templates/page.homepage.json DOES nest an "accelerated-checkout" block
+     inside this section's mo_buy_buttons, so the disclaimer does render
+     here too. Full disclosure is already shown at checkout. */
+  #shopify-section-{{ section.id }} #shopify-buyer-consent {
+    display: none !important;
+  }
+
   @media screen and (min-width: 750px) {
     /* CUSTOM: anchor the thumbnail overlay on slideshow-component (not media-gallery itself) —
        media-gallery already carries Horizon's native sticky-content class (position: sticky), and
