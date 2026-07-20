@@ -49,8 +49,20 @@
       position: relative;
     }
 
+    /* CUSTOM FIX (2026-07-20, per Kalvis — same investigation + fix as
+       sections/custom-main-product.liquid): on short viewports, align-self:
+       stretch matches this column's height to product-details' full
+       (viewport-independent) content height, while the image slide itself
+       is capped by Horizon's native constrain-to-viewport system
+       (--grid-template-rows-desktop: 70dvh 1fr). The gap between those two
+       balloons as the viewport shrinks, pushing the image's rounded bottom
+       corner and the absolutely-positioned thumbnail rail (anchored against
+       this same stretched box) far below the visible photo. Capping the
+       stretch to one viewport height bounds that gap instead of leaving it
+       unbounded. */
     #shopify-section-{{ section.id }} .product-information__media {
       align-self: stretch;
+      max-height: 100dvh;
     }
 
     #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
@@ -179,37 +191,6 @@
     }
   }
 {% endstyle %}
-
-{% comment %}
-  CUSTOM FIX (2026-07-20, per Kalvis — same bug reported on the real PDP,
-  sections/custom-main-product.liquid, which this section is forked from):
-  Safari-specific stale relayout on window resize leaves the sticky media
-  column (.product-information__media, Horizon's native .sticky-content)
-  and this section's custom absolute-positioned thumbnail rail (sized off
-  that column's own rendered height, see the min-width:750px block in the
-  style tag above) stuck at the pre-resize layout — image crop and
-  thumbnail position go wrong until reload. See the matching fix + longer
-  explanation in custom-main-product.liquid. UPSTREAM risk LOW — scoped to
-  this section's own id, no Horizon file touched, no-op where the bug
-  doesn't occur.
-{% endcomment %}
-<script>
-  (function () {
-    var mediaEl = document.querySelector('#shopify-section-{{ section.id }} .product-information__media');
-    if (!mediaEl) return;
-
-    var rafId = null;
-    window.addEventListener('resize', function () {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(function () {
-        var previousPosition = mediaEl.style.position;
-        mediaEl.style.position = 'static';
-        void mediaEl.offsetHeight; // forces a synchronous reflow
-        mediaEl.style.position = previousPosition;
-      });
-    });
-  })();
-</script>
 
 {%- liquid
   assign featured_product = section.settings.product

@@ -115,9 +115,24 @@
        scrolls past. sticky-content is already present on <media-gallery> natively and needs its
        grid cell to stay the FULL row height (matching the taller product-details column) to have
        room to stick within — align-self: stretch guarantees that even if something else in this
-       section's cascade nudges the default grid alignment. UPSTREAM risk LOW, scoped to this section only. */
+       section's cascade nudges the default grid alignment. UPSTREAM risk LOW, scoped to this section only.
+       CUSTOM FIX (2026-07-20, per Kalvis — devtools investigation): on short viewports, stretching
+       this column to match product-details' full height (often 1000px+) badly overshoots Horizon's
+       own native media sizing. The image slide itself is capped to 70dvh via Horizon's own
+       constrain-to-viewport system (--grid-template-rows-desktop: 70dvh 1fr, confirmed in devtools) —
+       its remaining "1fr" row fills whatever LEFTOVER height align-self:stretch hands it. On a tall
+       window 70dvh is already close to product-details' height, so that leftover gap is small and
+       goes unnoticed; on a short window 70dvh shrinks a lot while product-details' height barely
+       changes (it's text-content-driven, not viewport-driven), so the leftover "1fr" gap balloons —
+       pushing the image's real rounded bottom corner and the absolutely-positioned thumbnail rail
+       (anchored bottom:30px against this same stretched box, see below) far below the visible photo,
+       which reads as "the radius disappeared" and "the thumbnails floated away". Capping this
+       column's stretch to one viewport height keeps the sticky-scroll behavior (still plenty of room
+       to stick within on any normal screen) while bounding that leftover gap to at most 30dvh instead
+       of an unbounded amount. */
     #shopify-section-{{ section.id }} .product-information__media {
       align-self: stretch;
+      max-height: 100dvh;
     }
 
     #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
@@ -308,42 +323,6 @@
     }
   }
 {% endstyle %}
-{% comment %}
-  CUSTOM FIX (2026-07-20, per Kalvis): Safari-specific bug — resizing the
-  window (live drag-resize, and reportedly also just landing on certain
-  narrower desktop widths like a 13" MacBook) leaves this section's sticky
-  media column (.product-information__media, Horizon's native
-  .sticky-content, position:sticky) and our custom absolute-positioned
-  thumbnail rail (which sizes itself off that column's own rendered height —
-  see the min-width:750px block in the style tag above) stuck at whatever
-  layout was computed before the resize: the image crops wrong and the
-  thumbnails misplace. A reload at the exact same window size renders
-  correctly, which points at a stale relayout rather than a wrong CSS value —
-  a known class of WebKit bug where position:sticky ancestors don't reliably
-  re-trigger layout on resize. Forced here by briefly clearing the sticky
-  element's inline position (dropping it out of the sticky layout
-  calculation for one frame) then restoring it, debounced to the next
-  animation frame so this doesn't run on every individual resize tick.
-  UPSTREAM risk LOW — scoped to this section's own id, no Horizon file
-  touched, and a no-op on browsers that don't have this bug.
-{% endcomment %}
-<script>
-  (function () {
-    var mediaEl = document.querySelector('#shopify-section-{{ section.id }} .product-information__media');
-    if (!mediaEl) return;
-
-    var rafId = null;
-    window.addEventListener('resize', function () {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(function () {
-        var previousPosition = mediaEl.style.position;
-        mediaEl.style.position = 'static';
-        void mediaEl.offsetHeight; // forces a synchronous reflow
-        mediaEl.style.position = previousPosition;
-      });
-    });
-  })();
-</script>
 <script type="application/ld+json">
   {{ closest.product | structured_data }}
 </script>
