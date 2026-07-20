@@ -1414,8 +1414,12 @@ tbody tr:last-child .mo-compare__cell {
 }
 
 @media screen and (min-width: 750px) {
+  /* CUSTOM (2026-07-20, per Kalvis): eyebrow-to-heading gap 8px on desktop
+     (was inheriting the shared 16px mobile margin, never overridden here)
+     — matches the other PDP sections' convention. */
   .mo-compare__eyebrow {
     font-size: 14px;
+    margin-bottom: var(--mo-space-2, 8px);
   }
 
   .mo-compare__heading {
@@ -2286,9 +2290,11 @@ tbody tr:last-child .mo-compare__cell {
 }
 
 @media screen and (min-width: 750px) {
+  /* CUSTOM (2026-07-20, per Kalvis): 8px gap on desktop (was 16px) —
+     matches the other PDP sections' convention. */
   .mo-science__eyebrow {
     font-size: 14px;
-    margin-bottom: var(--mo-space-4, 16px);
+    margin-bottom: var(--mo-space-2, 8px);
   }
 
   .mo-science__heading {
@@ -3223,8 +3229,22 @@ mo-review-filter {
   letter-spacing: -0.02em;
 }
 
+/* CUSTOM (2026-07-20, per Kalvis): eyebrow-to-heading gap 8px on desktop
+   (was 16px, from .mo-faq__meta's flex gap applying uniformly to all
+   three children) — zeroed the parent gap here and set individual
+   margins instead so heading-to-support stays 16px (unchanged) while
+   eyebrow-to-heading drops to 8px, matching the other PDP sections. */
 @media screen and (min-width: 750px) {
+  .mo-faq__meta {
+    gap: 0;
+  }
+
+  .mo-faq__eyebrow {
+    margin-bottom: var(--mo-space-2, 8px);
+  }
+
   .mo-faq__heading {
+    margin-bottom: var(--mo-space-4, 16px);
     font-size: 40px;
     line-height: 1.1;
   }
@@ -3822,9 +3842,11 @@ mo-review-filter {
     padding-block: var(--mo-space-8, 40px) 0;
   }
 
+  /* CUSTOM (2026-07-20, per Kalvis): 8px gap on desktop (was 16px) —
+     matches the other PDP sections' convention. */
   .mo-sub-benefits__eyebrow {
     font-size: 14px;
-    margin-bottom: var(--mo-space-4, 16px);
+    margin-bottom: var(--mo-space-2, 8px);
   }
 
   .mo-sub-benefits__heading {
