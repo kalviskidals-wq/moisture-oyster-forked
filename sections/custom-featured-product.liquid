@@ -50,19 +50,22 @@
     }
 
     /* CUSTOM FIX (2026-07-20, per Kalvis — same investigation + fix as
-       sections/custom-main-product.liquid): on short viewports, align-self:
-       stretch matches this column's height to product-details' full
-       (viewport-independent) content height, while the image slide itself
-       is capped by Horizon's native constrain-to-viewport system
-       (--grid-template-rows-desktop: 70dvh 1fr). The gap between those two
-       balloons as the viewport shrinks, pushing the image's rounded bottom
-       corner and the absolutely-positioned thumbnail rail (anchored against
-       this same stretched box) far below the visible photo. Capping the
-       stretch to one viewport height bounds that gap instead of leaving it
-       unbounded. */
-    #shopify-section-{{ section.id }} .product-information__media {
-      align-self: stretch;
-      max-height: 100dvh;
+       sections/custom-main-product.liquid, revised after the max-height cap
+       alone didn't fully fix it): align-self:stretch matches this column's
+       height to product-details' full (viewport-independent) content
+       height, while the image slide itself is capped by Horizon's native
+       constrain-to-viewport system (--grid-template-rows-desktop: 70dvh
+       1fr). The gap between those two balloons as the viewport shrinks,
+       pushing the image's rounded bottom corner and the thumbnail rail
+       (anchored against this same stretched box) far below the visible
+       photo. Per Kalvis: only stretch (and pin the sticky column) when the
+       viewport is tall enough for it to make sense — below that, the
+       column takes its own natural height and just scrolls normally with
+       the rest of the page. */
+    @media screen and (min-height: 700px) {
+      #shopify-section-{{ section.id }} .product-information__media {
+        align-self: stretch;
+      }
     }
 
     #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {

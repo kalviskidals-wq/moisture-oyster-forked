@@ -116,23 +116,21 @@
        grid cell to stay the FULL row height (matching the taller product-details column) to have
        room to stick within — align-self: stretch guarantees that even if something else in this
        section's cascade nudges the default grid alignment. UPSTREAM risk LOW, scoped to this section only.
-       CUSTOM FIX (2026-07-20, per Kalvis — devtools investigation): on short viewports, stretching
-       this column to match product-details' full height (often 1000px+) badly overshoots Horizon's
-       own native media sizing. The image slide itself is capped to 70dvh via Horizon's own
-       constrain-to-viewport system (--grid-template-rows-desktop: 70dvh 1fr, confirmed in devtools) —
-       its remaining "1fr" row fills whatever LEFTOVER height align-self:stretch hands it. On a tall
-       window 70dvh is already close to product-details' height, so that leftover gap is small and
-       goes unnoticed; on a short window 70dvh shrinks a lot while product-details' height barely
-       changes (it's text-content-driven, not viewport-driven), so the leftover "1fr" gap balloons —
-       pushing the image's real rounded bottom corner and the absolutely-positioned thumbnail rail
-       (anchored bottom:30px against this same stretched box, see below) far below the visible photo,
-       which reads as "the radius disappeared" and "the thumbnails floated away". Capping this
-       column's stretch to one viewport height keeps the sticky-scroll behavior (still plenty of room
-       to stick within on any normal screen) while bounding that leftover gap to at most 30dvh instead
-       of an unbounded amount. */
-    #shopify-section-{{ section.id }} .product-information__media {
-      align-self: stretch;
-      max-height: 100dvh;
+       CUSTOM FIX (2026-07-20, per Kalvis — devtools investigation, revised after the max-height cap
+       alone didn't fully fix it): stretching this column to match product-details' full height (often
+       1000px+) fights Horizon's own native media sizing — the image slide itself is capped to 70dvh
+       via Horizon's constrain-to-viewport system (--grid-template-rows-desktop: 70dvh 1fr, confirmed
+       in devtools), and its remaining "1fr" row fills whatever LEFTOVER height align-self:stretch
+       hands it. On a short viewport that leftover gap balloons, pushing the image's rounded bottom
+       corner and the thumbnail rail (anchored against this same stretched box, see below) far below
+       the visible photo. Per Kalvis: rather than try to bound that gap, only stretch (and therefore
+       only pin the sticky column for the long scroll) when the viewport is actually tall enough for it
+       to make sense — below that, the column takes its own natural (image-sized) height instead, so it
+       simply scrolls normally with the rest of the page like any other content once you scroll past it. */
+    @media screen and (min-height: 700px) {
+      #shopify-section-{{ section.id }} .product-information__media {
+        align-self: stretch;
+      }
     }
 
     #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
