@@ -1458,9 +1458,13 @@ tbody tr:last-child .mo-compare__cell {
    renders if that file is ever removed. UPSTREAM risk LOW — net-new, no
    Horizon file touched.
    ============================================================================ */
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only): bottom padding zeroed
+   (was 30px, shared with top via the shorthand) — top stays 30px. Desktop
+   untouched. */
 .mo-ingredients {
   background: var(--mo-ingredients-bg, #093d24);
-  padding-block: 30px;
+  padding-block-start: 30px;
+  padding-block-end: 0;
 }
 
 @media screen and (min-width: 750px) {
