@@ -21,6 +21,19 @@
     border: none;
   }
 
+  /* CUSTOM FIX (2026-07-20, per Kalvis): hides the subscription/deferred-
+     purchase consent disclaimer Shop Pay's own accelerated-checkout script
+     injects under the payment buttons (<small id="shopify-buyer-consent">,
+     inside <shopify-accelerated-checkout> — not theme markup, so it can't be
+     removed from Liquid, only hidden with CSS). Same disclosure is already
+     shown in full at checkout, so this was a redundant repeat on the
+     product page itself. #shopify-buyer-consent is Shopify's own stable id
+     for this element (not one of ours), scoped to this section only since
+     that's the sole place it renders on the PDP. */
+  #shopify-section-{{ section.id }} #shopify-buyer-consent {
+    display: none !important;
+  }
+
   /* CUSTOM FIX (2026-07-20, per Kalvis — reported on a MacBook Air 13.6"
      screen, but affects desktop generally): Horizon's own media_radius
      (24px)/thumbnail_radius (12px) settings from templates/product.json's
