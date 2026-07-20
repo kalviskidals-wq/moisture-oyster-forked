@@ -7,6 +7,15 @@
 {%- liquid
   assign s = section.settings
   assign drawer_bg = s.drawer_background_color | default: s.background_color
+  # CUSTOM FIX (2026-07-20, per Kalvis): the mobile burger toggle + its
+  # full-screen drawer used to render unconditionally, even with no Menu
+  # assigned in the section's Navigation setting — opening it just showed
+  # an empty link list and the watermark. Both are now gated on the menu
+  # actually having links.
+  assign has_menu_links = false
+  if s.menu.links.size > 0
+    assign has_menu_links = true
+  endif
   assign transparent_enabled = false
   if s.enable_transparent_home and template.name == 'index'
     assign transparent_enabled = true
@@ -129,21 +138,24 @@ oyster' | newline_to_br }}</span>
         </a>
       {%- endif -%}
 
-      <button
-        type="button"
-        class="mo-header__toggle button-unstyled"
-        aria-expanded="false"
-        aria-controls="MoHeaderDrawer-{{ section.id }}"
-        aria-label="{{ 'accessibility.menu' | t }}"
-        data-mo-drawer-toggle
-      >
-        <span class="mo-header__icon mo-header__icon--burger" aria-hidden="true">{%- render 'mo-header-icons', icon: 'burger' -%}</span>
-        <span class="mo-header__icon mo-header__icon--close" aria-hidden="true">{%- render 'mo-header-icons', icon: 'close' -%}</span>
-      </button>
+      {%- if has_menu_links -%}
+        <button
+          type="button"
+          class="mo-header__toggle button-unstyled"
+          aria-expanded="false"
+          aria-controls="MoHeaderDrawer-{{ section.id }}"
+          aria-label="{{ 'accessibility.menu' | t }}"
+          data-mo-drawer-toggle
+        >
+          <span class="mo-header__icon mo-header__icon--burger" aria-hidden="true">{%- render 'mo-header-icons', icon: 'burger' -%}</span>
+          <span class="mo-header__icon mo-header__icon--close" aria-hidden="true">{%- render 'mo-header-icons', icon: 'close' -%}</span>
+        </button>
+      {%- endif -%}
     </div>
   </div>
 </header>
 
+{%- if has_menu_links -%}
 <mo-header-drawer id="MoHeaderDrawer-{{ section.id }}" class="mo-header__drawer" hidden>
   <div class="mo-header__drawer-panel" data-mo-drawer-panel role="dialog" aria-modal="true" aria-label="{{ 'accessibility.menu' | t }}">
     <p class="mo-header__drawer-label mo-tag">{{ 'accessibility.menu' | t | upcase }}</p>
