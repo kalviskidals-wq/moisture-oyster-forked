@@ -3252,15 +3252,14 @@ mo-review-filter {
 /* CUSTOM (2026-07-20, per Kalvis, mobile-only — Figma node 1126:1074):
    divider moved from above each item to below it (same "below, not
    above" repositioning already done for the Ingredient Detail accordion)
-   — 19px from the question row down to the line, 20px from the line to
-   the next item's question row (39px combined, split asymmetrically per
-   Figma rather than the even 20px/20px split used on desktop, which is
-   untouched below). */
+   — 20px from the question row down to the line, and 20px from the line
+   down to the next item's question row (was a 19px/20px split closer to
+   Figma's raw measurement; Kalvis wants an even 20px/20px instead). */
 @media screen and (max-width: 749px) {
   .mo-faq__item {
     border-top: none;
     border-bottom: 1px solid var(--mo-faq-divider, #b8f3d8);
-    padding-block: 20px 19px;
+    padding-block: 20px;
   }
 
   .mo-faq__item:first-child {
