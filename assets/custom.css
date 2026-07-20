@@ -1598,6 +1598,17 @@ tbody tr:last-child .mo-compare__cell {
   font-size: 28px;
 }
 
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only): the heading isn't its
+   container's first child (the eyebrow <p> is), so base.css's
+   :first-child margin-block-start reset doesn't reach it — the UA default
+   h2 top margin was still adding unwanted space above the heading. Zeroed
+   on mobile only; desktop is left untouched (was already fine). */
+@media screen and (max-width: 749px) {
+  .mo-ingredients__heading {
+    margin-block-start: 0;
+  }
+}
+
 @media screen and (min-width: 750px) {
   .mo-ingredients__heading {
     font-size: 40px;
@@ -1719,9 +1730,19 @@ tbody tr:last-child .mo-compare__cell {
   display: flex;
   align-items: center;
   gap: var(--mo-space-4, 16px);
-  padding-block: var(--mo-space-5, 20px);
+  /* CUSTOM (2026-07-20, per Kalvis, mobile-only): 10px top+bottom so adjacent
+     rows' combined padding (across the border) nets a 20px gap — was 20px
+     each side (40px total gap). Reset back to 20px each side on desktop
+     below. */
+  padding-block: 10px;
   cursor: pointer;
   list-style: none;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredient__summary {
+    padding-block: var(--mo-space-5, 20px);
+  }
 }
 
 .mo-ingredient__summary::marker,
@@ -1772,8 +1793,10 @@ tbody tr:last-child .mo-compare__cell {
 
 .mo-ingredient__toggle {
   flex-shrink: 0;
-  width: 40px; /* CUSTOM: was 32px — Figma dev-mode confirms 40px accordion/toggle circles (audit #11, 2026-07-17) */
-  height: 40px;
+  /* CUSTOM (2026-07-20, per Kalvis, mobile-only): 28px — was 40px (the
+     desktop/original figma value, restored explicitly below at 750px+). */
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1782,6 +1805,13 @@ tbody tr:last-child .mo-compare__cell {
   color: var(--mo-ingredients-tab-border, #1fa567);
   background: transparent;
   transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredient__toggle {
+    width: 40px; /* was 32px — Figma dev-mode confirms 40px accordion/toggle circles (audit #11, 2026-07-17) */
+    height: 40px;
+  }
 }
 
 .mo-ingredient[open] .mo-ingredient__toggle {
