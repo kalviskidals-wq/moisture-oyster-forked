@@ -1619,15 +1619,16 @@ tbody tr:last-child .mo-compare__cell {
   font-size: 28px;
 }
 
-/* CUSTOM (2026-07-20, per Kalvis, mobile-only): the heading isn't its
-   container's first child (the eyebrow <p> is), so base.css's
-   :first-child margin-block-start reset doesn't reach it — the UA default
-   h2 top margin was still adding unwanted space above the heading. Zeroed
-   on mobile only; desktop is left untouched (was already fine). */
-@media screen and (max-width: 749px) {
-  .mo-ingredients__heading {
-    margin-block-start: 0;
-  }
+/* CUSTOM FIX (2026-07-20, per Kalvis): the heading isn't its container's
+   first child (the eyebrow <p> is), so base.css's :first-child
+   margin-block-start reset doesn't reach it — the UA default h2 top margin
+   was stacking on top of the eyebrow's own 8px bottom margin, inflating the
+   eyebrow-to-heading gap well past 8px. Previously zeroed mobile-only under
+   the mistaken assumption desktop was unaffected — it wasn't; the UA
+   default applies at every breakpoint (this rule doesn't change size, just
+   removes the browser's own top margin), so it's unscoped now. */
+.mo-ingredients__heading {
+  margin-block-start: 0;
 }
 
 @media screen and (min-width: 750px) {
