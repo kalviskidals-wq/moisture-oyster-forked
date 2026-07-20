@@ -549,44 +549,44 @@
     "custom_problem_agitation_iYrAeg": {
       "type": "custom-problem-agitation",
       "blocks": {
-        "factor_cKkrEb": {
-          "type": "factor",
-          "settings": {
-            "icon_preset": "air_conditioning",
-            "icon_image": "shopify://shop_images/Air_Conditioning.svg",
-            "label": "AIR CONDITIONING"
-          }
-        },
         "factor_4B7WaQ": {
           "type": "factor",
           "settings": {
             "icon_preset": "air_conditioning",
-            "icon_image": "shopify://shop_images/Air_Conditioning.svg",
-            "label": "AIR CONDITIONING"
+            "icon_image": "shopify://shop_images/Morning_screens.svg",
+            "label": "MORNING SCREENS"
+          }
+        },
+        "factor_cKkrEb": {
+          "type": "factor",
+          "settings": {
+            "icon_preset": "air_conditioning",
+            "icon_image": "shopify://shop_images/Red-eye_flight.svg",
+            "label": "RED EYE FLIGHT"
           }
         },
         "factor_jBmiyj": {
           "type": "factor",
           "settings": {
             "icon_preset": "air_conditioning",
-            "icon_image": "shopify://shop_images/Air_Conditioning.svg",
-            "label": "AIR CONDITIONING"
+            "icon_image": "shopify://shop_images/Events_festivals_flights.svg",
+            "label": "EVENTS, FESTIVALS, CLUBS"
           }
         },
         "factor_aC8XKf": {
           "type": "factor",
           "settings": {
             "icon_preset": "air_conditioning",
-            "icon_image": "shopify://shop_images/Air_Conditioning.svg",
-            "label": "AIR CONDITIONING"
+            "icon_image": "shopify://shop_images/Contact_lens.svg",
+            "label": "BETWEEN CONTACT USES"
           }
         },
         "factor_wrFVQP": {
           "type": "factor",
           "settings": {
             "icon_preset": "air_travel",
-            "icon_image": "shopify://shop_images/Air_Travel.svg",
-            "label": "AIR TRAVEL"
+            "icon_image": "shopify://shop_images/On_your_desk.svg",
+            "label": "ON YOUR DESK, BAG, BEDSIDE"
           }
         },
         "factor_6WUNEH": {
@@ -600,8 +600,8 @@
         }
       },
       "block_order": [
-        "factor_cKkrEb",
         "factor_4B7WaQ",
+        "factor_cKkrEb",
         "factor_jBmiyj",
         "factor_aC8XKf",
         "factor_wrFVQP",
