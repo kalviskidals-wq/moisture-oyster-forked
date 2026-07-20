@@ -1737,6 +1737,17 @@ tbody tr:last-child .mo-compare__cell {
   }
 }
 
+/* CUSTOM (2026-07-20, per Kalvis): when open, the summary's own bottom
+   padding (10px mobile / 20px desktop — needed for closed-row spacing)
+   was stacking on top of .mo-ingredient__body's margin-block-start,
+   making the heading-to-line gap 22px/44px instead of the specified
+   12px/24px. Zeroed here so the body's margin is the only source of that
+   gap once open; closed-state row spacing is untouched since this only
+   applies while [open]. */
+.mo-ingredient[open] .mo-ingredient__summary {
+  padding-block-end: 0;
+}
+
 .mo-ingredient__summary::marker,
 .mo-ingredient__summary::-webkit-details-marker {
   display: none;
