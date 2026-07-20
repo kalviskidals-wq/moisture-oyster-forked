@@ -1718,14 +1718,6 @@ tbody tr:last-child .mo-compare__cell {
 }
 
 /* ---------- Ingredient accordion rows ---------- */
-.mo-ingredient {
-  border-top: 1px solid var(--mo-ingredients-divider, #1fa567);
-}
-
-.mo-ingredient:first-child {
-  border-top: none;
-}
-
 .mo-ingredient__summary {
   display: flex;
   align-items: center;
@@ -1829,10 +1821,27 @@ tbody tr:last-child .mo-compare__cell {
   transform: rotate(45deg);
 }
 
+/* CUSTOM (2026-07-20, per Kalvis): separator line moved from above the
+   accordion item (old .mo-ingredient border-top, skipped on :first-child)
+   to below the summary/heading instead — now lives on the body itself so
+   it only ever appears under an open item's own heading, per screenshot.
+   margin-block-start = gap between heading and line; the border itself;
+   padding-block-start = gap between line and the first body row. 12px/12px
+   on mobile, 24px/24px on desktop. */
 .mo-ingredient__body {
   display: grid;
   gap: var(--mo-space-4, 16px);
+  margin-block-start: 12px;
+  border-top: 1px solid var(--mo-ingredients-divider, #1fa567);
+  padding-block-start: 12px;
   padding-block-end: var(--mo-space-6, 24px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredient__body {
+    margin-block-start: var(--mo-space-6, 24px);
+    padding-block-start: var(--mo-space-6, 24px);
+  }
 }
 
 .mo-ingredient__row {
