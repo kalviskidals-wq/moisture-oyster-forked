@@ -5574,13 +5574,19 @@ mo-review-filter {
   padding: 0;
 }
 
+/* CUSTOM FIX (2026-07-20, per Kalvis, Figma spec): was Inter 14px/1.3, no
+   explicit weight/letter-spacing — Figma confirms Manrope Medium(500),
+   mobile 12px/130%/-2% tracking, desktop 16px/130%/0% tracking (see the
+   min-width:750px override below). */
 .mo-eye-health__body {
   color: var(--mo-eye-body, #ffffff);
   opacity: 0.85;
   margin: 0;
-  font-family: var(--mo-font-body, 'Inter', sans-serif);
-  font-size: 14px;
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 500;
+  font-size: 12px;
   line-height: 1.3;
+  letter-spacing: -0.02em;
 }
 
 /* Desktop (Figma desktop frame): header overlays the full-bleed image
@@ -5612,6 +5618,14 @@ mo-review-filter {
   .mo-eye-health__heading {
     font-size: 40px;
     line-height: 1.1;
+  }
+
+  /* CUSTOM (2026-07-20, per Kalvis, Figma spec): desktop back-face body
+     copy — 16px/130%/0% tracking (mobile is 12px/130%/-2%, see the base
+     rule above). */
+  .mo-eye-health__body {
+    font-size: 16px;
+    letter-spacing: 0;
   }
 
   .mo-eye-health__subhead {
