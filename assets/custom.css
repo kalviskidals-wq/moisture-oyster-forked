@@ -5421,14 +5421,21 @@ mo-review-filter {
 
 /* CUSTOM (2026-07-17, per Kalvis): fixed height, same for front and back —
    flipping swaps which face is visible without changing the card's box at
-   all. Sized generously for a 2-line caption at each breakpoint's
-   figure/caption font sizes (see the desktop override further down); the
-   back face's body copy uses overflow-y:auto as a safety net if a
-   merchant's text ends up taller than this fixed height. */
+   all. The back face's body copy uses overflow-y:auto as a safety net if a
+   merchant's text ends up taller than this fixed height.
+   CUSTOM FIX (2026-07-20, per Kalvis — devtools screenshot showed visible
+   dead space above the number/caption on mobile, since the front face is
+   bottom-anchored via justify-content:flex-end): 230px was a rough
+   estimate, generously oversized for the actual mobile content. Recomputed
+   from the real box model instead — 10px top pad + 66px figure line-height
+   (60px font x 1.1) + 32px card-top gap + ~31px 2-line caption (12px font x
+   1.3 x 2 lines) + 20px gap-above-divider + 1px divider + 15px bottom pad
+   = 175px. Mirrors the same fix already applied to the desktop height
+   (see the min-width:750px override further down). */
 .mo-eye-health__card-flip {
   position: relative;
   width: 100%;
-  height: 230px;
+  height: 175px;
   transform-style: preserve-3d;
   transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
 }
