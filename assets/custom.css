@@ -3640,26 +3640,43 @@ mo-review-filter {
    by .mo-howto__steps/.mo-reviews__scroller elsewhere in this file — left
    stays inset to align with the heading/content column, right bleeds to
    the viewport edge. */
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only): left inset dropped to 0
+   (was var(--mo-space-5, 20px)) — same fix already applied to
+   .mo-eye-health__cards-wrap: this element's own box IS the scroll
+   viewport's bounds, so a left inset here meant a card could never
+   scroll all the way to the true left edge, only to that 20px boundary.
+   The visual 20px rest-state inset now comes from
+   scroll-padding-inline-start on .mo-sub-benefits__benefits instead (see
+   below), matching .mo-eye-health__cards exactly. Desktop is unaffected —
+   the shared left:0/right:0/padding-inline rule further down already
+   forces left:0 there regardless. */
 .mo-sub-benefits__overlay {
   position: absolute;
   z-index: 3;
-  left: var(--mo-space-5, 20px);
+  left: 0;
   right: 0;
   bottom: var(--mo-space-5, 20px);
 }
 
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only): scroll-padding-inline-start
+   gives EVERY snapped card the same 20px left inset (not just the first),
+   exactly mirroring .mo-eye-health__cards. Combined with the plain
+   trailing spacer below (no special snap-align — same as
+   .mo-eye-health__cards-spacer), this is what actually fixed the "last
+   card cut off/previous card peeking" bug: an earlier attempt tried
+   giving the LAST card its own end-aligned snap point instead, which
+   doesn't match this established, working pattern and didn't fully
+   resolve it. */
 .mo-sub-benefits__benefits {
   display: flex;
   gap: var(--mo-space-4, 16px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  scroll-padding-inline-start: var(--mo-space-5, 20px);
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-block-end: var(--mo-space-2, 8px);
-  /* CUSTOM (2026-07-20, per Kalvis): needed for the last card's end-aligned
-     snap below — see .mo-sub-benefits__card--last. */
-  scroll-padding-inline-end: var(--mo-space-5, 20px);
 }
 
 .mo-sub-benefits__benefits::-webkit-scrollbar {
@@ -3671,31 +3688,10 @@ mo-review-filter {
   scroll-snap-align: start;
 }
 
-/* CUSTOM (2026-07-20, per Kalvis, mobile-only): the last card snaps by its
-   END edge instead of its start — combined with scroll-padding-inline-end
-   (20px) on .mo-sub-benefits__benefits above and the trailing spacer
-   below, this makes "last card's right edge sits 20px from the viewport
-   edge" an exactly-reachable snap position (the math: content's true max
-   scrollLeft now lands exactly on this alignment, with no clamping
-   conflict). Making the LAST card start-aligned like the others (an
-   earlier attempt) instead required scrolling past the physical end of
-   the content to achieve a clean alignment, which isn't reachable — the
-   browser clamped to the max scroll position instead, which happened to
-   partially reveal the PREVIOUS card peeking in on the left (the "cut
-   off" bug reported). */
-/* CUSTOM (2026-07-20, per Kalvis): uses an explicit modifier class
-   (mo-sub-benefits__card--last, set via forloop.last in the liquid loop)
-   rather than :last-child — the trailing spacer div is now the actual
-   last DOM child of .mo-sub-benefits__benefits, so :last-child would
-   target the spacer, not the last card. */
-.mo-sub-benefits__card--last {
-  scroll-snap-align: end;
-}
-
-/* Trailing spacer: physically extends the scrollable content so the
-   end-aligned snap position above (20px gutter after the last card) is
-   actually reachable — without it there isn't enough scrollable width for
-   that exact alignment to exist. Hidden on desktop, where this becomes a
+/* Trailing spacer — plain, no snap-align, matching
+   .mo-eye-health__cards-spacer: physically extends the scrollable content
+   so the last card gets the same 20px gap on its right once scrolled all
+   the way to the end. Hidden on desktop, where this becomes a
    non-scrolling stacked column (see the min-width:750px block below). */
 .mo-sub-benefits__benefits-spacer {
   flex: 0 0 var(--mo-space-5, 20px);
