@@ -2764,6 +2764,32 @@ tbody tr:last-child .mo-compare__cell {
   color: var(--mo-science-badge-text, #ffffff);
 }
 
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only — Figma node 1126:1007
+   "GLP detail row"): this is a solid-fill pink pill, not the
+   bordered/transparent badge above (which desktop keeps as-is) — 6px/4px
+   padding (was 20px/8px), no border, filled with the same color the
+   border used (--mo-science-badge-border, already #FFD5F7 by default),
+   10px checkmark circle (was 16px), and dark-green text for contrast
+   against the pink fill (was white — illegible on a light pill). Text
+   size already comes from the .mo-science .mo-tag--sm mobile rule above
+   (8px). */
+@media screen and (max-width: 749px) {
+  .mo-science__badge {
+    padding: 4px 6px;
+    border: none;
+    background: var(--mo-science-badge-border, #ffd5f7);
+  }
+
+  .mo-science__badge-check {
+    width: 10px;
+    height: 10px;
+  }
+
+  .mo-science__badge-text {
+    color: #093d24;
+  }
+}
+
 /* ============================================================================
    MO REVIEWS — sections/custom-reviews.liquid
    Aggregate header + tag-filter pills + horizontal-scroll review cards
