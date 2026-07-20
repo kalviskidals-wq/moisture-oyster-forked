@@ -850,9 +850,11 @@ body {
     top: 0;
     bottom: auto;
     background: transparent;
-    /* CUSTOM FIX (2026-07-18, per Kalvis): was 40px, then 30px, now 20px to
-       compensate for the heading's own line-height space above its text. */
-    padding-block: 20px 0;
+    /* CUSTOM FIX (2026-07-20, per Kalvis): 40px from the section top — was
+       20px (a previous compensation attempt for the heading's own
+       line-height space), which no longer matched the other PDP sections'
+       shared 40px desktop top inset. */
+    padding-block: var(--mo-space-8, 40px) 0;
   }
 
   .mo-problem__eyebrow,
@@ -866,6 +868,10 @@ body {
      across both, so they're not repeated here). */
   .mo-problem__eyebrow {
     font-size: 14px;
+    /* CUSTOM (2026-07-20, per Kalvis): eyebrow-to-heading gap 8px on
+       desktop (was inheriting the shared 16px mobile margin above, never
+       overridden here) — matches the other PDP sections' convention. */
+    margin-bottom: var(--mo-space-2, 8px);
   }
 
   .mo-problem__heading {
