@@ -1165,10 +1165,10 @@
         "badge_check_color": "#ffffff"
       }
     },
-    "custom_reviews_mopdp1": {
+    "custom_reviews_MQFKn3": {
       "type": "custom-reviews",
       "blocks": {
-        "filter_1": {
+        "filter_FK8AzP": {
           "type": "filter",
           "name": "Filter",
           "settings": {
@@ -1176,7 +1176,7 @@
             "tag_key": "verified"
           }
         },
-        "filter_2": {
+        "filter_Rm6P3P": {
           "type": "filter",
           "name": "Filter",
           "disabled": true,
@@ -1185,7 +1185,7 @@
             "tag_key": "most_helpful"
           }
         },
-        "filter_3": {
+        "filter_r77cWT": {
           "type": "filter",
           "name": "Filter",
           "settings": {
@@ -1193,7 +1193,7 @@
             "tag_key": "lens_wearer"
           }
         },
-        "filter_4": {
+        "filter_UxcDKD": {
           "type": "filter",
           "name": "Filter",
           "settings": {
@@ -1201,7 +1201,7 @@
             "tag_key": "screen_worker"
           }
         },
-        "filter_5": {
+        "filter_PtMtQn": {
           "type": "filter",
           "name": "Filter",
           "disabled": true,
@@ -1210,11 +1210,11 @@
             "tag_key": "has_photos"
           }
         },
-        "review_1": {
+        "review_NTGRJx": {
           "type": "review",
           "name": "Review",
           "settings": {
-            "name": "Maelle",
+            "name": "Julianna",
             "location": "Miami, FL",
             "meta_type": "subscriber",
             "duration": "3 months",
@@ -1224,7 +1224,7 @@
             "tags": "verified,lens_wearer,screen_worker"
           }
         },
-        "review_2": {
+        "review_7yHe78": {
           "type": "review",
           "name": "Review",
           "settings": {
@@ -1238,7 +1238,7 @@
             "tags": "verified,most_helpful"
           }
         },
-        "review_3": {
+        "review_af7qK9": {
           "type": "review",
           "name": "Review",
           "settings": {
@@ -1252,7 +1252,7 @@
             "tags": "verified,screen_worker,most_helpful"
           }
         },
-        "review_3B386y": {
+        "review_jUPzaD": {
           "type": "review",
           "disabled": true,
           "settings": {
@@ -1268,15 +1268,15 @@
         }
       },
       "block_order": [
-        "filter_1",
-        "filter_2",
-        "filter_3",
-        "filter_4",
-        "filter_5",
-        "review_1",
-        "review_2",
-        "review_3",
-        "review_3B386y"
+        "filter_FK8AzP",
+        "filter_Rm6P3P",
+        "filter_r77cWT",
+        "filter_UxcDKD",
+        "filter_PtMtQn",
+        "review_NTGRJx",
+        "review_7yHe78",
+        "review_af7qK9",
+        "review_jUPzaD"
       ],
       "name": "MO Reviews",
       "settings": {
@@ -1479,7 +1479,7 @@
     "custom_ingredient_transparency_mopdp1",
     "custom_how_to_use_8X9BU3",
     "custom_clinical_science_mopdp1",
-    "custom_reviews_mopdp1",
+    "custom_reviews_MQFKn3",
     "custom_faq_mopdp1",
     "custom_subscribe_benefits_mopdp1"
   ]
