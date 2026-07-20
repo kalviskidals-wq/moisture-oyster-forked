@@ -1081,7 +1081,14 @@ body {
 
 .mo-compare__eyebrow {
   color: var(--mo-compare-eyebrow, #ffd5f7);
-  margin: 0 0 var(--mo-space-4, 16px);
+  /* CUSTOM FIX (2026-07-20, per Kalvis): eyebrow-to-heading gap 8px, matching
+     the other PDP sections' convention — was 16px, inconsistent with every
+     other section (only ever fixed for desktop before, at line ~1420;
+     mobile was still inheriting this original 16px). This is scoped to the
+     eyebrow/heading gap only — the outer section-to-card padding around
+     this whole block is a separate, legitimate two-layer design (card lives
+     inside the section, not flush with it) and is left untouched. */
+  margin: 0 0 var(--mo-space-2, 8px);
   font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
   font-weight: 500;
   font-size: 10px;
