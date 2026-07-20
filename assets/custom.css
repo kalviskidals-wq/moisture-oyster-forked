@@ -2019,8 +2019,11 @@ tbody tr:last-child .mo-compare__cell {
    the first card's left edge is always pixel-identical to the eyebrow above
    it. Trade-off: the next-card peek stops at the inner's right padding
    instead of bleeding to the true viewport edge — acceptable. */
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only): step cards removed from
+   mobile entirely — mobile shows only the video (see .mo-howto__media
+   below, 1:1 on mobile). Restored to a visible column on desktop. */
 .mo-howto__steps {
-  display: flex;
+  display: none;
   flex-direction: row;
   gap: var(--mo-space-4, 16px);
   overflow-x: auto;
@@ -2043,6 +2046,7 @@ tbody tr:last-child .mo-compare__cell {
      the right-side content (.mo-howto__media) at a consistent ~68% and its
      left edge aligned with the other three PDP sections. */
   .mo-howto__steps {
+    display: flex;
     flex-direction: column;
     flex: 0 0 32%;
     min-width: 240px;
@@ -2132,17 +2136,23 @@ tbody tr:last-child .mo-compare__cell {
   }
 }
 
-/* ---------- Media: video/poster, right column on desktop ---------- */
+/* ---------- Media: video/poster, right column on desktop ----------
+   CUSTOM (2026-07-20, per Kalvis, mobile-only): 1:1 aspect ratio now that
+   it's the only thing shown on mobile (step cards hidden above) — was a
+   320px min-height with no fixed ratio. Desktop resets back to the
+   original flex-stretch/min-height behavior (no fixed aspect ratio, height
+   driven by matching the steps column's height). */
 .mo-howto__media {
   position: relative;
   width: 100%;
-  min-height: 320px;
+  aspect-ratio: 1 / 1;
   border-radius: var(--mo-howto-video-radius, 10px);
   overflow: hidden;
 }
 
 @media screen and (min-width: 750px) {
   .mo-howto__media {
+    aspect-ratio: auto;
     flex: 1 1 auto;
     min-height: 480px;
   }
