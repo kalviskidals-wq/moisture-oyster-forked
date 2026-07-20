@@ -3126,10 +3126,16 @@ mo-review-filter {
   }
 }
 
+/* CUSTOM (2026-07-20, per Kalvis — matched against Figma node 1126:1074,
+   the actual mobile frame for this section): 16px inset (was the shared
+   var(--mo-space-5, 20px) used across the PDP sections above/below it —
+   FLAGGED, same tradeoff noted in Clinical & Science: this is 4px
+   tighter than its neighbors' shared inset). Outer 32px gap (meta block
+   to accordion list) already matched, unchanged. */
 .mo-faq__inner {
   max-width: var(--page-width, var(--normal-page-width, 1280px));
   margin-inline: auto;
-  padding-inline: var(--mo-space-5, 20px);
+  padding-inline: var(--mo-space-4, 16px);
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--mo-space-7, 32px);
@@ -3157,7 +3163,7 @@ mo-review-filter {
 }
 
 .mo-faq__eyebrow {
-  color: var(--mo-faq-eyebrow, #b8f3d8);
+  color: var(--mo-faq-eyebrow, #ffd5f7);
 }
 
 /* CUSTOM: matches the exact heading typography convention shared by every
@@ -3180,12 +3186,45 @@ mo-review-filter {
 @media screen and (min-width: 750px) {
   .mo-faq__heading {
     font-size: 40px;
+    line-height: 1.1;
   }
 }
 
 .mo-faq__support {
   color: var(--mo-faq-support, #ffffff);
   margin: 0;
+}
+
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only — Figma node 1126:1074):
+   the flat 16px gap above doesn't match Figma's differentiated spacing
+   (8px eyebrow-to-heading, 24px header-to-support), so on mobile the
+   parent gap is zeroed and each transition gets its own margin instead.
+   Eyebrow is also 10px here (was inheriting the shared .mo-tag class's
+   14px), and the support note is Manrope Medium 14px (was .mo-body-lg's
+   Inter 400 16px). Desktop keeps the original uniform 16px gap/typography,
+   unscoped above. */
+@media screen and (max-width: 749px) {
+  .mo-faq__meta {
+    gap: 0;
+  }
+
+  .mo-faq__eyebrow {
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+
+  .mo-faq__heading {
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .mo-faq__support {
+    font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.3;
+    letter-spacing: normal;
+  }
 }
 
 .mo-faq__support a {
@@ -3210,6 +3249,29 @@ mo-review-filter {
   padding-block-start: 0;
 }
 
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only — Figma node 1126:1074):
+   divider moved from above each item to below it (same "below, not
+   above" repositioning already done for the Ingredient Detail accordion)
+   — 19px from the question row down to the line, 20px from the line to
+   the next item's question row (39px combined, split asymmetrically per
+   Figma rather than the even 20px/20px split used on desktop, which is
+   untouched below). */
+@media screen and (max-width: 749px) {
+  .mo-faq__item {
+    border-top: none;
+    border-bottom: 1px solid var(--mo-faq-divider, #b8f3d8);
+    padding-block: 20px 19px;
+  }
+
+  .mo-faq__item:first-child {
+    padding-top: 0;
+  }
+
+  .mo-faq__item:last-child {
+    border-bottom: none;
+  }
+}
+
 .mo-faq__summary {
   display: flex;
   align-items: center;
@@ -3217,6 +3279,12 @@ mo-review-filter {
   gap: var(--mo-space-4, 16px);
   cursor: pointer;
   list-style: none;
+}
+
+@media screen and (max-width: 749px) {
+  .mo-faq__summary {
+    gap: 10px;
+  }
 }
 
 .mo-faq__summary::marker,
@@ -3261,6 +3329,19 @@ mo-review-filter {
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only — Figma node 1126:1089):
+   28px circle (was 40px — that was measured against a different,
+   presumably desktop, frame per audit #26). Desktop's 40px above is
+   untouched. The matching icon-size override sits below the base
+   `.mo-faq__toggle svg` rule (later in the cascade) so it isn't shadowed
+   by it. */
+@media screen and (max-width: 749px) {
+  .mo-faq__toggle {
+    width: 28px;
+    height: 28px;
+  }
+}
+
 /* CUSTOM FIX (2026-07-18, per Kalvis): matches the same open-state color
    swap used in the "What's Inside" section (.mo-ingredient[open] .mo-ingredient__toggle)
    — border disappears, the circle fills with a solid color. That section's
@@ -3285,6 +3366,13 @@ mo-review-filter {
 
 .mo-faq__item[open] .mo-faq__toggle svg {
   transform: rotate(45deg);
+}
+
+@media screen and (max-width: 749px) {
+  .mo-faq__toggle svg {
+    width: 8px;
+    height: 8px;
+  }
 }
 
 .mo-faq__answer {
