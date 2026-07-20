@@ -2230,10 +2230,19 @@ tbody tr:last-child .mo-compare__cell {
   }
 }
 
+/* CUSTOM (2026-07-20, per Kalvis — matched against Figma node 1126:941,
+   the actual mobile frame for this section): 16px inset (was the shared
+   var(--mo-space-5, 20px) used by this section's PDP neighbors —
+   FLAGGED: this makes this section's mobile left/right edge 4px tighter
+   than How to Use / Ingredient Detail / Comparison Table immediately
+   above/below it, which all deliberately share the 20px inset for
+   cross-section alignment. Implemented as asked (exact match to this
+   section's own Figma frame); revert to var(--mo-space-5, 20px) if the
+   cross-section alignment matters more than this frame's literal value). */
 .mo-science__inner {
   max-width: var(--page-width, var(--normal-page-width, 1280px));
   margin-inline: auto;
-  padding-inline: var(--mo-space-5, 20px);
+  padding-inline: var(--mo-space-4, 16px);
 }
 
 @media screen and (min-width: 750px) {
@@ -2242,9 +2251,12 @@ tbody tr:last-child .mo-compare__cell {
   }
 }
 
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only): eyebrow-to-heading gap
+   8px (was 16px) — Figma node 1126:945 "Section header" gap. Desktop's
+   existing 16px kept explicit below. */
 .mo-science__eyebrow {
   color: var(--mo-science-eyebrow, #ffffff);
-  margin: 0 0 var(--mo-space-4, 16px);
+  margin: 0 0 var(--mo-space-2, 8px);
   font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
   font-weight: 500;
   font-size: 10px;
@@ -2259,7 +2271,10 @@ tbody tr:last-child .mo-compare__cell {
   font-family: var(--mo-font-heading, 'Manrope', sans-serif);
   font-weight: 700;
   font-size: 28px;
-  line-height: 1.1;
+  /* CUSTOM (2026-07-20, per Kalvis, mobile-only): leading-none (1) per
+     Figma node 1126:949 — was 1.1. Desktop's existing 1.1 kept explicit
+     below. */
+  line-height: 1;
   letter-spacing: -0.02em; /* CUSTOM: was missing — Figma confirms -2% tracking (audit #22 follow-up, 2026-07-17) */
   max-width: 46ch;
 }
@@ -2267,10 +2282,12 @@ tbody tr:last-child .mo-compare__cell {
 @media screen and (min-width: 750px) {
   .mo-science__eyebrow {
     font-size: 14px;
+    margin-bottom: var(--mo-space-4, 16px);
   }
 
   .mo-science__heading {
     font-size: 40px;
+    line-height: 1.1;
   }
 }
 
@@ -2310,6 +2327,25 @@ tbody tr:last-child .mo-compare__cell {
   padding: 30px; /* CUSTOM: no exact 30px token exists (--mo-space-7 is 32px) — hardcoded to match Figma exactly */
 }
 
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only — Figma node 1126:941):
+   both cards use 16px padding and different radii (stats 16px, chart
+   10px) on mobile — the 40px/30px padding and shared --mo-science-card-radius
+   above are the desktop-audited (633:518/633:525) values, unaffected. */
+@media screen and (max-width: 749px) {
+  .mo-science__stats-card,
+  .mo-science__chart-card {
+    padding: 16px;
+  }
+
+  .mo-science__stats-card {
+    border-radius: 16px;
+  }
+
+  .mo-science__chart-card {
+    border-radius: 10px;
+  }
+}
+
 /* CUSTOM FIX (2026-07-18, per Kalvis + Figma node 633:525): was
    justify-content:center — when .mo-science__grid stretches this card to
    match the taller chart card's height, centering added extra vertical
@@ -2327,11 +2363,14 @@ tbody tr:last-child .mo-compare__cell {
 /* CUSTOM (2026-07-18): flex:1 so this fills .mo-science__stats-card's full
    (stretched-to-match-chart-card) height, rather than sizing to its own
    content and leaving dead space below it. */
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only — Figma node 1126:951):
+   row-gap 10px (was 24px) — desktop's dedicated row-gap:0 override below
+   is unaffected. */
 .mo-science__stats-grid {
   display: grid;
   flex: 1;
   grid-template-columns: 1fr;
-  row-gap: var(--mo-space-6, 24px);
+  row-gap: 10px;
 }
 
 @media screen and (min-width: 750px) {
@@ -2365,7 +2404,7 @@ tbody tr:last-child .mo-compare__cell {
   flex-direction: column;
   justify-content: space-between;
   gap: var(--mo-space-4, 16px);
-  padding-bottom: var(--mo-space-6, 24px);
+  padding-bottom: 16px;
   border-bottom: 1px solid var(--mo-science-divider, #b8f3d8);
 }
 
@@ -2374,7 +2413,22 @@ tbody tr:last-child .mo-compare__cell {
    divider + spacing between them. */
 .mo-science__stat:last-child {
   border-bottom: none;
-  padding-bottom: 0;
+}
+
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only — Figma node 1126:952 etc.):
+   each row gets symmetric 16px top+bottom padding (was bottom-only,
+   16px→24px handled by the row-gap above) — the last item keeps its
+   16px bottom padding too (Figma only removes ITS border, not the
+   padding). Desktop's own padding-right/bottom/top overrides further
+   down are untouched. */
+@media screen and (max-width: 749px) {
+  .mo-science__stat {
+    padding-top: 16px;
+  }
+
+  .mo-science__stat:last-child {
+    padding-bottom: 16px;
+  }
 }
 
 @media screen and (min-width: 750px) {
@@ -2509,6 +2563,30 @@ tbody tr:last-child .mo-compare__cell {
   font-weight: 500; /* CUSTOM: .mo-body only supplies 400 (Regular) — Figma calls for Manrope Medium here */
 }
 
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only — Figma node 1126:941):
+   .mo-h3 (24px) and .mo-body (14px) are both too large for this card's
+   mobile type — Figma specs 18px for the title and 12px for the
+   description here specifically, plus the description's -2% tracking
+   (.mo-body doesn't set letter-spacing at all). Every small-tag element
+   in this card (eyebrow/threshold pill/bar labels/caption/badge text,
+   all sharing .mo-tag--sm at 10px) is actually 8px per this frame.
+   Desktop is untouched — none of this is scoped there. */
+@media screen and (max-width: 749px) {
+  .mo-science__chart-title {
+    font-size: 18px;
+    margin-bottom: 13px;
+  }
+
+  .mo-science__chart-desc {
+    font-size: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .mo-science .mo-tag--sm {
+    font-size: 8px;
+  }
+}
+
 .mo-science__chart-area {
   position: relative;
   height: var(--mo-science-chart-h, 220px);
@@ -2606,6 +2684,26 @@ tbody tr:last-child .mo-compare__cell {
   background: var(--mo-science-bar, #1fa567);
   border-radius: var(--mo-radius-md, 10px); /* CUSTOM: was 6px top-corners-only — Figma confirms 10px on all corners */
   overflow: hidden;
+}
+
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only — Figma node 1126:941, the
+   "Testing column"/"Testing level" bars): value label 14px (was 16px),
+   track+fill narrower (31px, was 48px) with a tighter 6px radius (was the
+   shared 10px --mo-radius-md) — all desktop-audited values above are
+   untouched. */
+@media screen and (max-width: 749px) {
+  .mo-science__bar-value {
+    font-size: 14px;
+  }
+
+  .mo-science__bar-track {
+    width: 31px;
+    border-radius: 6px;
+  }
+
+  .mo-science__bar-fill {
+    border-radius: 6px;
+  }
 }
 
 /* CUSTOM FIX (2026-07-17, Kalvis screenshot): removed the ::after "cap" strip
