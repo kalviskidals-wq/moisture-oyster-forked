@@ -90,6 +90,11 @@
     {%- endif -%}
 
     <div class="mo-home-hero__scrim" aria-hidden="true"></div>
+    {%- # CUSTOM (2026-07-20, per Kalvis): fixed design-spec gradient over the
+    background image/video, separate from the merchant-configurable scrim
+    above (that one's color/opacity are theme-editor settings, defaulted to
+    0% opacity; this gradient is a hardcoded, non-configurable layer). -%}
+    <div class="mo-home-hero__gradient" aria-hidden="true"></div>
   </div>
 
   {%- # CUSTOM (2026-07-13 round 3): header/subhead/CTA overlay grouped under one wrapper — .mo-home-hero__content — instead of the CTA row living inside .mo-home-hero__media. Media is now purely the background layer (image/video/scrim); all foreground text/buttons live here so desktop can lay them out as CSS Grid items (align-items: start guarantees the header/subhead columns' TOP edges match exactly, with no guessed pixel offset — see custom.css) while mobile keeps the previous position:absolute stacking. -%}

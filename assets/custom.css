@@ -4617,6 +4617,22 @@ mo-review-filter {
   pointer-events: none;
 }
 
+/* CUSTOM (2026-07-20, per Kalvis): fixed gradient over the background
+   image/video — separate element from .mo-home-hero__scrim above so it
+   doesn't interact with that div's merchant-configurable color/opacity
+   settings (which stay at their own independent default). Darkens the
+   right side of the image (270deg = gradient line points left, so the
+   first stop lands on the right) for the subhead/CTA content pinned
+   mid-right on desktop; kept unscoped (applies at every breakpoint) since
+   no breakpoint was specified. */
+.mo-home-hero__gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0.4) 24.27%, rgba(13, 27, 20, 0) 53.51%);
+  pointer-events: none;
+}
+
 /* ---------- Content wrapper ----------
    Mobile: plain block box, children independently position:absolute
    (unchanged stacking behavior from before). Desktop: becomes a CSS Grid
