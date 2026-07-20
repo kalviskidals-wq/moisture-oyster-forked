@@ -1834,13 +1834,14 @@ tbody tr:last-child .mo-compare__cell {
   margin-block-start: 12px;
   border-top: 1px solid var(--mo-ingredients-divider, #1fa567);
   padding-block-start: 12px;
-  padding-block-end: var(--mo-space-6, 24px);
+  padding-block-end: 12px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-ingredient__body {
     margin-block-start: var(--mo-space-6, 24px);
     padding-block-start: var(--mo-space-6, 24px);
+    padding-block-end: var(--mo-space-6, 24px);
   }
 }
 
