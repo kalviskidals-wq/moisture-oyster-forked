@@ -3048,7 +3048,6 @@ mo-review-filter {
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
-  gap: var(--mo-space-5, 20px);
   background: var(--mo-reviews-card-bg, #ffffff);
   border-radius: var(--mo-reviews-card-radius, 16px); /* CUSTOM: was 20px — Figma dev-mode confirms 16px (audit #13/#24, 2026-07-17) */
   padding: var(--mo-space-7, 30px); /* CUSTOM: was 24px — Figma confirms 30px */
@@ -3087,8 +3086,18 @@ mo-review-filter {
   }
 }
 
+/* CUSTOM FIX (2026-07-20, Figma node 633:610 — a real 440x507 card
+   instance): the card's own gap was a flat 20px between every child; the
+   real box model has three distinct groups (name/location head, then a
+   meta/photo/rating cluster, then the quote) 46px apart, with 12px between
+   the meta/photo/rating cluster's own three items — computed from the
+   frame's exact child y-positions, and confirmed exact (30+52+46+240+46+
+   63+30 = 507, the frame's real height). Card's flat gap (above) was
+   removed in favor of these per-element margins so each transition can
+   get its own correct value. */
 .mo-reviews__card-head {
   text-align: center;
+  margin-bottom: 46px;
 }
 
 .mo-reviews__name,
@@ -3097,17 +3106,22 @@ mo-review-filter {
   color: var(--mo-reviews-name, #093d24);
   font-size: 24px; /* CUSTOM: was inherited from .mo-h4 (20px) — Figma dev-mode confirms 24px (audit #13/#24, 2026-07-17) */
   font-weight: 700;
+  line-height: 1.1; /* CUSTOM (2026-07-20): was 1.0 via .mo-h4 — Figma confirms 1.1 */
+  letter-spacing: -0.02em; /* CUSTOM (2026-07-20): Figma confirms -0.48px/-2% tracking, was unset */
 }
 
 .mo-reviews__meta {
   text-align: center;
-  margin: 0;
+  margin: 0 0 12px; /* CUSTOM (2026-07-20): 12px gap to the photo below, see the card-level comment above */
   color: var(--mo-reviews-meta, #093d24);
-  opacity: 0.7;
+  /* CUSTOM FIX (2026-07-20, Figma node 633:610): was opacity:0.7 — this
+     frame shows the meta line at full opacity, same solid deep-green as
+     everything else on the card, no dimming. */
 }
 
 .mo-reviews__pro-badge {
   align-self: center;
+  margin-bottom: 12px; /* CUSTOM (2026-07-20): matches .mo-reviews__meta's gap to the photo below — this is the alternate element rendered in its place for the professional/pill badge styles. */
   font-family: var(--mo-font-mono);
   font-size: var(--mo-tag-sm-size, 0.625rem);
   font-weight: var(--mo-tag-sm-weight, 500);
@@ -3122,7 +3136,8 @@ mo-review-filter {
 .mo-reviews__photo {
   border-radius: 16px; /* CUSTOM: was --mo-radius-md (10px) — Figma dev-mode confirms 16px (audit #13/#24, 2026-07-17) */
   overflow: hidden;
-  aspect-ratio: 4 / 2.8;
+  aspect-ratio: 280 / 185; /* CUSTOM FIX (2026-07-20, node 633:610): was 4/2.8 (~1.43) — the frame's real image box is 280x185 (~1.51), a visibly different crop. */
+  margin-bottom: 12px; /* CUSTOM (2026-07-20): 12px gap to the rating row below */
 }
 
 .mo-reviews__photo-img {
@@ -3136,14 +3151,15 @@ mo-review-filter {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--mo-space-2, 8px);
+  gap: 6px; /* CUSTOM FIX (2026-07-20, node 633:610): was 8px — Figma confirms 6px between the rating number and the star row */
+  margin-bottom: 46px; /* CUSTOM (2026-07-20): 46px gap to the quote below, see the card-level comment above */
 }
 
 .mo-reviews__rating-value {
   margin: 0;
   color: var(--mo-reviews-rating-value, #093d24);
-  font-size: 24px; /* CUSTOM: was inherited from .mo-h5 (18px) — Figma dev-mode confirms 24px (audit #13/#24, 2026-07-17) */
-  font-weight: 700;
+  font-size: 20px; /* CUSTOM FIX (2026-07-20, node 633:610): was 24px — this frame's rating number is 20px */
+  font-weight: 800; /* CUSTOM FIX (2026-07-20, node 633:610): was 700 (Bold) — Figma confirms ExtraBold(800) */
 }
 
 .mo-reviews__rating .mo-stars {
@@ -3154,6 +3170,7 @@ mo-review-filter {
   margin: 0;
   text-align: left;
   color: var(--mo-reviews-quote, #093d24);
+  font-weight: 500; /* CUSTOM (2026-07-20, node 633:610): .mo-body-lg (font/size/line-height, already correct) doesn't set a weight — Figma confirms Manrope Medium(500), was defaulting to 400. */
 }
 
 /* ============================================================================
