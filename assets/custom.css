@@ -3679,6 +3679,13 @@ mo-review-filter {
 .mo-sub-benefits__benefits-spacer {
   flex: 0 0 var(--mo-space-5, 20px);
   width: var(--mo-space-5, 20px);
+  /* CUSTOM (2026-07-20, per Kalvis): with `scroll-snap-type: x mandatory`,
+     a spacer with no snap-align of its own isn't a valid rest position —
+     same "mandatory snap forces past a non-snap-target spacer" bug hit
+     (and fixed the same way) on .mo-eye-health__cards. Without this, a
+     fling gesture springs back to the last CARD's start-aligned snap
+     point and never settles with the trailing 20px actually in view. */
+  scroll-snap-align: start;
 }
 
 /* Desktop (Figma desktop frame): header overlays the full-bleed image
