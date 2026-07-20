@@ -759,6 +759,7 @@
         },
         "review_Thtm9b": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "name": "Igor",
             "location": "",
