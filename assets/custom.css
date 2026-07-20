@@ -6180,6 +6180,19 @@ body {
   background-color: var(--mo-deep-green, #093d24);
 }
 
+/* CUSTOM (2026-07-20, per Kalvis): exception to the site-wide round-8 fix
+   directly above — Shopify's auto policy pages (Refund/Privacy/Terms/
+   Shipping) have no custom section of their own and just show plain
+   black text straight on body's background, so the deep-green site-wide
+   default made them unreadable/mismatched there. `template-policy` is
+   added to <body> in layout/theme.liquid only when
+   request.page_type == 'policy'. Higher specificity than the plain
+   `body` selector above (class + tag vs. tag alone), so this wins
+   regardless of source order. */
+body.template-policy {
+  background-color: #ffffff;
+}
+
 /* CUSTOM (fix): cart/search/filter drawers rendered above the header at all
    viewport widths. Horizon's own drawer dialog (shared/native, deduplicated
    snippet, not edited directly) sets its z-index from --layer-sticky (8)
