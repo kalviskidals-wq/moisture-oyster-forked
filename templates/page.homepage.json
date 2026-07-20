@@ -702,7 +702,7 @@
           "type": "filter",
           "name": "Filter",
           "settings": {
-            "label": "Screen Worker",
+            "label": "Screen User",
             "tag_key": "screen_worker"
           }
         },
