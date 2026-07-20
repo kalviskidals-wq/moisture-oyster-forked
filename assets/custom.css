@@ -1104,6 +1104,29 @@ body {
   overflow: visible;
 }
 
+/* CUSTOM FIX (2026-07-19, per Kalvis, mobile-only): the 32px gap needs to
+   land on the highlighted MO column's actual top border — relying on
+   .mo-compare__heading's own margin-bottom wasn't reliably landing there,
+   since the header row's height (and therefore where its top edge actually
+   sits) is driven by the tall MO cell (logo + its own padding), while the
+   plain Feature/OTC header cells sit vertical-align:bottom within that same
+   shared row — easy to misjudge the true gap by eye against the wrong
+   reference point. This puts the 32px directly on the table itself instead
+   (heading's own margin zeroed out below, mobile only, so there's exactly
+   one source of truth for this gap — no risk of it silently doubling up if
+   margin-collapse behavior ever differs from expected). Desktop is a
+   side-by-side grid (header and table are separate columns, not stacked),
+   so neither of these mobile-only changes affects it. */
+@media screen and (max-width: 749px) {
+  .mo-compare__table-wrap {
+    margin-top: 32px;
+  }
+
+  .mo-compare__heading {
+    margin-bottom: 0;
+  }
+}
+
 .mo-compare__table {
   width: 100%;
   table-layout: fixed;
