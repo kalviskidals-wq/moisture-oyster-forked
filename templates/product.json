@@ -201,7 +201,7 @@
                   "type": "product-description",
                   "name": "t:names.product_description",
                   "settings": {
-                    "text": "{{ closest.product.description }}",
+                    "text": "<p>Preservative-free daily eye drops with Glycerin, Hyaluronate and L-Carnitine triple-action moisture and cellular support for digital-age eyes. Not sing, no blur. Made in the Netherlands. Designed in Miami.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -715,7 +715,7 @@
         "feature_column_label": "FEATURE",
         "mo_logo": "shopify://shop_images/MO_logo_pink.svg",
         "mo_column_label": "MOISTURE OYSTER",
-        "otc_column_label": "TYPICAL OTC DROP",
+        "otc_column_label": "TYPICAL OTC DROPS",
         "background_color": "#0d1b14",
         "frame_color": "#0d1b14",
         "frame_bottom_color": "#093d24",
