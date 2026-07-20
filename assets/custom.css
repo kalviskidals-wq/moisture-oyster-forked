@@ -3464,9 +3464,17 @@ mo-review-filter {
   padding: var(--mo-space-8, 40px) var(--mo-space-5, 20px) var(--mo-space-7, 32px);
 }
 
+/* CUSTOM (2026-07-20, per Kalvis, mobile-only): eyebrow-to-heading gap
+   and heading line-height brought in line with the shared PDP top-text
+   convention confirmed across Clinical Science / FAQ / Ingredient Detail
+   (8px gap, leading-none heading on mobile) — was a flat 16px gap and
+   1.1 line-height at every width. Desktop's previous 16px/1.1 kept
+   explicit below; colors are untouched since this section's light
+   mobile header background is a deliberate deviation from the other
+   (dark-background) sections. */
 .mo-sub-benefits__eyebrow {
   color: var(--mo-sub-eyebrow, #1fa567);
-  margin: 0 0 var(--mo-space-4, 16px);
+  margin: 0 0 var(--mo-space-2, 8px);
   font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
   font-weight: 500;
   font-size: 10px;
@@ -3482,7 +3490,7 @@ mo-review-filter {
   font-family: var(--mo-font-heading, 'Manrope', sans-serif);
   font-weight: 700;
   font-size: 28px;
-  line-height: 1.1;
+  line-height: 1;
   letter-spacing: -0.02em;
 }
 
@@ -3702,11 +3710,13 @@ mo-review-filter {
 
   .mo-sub-benefits__eyebrow {
     font-size: 14px;
+    margin-bottom: var(--mo-space-4, 16px);
   }
 
   .mo-sub-benefits__heading {
     max-width: 12ch;
     font-size: 40px;
+    line-height: 1.1;
   }
 
   .mo-sub-benefits__media {
