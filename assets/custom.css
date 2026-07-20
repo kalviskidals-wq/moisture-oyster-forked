@@ -1708,7 +1708,7 @@ tbody tr:last-child .mo-compare__cell {
 
 /* ---------- Ingredient accordion rows ---------- */
 .mo-ingredient {
-  border-top: 1px solid var(--mo-ingredients-divider, #1fa56733);
+  border-top: 1px solid var(--mo-ingredients-divider, #1fa567);
 }
 
 .mo-ingredient:first-child {
@@ -1848,7 +1848,7 @@ tbody tr:last-child .mo-compare__cell {
 /* ---------- Free From panel ---------- */
 .mo-free-from__item {
   padding-block: var(--mo-space-5, 20px);
-  border-top: 1px solid var(--mo-ingredients-divider, #1fa56733);
+  border-top: 1px solid var(--mo-ingredients-divider, #1fa567);
 }
 
 .mo-free-from__item:first-child {
@@ -1883,7 +1883,7 @@ tbody tr:last-child .mo-compare__cell {
   justify-content: space-between;
   gap: var(--mo-space-4, 16px);
   padding-block: var(--mo-space-4, 16px);
-  border-top: 1px solid var(--mo-ingredients-divider, #1fa56733);
+  border-top: 1px solid var(--mo-ingredients-divider, #1fa567);
 }
 
 .mo-specs__row:first-child {
