@@ -82,6 +82,20 @@
             assign v_number = v_title | split: ' ' | first
             assign v_label = v_title | remove_first: v_number | strip
 
+            # CUSTOM (2026-07-20, per Kalvis): price-per-bottle helper text on
+            # multi-packs (2/3-bottle tiers), so shoppers can compare value
+            # without doing the math themselves. v_number is a string parsed
+            # from the variant title above (e.g. "2" from "2 Bottles") —
+            # `times: 1` coerces it to a real number for the > 1 check and the
+            # division below. Only shown when the pack actually has more than
+            # 1 bottle; a single-bottle tier has nothing to divide.
+            assign v_number_int = v_number | times: 1
+            assign show_per_bottle = false
+            if v_number_int > 1
+              assign show_per_bottle = true
+              assign price_per_bottle = variant.price | times: 1.0 | divided_by: v_number_int | round
+            endif
+
             assign badge_text = variant.metafields.custom.badge_label
             assign discount_pct = 0
             if variant.compare_at_price > variant.price
@@ -135,6 +149,9 @@
             {%- endif -%}
             <span class="mo-vpicker__qty-number">{{ v_number }}</span>
             <span class="mo-vpicker__qty-unit">{{ v_label | default: 'Bottle' }}</span>
+            {%- if show_per_bottle -%}
+              <span class="mo-vpicker__qty-per-bottle">{{ price_per_bottle | money }}/bottle</span>
+            {%- endif -%}
           </label>
         {%- endfor -%}
       </div>
@@ -490,6 +507,26 @@
     .mo-vpicker__qty-number {
       font-size: 1.25rem;
     }
+  }
+
+  /* CUSTOM (2026-07-20, per Kalvis): price-per-bottle helper text, shown only
+     on multi-bottle tiers (see the show_per_bottle liquid assign above).
+     Small/muted so it reads as a secondary detail under the qty unit label,
+     not competing with the card's own big number + badge. Inherits the
+     card's text color (var(--mo-card-text-active)/inactive) same as the
+     other card text, so it stays legible against both the selected (filled)
+     and unselected (outline) card backgrounds. */
+  .mo-vpicker__qty-per-bottle {
+    align-self: flex-start;
+    width: fit-content;
+    text-align: left;
+    margin-top: 4px;
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-size: 0.5625rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    opacity: 0.75;
+    color: inherit;
   }
 {% endstylesheet %}
 
