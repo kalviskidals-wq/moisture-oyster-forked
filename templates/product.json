@@ -235,102 +235,6 @@
                   },
                   "blocks": {}
                 },
-                "mo_tier_picker": {
-                  "type": "mo-tier-picker",
-                  "name": "MO Tier + Sub Picker",
-                  "settings": {
-                    "quantity_label": "Quantity",
-                    "purchase_label": "Purchase Option",
-                    "subscribe_title": "Subscribe",
-                    "onetime_title": "One-Time",
-                    "deliver_prefix": "Deliver every",
-                    "card_bg_inactive": "#ffffff",
-                    "card_border_inactive": "#1fa567",
-                    "card_bg_active": "#1fa567",
-                    "card_border_active": "#1fa567",
-                    "card_text_active": "#ffffff",
-                    "card_text_inactive": "#093d24",
-                    "badge_save_bg": "#ffffff",
-                    "badge_save_text": "#115033",
-                    "badge_value_bg": "#ffffff",
-                    "badge_value_text": "#115033",
-                    "badge_value_border": "#c4c1ba",
-                    "bubble_bg": "#ffd5f7",
-                    "bubble_text": "#093d24"
-                  },
-                  "blocks": {}
-                },
-                "mo_buy_buttons": {
-                  "type": "buy-buttons",
-                  "name": "t:names.product_buy_buttons",
-                  "settings": {
-                    "stacking": true,
-                    "text_color": "",
-                    "show_pickup_availability": false,
-                    "gift_card_form": false,
-                    "recipient_button_style": "default",
-                    "recipient_button_background": "{{ settings.color_palette.background }}",
-                    "recipient_button_text": "{{ settings.color_palette.foreground }}",
-                    "recipient_button_border": "{{ settings.color_palette.foreground }}",
-                    "selected_recipient_button_style": "default",
-                    "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
-                    "selected_recipient_button_text": "{{ settings.color_palette.background }}",
-                    "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
-                    "input_style": "default",
-                    "input_background_color": "{{ settings.color_palette.background }}",
-                    "input_text_color": "{{ settings.color_palette.foreground }}",
-                    "input_border_color": "{{ settings.color_palette.foreground }}",
-                    "border_width": 1,
-                    "border_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {
-                    "quantity": {
-                      "type": "quantity",
-                      "disabled": true,
-                      "static": true,
-                      "settings": {
-                        "input_style": "default",
-                        "input_background_color": "{{ settings.color_palette.background }}",
-                        "input_text_color": "{{ settings.color_palette.foreground }}",
-                        "input_border_color": "{{ settings.color_palette.foreground }}",
-                        "border_width": 1,
-                        "border_radius": 0
-                      },
-                      "blocks": {}
-                    },
-                    "add-to-cart": {
-                      "type": "add-to-cart",
-                      "static": true,
-                      "settings": {
-                        "style_class": "button",
-                        "custom_button_background": "{{ settings.color_palette.foreground }}",
-                        "custom_button_text": "{{ settings.color_palette.background }}",
-                        "custom_button_border": "{{ settings.color_palette.background }}"
-                      },
-                      "blocks": {}
-                    },
-                    "accelerated-checkout": {
-                      "type": "accelerated-checkout",
-                      "static": true,
-                      "settings": {},
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": []
-                },
-                "mo_payment_badges": {
-                  "type": "mo-pdp-payment-badges",
-                  "name": "MO Payment Badges",
-                  "settings": {
-                    "text": "Apple Pay · Visa · Mastercard · Afterpay",
-                    "text_color": "#093d24"
-                  },
-                  "blocks": {}
-                },
                 "mo_accordion": {
                   "type": "accordion",
                   "name": "t:names.accordion",
@@ -446,6 +350,102 @@
                     "text_color": "#093d24"
                   },
                   "blocks": {}
+                },
+                "mo_tier_picker": {
+                  "type": "mo-tier-picker",
+                  "name": "MO Tier + Sub Picker",
+                  "settings": {
+                    "quantity_label": "Quantity",
+                    "purchase_label": "Purchase Option",
+                    "subscribe_title": "Subscribe",
+                    "onetime_title": "One-Time",
+                    "deliver_prefix": "Deliver every",
+                    "card_bg_inactive": "#ffffff",
+                    "card_border_inactive": "#1fa567",
+                    "card_bg_active": "#1fa567",
+                    "card_border_active": "#1fa567",
+                    "card_text_active": "#ffffff",
+                    "card_text_inactive": "#093d24",
+                    "badge_save_bg": "#ffffff",
+                    "badge_save_text": "#115033",
+                    "badge_value_bg": "#ffffff",
+                    "badge_value_text": "#115033",
+                    "badge_value_border": "#c4c1ba",
+                    "bubble_bg": "#ffd5f7",
+                    "bubble_text": "#093d24"
+                  },
+                  "blocks": {}
+                },
+                "mo_buy_buttons": {
+                  "type": "buy-buttons",
+                  "name": "t:names.product_buy_buttons",
+                  "settings": {
+                    "stacking": true,
+                    "text_color": "",
+                    "show_pickup_availability": false,
+                    "gift_card_form": false,
+                    "recipient_button_style": "default",
+                    "recipient_button_background": "{{ settings.color_palette.background }}",
+                    "recipient_button_text": "{{ settings.color_palette.foreground }}",
+                    "recipient_button_border": "{{ settings.color_palette.foreground }}",
+                    "selected_recipient_button_style": "default",
+                    "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
+                    "selected_recipient_button_text": "{{ settings.color_palette.background }}",
+                    "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
+                    "input_style": "default",
+                    "input_background_color": "{{ settings.color_palette.background }}",
+                    "input_text_color": "{{ settings.color_palette.foreground }}",
+                    "input_border_color": "{{ settings.color_palette.foreground }}",
+                    "border_width": 1,
+                    "border_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "quantity": {
+                      "type": "quantity",
+                      "disabled": true,
+                      "static": true,
+                      "settings": {
+                        "input_style": "default",
+                        "input_background_color": "{{ settings.color_palette.background }}",
+                        "input_text_color": "{{ settings.color_palette.foreground }}",
+                        "input_border_color": "{{ settings.color_palette.foreground }}",
+                        "border_width": 1,
+                        "border_radius": 0
+                      },
+                      "blocks": {}
+                    },
+                    "add-to-cart": {
+                      "type": "add-to-cart",
+                      "static": true,
+                      "settings": {
+                        "style_class": "button",
+                        "custom_button_background": "{{ settings.color_palette.foreground }}",
+                        "custom_button_text": "{{ settings.color_palette.background }}",
+                        "custom_button_border": "{{ settings.color_palette.background }}"
+                      },
+                      "blocks": {}
+                    },
+                    "accelerated-checkout": {
+                      "type": "accelerated-checkout",
+                      "static": true,
+                      "settings": {},
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": []
+                },
+                "mo_payment_badges": {
+                  "type": "mo-pdp-payment-badges",
+                  "name": "MO Payment Badges",
+                  "settings": {
+                    "text": "Apple Pay · Visa · Mastercard · Afterpay",
+                    "text_color": "#093d24"
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
@@ -454,11 +454,11 @@
                 "mo_glp_badge",
                 "mo_description",
                 "mo_rating_link",
+                "mo_accordion",
+                "mo_trust_bullets",
                 "mo_tier_picker",
                 "mo_buy_buttons",
-                "mo_payment_badges",
-                "mo_accordion",
-                "mo_trust_bullets"
+                "mo_payment_badges"
               ]
             }
           },
