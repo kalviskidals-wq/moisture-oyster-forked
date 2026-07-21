@@ -310,7 +310,27 @@
 
                   <div class="cart-items__unit-price-wrapper">
                     <div>
-                      {% if item.original_price != item.final_price %}
+                      {%- liquid
+                        # CUSTOM FIX (2026-07-22, per Kalvis): stock Horizon only ever compares
+                        # against item.variant.compare_at_price, which is the merchandise "sale"
+                        # markup on the variant itself. A subscription's discount (e.g. the 10%
+                        # subscribe-and-save on the 1-bottle tier) doesn't come from that field at
+                        # all — it's baked into the selling plan, so item.original_price and
+                        # item.final_price are already equal to the discounted price and the old
+                        # checks never fired, rendering no "was $X" for subscription lines. The
+                        # pre-discount reference price for a selling-plan line lives on
+                        # item.selling_plan_allocation.compare_at_price instead.
+                        assign show_subscription_compare = false
+                        if item.selling_plan_allocation != blank and item.selling_plan_allocation.compare_at_price > item.final_price
+                          assign show_subscription_compare = true
+                        endif
+                      -%}
+                      {% if show_subscription_compare %}
+                        <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
+                        <span>{{ item.final_price | money }}</span>
+                        <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
+                        <s class="compare-at-price">{{ item.selling_plan_allocation.compare_at_price | money }}</s>
+                      {% elsif item.original_price != item.final_price %}
                         <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
                         <span>{{ item.final_price | money }}</span>
                         <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
