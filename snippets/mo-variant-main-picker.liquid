@@ -885,5 +885,30 @@
     setTimeout(function () {
       applyState(true);
     }, 800);
+
+    // CUSTOM FIX (2026-07-21, QA report: Add to Bag charging the one-time price
+    // while Subscribe showed selected): the 800ms re-apply above is a best-effort
+    // guess at Seal's init timing, not a guarantee — on a slow device/connection
+    // Seal's delayed init can still run AFTER that window and win, so a shopper
+    // who clicks Add to Bag before/after the guess loses can still submit a stale
+    // selling_plan value. Reproduced live on production (2026-07-21): Subscribe
+    // selected in the UI, cart line still showed the full one-time price.
+    //
+    // Fix: stop trying to out-race Seal pre-emptively and instead correct the
+    // form at the one moment that actually matters — immediately before it's
+    // submitted. A capture-phase listener on `document` runs before Shopify's
+    // own submit handling on the form itself (which only sees the event at the
+    // target phase, after capturing listeners on ancestors have already run),
+    // so this always has the last word on `id` + `selling_plan` regardless of
+    // whatever Seal did in between, with no timing guesswork involved.
+    document.addEventListener(
+      'submit',
+      function (event) {
+        if (event.target === getForm()) {
+          applyState(true);
+        }
+      },
+      true
+    );
   })();
 </script>

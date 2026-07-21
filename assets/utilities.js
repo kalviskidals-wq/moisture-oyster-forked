@@ -118,11 +118,21 @@ export function startViewTransition(callback, types) {
 
     if (types) types.forEach((type) => transition.types.add(type));
 
-    transition.finished.then(() => {
-      viewTransition.current = undefined;
-      cleanupFunctions.forEach((cleanupFunction) => cleanupFunction());
-      resolve();
-    });
+    // CUSTOM FIX (2026-07-21, QA report): `transition.finished` rejects with an
+    // InvalidStateError when a transition is aborted (e.g. a second transition
+    // starts — fly-to-cart + cart-drawer-fill firing close together — before
+    // this one finishes). With no .catch() that rejection was surfacing as an
+    // uncaught exception in the console during add-to-cart. The DOM mutation in
+    // `callback` has already run by this point regardless of the transition's
+    // visual outcome, so an abort is treated the same as a normal finish here:
+    // cleanup runs and the returned promise still resolves either way.
+    transition.finished
+      .catch(() => {})
+      .finally(() => {
+        viewTransition.current = undefined;
+        cleanupFunctions.forEach((cleanupFunction) => cleanupFunction());
+        resolve();
+      });
   });
 }
 
