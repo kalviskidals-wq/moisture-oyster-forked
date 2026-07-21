@@ -325,7 +325,14 @@
   }
 
   .mo-vpicker__cards--qty {
-    grid-template-columns: repeat(3, 1fr);
+    /* CUSTOM FIX (2026-07-22, per Kalvis): plain "1fr" tracks resolve to
+       minmax(auto, 1fr) — a track's minimum is its content's max-content
+       size, not 0. Once the +Free Delivery tag (nowrap) was added to the
+       2/3-bottle cards, those cards needed more min-content width than the
+       1-bottle card (which has no tag), so the grid gave them extra space
+       and left the 1-bottle card visibly narrower. minmax(0, 1fr) forces
+       all 3 columns to the same width regardless of content. */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .mo-vpicker__cards--purchase {
@@ -344,6 +351,19 @@
     border-radius: var(--mo-radius-md, 10px);
     padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px) var(--mo-space-3, 12px); /* CUSTOM: was 16px all sides — Figma confirms 8px top / 12px sides+bottom (audit #17) */
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+
+  /* CUSTOM FIX (2026-07-22, per Kalvis): qty cards in the same grid row
+     stretch to equal height (default grid align-items:stretch), and the
+     base .mo-vpicker__card rule above centers its content vertically
+     (justify-content:center). The 1-bottle card has no +Free Delivery tag,
+     so it has less content than its siblings — centering that shorter
+     content in the same stretched height as the taller 2/3-bottle cards
+     pushed its number/unit text down relative to theirs. Top-aligning
+     instead keeps the number/unit flush with the top of every qty card
+     regardless of what optional content follows below it. */
+  .mo-vpicker__card--qty {
+    justify-content: flex-start;
   }
 
   .mo-vpicker__card.is-disabled {
