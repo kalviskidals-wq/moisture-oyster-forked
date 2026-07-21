@@ -467,7 +467,7 @@
           "type": "stat",
           "settings": {
             "figure": "55%",
-            "caption": "Decrease in blink rate while on screen",
+            "caption": "Decrease in blink rate during screen use",
             "body": "<p>Staring at screens suppresses your natural blink reflex, reducing tear film renewal and leaving eyes dry, gritty, and fatigued by midday.</p>"
           }
         },
