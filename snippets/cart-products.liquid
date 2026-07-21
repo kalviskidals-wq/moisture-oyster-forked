@@ -62,6 +62,23 @@
     <a
       class="button cart-items__empty-button"
       href="{{ settings.empty_cart_button_link | default: routes.all_products_collection_url }}"
+      {% if context == 'drawer' %}
+        {% comment %}
+          CUSTOM FIX (2026-07-21, QA report): "Continue shopping" navigates away, but
+          theme-drawer.liquid's sessionStorage restore script (which keeps a drawer open
+          across navigation on desktop/squeeze viewports, by design, so it doesn't flicker
+          closed when a shopper is just browsing with it open) doesn't know this particular
+          link is an explicit dismissal — it was never removing this drawer's id first, so
+          the drawer forced itself back open on whatever page loaded next, including a
+          broken destination, and looked permanently "stuck". This link is the one place a
+          shopper explicitly says "I'm done with this drawer" while it happens to be empty,
+          so it clears cart-drawer's own entry from the persisted list synchronously, before
+          the browser unloads the page for the navigation. Only removes this drawer's id
+          (not the whole key) so an unrelated drawer open at the same time, e.g. chat, still
+          restores normally.
+        {% endcomment %}
+        onclick="try { var ids = (sessionStorage.getItem('theme-drawer-open') || '').split(',').filter(function (id) { return id &amp;&amp; id !== 'cart-drawer'; }); if (ids.length) { sessionStorage.setItem('theme-drawer-open', ids.join(',')); } else { sessionStorage.removeItem('theme-drawer-open'); } } catch (e) {}"
+      {% endif %}
     >
       <span class="button-text">
         {{ 'actions.continue_shopping' | t }}
