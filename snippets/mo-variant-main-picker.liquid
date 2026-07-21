@@ -179,7 +179,7 @@
             <span class="mo-vpicker__qty-number">{{ v_number }}</span>
             <span class="mo-vpicker__qty-unit">{{ v_label | default: 'Bottle' }}</span>
             {%- if show_free_shipping -%}
-              <span class="mo-vpicker__shipping-tag">Free Delivery</span>
+              <span class="mo-vpicker__shipping-tag">+ Free Delivery</span>
             {%- endif -%}
           </label>
         {%- endfor -%}
@@ -434,7 +434,12 @@
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    white-space: nowrap;
+    text-align: center;
+    /* CUSTOM FIX (2026-07-22, per Kalvis, screenshot ref): was nowrap, forcing
+       "+ Free Delivery" onto one line regardless of card width. width:fit-content
+       already shrink-wraps this pill to the available space, so dropping nowrap
+       lets it naturally break into "+FREE" / "DELIVERY" on 2 lines on narrower
+       (mobile) cards, while staying on 1 line wherever there's room (desktop). */
   }
 
   /* CUSTOM FIX (2026-07-18, per Kalvis screenshot): was top:-8px, overhanging
