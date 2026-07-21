@@ -154,33 +154,39 @@
   {%- if any_selling_plans -%}
     {%- liquid
       assign first_alloc = current_variant.selling_plan_allocations.first
-      assign onetime_price = current_variant.price | money
-      assign subscribe_price = onetime_price
+      # CUSTOM (2026-07-20, per Kalvis): "_total" holds the real full-pack
+      # price (what the shopper is actually charged) — always the same
+      # value it always was. "_amount" is what's shown BIG on the card:
+      # for a multi-bottle tier this becomes the per-bottle price instead
+      # of the total (per Kalvis: the per-bottle price should be the
+      # prominent number on multipacks, with the full pack price demoted
+      # to a small secondary line — see the markup below). For a
+      # single-bottle tier _amount and _total are identical, so the card
+      # looks exactly as it did before this change. current_variant's title
+      # is parsed the same way as each qty card's above. JS recomputes/
+      # shows-hides everything on every qty-card change via each radio's
+      # data-bottle-count (see the qty loop above + the script further
+      # down); this is just the correct initial (pre-JS) render for the
+      # currently-selected variant on first paint.
+      assign onetime_total = current_variant.price
+      assign subscribe_total = current_variant.price
       if first_alloc != blank
-        assign subscribe_price = first_alloc.price | money
+        assign subscribe_total = first_alloc.price
       endif
 
-      # CUSTOM (2026-07-20, per Kalvis): price-per-bottle helper text on the
-      # Subscribe/One-time cards (not the qty cards) — only meaningful once a
-      # multi-bottle tier (2/3-pack) is selected. current_variant's own title
-      # is parsed the same way as each qty card's above. JS recomputes/shows-
-      # hides both spans on every qty-card change via each radio's
-      # data-bottle-count (see the qty loop above + the script further down);
-      # this is just the correct initial (pre-JS) render for the
-      # currently-selected variant on first paint.
       assign current_v_number = current_variant.title | split: ' ' | first
       assign current_bottle_count = current_v_number | times: 1
       assign show_per_bottle = false
-      assign onetime_price_per_bottle = current_variant.price
-      assign subscribe_price_per_bottle = current_variant.price
-      if first_alloc != blank
-        assign subscribe_price_per_bottle = first_alloc.price
-      endif
+      assign onetime_amount = onetime_total
+      assign subscribe_amount = subscribe_total
       if current_bottle_count > 1
         assign show_per_bottle = true
-        assign onetime_price_per_bottle = current_variant.price | times: 1.0 | divided_by: current_bottle_count | round
-        assign subscribe_price_per_bottle = subscribe_price_per_bottle | times: 1.0 | divided_by: current_bottle_count | round
+        assign onetime_amount = onetime_total | times: 1.0 | divided_by: current_bottle_count | round
+        assign subscribe_amount = subscribe_total | times: 1.0 | divided_by: current_bottle_count | round
       endif
+
+      assign onetime_price = onetime_amount | money
+      assign subscribe_price = subscribe_amount | money
     -%}
     <div class="mo-vpicker__section">
       {%- if bs.purchase_label != blank -%}
@@ -198,8 +204,10 @@
             class="mo-vpicker__radio-input"
             checked
           >
-          <span class="mo-vpicker__purchase-price" data-role="subscribe-price">{{ subscribe_price }}</span>
-          <span class="mo-vpicker__purchase-per-bottle" data-role="subscribe-price-per-bottle"{% unless show_per_bottle %} hidden{% endunless %}>{{ subscribe_price_per_bottle | money }}/bottle</span>
+          <span class="mo-vpicker__purchase-price">
+            <span data-role="subscribe-price-amount">{{ subscribe_price }}</span><span class="mo-vpicker__purchase-price-unit" data-role="subscribe-price-unit"{% unless show_per_bottle %} hidden{% endunless %}>/bottle</span>
+          </span>
+          <span class="mo-vpicker__purchase-secondary" data-role="subscribe-price-secondary"{% unless show_per_bottle %} hidden{% endunless %}>{{ subscribe_total | money }} total</span>
           <span class="mo-vpicker__purchase-title">
             {{ bs.subscribe_title | default: 'Subscribe' }}
             <span class="mo-vpicker__save-badge" data-role="subscribe-badge" hidden></span>
@@ -212,8 +220,10 @@
             value="onetime"
             class="mo-vpicker__radio-input"
           >
-          <span class="mo-vpicker__purchase-price" data-role="onetime-price">{{ onetime_price }}</span>
-          <span class="mo-vpicker__purchase-per-bottle" data-role="onetime-price-per-bottle"{% unless show_per_bottle %} hidden{% endunless %}>{{ onetime_price_per_bottle | money }}/bottle</span>
+          <span class="mo-vpicker__purchase-price">
+            <span data-role="onetime-price-amount">{{ onetime_price }}</span><span class="mo-vpicker__purchase-price-unit" data-role="onetime-price-unit"{% unless show_per_bottle %} hidden{% endunless %}>/bottle</span>
+          </span>
+          <span class="mo-vpicker__purchase-secondary" data-role="onetime-price-secondary"{% unless show_per_bottle %} hidden{% endunless %}>{{ onetime_total | money }} total</span>
           <span class="mo-vpicker__purchase-title">{{ bs.onetime_title | default: 'One-Time' }}</span>
         </label>
       </div>
@@ -439,15 +449,32 @@
     color: inherit;
   }
 
-  /* CUSTOM (2026-07-20, per Kalvis): price-per-bottle helper text on the
-     Subscribe/One-time cards, shown only once a multi-bottle tier (2/3-pack)
-     is selected — see the show_per_bottle liquid assign + the JS further
-     down, which toggles the [hidden] attribute on qty-card change. Sits
-     directly under the big price, small/muted so it reads as a secondary
-     detail; .mo-vpicker__purchase-title's margin-top:auto (above) still
-     pins the Subscribe/One-Time label to the card's bottom regardless of
-     whether this line is shown. */
-  .mo-vpicker__purchase-per-bottle {
+  /* CUSTOM (2026-07-20, per Kalvis): "/bottle" suffix shown next to the big
+     price once a multi-bottle tier (2/3-pack) is selected — at that point
+     the big number itself IS the per-bottle price (see the liquid assigns
+     above + the JS further down), so this just labels it. Deliberately
+     smaller than .mo-vpicker__purchase-price's 1.5rem so it reads as a
+     unit suffix, not part of the number itself. */
+  .mo-vpicker__purchase-price-unit {
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .mo-vpicker__purchase-price-unit[hidden] {
+    display: none;
+  }
+
+  /* CUSTOM (2026-07-20, per Kalvis): full pack-price line on the Subscribe/
+     One-time cards, shown only once a multi-bottle tier (2/3-pack) is
+     selected — at that point the BIG price above has become the per-bottle
+     amount, so this small secondary line is what shows the actual total
+     charge instead ("$79.05 total"). Sits directly under the big price,
+     small/muted so it reads as a secondary detail; .mo-vpicker__purchase-
+     title's margin-top:auto (above) still pins the Subscribe/One-Time label
+     to the card's bottom regardless of whether this line is shown. */
+  .mo-vpicker__purchase-secondary {
     align-self: flex-start;
     width: fit-content;
     text-align: left;
@@ -460,7 +487,7 @@
     color: inherit;
   }
 
-  .mo-vpicker__purchase-per-bottle[hidden] {
+  .mo-vpicker__purchase-secondary[hidden] {
     display: none;
   }
 
@@ -678,23 +705,34 @@
       // only this read was wrong).
       var mode = purchaseRadio ? purchaseRadio.value : 'onetime';
 
-      var onetimeEl = picker.querySelector('[data-role="onetime-price"]');
-      if (onetimeEl) onetimeEl.textContent = formatMoney(variantPrice);
+      // CUSTOM (2026-07-20, per Kalvis): on a multi-bottle tier, the BIG
+      // number becomes the per-bottle price (with a "/bottle" suffix) and
+      // the full pack price moves to a small "$X.XX total" secondary line
+      // — the reverse of the original layout, where the big number was
+      // always the full price. On a single-bottle tier both amounts are
+      // identical and the unit/secondary elements stay hidden, so the card
+      // looks exactly as it always has.
+      var onetimeAmountEl = picker.querySelector('[data-role="onetime-price-amount"]');
+      var onetimeUnitEl = picker.querySelector('[data-role="onetime-price-unit"]');
+      var onetimeSecondaryEl = picker.querySelector('[data-role="onetime-price-secondary"]');
+      var isMultipack = bottleCount > 1;
 
-      // CUSTOM (2026-07-20, per Kalvis): price-per-bottle line on the
-      // One-time card — only shown once bottleCount > 1.
-      var onetimePerBottleEl = picker.querySelector('[data-role="onetime-price-per-bottle"]');
-      if (onetimePerBottleEl) {
-        if (bottleCount > 1) {
-          onetimePerBottleEl.textContent = formatMoney(Math.round(variantPrice / bottleCount)) + '/bottle';
-          onetimePerBottleEl.hidden = false;
+      if (onetimeAmountEl) {
+        onetimeAmountEl.textContent = formatMoney(isMultipack ? Math.round(variantPrice / bottleCount) : variantPrice);
+      }
+      if (onetimeUnitEl) onetimeUnitEl.hidden = !isMultipack;
+      if (onetimeSecondaryEl) {
+        if (isMultipack) {
+          onetimeSecondaryEl.textContent = formatMoney(variantPrice) + ' total';
+          onetimeSecondaryEl.hidden = false;
         } else {
-          onetimePerBottleEl.hidden = true;
+          onetimeSecondaryEl.hidden = true;
         }
       }
 
-      var subscribeEl = picker.querySelector('[data-role="subscribe-price"]');
-      var subscribePerBottleEl = picker.querySelector('[data-role="subscribe-price-per-bottle"]');
+      var subscribeAmountEl = picker.querySelector('[data-role="subscribe-price-amount"]');
+      var subscribeUnitEl = picker.querySelector('[data-role="subscribe-price-unit"]');
+      var subscribeSecondaryEl = picker.querySelector('[data-role="subscribe-price-secondary"]');
       var badgeEl = picker.querySelector('[data-role="subscribe-badge"]');
       var chosenPlanId = null;
 
@@ -706,16 +744,16 @@
         })[0] || allocations[0];
 
         chosenPlanId = alloc.selling_plan_id;
-        if (subscribeEl) subscribeEl.textContent = formatMoney(alloc.price);
-        // CUSTOM (2026-07-20, per Kalvis): price-per-bottle line on the
-        // Subscribe card — mirrors the one-time line above, but off the
-        // selling-plan allocation's own (often discounted) price.
-        if (subscribePerBottleEl) {
-          if (bottleCount > 1) {
-            subscribePerBottleEl.textContent = formatMoney(Math.round(alloc.price / bottleCount)) + '/bottle';
-            subscribePerBottleEl.hidden = false;
+        if (subscribeAmountEl) {
+          subscribeAmountEl.textContent = formatMoney(isMultipack ? Math.round(alloc.price / bottleCount) : alloc.price);
+        }
+        if (subscribeUnitEl) subscribeUnitEl.hidden = !isMultipack;
+        if (subscribeSecondaryEl) {
+          if (isMultipack) {
+            subscribeSecondaryEl.textContent = formatMoney(alloc.price) + ' total';
+            subscribeSecondaryEl.hidden = false;
           } else {
-            subscribePerBottleEl.hidden = true;
+            subscribeSecondaryEl.hidden = true;
           }
         }
         if (badgeEl) {
@@ -727,8 +765,9 @@
             badgeEl.hidden = true;
           }
         }
-      } else if (subscribePerBottleEl) {
-        subscribePerBottleEl.hidden = true;
+      } else {
+        if (subscribeUnitEl) subscribeUnitEl.hidden = true;
+        if (subscribeSecondaryEl) subscribeSecondaryEl.hidden = true;
       }
 
       if (writeToForm) {
