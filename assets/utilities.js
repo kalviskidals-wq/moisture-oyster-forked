@@ -126,6 +126,17 @@ export function startViewTransition(callback, types) {
     // `callback` has already run by this point regardless of the transition's
     // visual outcome, so an abort is treated the same as a normal finish here:
     // cleanup runs and the returned promise still resolves either way.
+    //
+    // CUSTOM FIX (2026-07-21, follow-up): the first pass only caught
+    // `.finished`, but a ViewTransition also exposes `.ready` and
+    // `.updateCallbackDone` as separate promises that reject independently on
+    // abort — confirmed live, the InvalidStateError still fired after the
+    // `.finished`-only fix because nothing had ever attached a handler to
+    // these two. Both are otherwise unused in this codebase, so a bare
+    // no-op .catch() is enough to mark them handled.
+    transition.ready.catch(() => {});
+    transition.updateCallbackDone.catch(() => {});
+
     transition.finished
       .catch(() => {})
       .finally(() => {
