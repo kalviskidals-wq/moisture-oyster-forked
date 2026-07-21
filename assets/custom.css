@@ -2308,6 +2308,13 @@ tbody tr:last-child .mo-compare__cell {
   .mo-science__heading {
     font-size: 40px;
     line-height: 1.1;
+    /* CUSTOM FIX (2026-07-20, per Kalvis): the base rule's 46ch cap barely
+       constrains anything at this font-size (46 characters at 40px Manrope
+       Bold is close to full section width) — heading was spanning nearly
+       the whole screen on desktop. Capped to 560px instead, matching the
+       same desktop heading-width convention used by Problem Agitation
+       (.mo-problem__heading). */
+    max-width: 560px;
   }
 }
 
