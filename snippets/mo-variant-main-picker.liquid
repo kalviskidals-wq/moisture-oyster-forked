@@ -416,30 +416,28 @@
   }
 
   /* CUSTOM (2026-07-20, per Kalvis): "Free Shipping" tag for any qty tier
-     priced over $31 (see the show_free_shipping liquid assign above) — its
-     own small pill, sitting in normal flow below the qty number/unit rather
-     than absolutely positioned like .mo-vpicker__tier-badge below, so a
-     card can show both a discount badge AND this tag at once without
-     needing overlap-avoidance math. */
+     priced over $31 (see the show_free_shipping liquid assign above), sitting
+     in normal flow below the qty number/unit rather than absolutely
+     positioned like .mo-vpicker__tier-badge below, so a card can show both a
+     discount badge AND this tag at once without needing overlap-avoidance
+     math.
+     CUSTOM FIX (2026-07-22, per Kalvis): dropped the pill styling (white bg,
+     centered, padding, border-radius) — plain text now, left-aligned to match
+     the qty number/unit above it, and color:inherit so it follows the same
+     active/inactive text color as the option name (mo-vpicker__qty-number/
+     -unit) instead of a hardcoded black. width:fit-content still lets it wrap
+     to 2 lines on narrower (mobile) cards, 1 line where there's room. */
   .mo-vpicker__shipping-tag {
     align-self: flex-start;
     width: fit-content;
+    text-align: left;
     margin-top: 4px;
-    padding: 2px 6px;
-    border-radius: 999px;
-    background: #ffffff; /* CUSTOM FIX (2026-07-20, per Kalvis): was mint/deep-green — white bg / black text instead. */
-    color: #000000;
+    color: inherit;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.5rem;
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    text-align: center;
-    /* CUSTOM FIX (2026-07-22, per Kalvis, screenshot ref): was nowrap, forcing
-       "+ Free Delivery" onto one line regardless of card width. width:fit-content
-       already shrink-wraps this pill to the available space, so dropping nowrap
-       lets it naturally break into "+FREE" / "DELIVERY" on 2 lines on narrower
-       (mobile) cards, while staying on 1 line wherever there's room (desktop). */
   }
 
   /* CUSTOM FIX (2026-07-18, per Kalvis screenshot): was top:-8px, overhanging
