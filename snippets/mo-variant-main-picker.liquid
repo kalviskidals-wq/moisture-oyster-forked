@@ -122,6 +122,18 @@
               assign badge_text = '-' | append: discount_pct | append: '%'
             endif
 
+            # CUSTOM (2026-07-20, per Kalvis, Figma node 1138:1649 for card
+            # styling reference): "Free Shipping" tag on any qty tier priced
+            # over $31 — variant.price is in cents, so the threshold is 3100.
+            # Rendered as its own small pill (separate from the discount
+            # badge above, which sits in the top-right corner) so a card can
+            # show both a discount AND free shipping at once without the two
+            # badges overlapping.
+            assign show_free_shipping = false
+            if variant.price > 3100
+              assign show_free_shipping = true
+            endif
+
             assign allocs_json = '['
             for alloc in variant.selling_plan_allocations
               unless forloop.first
@@ -166,6 +178,9 @@
             {%- endif -%}
             <span class="mo-vpicker__qty-number">{{ v_number }}</span>
             <span class="mo-vpicker__qty-unit">{{ v_label | default: 'Bottle' }}</span>
+            {%- if show_free_shipping -%}
+              <span class="mo-vpicker__shipping-tag">Free Shipping</span>
+            {%- endif -%}
           </label>
         {%- endfor -%}
       </div>
@@ -378,6 +393,30 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: inherit;
+  }
+
+  /* CUSTOM (2026-07-20, per Kalvis): "Free Shipping" tag for any qty tier
+     priced over $31 (see the show_free_shipping liquid assign above) — its
+     own small pill, sitting in normal flow below the qty number/unit rather
+     than absolutely positioned like .mo-vpicker__tier-badge below, so a
+     card can show both a discount badge AND this tag at once without
+     needing overlap-avoidance math. Mint/deep-green matches the "positive
+     perk" callouts used elsewhere on this project (e.g. the homepage
+     marquee bar), not the pink/white discount-badge palette. */
+  .mo-vpicker__shipping-tag {
+    align-self: flex-start;
+    width: fit-content;
+    margin-top: 4px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: var(--mo-mint, #b8f3d8);
+    color: var(--mo-deep-green, #093d24);
+    font-family: var(--mo-font-mono, ui-monospace, monospace);
+    font-size: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   /* CUSTOM FIX (2026-07-18, per Kalvis screenshot): was top:-8px, overhanging
