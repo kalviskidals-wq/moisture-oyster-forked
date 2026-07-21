@@ -400,17 +400,15 @@
      own small pill, sitting in normal flow below the qty number/unit rather
      than absolutely positioned like .mo-vpicker__tier-badge below, so a
      card can show both a discount badge AND this tag at once without
-     needing overlap-avoidance math. Mint/deep-green matches the "positive
-     perk" callouts used elsewhere on this project (e.g. the homepage
-     marquee bar), not the pink/white discount-badge palette. */
+     needing overlap-avoidance math. */
   .mo-vpicker__shipping-tag {
     align-self: flex-start;
     width: fit-content;
     margin-top: 4px;
     padding: 2px 6px;
     border-radius: 999px;
-    background: var(--mo-mint, #b8f3d8);
-    color: var(--mo-deep-green, #093d24);
+    background: #ffffff; /* CUSTOM FIX (2026-07-20, per Kalvis): was mint/deep-green — white bg / black text instead. */
+    color: #000000;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.5rem;
     font-weight: 500;
