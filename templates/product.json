@@ -340,17 +340,6 @@
                     "accordion-row-2"
                   ]
                 },
-                "mo_trust_bullets": {
-                  "type": "mo-pdp-trust-bullets",
-                  "name": "MO Trust Bullets",
-                  "settings": {
-                    "bullet_1": "Free shipping over $31.00",
-                    "bullet_2": "Pause, skip or cancel anytime",
-                    "bullet_3": "30-day money-back guarantee",
-                    "text_color": "#093d24"
-                  },
-                  "blocks": {}
-                },
                 "mo_tier_picker": {
                   "type": "mo-tier-picker",
                   "name": "MO Tier + Sub Picker",
@@ -373,6 +362,17 @@
                     "badge_value_border": "#c4c1ba",
                     "bubble_bg": "#ffd5f7",
                     "bubble_text": "#093d24"
+                  },
+                  "blocks": {}
+                },
+                "mo_trust_bullets": {
+                  "type": "mo-pdp-trust-bullets",
+                  "name": "MO Trust Bullets",
+                  "settings": {
+                    "bullet_1": "Free shipping over $31.00",
+                    "bullet_2": "Pause, skip or cancel anytime",
+                    "bullet_3": "30-day money-back guarantee",
+                    "text_color": "#093d24"
                   },
                   "blocks": {}
                 },
@@ -455,8 +455,8 @@
                 "mo_description",
                 "mo_rating_link",
                 "mo_accordion",
-                "mo_trust_bullets",
                 "mo_tier_picker",
+                "mo_trust_bullets",
                 "mo_buy_buttons",
                 "mo_payment_badges"
               ]
