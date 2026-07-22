@@ -28,10 +28,19 @@
   <div class="mo-pdp-testimonial__header">
     <span class="mo-pdp-testimonial__avatar">
       {%- if bs.author_image != blank -%}
+        {%- comment -%}
+          CUSTOM FIX (2026-07-22, per Kalvis): was a single fixed 88px source
+          (2x a 44px box) with no srcset — looked soft/low-res on 3x-density
+          phones, which need 132px, and any device pixel ratio above that.
+          widths: gives the browser several real resolutions to pick from via
+          the auto-generated srcset (sizes defaults to the width/height
+          attributes below, 44px), so it always loads a sharp one for its
+          actual pixel density instead of upscaling a single 88px source.
+        {%- endcomment -%}
         {{-
           bs.author_image
-          | image_url: width: 88
-          | image_tag: width: 44, height: 44, loading: 'lazy', alt: author_name_escaped
+          | image_url: width: 200
+          | image_tag: width: 44, height: 44, widths: '44, 88, 132, 176, 200', loading: 'lazy', alt: author_name_escaped
         -}}
       {%- endif -%}
     </span>
