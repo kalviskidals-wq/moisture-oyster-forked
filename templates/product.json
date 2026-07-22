@@ -35,6 +35,7 @@
           "name": "MO Testimonial (mobile)",
           "static": true,
           "settings": {
+            "author_image": "shopify://shop_images/Rectangle_150.png",
             "author_name": "Dr. Arthur Benjamin",
             "author_role": "Board Certified Ophthalmologist, Los Angeles",
             "rating": 5,
