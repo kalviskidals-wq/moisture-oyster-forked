@@ -439,7 +439,9 @@
      between the number and this unit label. This is Figma's "Tag large"
      style: 10px mobile (this base rule, unchanged), 14px desktop (see the
      min-width:750px block near the end of this stylesheet) — same category
-     as .mo-vpicker__purchase-title and the frequency row's labels below. */
+     as .mo-vpicker__purchase-title (the frequency row's labels below are
+     NOT part of this group — per Kalvis they stay 10px at both
+     breakpoints). */
   .mo-vpicker__qty-unit {
     align-self: flex-start;
     width: fit-content;
@@ -734,6 +736,9 @@
     padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px);
   }
 
+  /* CUSTOM (2026-07-22, per Kalvis): stays 10px at both mobile and desktop —
+     unlike most other tag-style text in this file, this one does NOT get a
+     desktop bump. */
   .mo-vpicker__frequency-label {
     font-family: var(--mo-font-mono, 'IBM Plex Mono', monospace);
     font-weight: 500;
@@ -792,7 +797,11 @@
      CUSTOM FIX (2026-07-22, per Kalvis): .mo-vpicker__ribbon's desktop size
      corrected to 9px (was 7px) — matches .mo-vpicker__purchase-secondary's
      "total" text exactly at both breakpoints, not just a same-ratio
-     approximation. */
+     approximation.
+     CUSTOM FIX (2026-07-22, per Kalvis): the "Deliver every: ___" frequency
+     row (.mo-vpicker__frequency-label/-static/-select) stays 10px at both
+     breakpoints instead of following the Tag large 10→14px scale — pulled
+     out of that group below, kept unscoped at its own 10px rule. */
   @media screen and (min-width: 750px) {
     .mo-vpicker__qty-number,
     .mo-vpicker__purchase-price {
@@ -800,10 +809,7 @@
     }
 
     .mo-vpicker__qty-unit,
-    .mo-vpicker__purchase-title,
-    .mo-vpicker__frequency-label,
-    .mo-vpicker__frequency-static,
-    .mo-vpicker__frequency-select {
+    .mo-vpicker__purchase-title {
       font-size: 0.875rem;
     }
 
