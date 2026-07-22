@@ -387,7 +387,7 @@
        base card's 12px) — matches both the plain "1 Bottle" reference (p-10
        all sides) and the ribboned "2 Bottles" reference (px-10/pb-10, only
        the top inset differs — see the :has() override below, which bumps
-       just padding-top to 20px on cards that actually have a ribbon). */
+       just padding-top on cards that actually have a ribbon). */
     padding: var(--mo-space-2, 8px) 10px 10px;
   }
 
@@ -531,15 +531,23 @@
      down only on cards that actually have a ribbon, via :has(), so cards
      without one keep the original top:8 "inside the tab" position confirmed
      earlier (audit #16/#17). Same :has() also reserves extra top padding on
-     the card itself (Figma node 1297:2380: pt-20 vs the plain card's p-10)
-     so the ribbon has room to sit above the qty number without overlapping
-     it. */
+     the card itself so the ribbon has room to sit above the qty number
+     without overlapping it. */
   .mo-vpicker__card:has(.mo-vpicker__ribbon) .mo-vpicker__tier-badge {
     top: 20px;
   }
 
+  /* CUSTOM FIX (2026-07-22, per Kalvis): padding-top set for an exact 8px
+     gap between the ribbon's bottom edge and the qty number below it — not
+     just "roughly enough room". Ribbon box height = 4px padding + line-height
+     (font-size × 1.1) + 4px padding, positioned at top:-1px, so its bottom
+     edge sits (ribbon height − 1px) below the card's own top edge. At the
+     mobile 6px ribbon font-size that's 4+6.6+4−1 = 13.6px, so padding-top =
+     13.6 + 8 = 21.6px, rounded to 22px. Desktop override (25px, same math at
+     the 9px desktop ribbon font-size) lives in the min-width:750px block
+     near the end of this stylesheet. */
   .mo-vpicker__card--qty:has(.mo-vpicker__ribbon) {
-    padding-top: 20px;
+    padding-top: 22px;
   }
 
   /* CUSTOM FIX (2026-07-18, per Kalvis): active-tab bubble text was near-black
@@ -564,12 +572,12 @@
     min-height: 65px;
     height: auto;
     /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2398): top padding
-       bumped from 8px to 20px, applied uniformly on BOTH cards (not just
-       whichever currently has a ribbon) — matches Figma, which reserves the
-       same pt-20 on the One-Time card too even in states where its ribbon
-       isn't shown. Reserving the space unconditionally means the price
-       number doesn't jump vertically when the One-Time ribbon toggles on/off
-       as the shopper switches between a single bottle and a multipack.
+       applied uniformly on BOTH cards (not just whichever currently has a
+       ribbon) — matches Figma, which reserves the same top inset on the
+       One-Time card too even in states where its ribbon isn't shown.
+       Reserving the space unconditionally means the price number doesn't
+       jump vertically when the One-Time ribbon toggles on/off as the
+       shopper switches between a single bottle and a multipack.
        CUSTOM FIX (2026-07-22, per Kalvis, single-card ref 1297:2461): side/
        bottom padding corrected to 10px (was 12px/8px) — this more precise
        isolated reference confirms px-10/pb-10, superseding the earlier
@@ -579,8 +587,13 @@
        when the secondary line is [hidden] the gap collapses naturally since
        browsers skip display:none items in gap calculations, so this Just
        Works for both the single-bottle and multipack states without any
-       manual pinning. */
-    padding: 20px 10px 10px;
+       manual pinning.
+       CUSTOM FIX (2026-07-22, per Kalvis): top padding bumped 20px → 22px so
+       there's an exact 8px gap between the ribbon's bottom edge and the
+       price below it (same math as .mo-vpicker__card--qty's :has() rule
+       above). Desktop override (25px) in the min-width:750px block near the
+       end of this stylesheet. */
+    padding: 22px 10px 10px;
     gap: 8px;
   }
 
@@ -801,7 +814,12 @@
      CUSTOM FIX (2026-07-22, per Kalvis): the "Deliver every: ___" frequency
      row (.mo-vpicker__frequency-label/-static/-select) stays 10px at both
      breakpoints instead of following the Tag large 10→14px scale — pulled
-     out of that group below, kept unscoped at its own 10px rule. */
+     out of that group below, kept unscoped at its own 10px rule.
+     CUSTOM FIX (2026-07-22, per Kalvis): padding-top bumped to 25px (from
+     22px mobile) on ribboned qty cards and purchase cards — keeps the exact
+     8px ribbon-to-content gap correct at the desktop 9px ribbon font-size,
+     same math as the mobile values (see .mo-vpicker__card--qty:has(...) and
+     .mo-vpicker__card--purchase above). */
   @media screen and (min-width: 750px) {
     .mo-vpicker__qty-number,
     .mo-vpicker__purchase-price {
@@ -821,6 +839,11 @@
     .mo-vpicker__ribbon,
     .mo-vpicker__purchase-secondary {
       font-size: 0.5625rem;
+    }
+
+    .mo-vpicker__card--qty:has(.mo-vpicker__ribbon),
+    .mo-vpicker__card--purchase {
+      padding-top: 25px;
     }
   }
 
