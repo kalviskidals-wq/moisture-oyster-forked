@@ -274,7 +274,7 @@
     {%- if plan_count > 1 -%}
       <div class="mo-vpicker__frequency" data-role="frequency-row">
         <label class="mo-vpicker__frequency-label" for="{{ picker_id }}-frequency">
-          {{ bs.deliver_prefix | default: 'Deliver every' }}
+          {{ bs.deliver_prefix | default: 'Deliver' }}
         </label>
         <select
           id="{{ picker_id }}-frequency"
@@ -288,7 +288,7 @@
       </div>
     {%- elsif plan_count == 1 -%}
       <div class="mo-vpicker__frequency" data-role="frequency-row">
-        <span class="mo-vpicker__frequency-label">{{ bs.deliver_prefix | default: 'Deliver every' }}</span>
+        <span class="mo-vpicker__frequency-label">{{ bs.deliver_prefix | default: 'Deliver' }}</span>
         <span class="mo-vpicker__frequency-static" data-role="frequency-static">
           {{ current_variant.selling_plan_allocations.first.selling_plan.name }}
         </span>
