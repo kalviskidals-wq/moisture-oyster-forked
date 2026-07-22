@@ -201,7 +201,7 @@
                   "type": "product-description",
                   "name": "t:names.product_description",
                   "settings": {
-                    "text": "<p>Preservative-free daily eye drops with Glycerin, Hyaluronate and L-Carnitine. Triple-action moisture and cellular support for digital-age eyes. No sting, no blur. Made in The Netherlands. Designed in Miami.</p>",
+                    "text": "<p>Preservative-free daily eye drops with Glycerin, Hyaluronate and L-Carnitine. Triple-action moisture and cellular support for digital-age eyes. No sting, no blur. Made in the Netherlands. Designed in Miami.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
