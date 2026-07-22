@@ -1,32 +1,57 @@
 {%- # CUSTOM: net-new theme block — verified-professional testimonial card, right-rail on PDP, above the buy box. UPSTREAM risk LOW (no Horizon file touched). -%}
 {%- comment -%}
-  CUSTOM FIX (2026-07-19, per Kalvis): removed the star-rating display
-  entirely — this card is a professional/doctor testimonial, not a customer
-  review, so a star score didn't belong here. Left the `rating` schema
-  setting in place (harmless if populated in existing block instances) but
-  it's no longer rendered.
+  CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2331): full redesign —
+  was a centered "author name + quote" block on a solid background with no
+  photo or rating. Figma's new "Review Container" reference adds a circular
+  author photo (mint-colored circle behind it, so a missing photo still
+  reads as an intentional avatar placeholder rather than a broken image) and
+  a numeric rating + star row above the author name, all left-aligned in a
+  header row, with the quote stacked below spanning the full card width.
+  This REPLACES the 2026-07-19 fix below (which had removed star ratings
+  entirely) — the rating is back, per this new reference.
 {%- endcomment -%}
 {%- liquid
   assign bs = block.settings
+  assign rating_display = bs.rating | times: 1.0 | round: 1
+  assign author_name_escaped = bs.author_name | escape
 %}
 
 <div
   class="mo-pdp-testimonial"
   style="
-    --mo-testimonial-bg: {{ bs.background_color | default: '#093D24' }};
-    --mo-testimonial-text: {{ bs.text_color | default: '#FFFFFF' }};
-    --mo-testimonial-quote: {{ bs.quote_color | default: '#FFFFFF' }};
+    --mo-testimonial-bg: {{ bs.background_color | default: '#FFFFFF' }};
+    --mo-testimonial-text: {{ bs.text_color | default: '#093D24' }};
+    --mo-testimonial-quote: {{ bs.quote_color | default: '#093D24' }};
   "
   {{ block.shopify_attributes }}
 >
-  {%- if bs.author_name != blank -%}
-    <p class="mo-pdp-testimonial__author">
-      {{- bs.author_name | escape -}}
-      {%- if bs.author_role != blank -%}
-        <span class="mo-pdp-testimonial__role"> — {{ bs.author_role | escape }}</span>
+  <div class="mo-pdp-testimonial__header">
+    <span class="mo-pdp-testimonial__avatar">
+      {%- if bs.author_image != blank -%}
+        {{-
+          bs.author_image
+          | image_url: width: 88
+          | image_tag: width: 44, height: 44, loading: 'lazy', alt: author_name_escaped
+        -}}
       {%- endif -%}
-    </p>
-  {%- endif -%}
+    </span>
+    <div class="mo-pdp-testimonial__meta">
+      {%- if bs.rating != blank -%}
+        <div class="mo-pdp-testimonial__rating">
+          <span class="mo-pdp-testimonial__rating-value">{{ rating_display }}</span>
+          {%- render 'mo-stars', rating: bs.rating -%}
+        </div>
+      {%- endif -%}
+      {%- if bs.author_name != blank -%}
+        <p class="mo-pdp-testimonial__author">
+          {{- bs.author_name | escape -}}
+          {%- if bs.author_role != blank -%}
+            <span class="mo-pdp-testimonial__role"> — {{ bs.author_role | escape }}</span>
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
 
   {%- if bs.quote != blank -%}
     <p class="mo-pdp-testimonial__quote">&ldquo;{{ bs.quote | escape }}&rdquo;</p>
@@ -34,27 +59,94 @@
 </div>
 
 {% stylesheet %}
+  /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2331): white card,
+     16px padding, 8px gap between the header row and the quote (was 24px
+     padding on a solid dark-green background, no header row). */
   .mo-pdp-testimonial {
-    background: var(--mo-testimonial-bg, #093d24);
+    background: var(--mo-testimonial-bg, #ffffff);
     border-radius: var(--mo-radius-md, 10px);
-    padding: var(--mo-space-6, 24px);
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: var(--mo-space-2, 8px);
+    align-items: flex-start;
+    gap: 8px;
   }
 
-  /* CUSTOM: desktop right-rail card font spec (Kalvis, exact Figma type values). The mobile duplicate
-     instance of this same block overrides these via a scoped selector in custom-main-product.liquid
-     (higher specificity), so these base rules only ever apply to the desktop card. */
+  .mo-pdp-testimonial__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  /* CUSTOM (2026-07-22, per Kalvis, Figma node 1297:2331): mint circle sits
+     behind the photo — if author_image is left unset (e.g. before a
+     merchant uploads one in the theme editor), this still reads as an
+     intentional avatar placeholder rather than a broken image. */
+  .mo-pdp-testimonial__avatar {
+    flex-shrink: 0;
+    display: block;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: var(--mo-mint, #b8f3d8);
+    overflow: hidden;
+  }
+
+  .mo-pdp-testimonial__avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 999px;
+  }
+
+  .mo-pdp-testimonial__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .mo-pdp-testimonial__rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .mo-pdp-testimonial__rating-value {
+    font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+    font-weight: 800;
+    font-size: 10px;
+    line-height: 1.05;
+    color: var(--mo-testimonial-text, #093d24);
+  }
+
+  .mo-pdp-testimonial__rating .mo-stars {
+    color: var(--mo-testimonial-text, #093d24);
+  }
+
+  .mo-pdp-testimonial__rating .mo-stars__star {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2331): 10px/Bold,
+     left-aligned (was 16px, centered, on its own with no rating/photo
+     above it). The mobile duplicate instance of this same block previously
+     overrode these via a scoped selector in custom-main-product.liquid —
+     that override has been removed since this design is now unified across
+     breakpoints (see that file's own comment). */
   .mo-pdp-testimonial__author {
     margin: 0;
     font-family: var(--mo-font-heading, 'Manrope', sans-serif);
     font-weight: 700;
-    color: var(--mo-testimonial-text, #fff);
-    font-size: 16px;
+    color: var(--mo-testimonial-text, #093d24);
+    font-size: 10px;
     line-height: 130%;
     letter-spacing: 0;
-    text-align: center;
+    text-align: left;
   }
 
   .mo-pdp-testimonial__role {
@@ -63,16 +155,18 @@
     opacity: 1;
   }
 
+  /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2331): 9px/Medium,
+     left-aligned, full opacity (was 12px, centered, 0.9 opacity). */
   .mo-pdp-testimonial__quote {
     margin: 0;
+    width: 100%;
     font-family: var(--mo-font-heading, 'Manrope', sans-serif);
     font-weight: 500;
-    color: var(--mo-testimonial-quote, #fff);
-    opacity: 0.9;
-    font-size: 12px;
-    text-align: center;
+    color: var(--mo-testimonial-quote, #093d24);
+    font-size: 9px;
+    text-align: left;
     line-height: 130%;
-    letter-spacing: 0;
+    letter-spacing: -0.02em;
   }
 {% endstylesheet %}
 
@@ -86,6 +180,11 @@
       "content": "Author"
     },
     {
+      "type": "image_picker",
+      "id": "author_image",
+      "label": "Author photo"
+    },
+    {
       "type": "text",
       "id": "author_name",
       "label": "Author name",
@@ -96,6 +195,15 @@
       "id": "author_role",
       "label": "Author role / location",
       "default": "Optometrist, Chicago, IL"
+    },
+    {
+      "type": "range",
+      "id": "rating",
+      "label": "Rating",
+      "min": 0,
+      "max": 5,
+      "step": 0.1,
+      "default": 5
     },
     {
       "type": "textarea",
@@ -111,19 +219,19 @@
       "type": "color",
       "id": "background_color",
       "label": "Background color",
-      "default": "#093D24"
+      "default": "#FFFFFF"
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Author text color",
-      "default": "#FFFFFF"
+      "default": "#093D24"
     },
     {
       "type": "color",
       "id": "quote_color",
       "label": "Quote text color",
-      "default": "#FFFFFF"
+      "default": "#093D24"
     }
   ],
   "presets": [

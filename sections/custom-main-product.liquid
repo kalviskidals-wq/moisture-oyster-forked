@@ -287,31 +287,13 @@
     }
 
     /* CUSTOM: mobile expert-quote testimonial — 10px gap to the hero image
-       below it, center-aligned, and specific Manrope type sizes per design
-       spec. Scoped to .product-information__media so only the mobile
-       instance is affected; the desktop instance (in .product-details)
-       keeps its original left-aligned styling. */
+       below it. Used to also force center-alignment + its own larger
+       Manrope sizes here; removed per the 2026-07-22 redesign (Figma node
+       1297:2331), which is left-aligned with its own 10px/9px type spec
+       unified across breakpoints in blocks/mo-pdp-testimonial.liquid's own
+       stylesheet — this file no longer needs to override it. */
     #shopify-section-{{ section.id }} .product-information__media .mo-pdp-testimonial {
       margin-bottom: 10px;
-      align-items: center;
-      text-align: center;
-    }
-
-    #shopify-section-{{ section.id }} .product-information__media .mo-pdp-testimonial__author {
-      font-family: var(--mo-font-heading, 'Manrope', sans-serif);
-      font-weight: 700;
-      font-size: 12px;
-      line-height: 130%;
-      letter-spacing: 0;
-      text-align: center;
-    }
-
-    #shopify-section-{{ section.id }} .product-information__media .mo-pdp-testimonial__quote {
-      font-family: var(--mo-font-heading, 'Manrope', sans-serif);
-      font-weight: 500;
-      font-size: 10px;
-      line-height: 130%;
-      letter-spacing: -0.02em;
     }
   }
 
