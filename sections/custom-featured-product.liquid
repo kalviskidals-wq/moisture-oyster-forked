@@ -41,6 +41,24 @@
     display: none !important;
   }
 
+  /* CUSTOM FIX (2026-07-22, per Kalvis): mo_description block here uses the
+     same block id ("mo_description") as the PDP's, but that block's type
+     spec (font-family/weight/size/line-height/color, exact Figma values) is
+     only defined in sections/custom-main-product.liquid's own inline style
+     tag — a separate section file whose styles never load on this page. The
+     class matched, the CSS just wasn't present here. Mirrors that rule
+     exactly (desktop values; mobile override further down in the existing
+     max-width:749px block, same as the PDP's). */
+  #shopify-section-{{ section.id }} .text-block--mo_description,
+  #shopify-section-{{ section.id }} .text-block--mo_description :is(p, span, div, li, a) {
+    font-family: var(--mo-font-heading, 'Manrope', sans-serif) !important;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0;
+    color: #0d1b14;
+  }
+
   @media screen and (min-width: 750px) {
     /* CUSTOM: anchor the thumbnail overlay on slideshow-component (not media-gallery itself) —
        media-gallery already carries Horizon's native sticky-content class (position: sticky), and
@@ -191,6 +209,16 @@
     #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
       justify-content: flex-start !important;
       align-items: flex-start !important;
+    }
+
+    /* CUSTOM: product description mobile type spec (Kalvis) — same as the
+       PDP's mobile override, font-family/weight/color inherited from the
+       desktop rule above, only size/line-height/letter-spacing differ. */
+    #shopify-section-{{ section.id }} .text-block--mo_description,
+    #shopify-section-{{ section.id }} .text-block--mo_description :is(p, span, div, li, a) {
+      font-size: 12px;
+      line-height: 130%;
+      letter-spacing: -0.02em;
     }
   }
 {% endstyle %}
