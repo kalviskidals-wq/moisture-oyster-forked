@@ -179,7 +179,7 @@
             <span class="mo-vpicker__qty-number">{{ v_number }}</span>
             <span class="mo-vpicker__qty-unit">{{ v_label | default: 'Bottle' }}</span>
             {%- if show_free_shipping -%}
-              <span class="mo-vpicker__shipping-tag">+ Free Delivery</span>
+              <span class="mo-vpicker__ribbon">+ Free Delivery</span>
             {%- endif -%}
           </label>
         {%- endfor -%}
@@ -240,6 +240,14 @@
             class="mo-vpicker__radio-input"
             checked
           >
+          {%- comment -%}
+            CUSTOM (2026-07-22, per Kalvis): free delivery on Subscribe is
+            unconditional — every subscription order ships free regardless of
+            bottle count — so this ribbon is always rendered, no hidden
+            attribute, no JS toggle needed (contrast with the One-Time card's
+            ribbon below, which depends on whether a multipack is selected).
+          {%- endcomment -%}
+          <span class="mo-vpicker__ribbon">+ Free Delivery</span>
           <span class="mo-vpicker__purchase-price">
             <span data-role="subscribe-price-amount">{{ subscribe_price }}</span><span class="mo-vpicker__purchase-price-unit" data-role="subscribe-price-unit"{% unless show_per_bottle %} hidden{% endunless %}>/bottle</span>
           </span>
@@ -256,6 +264,14 @@
             value="onetime"
             class="mo-vpicker__radio-input"
           >
+          {%- comment -%}
+            CUSTOM (2026-07-22, per Kalvis): One-Time only gets free delivery
+            when a multipack (2+ bottles) is selected, not on a plain 1-bottle
+            purchase — mirrors show_per_bottle's same current_bottle_count > 1
+            check for the correct pre-JS state on first paint. The JS further
+            down re-toggles this on every qty-card change via isMultipack.
+          {%- endcomment -%}
+          <span class="mo-vpicker__ribbon" data-role="onetime-shipping-ribbon"{% unless show_per_bottle %} hidden{% endunless %}>+ Free Delivery</span>
           <span class="mo-vpicker__purchase-price">
             <span data-role="onetime-price-amount">{{ onetime_price }}</span><span class="mo-vpicker__purchase-price-unit" data-role="onetime-price-unit"{% unless show_per_bottle %} hidden{% endunless %}>/bottle</span>
           </span>
@@ -353,17 +369,19 @@
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   }
 
-  /* CUSTOM FIX (2026-07-22, per Kalvis): qty cards in the same grid row
-     stretch to equal height (default grid align-items:stretch), and the
-     base .mo-vpicker__card rule above centers its content vertically
-     (justify-content:center). The 1-bottle card has no +Free Delivery tag,
-     so it has less content than its siblings — centering that shorter
-     content in the same stretched height as the taller 2/3-bottle cards
-     pushed its number/unit text down relative to theirs. Top-aligning
-     instead keeps the number/unit flush with the top of every qty card
-     regardless of what optional content follows below it. */
+  /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2371): bottom-aligns
+     the qty number/unit block, matching Figma's items-end. Supersedes an
+     earlier top-align fix for the same misalignment (qty cards in a grid row
+     stretch to equal height, and the base .mo-vpicker__card rule centers
+     content vertically — the 1-bottle card, with less content than its
+     ribboned siblings, ended up misaligned either way). Bottom-aligning is
+     the better long-term fix: it keeps the number flush with the bottom of
+     every card regardless of what optional content (ribbon, badge) sits
+     above it, and it's what actually leaves room for the new free-delivery
+     ribbon (.mo-vpicker__ribbon below) to overlay the empty space at the
+     top of the card without any padding gymnastics. */
   .mo-vpicker__card--qty {
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
 
   .mo-vpicker__card.is-disabled {
@@ -415,29 +433,43 @@
     color: inherit;
   }
 
-  /* CUSTOM (2026-07-20, per Kalvis): "Free Shipping" tag for any qty tier
-     priced over $31 (see the show_free_shipping liquid assign above), sitting
-     in normal flow below the qty number/unit rather than absolutely
-     positioned like .mo-vpicker__tier-badge below, so a card can show both a
-     discount badge AND this tag at once without needing overlap-avoidance
-     math.
-     CUSTOM FIX (2026-07-22, per Kalvis): dropped the pill styling (white bg,
-     centered, padding, border-radius) — plain text now, left-aligned to match
-     the qty number/unit above it, and color:inherit so it follows the same
-     active/inactive text color as the option name (mo-vpicker__qty-number/
-     -unit) instead of a hardcoded black. width:fit-content still lets it wrap
-     to 2 lines on narrower (mobile) cards, 1 line where there's room. */
-  .mo-vpicker__shipping-tag {
-    align-self: flex-start;
-    width: fit-content;
-    text-align: left;
-    margin-top: 4px;
-    color: inherit;
+  /* CUSTOM FIX (2026-07-22, per Kalvis, Figma nodes 1297:2371 / 1297:2398):
+     "+Free Delivery" is now a ribbon/flag overlapping the TOP edge of the
+     card (was: plain in-flow text below the qty number). Used on both the
+     qty cards (any tier priced over $31 — unchanged business rule, see the
+     show_free_shipping liquid assign above) and the Subscribe/One-Time
+     purchase-option cards (see the markup + JS further down for that
+     conditional logic). Absolutely positioned against the card's own
+     position:relative (from the shared base .mo-vpicker__card rule above),
+     top corners rounded to match the card, flat bottom edge so it reads as a
+     little flag sitting on top of the card rather than inside it. Always
+     deep-green text on its own mint background regardless of the card's
+     active/inactive state (unlike most text in here, this one does NOT use
+     color:inherit — the mint bg stays constant either way, so the text color
+     must too). */
+  .mo-vpicker__ribbon {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    padding: 4px;
+    border-radius: var(--mo-radius-md, 10px) var(--mo-radius-md, 10px) 0 0;
+    background: var(--mo-mint, #b8f3d8);
+    color: #093d24;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
-    font-size: 0.5rem;
+    font-size: 0.375rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  /* CUSTOM: explicit [hidden] rule, matching this file's convention elsewhere
+     (.mo-vpicker__purchase-secondary[hidden] etc.) rather than relying on the
+     browser's default [hidden] UA style. */
+  .mo-vpicker__ribbon[hidden] {
+    display: none;
   }
 
   /* CUSTOM FIX (2026-07-18, per Kalvis screenshot): was top:-8px, overhanging
@@ -457,6 +489,17 @@
     background: var(--mo-bubble-bg, #ffd5f7);
     color: var(--mo-bubble-text, #093d24);
     z-index: 1;
+  }
+
+  /* CUSTOM FIX (2026-07-22, per Kalvis): the new .mo-vpicker__ribbon overlaps
+     the top ~14px of the card, which collides with the tier badge's
+     top:8/right:8 position whenever a tier has BOTH a discount AND free
+     delivery at once (common — e.g. a discounted multipack over $31). Pushed
+     down only on cards that actually have a ribbon, via :has(), so cards
+     without one keep the original top:8 "inside the tab" position confirmed
+     earlier (audit #16/#17). */
+  .mo-vpicker__card:has(.mo-vpicker__ribbon) .mo-vpicker__tier-badge {
+    top: 20px;
   }
 
   /* CUSTOM FIX (2026-07-18, per Kalvis): active-tab bubble text was near-black
@@ -489,7 +532,14 @@
     justify-content: flex-start;
     min-height: 65px;
     height: auto;
-    padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px);
+    /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2398): top padding
+       bumped from 8px to 20px, applied uniformly on BOTH cards (not just
+       whichever currently has a ribbon) — matches Figma, which reserves the
+       same pt-20 on the One-Time card too even in states where its ribbon
+       isn't shown. Reserving the space unconditionally means the price
+       number doesn't jump vertically when the One-Time ribbon toggles on/off
+       as the shopper switches between a single bottle and a multipack. */
+    padding: 20px var(--mo-space-3, 12px) var(--mo-space-2, 8px);
     gap: 0;
   }
 
@@ -798,12 +848,18 @@
       var onetimeAmountEl = picker.querySelector('[data-role="onetime-price-amount"]');
       var onetimeUnitEl = picker.querySelector('[data-role="onetime-price-unit"]');
       var onetimeSecondaryEl = picker.querySelector('[data-role="onetime-price-secondary"]');
+      // CUSTOM (2026-07-22, per Kalvis): One-Time only gets free delivery once
+      // a multipack is selected — Subscribe's own ribbon has no JS toggle at
+      // all since it's unconditional (always rendered in the markup, see the
+      // Subscribe card above).
+      var onetimeShippingEl = picker.querySelector('[data-role="onetime-shipping-ribbon"]');
       var isMultipack = bottleCount > 1;
 
       if (onetimeAmountEl) {
         onetimeAmountEl.textContent = formatMoney(isMultipack ? Math.round(variantPrice / bottleCount) : variantPrice);
       }
       if (onetimeUnitEl) onetimeUnitEl.hidden = !isMultipack;
+      if (onetimeShippingEl) onetimeShippingEl.hidden = !isMultipack;
       if (onetimeSecondaryEl) {
         if (isMultipack) {
           onetimeSecondaryEl.textContent = formatMoney(variantPrice) + ' total';
