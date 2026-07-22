@@ -106,7 +106,7 @@
               "type": "mo-pdp-testimonial",
               "name": "MO Testimonial Card",
               "settings": {
-                "author_image": "shopify://shop_images/Author_expert_quote.png",
+                "author_image": "shopify://shop_images/Rectangle_150.png",
                 "author_name": "Dr. Arthur Benjamin",
                 "author_role": "Board Certified Ophthalmologist, Los Angeles",
                 "rating": 5,
