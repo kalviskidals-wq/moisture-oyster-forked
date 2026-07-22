@@ -466,7 +466,12 @@
      deep-green text on its own mint background regardless of the card's
      active/inactive state (unlike most text in here, this one does NOT use
      color:inherit — the mint bg stays constant either way, so the text color
-     must too). */
+     must too).
+     CUSTOM FIX (2026-07-22, per Kalvis): font-size now matches
+     .mo-vpicker__purchase-secondary's "total" text exactly — 6px mobile
+     (this base rule, unchanged) / 9px desktop (see the min-width:750px block
+     near the end of this stylesheet) — rather than the slightly-different
+     ~1.25x-scaled value used previously. */
   .mo-vpicker__ribbon {
     position: absolute;
     top: -1px;
@@ -659,13 +664,19 @@
      CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2461): dropped this
      element's own margin-top:2px — the parent .mo-vpicker__card--purchase's
      gap:8px now handles all the vertical spacing in this card uniformly
-     (price → secondary → title), matching Figma's flat stacked layout. */
+     (price → secondary → title), matching Figma's flat stacked layout.
+     CUSTOM FIX (2026-07-22, per Kalvis): 6px mobile (this base rule, was
+     9px unscoped), 9px desktop (see the min-width:750px block near the end
+     of this stylesheet) — the 9px value was already correct for desktop, it
+     just needed a mobile-specific reduction, same pattern as the other
+     mobile/desktop splits above. .mo-vpicker__ribbon now matches this size
+     at both breakpoints too (see that rule's own comment). */
   .mo-vpicker__purchase-secondary {
     align-self: flex-start;
     width: fit-content;
     text-align: left;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
-    font-size: 0.5625rem;
+    font-size: 0.375rem;
     font-weight: 500;
     letter-spacing: 0.05em;
     opacity: 0.75;
@@ -777,7 +788,11 @@
      (--mo-h3-size), "Tag large" 10px → 14px (--mo-tag-lg-size), "Tag small"
      8px → 10px (--mo-tag-sm-size). The ribbon has no existing token (it's
      smaller than any tagged size in the system) so it's scaled by the same
-     ~1.25x ratio as Tag small. */
+     ~1.25x ratio as Tag small.
+     CUSTOM FIX (2026-07-22, per Kalvis): .mo-vpicker__ribbon's desktop size
+     corrected to 9px (was 7px) — matches .mo-vpicker__purchase-secondary's
+     "total" text exactly at both breakpoints, not just a same-ratio
+     approximation. */
   @media screen and (min-width: 750px) {
     .mo-vpicker__qty-number,
     .mo-vpicker__purchase-price {
@@ -797,8 +812,9 @@
       font-size: 0.625rem;
     }
 
-    .mo-vpicker__ribbon {
-      font-size: 0.4375rem;
+    .mo-vpicker__ribbon,
+    .mo-vpicker__purchase-secondary {
+      font-size: 0.5625rem;
     }
   }
 
