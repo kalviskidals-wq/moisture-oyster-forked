@@ -382,6 +382,13 @@
      top of the card without any padding gymnastics. */
   .mo-vpicker__card--qty {
     justify-content: flex-end;
+    /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2380): qty cards
+       use their own 10px side/bottom padding (was inheriting the shared
+       base card's 12px) — matches both the plain "1 Bottle" reference (p-10
+       all sides) and the ribboned "2 Bottles" reference (px-10/pb-10, only
+       the top inset differs — see the :has() override below, which bumps
+       just padding-top to 20px on cards that actually have a ribbon). */
+    padding: var(--mo-space-2, 8px) 10px 10px;
   }
 
   .mo-vpicker__card.is-disabled {
@@ -403,13 +410,20 @@
     height: 1px;
   }
 
+  /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2380): this is
+     Figma's "H3 Small" type style — 18px on mobile (this base rule), 24px on
+     desktop (see the min-width:750px block near the end of this stylesheet).
+     Was 1.5rem/24px unscoped, applying the desktop size on mobile too — the
+     24px value itself was already correct (confirmed separately against
+     Figma node 633:213), it just needed a mobile-specific reduction, not a
+     desktop addition. Same story for .mo-vpicker__purchase-price below. */
   .mo-vpicker__qty-number {
     align-self: flex-start; /* CUSTOM FIX (2026-07-18, per Kalvis screenshot): still rendering centered live despite the parent's align-items:flex-start — forcing it directly on the item itself. */
     width: fit-content;
     text-align: left;
     font-family: var(--mo-font-heading, sans-serif);
     font-weight: 700; /* CUSTOM: was 800 — Figma dev-mode confirms Bold/700 (audit #17, 2026-07-17) */
-    font-size: 1.5rem;
+    font-size: 1.125rem;
     line-height: 1.1;
     letter-spacing: -0.02em; /* CUSTOM FIX (2026-07-18, node 633:185): Figma confirms -0.48px/-2% tracking, was unset. */
     color: inherit;
@@ -419,12 +433,18 @@
      confirms 0.1em (1px/10px). Also removed the 0.8 opacity dim — Figma
      shows this at full opacity, same as the number above it. Same
      align-self/width/text-align defensive fix as .mo-vpicker__qty-number
-     above (still rendering centered despite the parent's align-items). */
+     above (still rendering centered despite the parent's align-items).
+     CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2380): margin-top
+     4px (was 2px) — Figma's "Option Details Container" uses a 4px gap
+     between the number and this unit label. This is Figma's "Tag large"
+     style: 10px mobile (this base rule, unchanged), 14px desktop (see the
+     min-width:750px block near the end of this stylesheet) — same category
+     as .mo-vpicker__purchase-title and the frequency row's labels below. */
   .mo-vpicker__qty-unit {
     align-self: flex-start;
     width: fit-content;
     text-align: left;
-    margin-top: 2px;
+    margin-top: 4px;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.625rem; /* CUSTOM: was 0.6875rem (11px) — Figma confirms 10px (audit #17) */
     font-weight: 500;
@@ -473,7 +493,13 @@
   }
 
   /* CUSTOM FIX (2026-07-18, per Kalvis screenshot): was top:-8px, overhanging
-     above the card's border — should sit fully INSIDE the tab instead. */
+     above the card's border — should sit fully INSIDE the tab instead.
+     CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2380): this is
+     Figma's "Tag small" style — 8px mobile (this base rule; the desktop 10px
+     value was already correct here, confirmed separately, it's mobile that
+     needed the reduction — same story as .mo-vpicker__qty-number above).
+     Desktop override in the min-width:750px block near the end of this
+     stylesheet. Same category as .mo-vpicker__save-badge below. */
   .mo-vpicker__tier-badge {
     position: absolute;
     top: 8px;
@@ -481,7 +507,7 @@
     max-width: calc(100% - 16px);
     white-space: nowrap;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
-    font-size: 0.625rem;
+    font-size: 0.5rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     padding: 4px 6px; /* CUSTOM: was 3px/8px — Figma confirms 4px vertical / 6px horizontal (audit #16/#17) */
@@ -497,9 +523,16 @@
      delivery at once (common — e.g. a discounted multipack over $31). Pushed
      down only on cards that actually have a ribbon, via :has(), so cards
      without one keep the original top:8 "inside the tab" position confirmed
-     earlier (audit #16/#17). */
+     earlier (audit #16/#17). Same :has() also reserves extra top padding on
+     the card itself (Figma node 1297:2380: pt-20 vs the plain card's p-10)
+     so the ribbon has room to sit above the qty number without overlapping
+     it. */
   .mo-vpicker__card:has(.mo-vpicker__ribbon) .mo-vpicker__tier-badge {
     top: 20px;
+  }
+
+  .mo-vpicker__card--qty:has(.mo-vpicker__ribbon) {
+    padding-top: 20px;
   }
 
   /* CUSTOM FIX (2026-07-18, per Kalvis): active-tab bubble text was near-black
@@ -510,22 +543,13 @@
     color: var(--mo-badge-value-text, #115033);
   }
 
-  /* CUSTOM FIX (2026-07-18, Figma node 633:213): was auto-height, centered,
-     with the base card's asymmetric 8/12/12 padding — Figma confirms a
-     FIXED 65px height with symmetric 8px vertical / 12px horizontal
-     padding and price-top/label-bottom via space-between (no explicit gap
-     needed, the fixed height + space-between does it for both the
-     subscribe card, which also has a floating badge, and the plain
-     one-time card alike).
-     CUSTOM FIX (2026-07-20, per Kalvis): switched from a fixed 65px height +
-     space-between to min-height 65px + height:auto + justify-content:
-     flex-start, to make room for the new price-per-bottle line on
-     multi-pack tiers (see .mo-vpicker__purchase-per-bottle below) without
-     clipping. .mo-vpicker__purchase-title's own margin-top:auto (added
-     below) reproduces the exact original space-between look — pinned to
-     the bottom of the 65px box — whenever the per-bottle line is hidden
-     (single-bottle tier), and still sits directly under the extra line
-     when it's shown, growing the card past 65px only when needed. */
+  /* CUSTOM FIX (2026-07-18, Figma node 633:213): was auto-height, centered.
+     CUSTOM FIX (2026-07-20, per Kalvis): switched to min-height:65px +
+     height:auto + justify-content:flex-start, to make room for the
+     price-per-bottle line on multi-pack tiers without clipping (this
+     min-height is now mostly a floor — see the 2026-07-22 padding/gap fix
+     below, which makes the card's natural content height the real driver in
+     every case). */
   .mo-vpicker__card--purchase {
     flex-direction: column;
     align-items: flex-start; /* CUSTOM (2026-07-18): restated explicitly, see the defensive fix note on .mo-vpicker__purchase-price below. */
@@ -538,9 +562,19 @@
        same pt-20 on the One-Time card too even in states where its ribbon
        isn't shown. Reserving the space unconditionally means the price
        number doesn't jump vertically when the One-Time ribbon toggles on/off
-       as the shopper switches between a single bottle and a multipack. */
-    padding: 20px var(--mo-space-3, 12px) var(--mo-space-2, 8px);
-    gap: 0;
+       as the shopper switches between a single bottle and a multipack.
+       CUSTOM FIX (2026-07-22, per Kalvis, single-card ref 1297:2461): side/
+       bottom padding corrected to 10px (was 12px/8px) — this more precise
+       isolated reference confirms px-10/pb-10, superseding the earlier
+       estimate from the 2-card group frame. gap:8px (was 0) replaces the
+       margin-top:auto "pin to bottom" hack on .mo-vpicker__purchase-title
+       below — Figma just stacks price/secondary/title with a flat 8px gap;
+       when the secondary line is [hidden] the gap collapses naturally since
+       browsers skip display:none items in gap calculations, so this Just
+       Works for both the single-bottle and multipack states without any
+       manual pinning. */
+    padding: 20px 10px 10px;
+    gap: 8px;
   }
 
   /* CUSTOM FIX (2026-07-18, node 633:213): was 20px/800 weight — Figma
@@ -548,14 +582,19 @@
      the quantity number). align-self/width/text-align added defensively —
      this was still rendering centered live despite the parent's
      align-items:flex-start (same fix applied to the quantity number/unit
-     above). */
+     above).
+     CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2461): 24px was
+     already the correct DESKTOP value (confirmed above) — this mobile-
+     specific reference confirms 18px on mobile instead, same H3 Small
+     mobile/desktop split as .mo-vpicker__qty-number. Desktop override in the
+     min-width:750px block near the end of this stylesheet. */
   .mo-vpicker__purchase-price {
     align-self: flex-start;
     width: fit-content;
     text-align: left;
     font-family: var(--mo-font-heading, sans-serif);
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1.125rem;
     line-height: 1.1;
     letter-spacing: -0.02em;
     color: inherit;
@@ -578,7 +617,14 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--mo-space-2, 8px);
-    margin-top: auto; /* CUSTOM (2026-07-20): pins to the bottom of .mo-vpicker__card--purchase's min-height:65px box — see that rule's comment. */
+    /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2461): dropped the
+       margin-top:auto "pin to bottom" hack — the parent .mo-vpicker__card--
+       purchase's own gap:8px (see that rule's comment) now provides the
+       spacing above this row directly, matching Figma's flat stacked layout
+       instead of trying to force the old fixed-65px space-between look.
+       This is Figma's "Tag large" style — 10px mobile (unchanged), 14px
+       desktop (see the min-width:750px block near the end of this
+       stylesheet), same category as .mo-vpicker__qty-unit above. */
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.625rem;
     font-weight: 500;
@@ -609,14 +655,15 @@
      selected — at that point the BIG price above has become the per-bottle
      amount, so this small secondary line is what shows the actual total
      charge instead ("$79.05 total"). Sits directly under the big price,
-     small/muted so it reads as a secondary detail; .mo-vpicker__purchase-
-     title's margin-top:auto (above) still pins the Subscribe/One-Time label
-     to the card's bottom regardless of whether this line is shown. */
+     small/muted so it reads as a secondary detail.
+     CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2461): dropped this
+     element's own margin-top:2px — the parent .mo-vpicker__card--purchase's
+     gap:8px now handles all the vertical spacing in this card uniformly
+     (price → secondary → title), matching Figma's flat stacked layout. */
   .mo-vpicker__purchase-secondary {
     align-self: flex-start;
     width: fit-content;
     text-align: left;
-    margin-top: 2px;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.5625rem;
     font-weight: 500;
@@ -638,12 +685,16 @@
      CUSTOM FIX (2026-07-18, per Kalvis + node 633:213): was green bg / mint
      text — Figma actually shows the same white-bg/#115033-text treatment as
      the active quantity badge above (this only ever shows on the
-     already-selected Subscribe card, so it's always the "active" state). */
+     already-selected Subscribe card, so it's always the "active" state).
+     CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2380): same "Tag
+     small" category as .mo-vpicker__tier-badge — 8px mobile (this base
+     rule), 10px desktop (see the min-width:750px block near the end of this
+     stylesheet; the 10px value here was already correct for desktop). */
   .mo-vpicker__save-badge {
     display: inline-flex;
     align-items: center;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
-    font-size: 0.625rem;
+    font-size: 0.5rem;
     font-weight: 600;
     padding: 2px 7px;
     border-radius: 999px;
@@ -716,9 +767,38 @@
     background-size: 8px 5px;
   }
 
-  @media screen and (max-width: 389px) {
-    .mo-vpicker__qty-number {
-      font-size: 1.25rem;
+  /* CUSTOM FIX (2026-07-22, per Kalvis): desktop half of the mobile/desktop
+     font-size splits set up above — the two Figma frames used to build the
+     ribbon redesign (nodes 1297:2371/2398) were mobile-specific, and their
+     sizes had been applied at every breakpoint with no desktop override.
+     Grouped here by Figma type category, matching the same categories/ratios
+     already established elsewhere in this project's design system
+     (assets/mo-design-system.css): "H3 Small" 18px mobile → 24px desktop
+     (--mo-h3-size), "Tag large" 10px → 14px (--mo-tag-lg-size), "Tag small"
+     8px → 10px (--mo-tag-sm-size). The ribbon has no existing token (it's
+     smaller than any tagged size in the system) so it's scaled by the same
+     ~1.25x ratio as Tag small. */
+  @media screen and (min-width: 750px) {
+    .mo-vpicker__qty-number,
+    .mo-vpicker__purchase-price {
+      font-size: 1.5rem;
+    }
+
+    .mo-vpicker__qty-unit,
+    .mo-vpicker__purchase-title,
+    .mo-vpicker__frequency-label,
+    .mo-vpicker__frequency-static,
+    .mo-vpicker__frequency-select {
+      font-size: 0.875rem;
+    }
+
+    .mo-vpicker__tier-badge,
+    .mo-vpicker__save-badge {
+      font-size: 0.625rem;
+    }
+
+    .mo-vpicker__ribbon {
+      font-size: 0.4375rem;
     }
   }
 
