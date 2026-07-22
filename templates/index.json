@@ -368,6 +368,17 @@
                   },
                   "blocks": {}
                 },
+                "mo_pdp_trust_bullets_WW4FwU": {
+                  "type": "mo-pdp-trust-bullets",
+                  "name": "MO Trust Bullets",
+                  "settings": {
+                    "bullet_1": "Free shipping on multipacks & subs",
+                    "bullet_2": "Pause, skip or cancel anytime",
+                    "bullet_3": "30-day money-back guarantee",
+                    "text_color": "#093d24"
+                  },
+                  "blocks": {}
+                },
                 "mo_buy_buttons": {
                   "type": "buy-buttons",
                   "name": "t:names.product_buy_buttons",
@@ -438,6 +449,7 @@
                 "mo_description",
                 "mo_rating_link",
                 "mo_tier_picker",
+                "mo_pdp_trust_bullets_WW4FwU",
                 "mo_buy_buttons"
               ]
             }
