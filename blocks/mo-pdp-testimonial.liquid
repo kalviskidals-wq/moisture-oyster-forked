@@ -168,6 +168,29 @@
     line-height: 130%;
     letter-spacing: -0.02em;
   }
+
+  /* CUSTOM FIX (2026-07-22, per Kalvis): the 1297:2331 Figma reference this
+     redesign was built from turned out to be mobile-only — desktop keeps
+     the new photo + rating row layout, but reverts the author/quote text
+     itself to the sizing it had before this redesign (16px centered author,
+     12px centered quote at 0.9 opacity). This card is rendered twice
+     (mo_testimonial in .product-details for desktop, mobile-testimonial in
+     .product-information__media for mobile — see custom-main-product.liquid,
+     which toggles which one is visible per breakpoint), but both instances
+     share this same stylesheet, so a plain min-width override here is
+     enough; the hidden instance's styles are simply never seen. */
+  @media screen and (min-width: 750px) {
+    .mo-pdp-testimonial__author {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .mo-pdp-testimonial__quote {
+      font-size: 12px;
+      text-align: center;
+      opacity: 0.9;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
