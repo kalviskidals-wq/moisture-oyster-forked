@@ -343,6 +343,111 @@
                   },
                   "blocks": {}
                 },
+                "accordion_UiUqw9": {
+                  "type": "accordion",
+                  "name": "t:names.accordion",
+                  "settings": {
+                    "icon": "plus",
+                    "dividers": true,
+                    "divider_color": "#e8e7e3",
+                    "type_preset": "h6",
+                    "background_color": "",
+                    "text_color": "",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_color": "",
+                    "border_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "accordion_row_P8Y6XK": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "Active and Key Ingredients",
+                        "open_by_default": false,
+                        "icon": "none",
+                        "width": 20
+                      },
+                      "blocks": {
+                        "text_VGYiT4": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Glycerin 0.25%. Eye lubricant (FDA OTC monograph demulcent). Low enough for sensitive eyes, high enough for immediate relief.</p><p>Sodium Hyaluronate 0.25%. Long-lasting moisture. It holds up to 1,000 times its weight in water and behaves like your own tears.</p><p>L-Carnitine 0.25%. An osmoprotectant that helps your eye-surface cells handle dry-eye stress from screens, dry air, and travel.</p><p>Balanced with a borate buffer at your tears' natural pH (about 7.5) and isotonic saline matched to healthy tears at 272 mOsm/kg.</p><p>Full inactive ingredients: borate, boric acid, calcium chloride, L-carnitine, sodium chloride, sodium hyaluronate.</p>",
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "rte",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "text_VGYiT4"
+                      ]
+                    },
+                    "accordion_row_qGR39B": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "Uses",
+                        "open_by_default": false,
+                        "icon": "none",
+                        "width": 20
+                      },
+                      "blocks": {
+                        "text_fm9y6h": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>For the temporary relief of burning and irritation due to dryness of the eye.</p><p>For the temporary relief of discomfort due to minor irritations of the eye or to exposure to wind or sun.</p><p>For use as a protectant against further irritation or to relieve dryness of the eye.</p><p>No artificial thickeners that blur your vision after application. No artificial colorants. No benzalkonium chloride (BAK), the preservative in many drops that can irritate eyes with daily use. No nonsense.</p>",
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "rte",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "text_fm9y6h"
+                      ]
+                    }
+                  },
+                  "block_order": [
+                    "accordion_row_P8Y6XK",
+                    "accordion_row_qGR39B"
+                  ]
+                },
                 "mo_tier_picker": {
                   "type": "mo-tier-picker",
                   "name": "MO Tier + Sub Picker",
@@ -448,6 +553,7 @@
                 "mo_glp_badge",
                 "mo_description",
                 "mo_rating_link",
+                "accordion_UiUqw9",
                 "mo_tier_picker",
                 "mo_pdp_trust_bullets_WW4FwU",
                 "mo_buy_buttons"
