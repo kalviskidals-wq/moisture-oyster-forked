@@ -1249,10 +1249,28 @@ body {
   z-index: 30;
 }
 
+/* CUSTOM FIX (2026-07-22, per Kalvis — Safari): the row-level promotion just
+   above works in Chrome/Firefox but Safari has a long-documented WebKit bug
+   where z-index on table rows doesn't reliably escape above SIBLING CELLS
+   in the same row — the open tooltip (which visually overflows past its own
+   cell) was rendering BEHIND the neighboring column's check/cross icon in
+   Safari specifically, even though the exact same markup/CSS stacks
+   correctly elsewhere. Repeating the same dormant position:relative +
+   conditional z-index pattern directly on the CELL (not just the row) gives
+   Safari's table stacking a second, cell-level promotion to fall back on —
+   :has() is well-supported in Safari (shipped well before this project's
+   baseline), so this isn't a progressive-enhancement risk. */
 .mo-compare__cell {
   padding: var(--mo-space-4, 16px);
+  position: relative;
   vertical-align: middle;
   border-bottom: 1px solid var(--mo-compare-divider, #ffffff);
+}
+
+.mo-compare__cell:has(.mo-compare__tooltip-trigger:hover),
+.mo-compare__cell:has(.mo-compare__tooltip-trigger:focus-visible),
+.mo-compare__cell:has(.mo-compare__tooltip:focus-within) {
+  z-index: 30;
 }
 
 .mo-compare__cell--mo {
