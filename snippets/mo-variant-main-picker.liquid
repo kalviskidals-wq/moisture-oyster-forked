@@ -749,6 +749,14 @@
     padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px);
   }
 
+  /* CUSTOM (2026-07-22, per Kalvis): the delivery-frequency row only applies
+     to Subscribe — One-Time has nothing to pick a frequency for. Explicit
+     [hidden] rule, matching this file's convention elsewhere (.mo-vpicker__
+     purchase-secondary[hidden] etc.), toggled in applyState() below. */
+  .mo-vpicker__frequency[hidden] {
+    display: none;
+  }
+
   /* CUSTOM (2026-07-22, per Kalvis): stays 10px at both mobile and desktop —
      unlike most other tag-style text in this file, this one does NOT get a
      desktop bump. */
@@ -962,6 +970,12 @@
       // by inspecting the live DOM directly (radios/allocations/checked state were all correct;
       // only this read was wrong).
       var mode = purchaseRadio ? purchaseRadio.value : 'onetime';
+
+      // CUSTOM (2026-07-22, per Kalvis): frequency picker only applies to a
+      // subscription — hide it entirely when One-Time is the active
+      // purchase option, since there's no delivery to schedule.
+      var frequencyRow = picker.querySelector('[data-role="frequency-row"]');
+      if (frequencyRow) frequencyRow.hidden = mode !== 'subscribe';
 
       // CUSTOM (2026-07-20, per Kalvis): on a multi-bottle tier, the BIG
       // number becomes the per-bottle price (with a "/bottle" suffix) and
