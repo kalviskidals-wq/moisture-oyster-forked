@@ -41,6 +41,24 @@
     display: none !important;
   }
 
+  /* CUSTOM FIX (2026-07-22, per Kalvis): "Active and Key Ingredients" / "Uses"
+     accordion added directly to this section's block composition on the
+     homepage (see templates/index.json's accordion_UiUqw9), but the type
+     spec for its heading only ever existed as a scoped override in
+     sections/custom-main-product.liquid — a separate section file whose
+     styles never load here. Same class of bug as the description fix right
+     below, same fix: mirror the PDP's rule exactly. */
+  #shopify-section-{{ section.id }} .product-details .details__header {
+    font-family: var(--mo-font-mono, 'IBM Plex Mono', monospace);
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 110%;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+    color: #115033;
+  }
+
   /* CUSTOM FIX (2026-07-22, per Kalvis): mo_description block here uses the
      same block id ("mo_description") as the PDP's, but that block's type
      spec (font-family/weight/size/line-height/color, exact Figma values) is
