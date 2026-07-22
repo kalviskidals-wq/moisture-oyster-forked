@@ -514,12 +514,19 @@
   /* CUSTOM FIX (2026-07-18, node 633:213): was 11px/0.08em/0.85 opacity —
      Figma confirms 10px/0.1em, full opacity (matches the quantity unit
      label's fix above). Same align-self/width/text-align defensive fix. */
+  /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1138:1677): back to full-
+     width + space-between (was width:fit-content) — Figma's "Subscribe Label
+     Container" spans the full card width with the "Subscribe" label on the
+     left and the discount bubble flush right, in normal flow at the bottom
+     of the card, not floating. See .mo-vpicker__save-badge below for the
+     matching change (was position:absolute top-right). */
   .mo-vpicker__purchase-title {
     align-self: flex-start;
-    width: fit-content;
+    width: 100%;
     text-align: left;
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--mo-space-2, 8px);
     margin-top: auto; /* CUSTOM (2026-07-20): pins to the bottom of .mo-vpicker__card--purchase's min-height:65px box — see that rule's comment. */
     font-family: var(--mo-font-mono, ui-monospace, monospace);
@@ -572,23 +579,19 @@
     display: none;
   }
 
-  /* CUSTOM FIX (2026-07-18, node 633:213): was inline next to the "Subscribe"
-     label at the bottom of the card — floats near the TOP-RIGHT instead,
-     fully INSIDE the tab (not overhanging the border, per Kalvis screenshot
-     — same treatment as .mo-vpicker__tier-badge above), not inline with the
-     title text. .mo-vpicker__card--purchase already has position:relative
-     via the shared base .mo-vpicker__card rule, so this positions correctly
-     against the card regardless of its DOM nesting inside
-     .mo-vpicker__purchase-title. */
-  /* CUSTOM FIX (2026-07-18, per Kalvis + node 633:213): was green bg / mint
+  /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1138:1677/1685): reverted
+     the 2026-07-18 top-right floating treatment — that Figma reference shows
+     the discount bubble inline, flush right in the same bottom row as the
+     "Subscribe" label (not floating over the price). Now a normal-flow flex
+     child of .mo-vpicker__purchase-title (space-between, see above), so it
+     sits at the bottom of the card without position:absolute.
+     CUSTOM FIX (2026-07-18, per Kalvis + node 633:213): was green bg / mint
      text — Figma actually shows the same white-bg/#115033-text treatment as
      the active quantity badge above (this only ever shows on the
      already-selected Subscribe card, so it's always the "active" state). */
   .mo-vpicker__save-badge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
     display: inline-flex;
+    align-items: center;
     font-family: var(--mo-font-mono, ui-monospace, monospace);
     font-size: 0.625rem;
     font-weight: 600;
@@ -598,7 +601,6 @@
     color: var(--mo-badge-save-text, #115033);
     text-transform: none;
     opacity: 1;
-    z-index: 1;
   }
 
   .mo-vpicker__save-badge[hidden] {
