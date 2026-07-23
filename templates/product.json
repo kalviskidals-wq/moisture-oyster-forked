@@ -239,6 +239,42 @@
                   },
                   "blocks": {}
                 },
+                "mo_tier_picker": {
+                  "type": "mo-tier-picker",
+                  "name": "MO Tier + Sub Picker",
+                  "settings": {
+                    "quantity_label": "Quantity",
+                    "purchase_label": "Purchase Option",
+                    "subscribe_title": "Subscribe",
+                    "onetime_title": "One-Time",
+                    "deliver_prefix": "Deliver",
+                    "card_bg_inactive": "#ffffff",
+                    "card_border_inactive": "#1fa567",
+                    "card_bg_active": "#1fa567",
+                    "card_border_active": "#1fa567",
+                    "card_text_active": "#ffffff",
+                    "card_text_inactive": "#093d24",
+                    "badge_save_bg": "#ffffff",
+                    "badge_save_text": "#115033",
+                    "badge_value_bg": "#ffffff",
+                    "badge_value_text": "#115033",
+                    "badge_value_border": "#c4c1ba",
+                    "bubble_bg": "#ffd5f7",
+                    "bubble_text": "#093d24"
+                  },
+                  "blocks": {}
+                },
+                "mo_trust_bullets": {
+                  "type": "mo-pdp-trust-bullets",
+                  "name": "MO Trust Bullets",
+                  "settings": {
+                    "bullet_1": "Free shipping on multipacks & subs",
+                    "bullet_2": "Pause, skip or cancel anytime",
+                    "bullet_3": "30-day money-back guarantee",
+                    "text_color": "#093d24"
+                  },
+                  "blocks": {}
+                },
                 "mo_accordion": {
                   "type": "accordion",
                   "name": "t:names.accordion",
@@ -344,42 +380,6 @@
                     "accordion-row-2"
                   ]
                 },
-                "mo_tier_picker": {
-                  "type": "mo-tier-picker",
-                  "name": "MO Tier + Sub Picker",
-                  "settings": {
-                    "quantity_label": "Quantity",
-                    "purchase_label": "Purchase Option",
-                    "subscribe_title": "Subscribe",
-                    "onetime_title": "One-Time",
-                    "deliver_prefix": "Deliver",
-                    "card_bg_inactive": "#ffffff",
-                    "card_border_inactive": "#1fa567",
-                    "card_bg_active": "#1fa567",
-                    "card_border_active": "#1fa567",
-                    "card_text_active": "#ffffff",
-                    "card_text_inactive": "#093d24",
-                    "badge_save_bg": "#ffffff",
-                    "badge_save_text": "#115033",
-                    "badge_value_bg": "#ffffff",
-                    "badge_value_text": "#115033",
-                    "badge_value_border": "#c4c1ba",
-                    "bubble_bg": "#ffd5f7",
-                    "bubble_text": "#093d24"
-                  },
-                  "blocks": {}
-                },
-                "mo_trust_bullets": {
-                  "type": "mo-pdp-trust-bullets",
-                  "name": "MO Trust Bullets",
-                  "settings": {
-                    "bullet_1": "Free shipping on multipacks & subs",
-                    "bullet_2": "Pause, skip or cancel anytime",
-                    "bullet_3": "30-day money-back guarantee",
-                    "text_color": "#093d24"
-                  },
-                  "blocks": {}
-                },
                 "mo_buy_buttons": {
                   "type": "buy-buttons",
                   "name": "t:names.product_buy_buttons",
@@ -458,9 +458,9 @@
                 "mo_glp_badge",
                 "mo_description",
                 "mo_rating_link",
-                "mo_accordion",
                 "mo_tier_picker",
                 "mo_trust_bullets",
+                "mo_accordion",
                 "mo_buy_buttons",
                 "mo_payment_badges"
               ]
