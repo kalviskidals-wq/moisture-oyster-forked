@@ -4919,7 +4919,13 @@ mo-review-filter {
     width: 100%;
   }
 
+  /* CUSTOM (fix, per Kalvis): explicit width (not just max-width) keeps this
+     box the same fixed 380px as .mo-home-hero__ctas below regardless of copy
+     length — without it, a short paragraph shrinks-to-fit and its LEFT edge
+     drifts right (since the parent right-aligns via justify-content:flex-end),
+     breaking alignment with the CTA row's left edge. */
   .mo-home-hero__subhead-text {
+    width: 100%;
     max-width: 380px;
     text-align: left;
   }
