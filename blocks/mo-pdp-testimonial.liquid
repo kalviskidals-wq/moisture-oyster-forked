@@ -71,9 +71,14 @@
   /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2331): white card,
      16px padding, 8px gap between the header row and the quote (was 24px
      padding on a solid dark-green background, no header row). */
+  /* CUSTOM FIX (2026-07-24, per Kalvis — radius unification pass): was
+     var(--mo-radius-md, 10px). Figma node 633:159 (PDP testimonial card)
+     is rounded-[16px], matching the site's standard card radius (same
+     value as the buy-box card it sits beside/above) rather than the
+     button/input radius. */
   .mo-pdp-testimonial {
     background: var(--mo-testimonial-bg, #ffffff);
-    border-radius: var(--mo-radius-md, 10px);
+    border-radius: 16px;
     padding: 16px;
     display: flex;
     flex-direction: column;
