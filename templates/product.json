@@ -1476,6 +1476,24 @@
         "section_inset": 16,
         "vertical_padding": 0
       }
+    },
+    "custom_expert_video_mopdp1": {
+      "type": "custom-expert-video",
+      "name": "MO Expert Video",
+      "settings": {
+        "eyebrow": "VIDEO REVIEW",
+        "heading": "Doctors recommendation",
+        "quote": "As an eye doctor, the first thing I noticed was the bottle design. The one-way valve helps protect the solution from contamination, the drop dispenses easily, it feels great on the eye, and it doesn't blur vision. That's exactly what I want to see.",
+        "background_color": "#093d24",
+        "card_background_color": "#ffffff",
+        "eyebrow_color": "#1fa567",
+        "heading_color": "#115033",
+        "quote_color": "#093d24",
+        "media_background_color": "#b8f3d8",
+        "vertical_padding": 40,
+        "video_aspect_ratio_desktop": 0.8,
+        "video_aspect_ratio_mobile": 0.9
+      }
     }
   },
   "order": [
@@ -1483,6 +1501,7 @@
     "custom_trust_bar_mopdp1",
     "custom_problem_agitation_iYrAeg",
     "custom_comparison_table_mopdp1",
+    "custom_expert_video_mopdp1",
     "custom_ingredient_transparency_mopdp1",
     "custom_how_to_use_8X9BU3",
     "custom_clinical_science_mopdp1",

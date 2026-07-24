@@ -6749,3 +6749,198 @@ html body .theme-drawer__dialog {
     padding-inline: var(--page-margin, 40px);
   }
 }
+
+/* ============================================================================
+   EXPERT VIDEO — sections/custom-expert-video.liquid
+   PDP "Doctors recommendation" video-review card (Figma desktop node
+   1144:1806, mobile node 1144:1883), wired below the Comparison Table.
+   Outer section = full-bleed deep-green frame using the sitewide 40px
+   desktop / 30px mobile vertical-padding standard (custom.css comment above
+   custom-comparison-table's rules); .mo-expert-video__inner reuses the
+   established max-width/margin-inline/padding-inline page-width alignment
+   convention verbatim (same family as .mo-compare__inner/.mo-ingredients__inner).
+   Card padding/radius are literal per-breakpoint Figma values (mobile:
+   30px top / 16px sides+bottom, radius 10px == --mo-radius-md; desktop:
+   40px uniform, radius 20px) rather than reused tokens, since they're this
+   card's own specific geometry — same pattern as the Comparison Table panel's
+   own literal 32px radius. Video uses Horizon's native deferred-media
+   click-to-play component (rendered via the section's `render 'video'` call)
+   inside a fixed-aspect-ratio box; the box is the sizing source of truth
+   (deferred-media's own poster-button aspect-ratio is overridden to auto +
+   100%/100%), reusing the same "wrapper owns the size, not the media
+   element itself" lesson already established for .mo-compare__logo-wrap.
+   ============================================================================ */
+.mo-expert-video {
+  background: var(--mo-expert-video-bg, #093d24);
+  padding-block: 30px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-expert-video {
+    padding-block: var(--mo-expert-video-padding-y, 40px);
+  }
+}
+
+.mo-expert-video__inner {
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-expert-video__inner {
+    padding-inline: var(--page-margin, 40px);
+  }
+}
+
+.mo-expert-video__card {
+  background: var(--mo-expert-video-card-bg, #ffffff);
+  border-radius: var(--mo-radius-md, 10px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-7, 32px);
+  padding: 30px var(--mo-space-4, 16px) var(--mo-space-4, 16px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-expert-video__card {
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 409px);
+    align-items: stretch;
+    gap: var(--mo-space-8, 40px);
+    padding: var(--mo-space-8, 40px);
+  }
+}
+
+.mo-expert-video__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-expert-video__content {
+    /* CUSTOM: the desktop Figma frame shows the header pinned to the card's
+       top and the quote block lower/centered, with no fixed gap between
+       them — reproduced via space-between (letting the column's own height,
+       matched to the media column via align-items:stretch above, distribute
+       the whitespace) rather than a hardcoded gap. */
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+
+.mo-expert-video__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-2, 8px);
+}
+
+.mo-expert-video__eyebrow {
+  margin: 0;
+  font-family: var(--mo-font-mono);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  color: var(--mo-expert-video-eyebrow, #1fa567);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-expert-video__eyebrow {
+    font-size: 14px;
+    letter-spacing: 1.4px;
+  }
+}
+
+.mo-expert-video__heading {
+  margin: 0;
+  font-family: var(--mo-font-heading);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.56px;
+  color: var(--mo-expert-video-heading, #115033);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-expert-video__heading {
+    font-size: var(--mo-h2-size, 40px);
+    line-height: var(--mo-h2-lh, 1.1);
+    letter-spacing: var(--mo-h2-ls, -0.02em);
+  }
+}
+
+.mo-expert-video__quote-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-5, 20px);
+}
+
+.mo-expert-video__quote-mark {
+  margin: 0;
+  font-family: var(--mo-font-heading);
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--mo-expert-video-text, #093d24);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-expert-video__quote-mark {
+    font-size: 80px;
+  }
+}
+
+.mo-expert-video__quote {
+  margin: 0;
+  font-family: var(--mo-font-heading);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--mo-expert-video-text, #093d24);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-expert-video__quote {
+    font-size: 24px;
+  }
+}
+
+.mo-expert-video__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--mo-radius-md, 10px);
+  background: var(--mo-expert-video-media-bg, #b8f3d8);
+  aspect-ratio: var(--mo-expert-video-aspect-mobile, 0.9);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-expert-video__media {
+    border-radius: 16px;
+    aspect-ratio: var(--mo-expert-video-aspect-desktop, 0.8);
+  }
+}
+
+/* CUSTOM: the wrapper's own aspect-ratio box (above) is the sizing source of
+   truth, not deferred-media's own --video-aspect-ratio (derived from the
+   uploaded video's raw dimensions) — override the native poster-button's
+   aspect-ratio back to auto and force both the deferred-media element and
+   its poster/video children to fill the wrapper exactly. */
+.mo-expert-video__video {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mo-expert-video__video .deferred-media__poster-button {
+  aspect-ratio: auto;
+  width: 100%;
+  height: 100%;
+}

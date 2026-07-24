@@ -1,0 +1,193 @@
+{%- # CUSTOM: net-new theme section — "Expert Video" doctor/professional video-review card (Figma desktop node 1144:1806, mobile node 1144:1883). Single settings-driven testimonial (eyebrow + heading + quote) beside a click-to-play video, matching the mo-pdp-testimonial/subscribe-benefits precedent of "one card, no repeatable blocks" rather than a merchant-repeatable list — the Figma frames show exactly one reviewer. Video uses Horizon's NATIVE deferred-media click-to-play pattern (render 'video') instead of the autoplay-background-video technique used elsewhere on this project (Problem Agitation/About) — this is the first custom section to reuse that native poster+play-button component, since it's the first design that actually calls for click-to-play rather than an ambient autoplay loop. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-expert-video rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval, matching every other custom PDP section. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign video_poster = s.video_poster | default: s.video.preview_image
+  assign video_alt = s.heading | default: 'Video review' | strip_newlines
+-%}
+
+<section
+  class="mo-expert-video"
+  id="MoExpertVideo-{{ section.id }}"
+  style="
+    --mo-expert-video-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-expert-video-card-bg: {{ s.card_background_color | default: '#FFFFFF' }};
+    --mo-expert-video-eyebrow: {{ s.eyebrow_color | default: '#1FA567' }};
+    --mo-expert-video-heading: {{ s.heading_color | default: '#115033' }};
+    --mo-expert-video-text: {{ s.quote_color | default: '#093D24' }};
+    --mo-expert-video-media-bg: {{ s.media_background_color | default: '#B8F3D8' }};
+    --mo-expert-video-padding-y: {{ s.vertical_padding | default: 40 }}px;
+    --mo-expert-video-aspect-desktop: {{ s.video_aspect_ratio_desktop | default: 0.8 }};
+    --mo-expert-video-aspect-mobile: {{ s.video_aspect_ratio_mobile | default: 0.9 }};
+  "
+>
+  <div class="mo-expert-video__inner">
+    <div class="mo-expert-video__card">
+      <div class="mo-expert-video__content">
+        {%- if s.eyebrow != blank or s.heading != blank -%}
+          <div class="mo-expert-video__header">
+            {%- if s.eyebrow != blank -%}
+              <p class="mo-expert-video__eyebrow">{{ s.eyebrow | escape }}</p>
+            {%- endif -%}
+            {%- if s.heading != blank -%}
+              <h2 class="mo-expert-video__heading">{{ s.heading | newline_to_br }}</h2>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if s.quote != blank -%}
+          <div class="mo-expert-video__quote-block">
+            <p class="mo-expert-video__quote-mark" aria-hidden="true">&#8220;</p>
+            <p class="mo-expert-video__quote">{{ s.quote | escape }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="mo-expert-video__media">
+        {%- render 'video',
+          video: s.video,
+          video_preview_image: video_poster,
+          video_class: 'mo-expert-video__video',
+          video_alt: video_alt,
+          loading: 'lazy'
+        -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Expert Video",
+  "tag": "section",
+  "class": "mo-expert-video-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "VIDEO REVIEW"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Doctors recommendation",
+      "info": "Figma's source copy read \"Doctors recomendation\" — corrected the spelling here, flag if the misspelling was intentional."
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote",
+      "default": "As an eye doctor, the first thing I noticed was the bottle design. The one-way valve helps protect the solution from contamination, the drop dispenses easily, it feels great on the eye, and it doesn't blur vision. That's exactly what I want to see."
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_poster",
+      "label": "Video poster image",
+      "info": "Defaults to the uploaded video's own preview image if left blank."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#1FA567"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#115033",
+      "info": "VERIFY: the desktop Figma frame uses this mid-green, but the mobile frame showed a slightly darker deep-green (#093D24) for the same heading — using one shared color for both breakpoints rather than guessing which is intentional; flag if they should genuinely differ."
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Quote mark + text color",
+      "default": "#093D24"
+    },
+    {
+      "type": "color",
+      "id": "media_background_color",
+      "label": "Video panel background",
+      "default": "#B8F3D8",
+      "info": "Shows behind/while the poster image loads — matches the mint avatar-placeholder convention used elsewhere on this project."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Section vertical padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "video_aspect_ratio_desktop",
+      "label": "Video panel aspect ratio (desktop)",
+      "min": 0.4,
+      "max": 1.5,
+      "step": 0.1,
+      "default": 0.8,
+      "info": "Width ÷ height. Visual-rhythm estimate measured off the Figma frame (~0.76), VERIFY."
+    },
+    {
+      "type": "range",
+      "id": "video_aspect_ratio_mobile",
+      "label": "Video panel aspect ratio (mobile)",
+      "min": 0.4,
+      "max": 1.5,
+      "step": 0.1,
+      "default": 0.9,
+      "info": "Visual-rhythm estimate measured off the Figma frame (~0.95), VERIFY."
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Expert Video",
+      "category": "Custom"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}
