@@ -276,13 +276,19 @@
       letter-spacing: -0.02em;
     }
 
-    /* CUSTOM: hero image crops to a 1:1 square with a 10px radius on mobile.
+    /* CUSTOM: hero image crops to a 1:1 square on mobile.
        Desktop keeps aspect_ratio: adapt (each photo's natural ratio) — that
        setting lives in templates/product.json media-gallery block settings
-       and is left untouched; this is a mobile-only visual override. */
+       and is left untouched; this is a mobile-only visual override.
+       CUSTOM FIX (2026-07-24, per Kalvis — radius unification pass): radius
+       was 10px, visibly mismatched against the testimonial/buy-box cards
+       stacked right below it on mobile (both 16px as of this same pass).
+       Raised to 16px to match. Desktop's separate 24px value (below) is
+       untouched — that's Figma's deliberate larger radius for the
+       full-bleed gallery image, not part of this mismatch. */
     #shopify-section-{{ section.id }} .product-information__media .product-media-container {
       aspect-ratio: 1 / 1 !important;
-      border-radius: 10px !important;
+      border-radius: 16px !important;
       /* CUSTOM FIX (2026-07-24, per Kalvis): same compositor repaint-sync
          mitigation as the desktop block above — see that comment for the
          full root-cause writeup. Mobile viewport height changes on rotation/
@@ -296,7 +302,7 @@
 
     #shopify-section-{{ section.id }} .product-information__media .product-media-container :is(img, video, .deferred-media__poster-image) {
       object-fit: cover !important;
-      border-radius: 10px !important;
+      border-radius: 16px !important;
     }
 
     #shopify-section-{{ section.id }} .product-information__media slideshow-container {
