@@ -6793,20 +6793,19 @@ html body .theme-drawer__dialog {
   }
 }
 
-/* CUSTOM (per Kalvis): card shell now reuses .mo-reviews__card's own
-   radius/padding tokens verbatim (Reviews section) — same
-   "reuse the literal value, don't re-derive it" convention already applied
-   below for the video column's width (.mo-science__grid). Radius and padding
-   are the SAME at every breakpoint here, matching .mo-reviews__card (which
-   also doesn't vary its own padding/radius by viewport — only the card's
-   width/layout responds to breakpoint). */
+/* CUSTOM (per Kalvis): card shell reuses .mo-reviews__card's own radius
+   token (Reviews section) at every breakpoint. Padding is a deliberate
+   EXCEPTION to that "match the review card exactly" rule, per Kalvis: mobile
+   keeps its own literal Figma padding (30px top / 16px sides+bottom — see
+   the mobile Figma frame's own pt-30/px-16/pb-16 spec), only desktop padding
+   reuses the review card's 32px value. */
 .mo-expert-video__card {
   background: var(--mo-expert-video-card-bg, #ffffff);
   border-radius: var(--mo-reviews-card-radius, 16px);
   display: flex;
   flex-direction: column;
   gap: var(--mo-space-7, 32px);
-  padding: var(--mo-space-7, 32px);
+  padding: 30px var(--mo-space-4, 16px) var(--mo-space-4, 16px);
 }
 
 @media screen and (min-width: 750px) {
@@ -6830,6 +6829,7 @@ html body .theme-drawer__dialog {
     display: grid;
     grid-template-columns: 1fr minmax(240px, 32%);
     align-items: stretch;
+    padding: var(--mo-space-7, 32px);
   }
 }
 
