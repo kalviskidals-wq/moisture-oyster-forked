@@ -7021,13 +7021,35 @@ html body .theme-drawer__dialog {
   border-radius: 16px;
   background: var(--mo-video-feature-bg, #093d24);
   aspect-ratio: var(--mo-video-feature-ratio, 1.99);
-  /* CUSTOM (defensive): if --mo-video-feature-ratio ever resolves to an
-     invalid/empty value (e.g. a just-uploaded video whose metadata Shopify
-     hasn't finished processing yet, before the Liquid-side blank/0 guard
-     catches it), aspect-ratio silently drops and this box would otherwise
-     collapse to 0 height with no visible fallback — min-height keeps the
-     section from disappearing entirely in that edge case. */
-  min-height: 240px;
+}
+
+/* CUSTOM FIX: the unconditional `min-height: 240px` this rule used to carry
+   (added as a defensive fallback for an invalid/empty aspect-ratio) turned
+   out to actively CAUSE a mobile overflow bug on every normal render, not
+   just the edge case it was meant to guard against — confirmed live via
+   Claude-in-Chrome at a 390px viewport (.mo-video-feature__media measured
+   426px wide against a 367px available column). Root cause: when a min-height
+   is taller than what `aspect-ratio` would naturally compute from the
+   container's own width, the CSS aspect-ratio sizing algorithm resolves the
+   conflict by recomputing WIDTH from the min-height instead (height 240px ×
+   ratio ~1.775 ≈ 426px) — on mobile, where the natural width-derived height
+   (367px wide ÷ ratio ≈ 207px) is routinely LESS than 240px, this fired on
+   every load, not just the rare invalid-ratio case, silently overflowing the
+   box past its own container on every mobile view. The Liquid-side guard
+   added in the same round (`if video_ratio == blank or video_ratio == 0`)
+   already prevents the invalid-ratio case this was meant to catch, making
+   the CSS-level fallback redundant AND actively harmful — so scoped it to
+   `@supports not (aspect-ratio: 1 / 1)` instead of applying unconditionally,
+   meaning it now only ever activates in browsers with zero aspect-ratio
+   support at all (a shrinking minority), never fighting a working one.
+   Lesson: a min-height "safety net" alongside aspect-ratio is not free —
+   check whether the min-height could ever legitimately exceed the ratio's
+   own natural height at realistic container widths (here, mobile) before
+   adding one, or scope it to a real capability check like this. */
+@supports not (aspect-ratio: 1 / 1) {
+  .mo-video-feature__media {
+    min-height: 240px;
+  }
 }
 
 /* CUSTOM: this section is a silent, ambient background-style video (matches
