@@ -6810,15 +6810,25 @@ html body .theme-drawer__dialog {
 }
 
 @media screen and (min-width: 750px) {
-  /* CUSTOM (per Kalvis): the video column's width reuses .mo-science__grid's
-     exact 1.7fr/1fr split (Clinical & Science section, right chart-card column)
-     verbatim, rather than an independently-estimated fixed max-width — same
-     "reuse the literal ratio, don't re-derive it" convention already applied to
-     .mo-compare__inner/.mo-ingredients__card/.mo-howto__layout/.mo-faq__inner's
-     shared ~32%/68% split. */
+  /* CUSTOM (per Kalvis, revised): switched from .mo-science__grid's one-off
+     1.7fr/1fr ratio to this project's actual shared column convention —
+     the literal `minmax(240px, 32%)` value already reused verbatim by
+     .mo-compare__inner/.mo-ingredients__card/.mo-howto__layout/.mo-faq__inner
+     (see custom.css comments on those rules). Those 4 sections put the 32%
+     column FIRST/left (a narrow label column) with 1fr second/right; here
+     the narrow column is the VIDEO, which sits on the right instead — so
+     the same 32%/68% split is applied with the two tracks swapped
+     (1fr text first, minmax(240px,32%) video second) to keep the video
+     visually on the right while still only taking the standard 32% share,
+     narrower than the previous 1fr-out-of-2.7fr (~37%) estimate. This also
+     pulls the video's left edge back to line up with where the Reviews
+     section's cards' shared right-side boundary falls, per Kalvis's "left
+     vertical ruler" reference — flag if this reads wrong once live, since
+     it's an inferred mapping (video = the narrow side here, not the label
+     side like the other 4 sections), not a pixel-measured match. */
   .mo-expert-video__card {
     display: grid;
-    grid-template-columns: 1.7fr 1fr;
+    grid-template-columns: 1fr minmax(240px, 32%);
     align-items: stretch;
   }
 }
