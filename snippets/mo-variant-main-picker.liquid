@@ -955,6 +955,13 @@
 
       var variantId = qtyRadio.dataset.variantId;
       var variantPrice = parseInt(qtyRadio.dataset.price, 10);
+      // CUSTOM (per Kalvis): the multipack discount is already locked into
+      // variant.price vs. its own compare_at_price (e.g. the 3-bottle tier's
+      // sticker price vs. its discounted price) — read here so the Subscribe
+      // card's badge below can combine BOTH discounts (multipack + subscribe)
+      // into one number instead of just the incremental subscribe-vs-tier-
+      // price savings. 0 when the tier has no compare_at_price set.
+      var variantCompareAtPrice = parseInt(qtyRadio.dataset.compareAtPrice, 10) || 0;
       // CUSTOM (2026-07-20, per Kalvis): bottle count for whichever qty tier
       // is currently selected, used below to show/hide + recompute the
       // price-per-bottle line on the Subscribe/One-time cards. Defaults to 1
@@ -1035,8 +1042,16 @@
           }
         }
         if (badgeEl) {
-          if (variantPrice > 0 && alloc.price < variantPrice) {
-            var pct = Math.round((1 - alloc.price / variantPrice) * 100);
+          // CUSTOM (per Kalvis): base the badge off compare_at_price (the true
+          // original/sticker price) when the selected tier actually has one —
+          // this is what combines the locked-in multipack discount with the
+          // subscribe discount into a single total % instead of just the
+          // subscribe-vs-already-discounted-tier-price delta. Falls back to
+          // variantPrice for tiers with no compare_at_price (e.g. 1-bottle),
+          // where the subscribe discount IS the whole discount anyway.
+          var badgeBasePrice = variantCompareAtPrice > variantPrice ? variantCompareAtPrice : variantPrice;
+          if (badgeBasePrice > 0 && alloc.price < badgeBasePrice) {
+            var pct = Math.round((1 - alloc.price / badgeBasePrice) * 100);
             badgeEl.textContent = '-' + pct + '%';
             badgeEl.hidden = false;
           } else {
