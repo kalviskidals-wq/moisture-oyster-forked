@@ -49,12 +49,23 @@
       </div>
 
       <div class="mo-expert-video__media">
+        {%- # CUSTOM FIX (per Kalvis — Safari missing poster image): switched
+           from loading: 'lazy' to 'eager'. Safari's native lazy-load
+           heuristic is measurably more conservative than Chromium's about
+           when it actually fetches a below-the-fold image — on this PDP the
+           card sits far enough down that Chrome had already fetched the
+           poster by the time it's viewed, but Safari hadn't yet, reading as
+           "missing" (the box just shows its --mo-expert-video-media-bg mint
+           fallback with the play icon on top until the <img> loads). This is
+           a single card with one poster image (not a repeating list further
+           down the page), so eager-loading it is cheap and removes the
+           browser-dependent race entirely. -%}
         {%- render 'video',
           video: s.video,
           video_preview_image: video_poster,
           video_class: 'mo-expert-video__video',
           video_alt: video_alt,
-          loading: 'lazy',
+          loading: 'eager',
           additional_attributes: 'data-unmute-on-click'
         -%}
       </div>
