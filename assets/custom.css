@@ -6899,8 +6899,19 @@ html body .theme-drawer__dialog {
   gap: var(--mo-space-5, 20px);
 }
 
+/* CUSTOM FIX: the Figma source data for this glyph gives it an explicit tight
+   box height (mobile 27px, desktop 48px) well under what font-size × line-height
+   naturally computes (60×1.1=66px mobile, 80×1.1=88px desktop) — curly-quote
+   glyphs render high in their em box, so most of that extra height is empty
+   space below the visible ink, not real breathing room. Left line-height at
+   1.1 (needed so the glyph itself isn't clipped) and pulled the box back down
+   to Figma's real height with a negative margin-bottom (66-27=39px mobile,
+   88-48=40px desktop) instead — this way the .mo-expert-video__quote-block's
+   flex `gap: 20px` lands right after the glyph's true Figma-sized box, same
+   as the design, rather than 20px after the much-taller natural line box
+   (which was reading as a much bigger gap than 20px). */
 .mo-expert-video__quote-mark {
-  margin: 0;
+  margin: 0 0 -39px;
   font-family: var(--mo-font-heading);
   font-weight: 700;
   font-size: 60px;
@@ -6912,6 +6923,7 @@ html body .theme-drawer__dialog {
 @media screen and (min-width: 750px) {
   .mo-expert-video__quote-mark {
     font-size: 80px;
+    margin-bottom: -40px;
   }
 }
 
