@@ -7021,6 +7021,13 @@ html body .theme-drawer__dialog {
   border-radius: 16px;
   background: var(--mo-video-feature-bg, #093d24);
   aspect-ratio: var(--mo-video-feature-ratio, 1.99);
+  /* CUSTOM (defensive): if --mo-video-feature-ratio ever resolves to an
+     invalid/empty value (e.g. a just-uploaded video whose metadata Shopify
+     hasn't finished processing yet, before the Liquid-side blank/0 guard
+     catches it), aspect-ratio silently drops and this box would otherwise
+     collapse to 0 height with no visible fallback — min-height keeps the
+     section from disappearing entirely in that edge case. */
+  min-height: 240px;
 }
 
 /* CUSTOM: this section is a silent, ambient background-style video (matches

@@ -8,7 +8,10 @@
 {%- liquid
   assign s = section.settings
   assign video_poster = s.video_poster | default: s.video.preview_image
-  assign video_ratio = s.video.aspect_ratio | default: 1.99
+  assign video_ratio = s.video.aspect_ratio
+  if video_ratio == blank or video_ratio == 0
+    assign video_ratio = 1.99
+  endif
 -%}
 
 <section
