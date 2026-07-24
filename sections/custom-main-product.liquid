@@ -176,6 +176,37 @@
     #shopify-section-{{ section.id }} .product-information__media .product-media-container :is(img, video, .deferred-media__poster-image) {
       border-radius: 24px !important;
     }
+
+    /* CUSTOM FIX (2026-07-24, per Kalvis — round 2 on the same bug: the
+       min-height:700px gate above stops the media column from stretching past
+       the image's natural height on short viewports, but the radius was still
+       dropping to sharp corners specifically WHILE the window is actively
+       being dragged shorter/taller, not in any settled state. Verified live
+       (moistureoyster.com PDP, Claude in Chrome): forcing --constrained-height
+       through every value from 835px down to 300px in the console always
+       produced a consistent 24px radius on both this box and its image —
+       so the border-radius/overflow-hidden logic itself is correct at rest.
+       Since --constrained-height and the media-gallery's sticky/stretch
+       layout both recompute continuously off 100vh during a live resize
+       drag, this is a browser compositor repaint-sync issue, not a CSS
+       logic bug: overflow:hidden + border-radius on a box whose size is
+       being recalculated every resize frame can momentarily (or, in some
+       browsers, until the next unrelated repaint) paint with a stale square
+       clip mask instead of the rounded one. contain:paint + a forced
+       compositing layer (translateZ(0)) is the standard mitigation — it
+       pins the clip mask to the box's own paint so it recomposites every
+       frame instead of depending on a full repaint to catch up. Applied to
+       both the slide box and slideshow-container (Horizon's own outer
+       scroll-clip element, snippets/product-media.liquid) since both carry
+       independent border-radius+overflow:hidden here. NOT yet reconfirmed
+       live via an actual drag-resize (tooling in this session couldn't
+       drive a real OS-level window resize to catch the transient frame) —
+       flag to Kalvis to verify by dragging the window if this recurs. */
+    #shopify-section-{{ section.id }} .product-information__media .product-media-container,
+    #shopify-section-{{ section.id }} .product-information__media slideshow-container {
+      contain: paint;
+      transform: translateZ(0);
+    }
   }
 
   @media screen and (max-width: 749px) {
@@ -243,11 +274,23 @@
     #shopify-section-{{ section.id }} .product-information__media .product-media-container {
       aspect-ratio: 1 / 1 !important;
       border-radius: 10px !important;
+      /* CUSTOM FIX (2026-07-24, per Kalvis): same compositor repaint-sync
+         mitigation as the desktop block above — see that comment for the
+         full root-cause writeup. Mobile viewport height changes on rotation/
+         browser-chrome-collapse can trigger the same stale-square-clip
+         paint glitch as a desktop window drag-resize. */
+      contain: paint;
+      transform: translateZ(0);
     }
 
     #shopify-section-{{ section.id }} .product-information__media .product-media-container :is(img, video, .deferred-media__poster-image) {
       object-fit: cover !important;
       border-radius: 10px !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-information__media slideshow-container {
+      contain: paint;
+      transform: translateZ(0);
     }
 
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails-container {
