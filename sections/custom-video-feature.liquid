@@ -1,0 +1,107 @@
+{%- # CUSTOM: net-new theme section — full-bleed rounded autoplay video (Figma node 709:2039, file gGjDKRraxVAxvedqLU11st). Deliberately minimal: no heading/eyebrow/text fields, since the Figma frame contains exactly one child (the video itself, e.g. the "PRESERVATIVE FREE" formula-explainer clip) with any copy baked into the footage, not separate Liquid-rendered layers. Video plays with sound OFF (muted, matching every other autoplay/loop background video on this project — Problem Agitation, About), loops, and its box's aspect-ratio comes directly from the uploaded video file's own `aspect_ratio` (per Kalvis: "ratio comes from the uploaded file"), not a merchant-editable range setting like other sections' image_aspect_ratio_* pattern — so it never needs adjusting per upload. UPSTREAM risk LOW — no Horizon file touched. -%}
+{%- # CUSTOM: load design tokens + the .mo-video-feature rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval, matching every other custom PDP section. -%}
+{{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+{%- # CUSTOM: mo-scroll-video.js is what makes this "lazy load, only start once scrolled into view" — see that file for how it reuses Horizon's own deferred-media template mechanism with a scroll trigger instead of a click. -%}
+<script src="{{ 'mo-scroll-video.js' | asset_url }}" type="module"></script>
+
+{%- liquid
+  assign s = section.settings
+  assign video_poster = s.video_poster | default: s.video.preview_image
+  assign video_ratio = s.video.aspect_ratio | default: 1.99
+-%}
+
+<section
+  class="mo-video-feature"
+  id="MoVideoFeature-{{ section.id }}"
+  style="
+    --mo-video-feature-bg: {{ s.background_color | default: '#093D24' }};
+    --mo-video-feature-padding-y: {{ s.vertical_padding | default: 40 }}px;
+    --mo-video-feature-ratio: {{ video_ratio }};
+  "
+>
+  <div class="mo-video-feature__inner">
+    <div class="mo-video-feature__media">
+      {%- if s.video != blank -%}
+        {%- render 'video',
+          video: s.video,
+          video_preview_image: video_poster,
+          video_loop: true,
+          video_class: 'mo-video-feature__video',
+          video_alt: s.video_alt,
+          loading: 'lazy',
+          disable_controls: true,
+          additional_attributes: 'data-scroll-autoplay'
+        -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MO Video Feature",
+  "tag": "section",
+  "class": "mo-video-feature-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_poster",
+      "label": "Poster image",
+      "info": "Shown before the video loads/plays. Defaults to the uploaded video's own preview frame if left blank. Required for the video to lazy-load on scroll rather than loading immediately — see the section's info text below."
+    },
+    {
+      "type": "text",
+      "id": "video_alt",
+      "label": "Accessible description",
+      "info": "Describes the video for screen reader users. Leave blank if the video is purely decorative."
+    },
+    {
+      "type": "paragraph",
+      "content": "This section's box ratio is taken directly from the uploaded video file — no separate aspect-ratio setting to configure. Mobile scales the same video down proportionally, no separate crop."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#093D24"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Section vertical padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "MO Video Feature",
+      "category": "Custom"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

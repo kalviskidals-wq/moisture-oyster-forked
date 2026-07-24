@@ -6976,3 +6976,78 @@ html body .theme-drawer__dialog {
   width: 100%;
   height: 100%;
 }
+
+/* ============================================================================
+   VIDEO FEATURE — sections/custom-video-feature.liquid
+   Full-bleed rounded autoplay video (Figma node 709:2039). Reuses the
+   established page-width `.inner` convention (same max-width/margin-inline/
+   padding-inline as every other section) plus the sitewide 40px desktop /
+   30px mobile vertical-padding standard verbatim — no section-specific
+   breakpoint overrides beyond that, since Kalvis's brief was explicitly
+   "mobile just scales down keeping the same ratio," not a distinct layout.
+   The media box's aspect-ratio is set from the uploaded video file's own
+   `aspect_ratio` (a Liquid-computed CSS custom property, --mo-video-feature-
+   ratio), not a merchant range setting like other sections' image_aspect_
+   ratio_* pattern. See assets/mo-scroll-video.js for the scroll-triggered
+   lazy-autoplay mechanism (reuses Horizon's own deferred-media/template
+   plumbing, just swaps the click trigger for an IntersectionObserver).
+   ============================================================================ */
+.mo-video-feature {
+  background: var(--mo-video-feature-bg, #093d24);
+  padding-block: 30px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-video-feature {
+    padding-block: var(--mo-video-feature-padding-y, 40px);
+  }
+}
+
+.mo-video-feature__inner {
+  max-width: var(--page-width, var(--normal-page-width, 1280px));
+  margin-inline: auto;
+  padding-inline: var(--mo-space-5, 20px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-video-feature__inner {
+    padding-inline: var(--page-margin, 40px);
+  }
+}
+
+.mo-video-feature__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--mo-video-feature-bg, #093d24);
+  aspect-ratio: var(--mo-video-feature-ratio, 1.99);
+}
+
+/* CUSTOM: this section is a silent, ambient background-style video (matches
+   Problem Agitation/About's autoplay/loop/muted treatment) — no click-to-play
+   affordance should ever show, even momentarily before the scroll trigger
+   fires, so the native deferred-media play-icon overlay is hidden here
+   (unlike .mo-expert-video__video, which deliberately keeps it since that
+   card IS meant to invite a click). The poster image itself still shows
+   normally as the pre-load placeholder. */
+.mo-video-feature__video .deferred-media__poster-icon {
+  display: none;
+}
+
+/* CUSTOM: same "wrapper owns the size" technique as .mo-expert-video__video —
+   the aspect-ratio box above is the sizing source of truth, not deferred-
+   media's own --video-aspect-ratio (derived from the raw video file), so the
+   rendered video/poster always fills this section's own box exactly. */
+.mo-video-feature__video {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mo-video-feature__video .deferred-media__poster-button {
+  aspect-ratio: auto;
+  width: 100%;
+  height: 100%;
+}

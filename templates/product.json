@@ -1496,6 +1496,14 @@
         "section_inset": 16,
         "vertical_padding": 0
       }
+    },
+    "custom_video_feature_mopdp1": {
+      "type": "custom-video-feature",
+      "name": "MO Video Feature",
+      "settings": {
+        "background_color": "#093d24",
+        "vertical_padding": 40
+      }
     }
   },
   "order": [
@@ -1504,6 +1512,7 @@
     "custom_problem_agitation_iYrAeg",
     "custom_comparison_table_mopdp1",
     "custom_ingredient_transparency_mopdp1",
+    "custom_video_feature_mopdp1",
     "custom_how_to_use_8X9BU3",
     "custom_clinical_science_mopdp1",
     "custom_expert_video_mopdp1",
