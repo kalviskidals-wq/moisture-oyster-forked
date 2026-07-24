@@ -7058,3 +7058,36 @@ html body .theme-drawer__dialog {
   width: 100%;
   height: 100%;
 }
+
+/* CUSTOM FIX (mobile video overflowing past the section's right edge): the
+   `width:100%/height:100%` overrides above only reach the poster BUTTON
+   (and the deferred-media wrapper itself) — they never reach the actual
+   <img>/<video> painted inside it. Once the real <video> loads, Horizon's
+   own base.css rule (`deferred-media[class] :is(.deferred-media__poster-
+   button img, .deferred-media__poster-button ~ video) { height:100%;
+   aspect-ratio: var(--size-style-aspect-ratio, auto); }`) sets a DEFINITE
+   height plus `aspect-ratio:auto` (meaning "derive width from the video
+   FILE'S OWN real encoded ratio", since --size-style-aspect-ratio is never
+   set outside blocks/video.liquid, which this project doesn't use) — if
+   that real encoded ratio doesn't land on EXACTLY the same value as our
+   box's own --mo-video-feature-ratio/--mo-expert-video-aspect-* CSS var
+   (rounding, re-encoding, etc.), the browser computes a preferred width
+   from height × ratio that can exceed the container, and `max-width:100%`
+   alone wasn't reliably clamping it against this element's specific
+   percentage-resolution chain. Same underlying class of bug already
+   documented for .mo-compare__logo — an SVG/video's own intrinsic sizing
+   can fight plain CSS width rules; the fix there was also to stop trusting
+   size to be *derived* and pin both dimensions directly instead. Applied to
+   both video-panel patterns on this project (Expert Video + Video Feature)
+   since they share the identical render 'video' + deferred-media technique
+   and are equally exposed to this. */
+.mo-expert-video__video img,
+.mo-expert-video__video video,
+.mo-video-feature__video img,
+.mo-video-feature__video video {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  aspect-ratio: auto !important;
+  object-fit: cover;
+}
