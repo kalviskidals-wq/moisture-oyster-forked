@@ -3955,32 +3955,31 @@ mo-review-filter {
     max-width: 420px;
   }
 
-  /* CUSTOM (2026-07-10): vertically centered within the section instead of
-     bottom-anchored — top:0/bottom:0 spans the full media height, and
-     margin-block:auto centers the (shorter, content-sized) benefits column
-     within that span, same auto-margin centering technique used elsewhere
-     in this file for horizontal centering. */
+  /* CUSTOM (fix, per Kalvis): desktop now mirrors
+     .mo-eye-health__cards-wrap's bottom-anchored row instead of a
+     vertically-centered right-hand column — bottom-anchored, full
+     content-width, cards laid out 3-up (equal width via flex:1 1 0% on
+     .mo-sub-benefits__card below), no flip effect (that's specific to the
+     Eye Health Education section only). Left/right/max-width/margin-inline/
+     padding-inline already come from the shared rule above (grouped with
+     .mo-sub-benefits__header/__review), so only the vertical anchor needs
+     to change here. */
   .mo-sub-benefits__overlay {
-    top: 0;
-    bottom: 0;
-    margin-block: auto;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: var(--mo-space-4, 16px);
+    top: auto;
+    bottom: var(--mo-space-8, 40px);
   }
 
   .mo-sub-benefits__benefits {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: nowrap;
     overflow: visible;
     width: 100%;
-    max-width: 460px;
+    max-width: none;
   }
 
   .mo-sub-benefits__card {
-    flex: 0 0 auto;
-    width: 100%;
+    flex: 1 1 0%;
+    width: auto;
     scroll-snap-align: none;
   }
 
