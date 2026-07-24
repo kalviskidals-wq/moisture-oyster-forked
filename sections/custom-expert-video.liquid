@@ -2,6 +2,8 @@
 {%- # CUSTOM: load design tokens + the .mo-expert-video rules here (not layout/theme.liquid) since site-wide inclusion is still pending approval, matching every other custom PDP section. -%}
 {{ 'mo-design-system.css' | asset_url | stylesheet_tag }}
 {{ 'custom.css' | asset_url | stylesheet_tag }}
+{%- # CUSTOM: opts this section's video into playing WITH sound on click — see assets/mo-unmute-on-click.js for why this is a separate net-new script rather than a fork of Horizon's snippets/video.liquid, which always renders muted. -%}
+<script src="{{ 'mo-unmute-on-click.js' | asset_url }}" type="module"></script>
 
 {%- liquid
   assign s = section.settings
@@ -52,7 +54,8 @@
           video_preview_image: video_poster,
           video_class: 'mo-expert-video__video',
           video_alt: video_alt,
-          loading: 'lazy'
+          loading: 'lazy',
+          additional_attributes: 'data-unmute-on-click'
         -%}
       </div>
     </div>
