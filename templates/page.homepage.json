@@ -251,7 +251,7 @@
                 "border_width": 1,
                 "border_opacity": 100,
                 "border_color": "#e8e7e3",
-                "border_radius": 20,
+                "border_radius": 16,
                 "link": "",
                 "open_in_new_tab": false,
                 "placeholder": "",
