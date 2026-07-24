@@ -1013,6 +1013,16 @@
         "vertical_padding": 40
       }
     },
+    "custom_video_feature_mopdp1": {
+      "type": "custom-video-feature",
+      "name": "MO Video Feature",
+      "settings": {
+        "video": "shopify://files/videos/How to video.mp4",
+        "video_alt": "",
+        "background_color": "#093d24",
+        "vertical_padding": 40
+      }
+    },
     "custom_how_to_use_8X9BU3": {
       "type": "custom-how-to-use",
       "blocks": {
@@ -1495,14 +1505,6 @@
         "section_radius": 20,
         "section_inset": 16,
         "vertical_padding": 0
-      }
-    },
-    "custom_video_feature_mopdp1": {
-      "type": "custom-video-feature",
-      "name": "MO Video Feature",
-      "settings": {
-        "background_color": "#093d24",
-        "vertical_padding": 40
       }
     }
   },
