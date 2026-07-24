@@ -6793,29 +6793,33 @@ html body .theme-drawer__dialog {
   }
 }
 
+/* CUSTOM (per Kalvis): card shell now reuses .mo-reviews__card's own
+   radius/padding tokens verbatim (Reviews section) — same
+   "reuse the literal value, don't re-derive it" convention already applied
+   below for the video column's width (.mo-science__grid). Radius and padding
+   are the SAME at every breakpoint here, matching .mo-reviews__card (which
+   also doesn't vary its own padding/radius by viewport — only the card's
+   width/layout responds to breakpoint). */
 .mo-expert-video__card {
   background: var(--mo-expert-video-card-bg, #ffffff);
-  border-radius: var(--mo-radius-md, 10px);
+  border-radius: var(--mo-reviews-card-radius, 16px);
   display: flex;
   flex-direction: column;
   gap: var(--mo-space-7, 32px);
-  padding: 30px var(--mo-space-4, 16px) var(--mo-space-4, 16px);
+  padding: var(--mo-space-7, 32px);
 }
 
 @media screen and (min-width: 750px) {
-  /* CUSTOM (per Kalvis): the video column's width now reuses .mo-science__grid's
+  /* CUSTOM (per Kalvis): the video column's width reuses .mo-science__grid's
      exact 1.7fr/1fr split (Clinical & Science section, right chart-card column)
      verbatim, rather than an independently-estimated fixed max-width — same
      "reuse the literal ratio, don't re-derive it" convention already applied to
      .mo-compare__inner/.mo-ingredients__card/.mo-howto__layout/.mo-faq__inner's
      shared ~32%/68% split. */
   .mo-expert-video__card {
-    border-radius: 20px;
     display: grid;
     grid-template-columns: 1.7fr 1fr;
     align-items: stretch;
-    gap: var(--mo-space-8, 40px);
-    padding: var(--mo-space-8, 40px);
   }
 }
 
