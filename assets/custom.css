@@ -6334,6 +6334,30 @@ body.template-policy {
   background-color: #ffffff;
 }
 
+/* CUSTOM (per Kalvis): generic Shopify "Page" template — covers real
+   merchant Pages AND system-generated pages that render through the exact
+   same default template (confirmed live: the marketing-email unsubscribe
+   confirmation page has no custom section/template of its own, it renders
+   via templates/page.json's stock main-page section, same as any other
+   default Page). Its heading ("text" block) + body copy ("page-content"
+   block) have no text_color set, so both fall back to the theme's global
+   --color-foreground token (dark, from Theme Settings > Colors), which
+   reads as near-invisible against the round-8 fix's site-wide deep-green
+   body background above. Unlike policy pages (reverted to a white
+   background instead, see body.template-policy right above), Kalvis wants
+   the green kept here with the text flipped to white instead — so this
+   overrides the TOKEN (not the background), which both blocks' own CSS
+   (blocks/text.liquid, blocks/page-content.liquid) already consume via
+   var(--color, var(--color-foreground)) — any block that sets its own
+   explicit text_color in the theme editor still wins over this fallback,
+   same as slideshow-controls.liquid's identical --color-foreground: #fff
+   override pattern elsewhere in this theme. request.page_type == 'page'
+   class added alongside the existing 'policy' one in layout/theme.liquid. */
+body.template-page {
+  --color-foreground: #fff;
+  --color-foreground-rgb: var(--color-white-rgb, 255, 255, 255);
+}
+
 /* CUSTOM (fix): cart/search/filter drawers rendered above the header at all
    viewport widths. Horizon's own drawer dialog (shared/native, deduplicated
    snippet, not edited directly) sets its z-index from --layer-sticky (8)
