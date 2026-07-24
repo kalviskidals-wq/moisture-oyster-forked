@@ -6803,10 +6803,16 @@ html body .theme-drawer__dialog {
 }
 
 @media screen and (min-width: 750px) {
+  /* CUSTOM (per Kalvis): the video column's width now reuses .mo-science__grid's
+     exact 1.7fr/1fr split (Clinical & Science section, right chart-card column)
+     verbatim, rather than an independently-estimated fixed max-width — same
+     "reuse the literal ratio, don't re-derive it" convention already applied to
+     .mo-compare__inner/.mo-ingredients__card/.mo-howto__layout/.mo-faq__inner's
+     shared ~32%/68% split. */
   .mo-expert-video__card {
     border-radius: 20px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 409px);
+    grid-template-columns: 1.7fr 1fr;
     align-items: stretch;
     gap: var(--mo-space-8, 40px);
     padding: var(--mo-space-8, 40px);
