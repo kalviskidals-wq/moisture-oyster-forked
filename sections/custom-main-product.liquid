@@ -179,33 +179,42 @@
 
     /* CUSTOM FIX (2026-07-24, per Kalvis — round 2 on the same bug: the
        min-height:700px gate above stops the media column from stretching past
-       the image's natural height on short viewports, but the radius was still
-       dropping to sharp corners specifically WHILE the window is actively
-       being dragged shorter/taller, not in any settled state. Verified live
-       (moistureoyster.com PDP, Claude in Chrome): forcing --constrained-height
-       through every value from 835px down to 300px in the console always
-       produced a consistent 24px radius on both this box and its image —
-       so the border-radius/overflow-hidden logic itself is correct at rest.
-       Since --constrained-height and the media-gallery's sticky/stretch
-       layout both recompute continuously off 100vh during a live resize
-       drag, this is a browser compositor repaint-sync issue, not a CSS
-       logic bug: overflow:hidden + border-radius on a box whose size is
-       being recalculated every resize frame can momentarily (or, in some
-       browsers, until the next unrelated repaint) paint with a stale square
-       clip mask instead of the rounded one. contain:paint + a forced
-       compositing layer (translateZ(0)) is the standard mitigation — it
-       pins the clip mask to the box's own paint so it recomposites every
-       frame instead of depending on a full repaint to catch up. Applied to
-       both the slide box and slideshow-container (Horizon's own outer
-       scroll-clip element, snippets/product-media.liquid) since both carry
-       independent border-radius+overflow:hidden here. NOT yet reconfirmed
-       live via an actual drag-resize (tooling in this session couldn't
-       drive a real OS-level window resize to catch the transient frame) —
-       flag to Kalvis to verify by dragging the window if this recurs. */
+       the image's natural height on short viewports, but the radius/crop was
+       still breaking on live window resize. Kalvis confirmed cross-browser
+       behavior: Chrome only breaks resizing VERTICALLY ("once the window
+       touches the image"); Safari breaks resizing in BOTH directions.
+       Verified live (moistureoyster.com PDP, Claude in Chrome): forcing
+       --constrained-height through every value from 835px down to 300px via
+       the console, then re-measuring the rendered corner pixel-by-pixel with
+       elementFromPoint, always traced a clean 24px arc — the border-radius/
+       overflow-hidden math is correct both at rest and under a real (non-
+       simulated) short-viewport resize. Combined with Safari breaking on
+       ANY resize axis (not just height), this matches a known browser bug
+       class rather than a CSS logic bug: overflow:hidden + border-radius on
+       a box sized via calculated dimensions (aspect-ratio, calc(100vh -
+       ...), flex/grid) can fail to re-clip to the new box on resize — a
+       long-standing WebKit/Safari issue on virtually any resize, and a
+       narrower Chromium variant tied to viewport-unit-driven recalculation
+       specifically (matches "only breaks vertically" here, since only the
+       height side of this box's sizing is vh-derived). contain:paint plus a
+       forced compositing layer is the standard mitigation for this exact
+       bug class — it pins the clip mask to the box's own paint so it's
+       guaranteed to recomposite against the current box on every resize
+       frame instead of depending on the browser's default repaint timing.
+       Applied to both the slide box and slideshow-container (Horizon's own
+       outer scroll-clip element, snippets/product-media.liquid) since both
+       carry independent border-radius+overflow:hidden here; isolation:isolate
+       added alongside translateZ(0) since Safari specifically needs an
+       explicit stacking/paint context to reliably keep the clip in sync. Not
+       yet reconfirmed with an actual live drag-resize in Safari specifically
+       (out of reach of this session's tooling) — flag to Kalvis if it
+       recurs there. */
     #shopify-section-{{ section.id }} .product-information__media .product-media-container,
     #shopify-section-{{ section.id }} .product-information__media slideshow-container {
       contain: paint;
+      isolation: isolate;
       transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
   }
 
@@ -277,10 +286,12 @@
       /* CUSTOM FIX (2026-07-24, per Kalvis): same compositor repaint-sync
          mitigation as the desktop block above — see that comment for the
          full root-cause writeup. Mobile viewport height changes on rotation/
-         browser-chrome-collapse can trigger the same stale-square-clip
-         paint glitch as a desktop window drag-resize. */
+         browser-chrome-collapse can trigger the same stale-clip paint glitch
+         as a desktop window drag-resize. */
       contain: paint;
+      isolation: isolate;
       transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
 
     #shopify-section-{{ section.id }} .product-information__media .product-media-container :is(img, video, .deferred-media__poster-image) {
@@ -290,7 +301,9 @@
 
     #shopify-section-{{ section.id }} .product-information__media slideshow-container {
       contain: paint;
+      isolation: isolate;
       transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
 
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails-container {
