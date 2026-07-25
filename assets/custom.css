@@ -4329,6 +4329,7 @@ mo-review-filter {
 
 .mo-footer__success {
   color: var(--mo-footer-heading, #ffffff);
+  font-weight: 700;
 }
 
 .mo-footer__error {
