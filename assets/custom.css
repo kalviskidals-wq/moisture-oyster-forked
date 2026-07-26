@@ -1315,8 +1315,8 @@ tbody tr:last-child .mo-compare__cell {
 
 .mo-compare__icon {
   display: inline-flex;
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
 }
 
@@ -1460,8 +1460,8 @@ tbody tr:last-child .mo-compare__cell {
   }
 
   .mo-compare__icon {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
   }
 
   .mo-compare__logo-wrap {
