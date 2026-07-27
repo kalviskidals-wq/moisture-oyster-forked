@@ -435,17 +435,26 @@ body {
   }
 }
 
-/* CUSTOM: padding-inline matches Horizon's own page-margin breakpoints
-   (16px under 750px, 40px at/above) so this section's edges line up with
-   the page-width container used by the product section above it, instead
-   of drifting narrower/wider on its own fixed value. */
+/* CUSTOM FIX (per Kalvis — QA spacing-consistency pass): mobile side inset
+   was Horizon's own var(--page-margin, 16px) — every OTHER custom section
+   that reuses this exact max-width/margin-inline/padding-inline rule
+   (comparison table, ingredients, reviews, footer, how-to-use, etc.)
+   overrides this to the project's own var(--mo-space-5, 20px) on mobile,
+   since this is the file everyone else's comments cite as "the trust bar's
+   convention" — this was the one place that never actually got the memo.
+   The footer had this identical bug and was already fixed on 2026-07-19;
+   this was the last section still carrying the original 16px value, and
+   since the trust bar is reused across both the PDP and homepage, it was
+   quietly misaligning EVERY page it appears on by 4px on mobile relative to
+   its neighboring sections. Desktop already matched var(--page-margin,
+   40px) either way, so it's untouched. */
 .mo-trust-bar__inner {
   display: grid;
   grid-template-columns: repeat(var(--mo-trustbar-columns, 4), 1fr);
   gap: var(--mo-space-4, 16px);
   max-width: var(--page-width, var(--normal-page-width, 1280px));
   margin-inline: auto;
-  padding-inline: var(--page-margin, 16px);
+  padding-inline: var(--mo-space-5, 20px);
 }
 
 @media screen and (min-width: 750px) {
@@ -2893,14 +2902,21 @@ tbody tr:last-child .mo-compare__cell {
    this file only handles layout/visuals — .mo-reviews__card[hidden] (set by the
    JS) uses the browser's native hidden behavior, no extra CSS needed for it.
    ============================================================================ */
+/* CUSTOM (per Kalvis — homepage section-gap spec): margin-bottom driven by
+   --mo-reviews-margin-bottom-mobile/-desktop, which the section file only
+   sets to a nonzero value on the homepage (see custom-reviews.liquid) — the
+   PDP instance of this same section defaults to 0 here, leaving its own
+   spacing untouched. */
 .mo-reviews {
   background: var(--mo-reviews-bg, #093d24);
   padding-block: 30px;
+  margin-bottom: var(--mo-reviews-margin-bottom-mobile, 0);
 }
 
 @media screen and (min-width: 750px) {
   .mo-reviews {
     padding-block: var(--mo-reviews-padding-y, 40px);
+    margin-bottom: var(--mo-reviews-margin-bottom-desktop, 0);
   }
 }
 
@@ -5017,9 +5033,17 @@ mo-review-filter {
    identical to a side padding. Removed entirely; the track now runs the
    full viewport width with no cap.)
    ============================================================================ */
+/* CUSTOM (per Kalvis — homepage section-gap spec): 60px mobile / 80px
+   desktop gap to the next section (Product Range), via margin-bottom on
+   the OUTER section box — separate from this section's own padding-block
+   above, which is internal spacing within the marquee's own colored band,
+   not the gap to its neighbor. Per Kalvis, only this section's bottom gap
+   is set here; the Range Grid <-> Featured Product gap right after it is
+   intentionally left as-is. */
 .mo-marquee {
   background: var(--mo-marquee-bg, #1fa567);
   padding-block: 30px;
+  margin-bottom: 60px;
   overflow: hidden;
 }
 
@@ -5047,6 +5071,7 @@ mo-review-filter {
 @media screen and (min-width: 750px) {
   .mo-marquee {
     padding-block: var(--mo-marquee-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 
@@ -5360,10 +5385,15 @@ mo-review-filter {
    breakpoint now (see .mo-eye-health__header/__media below) — this also
    fixes the "pushes content up" complaint from the previous round, since
    the header no longer adds its own flow-height on top of the image's. */
+/* CUSTOM (per Kalvis — homepage section-gap spec): 60px mobile / 80px
+   desktop gap to the next section (How It Works), via margin-bottom —
+   separate from this section's own padding-block, which sits inside its
+   own rounded card, not between it and its neighbor. */
 .mo-eye-health {
   position: relative;
   background: var(--mo-eye-header-bg, #f7f5f0);
   padding-block: 30px;
+  margin-bottom: 60px;
   min-height: 100vh;
   min-height: 100dvh;
   border-radius: var(--mo-eye-section-radius, 24px);
@@ -5373,6 +5403,7 @@ mo-review-filter {
 @media screen and (min-width: 750px) {
   .mo-eye-health {
     padding-block: var(--mo-eye-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 
@@ -5818,11 +5849,17 @@ mo-review-filter {
   /* CUSTOM (2026-07-19, per Kalvis): was 30px — mobile-only bump. Desktop
      keeps its own --mo-hiw-padding-y-driven value below. */
   padding-block: 60px;
+  /* CUSTOM (per Kalvis — homepage section-gap spec): 60px mobile / 80px
+     desktop gap to the next section (About Us), via margin-bottom —
+     separate from the padding-block above, which is internal to this
+     section's own background. */
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-hiw {
     padding-block: var(--mo-hiw-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 
@@ -6096,17 +6133,23 @@ mo-review-filter {
    poster away, what shows through is .mo-about's own dark-green fill
    (matching every other full-bleed section's corner/background convention)
    instead of the page's background color leaking through. */
+/* CUSTOM (per Kalvis — homepage section-gap spec): 60px mobile / 80px
+   desktop gap to the next section (Reviews), via margin-bottom — separate
+   from the padding-block above, which sits inside this section's own
+   aspect-ratio box, not between it and its neighbor. */
 .mo-about {
   position: relative;
   background: var(--mo-about-bg, #093d24);
   aspect-ratio: var(--mo-about-aspect-mobile, 0.62);
   padding-block: 30px;
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-about {
     aspect-ratio: var(--mo-about-aspect-desktop, 1.9);
     padding-block: var(--mo-about-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 

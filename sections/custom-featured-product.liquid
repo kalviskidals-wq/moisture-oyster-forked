@@ -5,6 +5,21 @@
 
 {%- # CUSTOM: uses the non-deduplicated inline style tag (not the deduplicated stylesheet tag) for every rule that keys off the section's own id — stylesheet tags are deduplicated per SECTION TYPE, so a section-id-scoped selector inside one only reliably matches a single page instance; style tags render inline per instance instead. Same convention already documented in sections/custom-main-product.liquid and this project's feedback-shopify-theme-validation-gotchas memory. UPSTREAM risk LOW — scoped entirely to this section's own id, no Horizon file touched. -%}
 {% style %}
+  /* CUSTOM (per Kalvis — homepage section-gap spec): 60px mobile / 80px
+     desktop gap to the next section (Eye Health Education), applied
+     directly to Shopify's own auto-generated section wrapper since this
+     forked-native section has no dedicated top-level mo-* class of its own
+     to hang a shared rule on. */
+  #shopify-section-{{ section.id }} {
+    margin-bottom: 60px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      margin-bottom: 80px;
+    }
+  }
+
   /* CUSTOM: replicate the PDP's thumbnail treatment exactly (Kalvis, 2026-07-18) — same rules as sections/custom-main-product.liquid's own inline style block. Force thumbnails to a 1:1 box regardless of each photo's native aspect ratio. */
   #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
     aspect-ratio: 1 / 1 !important;

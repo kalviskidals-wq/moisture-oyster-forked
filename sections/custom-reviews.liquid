@@ -8,12 +8,32 @@
   assign s = section.settings
   assign rating_number = s.rating_number | default: '4.9'
   assign rating_stars = s.rating_stars | default: 5
+
+  # CUSTOM (per Kalvis — homepage section-gap spec): this section is reused
+  # on both the PDP (templates/product.json) and the homepage (index /
+  # page.homepage), but the requested 60px mobile / 80px desktop gap to the
+  # NEXT section (the footer) is specific to the front page's section order
+  # — the PDP has its own, separately-specified rhythm after Reviews there.
+  # Scoping this via inline CSS vars (defaulting to 0 on the PDP) rather than
+  # a blanket .mo-reviews margin-bottom keeps the two templates independent.
+  assign is_homepage = false
+  if template.name == 'index' or template.suffix == 'homepage'
+    assign is_homepage = true
+  endif
+  assign reviews_margin_bottom_mobile = '0px'
+  assign reviews_margin_bottom_desktop = '0px'
+  if is_homepage
+    assign reviews_margin_bottom_mobile = '60px'
+    assign reviews_margin_bottom_desktop = '80px'
+  endif
 -%}
 
 <section
   class="mo-reviews"
   id="MoReviews-{{ section.id }}"
   style="
+    --mo-reviews-margin-bottom-mobile: {{ reviews_margin_bottom_mobile }};
+    --mo-reviews-margin-bottom-desktop: {{ reviews_margin_bottom_desktop }};
     --mo-reviews-bg: {{ s.background_color | default: '#093D24' }};
     --mo-reviews-rating: {{ s.rating_color | default: '#F2A2FF' }};
     --mo-reviews-header-star: {{ s.header_star_color | default: '#F2A2FF' }};
