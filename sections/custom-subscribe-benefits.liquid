@@ -33,10 +33,10 @@
     --mo-icon-card-icon: {{ s.icon_color | default: '#FFD5F7' }};
     --mo-icon-card-title: {{ s.title_color | default: '#FFFFFF' }};
     --mo-icon-card-desc: {{ s.description_color | default: '#FFFFFF' }};
-    --mo-sub-padding-y: {{ s.vertical_padding | default: 40 }}px;
-    --mo-sub-padding-top-mobile: {{ s.top_padding_mobile | default: 30 }}px;
-    --mo-sub-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
-    --mo-sub-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 20 }}px;
+    --mo-sub-benefits-margin-bottom-desktop: {{ s.vertical_padding | default: 80 }}px;
+    --mo-sub-benefits-margin-top-mobile: {{ s.top_padding_mobile | default: 0 }}px;
+    --mo-sub-benefits-margin-top-desktop: {{ s.top_padding_desktop | default: 0 }}px;
+    --mo-sub-benefits-margin-bottom-mobile: {{ s.bottom_padding_mobile | default: 60 }}px;
     --mo-sub-radius: {{ s.section_radius | default: 20 }}px;
     --mo-sub-inset: {{ s.section_inset | default: 16 }}px;
   "
@@ -308,44 +308,56 @@
       "default": 16
     },
     {
-      "type": "range",
-      "id": "bottom_padding_mobile",
-      "label": "Bottom padding — mobile",
-      "min": 0,
-      "max": 160,
-      "step": 2,
-      "unit": "px",
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "vertical_padding",
-      "label": "Bottom padding — desktop",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "default": 40
+      "type": "header",
+      "content": "Top padding"
     },
     {
       "type": "range",
       "id": "top_padding_mobile",
-      "label": "Top padding — mobile",
+      "label": "Space above section — mobile",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 30
+      "default": 0,
+      "info": "Gap above this section only — doesn't affect the header/overlay's own internal position."
     },
     {
       "type": "range",
       "id": "top_padding_desktop",
-      "label": "Top padding — desktop",
+      "label": "Space above section — desktop",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 40
+      "default": 0,
+      "info": "Gap above this section only — doesn't affect the header/overlay's own internal position."
+    },
+    {
+      "type": "header",
+      "content": "Bottom padding"
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding_mobile",
+      "label": "Space after section — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 60,
+      "info": "Gap to the next section only — doesn't affect the header/overlay's own internal position."
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Space after section — desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80,
+      "info": "Gap to the next section only — doesn't affect the header/overlay's own internal position."
     }
   ],
   "blocks": [

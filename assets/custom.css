@@ -1625,18 +1625,21 @@ tbody tr:last-child .mo-compare__cell {
    untouched. */
 .mo-ingredients {
   background: var(--mo-ingredients-bg, #093d24);
-  padding-block-start: var(--mo-ingredients-padding-top-mobile, 30px);
-  padding-block-end: var(--mo-ingredients-padding-bottom-mobile, 0px);
-  /* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
-     gap to the next section (Video Feature). */
-  margin-bottom: 60px;
+  /* CUSTOM: internal top/bottom inset — fixed, matches the section's
+     current live values. No longer schema-driven (schema now controls
+     only the section's own before/after margin below). */
+  padding-block-start: 0;
+  padding-block-end: 0;
+  margin-top: var(--mo-ingredients-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-ingredients-margin-bottom-mobile, 60px);
 }
 
 @media screen and (min-width: 750px) {
   .mo-ingredients {
-    padding-block-start: var(--mo-ingredients-padding-top-desktop, 40px);
-    padding-block-end: var(--mo-ingredients-padding-y, 40px);
-    margin-bottom: 80px;
+    padding-block-start: 0;
+    padding-block-end: 40px;
+    margin-top: var(--mo-ingredients-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-ingredients-margin-bottom-desktop, 80px);
   }
 }
 
@@ -2401,16 +2404,21 @@ tbody tr:last-child .mo-compare__cell {
    gap to the next section (Expert Video / Doctors Recommendation). */
 .mo-science {
   background: var(--mo-science-bg, #093d24);
-  padding-top: var(--mo-science-padding-top-mobile, 30px);
-  padding-bottom: var(--mo-science-padding-bottom-mobile, 30px);
-  margin-bottom: 60px;
+  /* CUSTOM: internal top/bottom inset — fixed, matches the section's
+     current live values. No longer schema-driven (schema now controls
+     only the section's own before/after margin below). */
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: var(--mo-science-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-science-margin-bottom-mobile, 60px);
 }
 
 @media screen and (min-width: 750px) {
   .mo-science {
-    padding-top: var(--mo-science-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-science-padding-y, 40px);
-    margin-bottom: 80px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: var(--mo-science-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-science-margin-bottom-desktop, 80px);
   }
 }
 
@@ -3389,16 +3397,21 @@ mo-review-filter {
    gap to the next section (Subscribe Benefits). */
 .mo-faq {
   background: var(--mo-faq-bg, #093d24);
-  padding-top: var(--mo-faq-padding-top-mobile, 30px);
-  padding-bottom: var(--mo-faq-padding-bottom-mobile, 30px);
-  margin-bottom: 60px;
+  /* CUSTOM: internal top/bottom inset — fixed, matches the section's
+     current live values. No longer schema-driven (schema now controls
+     only the section's own before/after margin below). */
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: var(--mo-faq-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-faq-margin-bottom-mobile, 60px);
 }
 
 @media screen and (min-width: 750px) {
   .mo-faq {
-    padding-top: var(--mo-faq-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-faq-padding-y, 40px);
-    margin-bottom: 80px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+    margin-top: var(--mo-faq-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-faq-margin-bottom-desktop, 80px);
   }
 }
 
@@ -3745,18 +3758,28 @@ mo-review-filter {
   box-sizing: border-box;
   border-radius: var(--mo-sub-radius, 20px);
   background: var(--mo-sub-header-bg, #e8e7e3);
-  padding-top: var(--mo-sub-padding-top-mobile, 30px);
-  padding-bottom: var(--mo-sub-padding-bottom-mobile, 0px);
-  margin-bottom: 60px;
+  /* CUSTOM: mobile top inset before the header — fixed, matches the
+     section's current live value. No longer schema-driven (schema now
+     controls only the section's own before/after margin below). Bottom
+     stays 0 — the overlay carousel is absolutely positioned and uses its
+     own fixed offset (see .mo-sub-benefits__overlay) instead. */
+  padding-top: 30px;
+  padding-bottom: 0;
+  margin-top: var(--mo-sub-benefits-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-sub-benefits-margin-bottom-mobile, 60px);
   overflow: hidden;
 }
 
 @media screen and (min-width: 750px) {
   .mo-sub-benefits {
-    padding-top: var(--mo-sub-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-sub-padding-y, 40px);
+    /* CUSTOM: header + media are both position:absolute at this
+       breakpoint (see below), so the section's own padding-top/bottom no
+       longer affects layout — zeroed rather than left dead. */
+    padding-top: 0;
+    padding-bottom: 0;
     margin-inline: var(--mo-sub-inset, 16px);
-    margin-bottom: 80px;
+    margin-top: var(--mo-sub-benefits-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-sub-benefits-margin-bottom-desktop, 80px);
   }
 }
 
@@ -4004,7 +4027,10 @@ mo-review-filter {
   z-index: 3;
   left: 0;
   right: 0;
-  bottom: var(--mo-sub-padding-bottom-mobile, 20px);
+  /* CUSTOM: fixed — matches the section's current live value. No longer
+     schema-driven (this element's containing-block padding-box math never
+     actually tracked the section's own padding-bottom anyway). */
+  bottom: 20px;
 }
 
 /* CUSTOM (2026-07-20, per Kalvis, mobile-only): scroll-padding-inline-start
@@ -4093,7 +4119,9 @@ mo-review-filter {
     position: absolute;
     top: 0;
     background: transparent;
-    padding-block: var(--mo-sub-padding-top-desktop, 40px) 0;
+    /* CUSTOM: fixed — matches the section's current live value. No longer
+       schema-driven. */
+    padding-block: 40px 0;
   }
 
   /* CUSTOM (2026-07-20, per Kalvis): 8px gap on desktop (was 16px) —
@@ -4135,10 +4163,10 @@ mo-review-filter {
   .mo-sub-benefits__review {
     display: block;
     position: absolute;
-    /* CUSTOM FIX (2026-07-27, per Kalvis): kept in sync with
-       .mo-sub-benefits__overlay's own bottom fix below so the review card
-       and benefit-card row stay aligned on the same baseline. */
-    bottom: var(--mo-sub-padding-y, 40px);
+    /* CUSTOM: fixed — kept in sync with .mo-sub-benefits__overlay's own
+       bottom value below so the review card and benefit-card row stay
+       aligned on the same baseline. No longer schema-driven. */
+    bottom: 40px;
     padding-block-end: 0;
   }
 
@@ -4160,7 +4188,9 @@ mo-review-filter {
      above. 40px fallback preserves today's appearance. */
   .mo-sub-benefits__overlay {
     top: auto;
-    bottom: var(--mo-sub-padding-y, 40px);
+    /* CUSTOM: fixed — matches the section's current live value. No longer
+       schema-driven. */
+    bottom: 40px;
   }
 
   .mo-sub-benefits__benefits {
@@ -7164,16 +7194,21 @@ html body .theme-drawer__dialog {
    gap to the next section (Reviews). */
 .mo-expert-video {
   background: var(--mo-expert-video-bg, #093d24);
-  padding-top: var(--mo-expert-video-padding-top-mobile, 30px);
-  padding-bottom: var(--mo-expert-video-padding-bottom-mobile, 30px);
-  margin-bottom: 60px;
+  /* CUSTOM: internal top/bottom inset — fixed, matches the section's
+     current live values. No longer schema-driven (schema now controls
+     only the section's own before/after margin below). */
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: var(--mo-expert-video-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-expert-video-margin-bottom-mobile, 60px);
 }
 
 @media screen and (min-width: 750px) {
   .mo-expert-video {
-    padding-top: var(--mo-expert-video-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-expert-video-padding-y, 40px);
-    margin-bottom: 80px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: var(--mo-expert-video-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-expert-video-margin-bottom-desktop, 80px);
   }
 }
 
@@ -7392,16 +7427,21 @@ html body .theme-drawer__dialog {
    gap to the next section (How To Use). */
 .mo-video-feature {
   background: var(--mo-video-feature-bg, #093d24);
-  padding-top: var(--mo-video-feature-padding-top-mobile, 30px);
-  padding-bottom: var(--mo-video-feature-padding-bottom-mobile, 30px);
-  margin-bottom: 60px;
+  /* CUSTOM: internal top/bottom inset — fixed, matches the section's
+     current live values (both zero). No longer schema-driven (schema now
+     controls only the section's own before/after margin below). */
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: var(--mo-video-feature-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-video-feature-margin-bottom-mobile, 60px);
 }
 
 @media screen and (min-width: 750px) {
   .mo-video-feature {
-    padding-top: var(--mo-video-feature-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-video-feature-padding-y, 40px);
-    margin-bottom: 80px;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: var(--mo-video-feature-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-video-feature-margin-bottom-desktop, 80px);
   }
 }
 

@@ -19,10 +19,10 @@
   id="MoVideoFeature-{{ section.id }}"
   style="
     --mo-video-feature-bg: {{ s.background_color | default: '#093D24' }};
-    --mo-video-feature-padding-y: {{ s.vertical_padding | default: 40 }}px;
-    --mo-video-feature-padding-top-mobile: {{ s.top_padding_mobile | default: 30 }}px;
-    --mo-video-feature-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
-    --mo-video-feature-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 30 }}px;
+    --mo-video-feature-margin-bottom-desktop: {{ s.vertical_padding | default: 80 }}px;
+    --mo-video-feature-margin-top-mobile: {{ s.top_padding_mobile | default: 0 }}px;
+    --mo-video-feature-margin-top-desktop: {{ s.top_padding_desktop | default: 0 }}px;
+    --mo-video-feature-margin-bottom-mobile: {{ s.bottom_padding_mobile | default: 60 }}px;
     --mo-video-feature-ratio: {{ video_ratio }};
   "
 >
@@ -87,47 +87,55 @@
     },
     {
       "type": "header",
-      "content": "Layout"
-    },
-    {
-      "type": "range",
-      "id": "bottom_padding_mobile",
-      "label": "Bottom padding — mobile",
-      "min": 0,
-      "max": 160,
-      "step": 2,
-      "unit": "px",
-      "default": 30
-    },
-    {
-      "type": "range",
-      "id": "vertical_padding",
-      "label": "Bottom padding — desktop",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "default": 40
+      "content": "Top padding"
     },
     {
       "type": "range",
       "id": "top_padding_mobile",
-      "label": "Top padding — mobile",
+      "label": "Space above section — mobile",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 30
+      "default": 0,
+      "info": "Gap above this section only — doesn't affect the video's own box."
     },
     {
       "type": "range",
       "id": "top_padding_desktop",
-      "label": "Top padding — desktop",
+      "label": "Space above section — desktop",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 40
+      "default": 0,
+      "info": "Gap above this section only — doesn't affect the video's own box."
+    },
+    {
+      "type": "header",
+      "content": "Bottom padding"
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding_mobile",
+      "label": "Space after section — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 60,
+      "info": "Gap to the next section only — doesn't affect the video's own box."
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Space after section — desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80,
+      "info": "Gap to the next section only — doesn't affect the video's own box."
     }
   ],
   "presets": [
