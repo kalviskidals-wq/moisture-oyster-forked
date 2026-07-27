@@ -774,7 +774,7 @@
         "info_color": "#b8f3d8",
         "top_padding_mobile": 0,
         "top_padding_desktop": 0,
-        "bottom_padding_mobile": 20,
+        "bottom_padding_mobile": 30,
         "vertical_padding": 40
       }
     },
@@ -1027,7 +1027,7 @@
         "card_radius": 16,
         "top_padding_mobile": 30,
         "top_padding_desktop": 40,
-        "bottom_padding_mobile": 30,
+        "bottom_padding_mobile": 36,
         "vertical_padding": 40
       }
     },
@@ -1038,10 +1038,10 @@
         "video": "shopify://files/videos/How to video.mp4",
         "video_alt": "",
         "background_color": "#093d24",
-        "top_padding_mobile": 30,
-        "top_padding_desktop": 40,
-        "bottom_padding_mobile": 30,
-        "vertical_padding": 40
+        "top_padding_mobile": 0,
+        "top_padding_desktop": 0,
+        "bottom_padding_mobile": 0,
+        "vertical_padding": 0
       }
     },
     "custom_how_to_use_8X9BU3": {
@@ -1187,9 +1187,9 @@
         "card_radius": 16,
         "chart_height": 220,
         "top_padding_mobile": 30,
-        "top_padding_desktop": 40,
+        "top_padding_desktop": 0,
         "bottom_padding_mobile": 30,
-        "vertical_padding": 40,
+        "vertical_padding": 0,
         "background_color": "#093d24",
         "card_background_color": "#115033",
         "divider_color": "#b8f3d8",
