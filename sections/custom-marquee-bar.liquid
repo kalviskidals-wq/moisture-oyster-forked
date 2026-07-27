@@ -18,10 +18,10 @@
     --mo-marquee-bg: {{ s.background_color | default: '#1FA567' }};
     --mo-marquee-text: {{ s.text_color | default: '#FFFFFF' }};
     --mo-marquee-duration: {{ s.scroll_speed | default: 30 }}s;
-    --mo-marquee-padding-y: {{ s.vertical_padding | default: 40 }}px;
-    --mo-marquee-padding-top-mobile: {{ s.top_padding_mobile | default: 0 }}px;
-    --mo-marquee-padding-top-desktop: {{ s.top_padding_desktop | default: 14 }}px;
-    --mo-marquee-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 0 }}px;
+    --mo-marquee-margin-bottom-desktop: {{ s.vertical_padding | default: 80 }}px;
+    --mo-marquee-margin-top-mobile: {{ s.top_padding_mobile | default: 0 }}px;
+    --mo-marquee-margin-top-desktop: {{ s.top_padding_desktop | default: 0 }}px;
+    --mo-marquee-margin-bottom-mobile: {{ s.bottom_padding_mobile | default: 60 }}px;
   "
 >
   <div class="mo-marquee__inner">
@@ -115,44 +115,46 @@
     {
       "type": "range",
       "id": "bottom_padding_mobile",
-      "label": "Bottom padding — mobile",
+      "label": "Space after section — mobile",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 0,
-      "info": "Mobile bar height is otherwise locked to 40px — raising this adds extra room below the scrolling text rather than changing the bar's fixed height."
+      "default": 60,
+      "info": "Gap to the next section only — doesn't affect the bar's own height or the spacing around the scrolling text."
     },
     {
       "type": "range",
       "id": "vertical_padding",
-      "label": "Bottom padding — desktop",
+      "label": "Space after section — desktop",
       "min": 0,
-      "max": 40,
-      "step": 2,
+      "max": 160,
+      "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 80,
+      "info": "Gap to the next section only — doesn't affect the bar's own height or the spacing around the scrolling text."
     },
     {
       "type": "range",
       "id": "top_padding_mobile",
-      "label": "Top padding — mobile",
+      "label": "Space above section — mobile",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
       "default": 0,
-      "info": "Mobile bar height is otherwise locked to 40px — raising this adds extra room above the scrolling text rather than changing the bar's fixed height."
+      "info": "Gap above this section only — doesn't affect the bar's own height or the spacing around the scrolling text."
     },
     {
       "type": "range",
       "id": "top_padding_desktop",
-      "label": "Top padding — desktop",
+      "label": "Space above section — desktop",
       "min": 0,
       "max": 160,
-      "step": 2,
+      "step": 4,
       "unit": "px",
-      "default": 14
+      "default": 0,
+      "info": "Gap above this section only — doesn't affect the bar's own height or the spacing around the scrolling text."
     }
   ],
   "blocks": [

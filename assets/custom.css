@@ -5168,28 +5168,37 @@ mo-review-filter {
    full viewport width with no cap.)
    ============================================================================ */
 /* CUSTOM (per Kalvis — homepage section-gap spec): 60px mobile / 80px
-   desktop gap to the next section (Product Range), via margin-bottom on
-   the OUTER section box — separate from this section's own padding-block
-   above, which is internal spacing within the marquee's own colored band,
-   not the gap to its neighbor. Per Kalvis, only this section's bottom gap
-   is set here; the Range Grid <-> Featured Product gap right after it is
-   intentionally left as-is. */
+   desktop gap to the next section (Product Range).
+   CUSTOM FIX (2026-07-27, per Kalvis): Top/bottom padding now control
+   ONLY the gap around this section (margin-top / margin-bottom) — setting
+   either to 0 makes the bar sit flush against its neighbor. Previously
+   these drove the bar's own padding-block directly, which grew the bar
+   taller instead (this section has no header/content that needs its own
+   internal offset the way e.g. Problem Agitation does, so there was no
+   reason to keep an "internal spacing" role here). The bar's own
+   top/bottom inset is now fixed below (mobile: 0/0, flex-centered inside
+   the locked 40px height; desktop: 14px/40px, matching the values these
+   settings used to default to) so its height and text position never
+   move regardless of the padding sliders. margin-top defaults to 0 on
+   both breakpoints since there was never a gap between the Hero and this
+   section before now. */
 .mo-marquee {
   background: var(--mo-marquee-bg, #1fa567);
   padding-block: 30px;
-  margin-bottom: 60px;
+  margin-top: var(--mo-marquee-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-marquee-margin-bottom-mobile, 60px);
   overflow: hidden;
 }
 
-/* CUSTOM: mobile height locked to the Figma mobile spec (40px) rather than
-   letting padding-block drive it — flex-centers the track vertically
-   inside the fixed box instead. */
+/* CUSTOM: mobile height locked to the Figma mobile spec (40px), never
+   affected by the padding sliders (see the section-gap fix note above) —
+   flex-centers the track vertically inside the fixed box instead. */
 @media screen and (max-width: 749px) {
   .mo-marquee {
     min-height: 40px;
     height: auto;
-    padding-top: var(--mo-marquee-padding-top-mobile, 0px);
-    padding-bottom: var(--mo-marquee-padding-bottom-mobile, 0px);
+    padding-top: 0;
+    padding-bottom: 0;
     display: flex;
     align-items: center;
   }
@@ -5206,9 +5215,10 @@ mo-review-filter {
 
 @media screen and (min-width: 750px) {
   .mo-marquee {
-    padding-top: var(--mo-marquee-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-marquee-padding-y, 40px);
-    margin-bottom: 80px;
+    padding-top: 14px;
+    padding-bottom: 40px;
+    margin-top: var(--mo-marquee-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-marquee-margin-bottom-desktop, 80px);
   }
 }
 

@@ -107,10 +107,10 @@
         "scroll_speed": 30,
         "pause_on_hover": true,
         "separator_style": "gap",
-        "bottom_padding_mobile": 0,
-        "vertical_padding": 14,
+        "bottom_padding_mobile": 60,
+        "vertical_padding": 80,
         "top_padding_mobile": 0,
-        "top_padding_desktop": 14
+        "top_padding_desktop": 0
       }
     },
     "custom_range_grid_mohp1": {

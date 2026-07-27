@@ -104,7 +104,7 @@
         "scroll_speed": 30,
         "pause_on_hover": true,
         "separator_style": "gap",
-        "vertical_padding": 14
+        "vertical_padding": 80
       }
     },
     "custom_range_grid_mohp1": {
