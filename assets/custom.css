@@ -1278,11 +1278,22 @@ body {
    border; padding-bottom = gap down to this row's own bottom border).
    Horizontal padding stays the mobile/desktop split from the Figma mobile
    pass (10px mobile, 16px desktop — see the min-width:750px override below)
-   since this request was scoped to the vertical gap only. */
+   since this request was scoped to the vertical gap only.
+   CUSTOM FIX (per Kalvis screenshot — extra space under the circle): the
+   22px padding above was landing correctly at the TOP, but the icon
+   (.mo-compare__icon, inline-flex) sits inside .mo-compare__value
+   (also inline-flex) — both are inline-LEVEL boxes, so the browser reserves
+   extra room below them for a normal text line's descender, on top of the
+   already-correct 22px padding-bottom. line-height:0 on the cell collapses
+   that phantom descender space without touching the flex children's own
+   sizing (they size from their own width/height, not the cell's line-height),
+   so the icon ends up truly centered 22px from both the top and bottom
+   divider, not just the top one. */
 .mo-compare__cell {
   padding: 22px 10px;
   position: relative;
   vertical-align: middle;
+  line-height: 0;
   border-bottom: 1px solid var(--mo-compare-divider, #ffffff);
 }
 
