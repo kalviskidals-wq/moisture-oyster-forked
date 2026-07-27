@@ -484,7 +484,11 @@
         "enable_sticky_add_to_cart": true,
         "background_color": "#093d24",
         "padding-block-start": 32,
-        "padding-block-end": 10
+        "padding-block-end": 10,
+        "mo_top_padding_mobile": 32,
+        "mo_top_padding_desktop": 32,
+        "mo_bottom_padding_mobile": 10,
+        "mo_bottom_padding_desktop": 10
       }
     },
     "custom_trust_bar_mopdp1": {
@@ -541,7 +545,10 @@
       "settings": {
         "columns_desktop": 4,
         "mobile_layout": "stack",
-        "vertical_padding": 40,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 0,
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 0,
         "segment_border": false,
         "background_color": "#093d24",
         "segment_background_color": "#115033",
@@ -632,7 +639,10 @@
         "card_figure_color": "#ffd5f7",
         "card_caption_color": "#ffffff",
         "card_source_color": "#ffffff",
-        "vertical_padding": 0
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 0,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40
       }
     },
     "custom_comparison_table_mopdp1": {
@@ -761,7 +771,10 @@
         "cross_mark_color": "#b8f3d8",
         "info_bg": "#093d24",
         "info_color": "#b8f3d8",
-        "vertical_padding": 40
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 40,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40
       }
     },
     "custom_ingredient_transparency_mopdp1": {
@@ -1011,7 +1024,10 @@
         "toggle_open_color": "#e7f5ec",
         "divider_color": "#1fa567",
         "card_radius": 16,
-        "vertical_padding": 40
+        "bottom_padding_mobile": 0,
+        "vertical_padding": 40,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40
       }
     },
     "custom_video_feature_mopdp1": {
@@ -1021,7 +1037,10 @@
         "video": "shopify://files/videos/How to video.mp4",
         "video_alt": "",
         "background_color": "#093d24",
-        "vertical_padding": 40
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 40,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40
       }
     },
     "custom_how_to_use_8X9BU3": {
@@ -1074,7 +1093,10 @@
         "description_color": "#ffffff",
         "card_radius": 10,
         "video_radius": 10,
-        "vertical_padding": 40
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 40,
+        "top_padding_mobile": 20,
+        "top_padding_desktop": 40
       }
     },
     "custom_clinical_science_mopdp1": {
@@ -1163,7 +1185,10 @@
         "badge_text": "No UN GHS Eye Irritation Category",
         "card_radius": 16,
         "chart_height": 220,
+        "bottom_padding_mobile": 30,
         "vertical_padding": 40,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40,
         "background_color": "#093d24",
         "card_background_color": "#115033",
         "divider_color": "#b8f3d8",
@@ -1198,7 +1223,10 @@
         "heading_color": "#115033",
         "quote_color": "#093d24",
         "media_background_color": "#b8f3d8",
+        "bottom_padding_mobile": 30,
         "vertical_padding": 40,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40,
         "video_aspect_ratio_desktop": 0.8,
         "video_aspect_ratio_mobile": 0.9
       }
@@ -1325,7 +1353,10 @@
         "all_filter_label": "All",
         "filter_group_label": "Filter reviews",
         "card_radius": 16,
+        "bottom_padding_mobile": 30,
         "vertical_padding": 40,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40,
         "background_color": "#093d24",
         "rating_color": "#ffd5f7",
         "header_star_color": "#ffffff",
@@ -1445,7 +1476,10 @@
         "toggle_color": "#b8f3d8",
         "toggle_open_icon_color": "#093d24",
         "divider_color": "#b8f3d8",
-        "vertical_padding": 64
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 64,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40
       }
     },
     "custom_subscribe_benefits_mopdp1": {
@@ -1505,7 +1539,10 @@
         "card_radius": 16,
         "section_radius": 20,
         "section_inset": 16,
-        "vertical_padding": 0
+        "bottom_padding_mobile": 0,
+        "vertical_padding": 0,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40
       }
     }
   },
