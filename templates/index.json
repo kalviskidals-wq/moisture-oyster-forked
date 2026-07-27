@@ -107,7 +107,7 @@
         "scroll_speed": 30,
         "pause_on_hover": true,
         "separator_style": "gap",
-        "bottom_padding_mobile": 30,
+        "bottom_padding_mobile": 20,
         "vertical_padding": 40,
         "top_padding_mobile": 0,
         "top_padding_desktop": 0
