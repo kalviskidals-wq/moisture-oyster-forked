@@ -619,7 +619,19 @@ body {
    pull the stat card/factor list flush against the media's bottom edge,
    which read as broken internal spacing rather than "no gap to next
    section" — see .mo-problem__stat-bounds/.mo-problem__factors below,
-   whose own bottom offset is now fixed instead of padding-driven. */
+   whose own bottom offset is now fixed instead of padding-driven.
+   CUSTOM FIX (2026-07-27, per Kalvis — 3rd pass): Top padding was still
+   the OLD broken mechanism (this element's own padding-top, which is
+   real, visible space above the in-flow mobile header block — and on
+   desktop, .mo-problem__header's own absolute-positioned top-offset, see
+   below) — now redirected to margin-top instead, matching every other
+   section's convention. This element's own padding-top is fixed at 0
+   (mobile-only; matches today's live value, since Kalvis had already set
+   Top padding — mobile to 0). margin-top defaults to 0 on both
+   breakpoints, since Trust Bar's own margin-bottom already provides the
+   real gap above this section. margin-bottom defaults to 0 on both
+   breakpoints too, per Kalvis's explicit earlier request that this
+   section sit flush against Comparison Table. */
 .mo-problem {
   position: relative;
   background: linear-gradient(
@@ -629,15 +641,16 @@ body {
     var(--mo-problem-bg, #093d24) 40px,
     var(--mo-problem-bg, #093d24) 100%
   );
-  padding-top: var(--mo-problem-padding-top-mobile, 30px);
-  margin-bottom: var(--mo-problem-padding-bottom-mobile, 60px);
+  padding-top: 0;
+  margin-top: var(--mo-problem-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-problem-margin-bottom-mobile, 0px);
   overflow: hidden;
 }
 
 @media screen and (min-width: 750px) {
   .mo-problem {
-    padding-top: var(--mo-problem-padding-top-desktop, 40px);
-    margin-bottom: var(--mo-problem-padding-y, 80px);
+    margin-top: var(--mo-problem-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-problem-margin-bottom-desktop, 0px);
   }
 }
 
@@ -894,21 +907,13 @@ body {
     top: 0;
     bottom: auto;
     background: transparent;
-    /* CUSTOM FIX (2026-07-20, per Kalvis): 40px from the section top — was
-       20px (a previous compensation attempt for the heading's own
-       line-height space), which no longer matched the other PDP sections'
-       shared 40px desktop top inset.
-       CUSTOM FIX (2026-07-27, per Kalvis): this is the section's REAL
-       visible top offset at desktop — the outer .mo-problem's own
-       padding-top (set via the Top padding — desktop schema slider) has
-       zero effect here since this element is position:absolute and its
-       containing block is .mo-problem's PADDING BOX edge, not its content
-       edge (an abs-positioned child's top:0 lands at the padding box's
-       top regardless of the parent's own padding-top value). Wired
-       directly to the same --mo-problem-padding-top-desktop var so the
-       slider finally does something on desktop; 40px fallback preserves
-       today's appearance. */
-    padding-block: var(--mo-problem-padding-top-desktop, 40px) 0;
+    /* CUSTOM FIX (2026-07-27, per Kalvis — reverted 3rd pass): fixed on
+       purpose, not padding-driven — see the .mo-problem rule above. Top
+       padding now controls the gap ABOVE this section (margin-top)
+       instead of this element's own offset from the top; fixed back to a
+       constant 40px, matching every other PDP/homepage section's shared
+       desktop top inset. */
+    padding-block: 40px 0;
   }
 
   .mo-problem__eyebrow,
