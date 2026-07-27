@@ -1025,10 +1025,10 @@
         "toggle_open_color": "#e7f5ec",
         "divider_color": "#1fa567",
         "card_radius": 16,
-        "bottom_padding_mobile": 60,
-        "vertical_padding": 80,
-        "top_padding_mobile": 0,
-        "top_padding_desktop": 0
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40,
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 40
       }
     },
     "custom_video_feature_mopdp1": {
@@ -1038,10 +1038,10 @@
         "video": "shopify://files/videos/How to video.mp4",
         "video_alt": "",
         "background_color": "#093d24",
-        "bottom_padding_mobile": 60,
-        "vertical_padding": 80,
-        "top_padding_mobile": 0,
-        "top_padding_desktop": 0
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40,
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 40
       }
     },
     "custom_how_to_use_8X9BU3": {
@@ -1186,10 +1186,10 @@
         "badge_text": "No UN GHS Eye Irritation Category",
         "card_radius": 16,
         "chart_height": 220,
-        "bottom_padding_mobile": 60,
-        "vertical_padding": 80,
-        "top_padding_mobile": 0,
-        "top_padding_desktop": 0,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40,
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 40,
         "background_color": "#093d24",
         "card_background_color": "#115033",
         "divider_color": "#b8f3d8",
@@ -1224,10 +1224,10 @@
         "heading_color": "#115033",
         "quote_color": "#093d24",
         "media_background_color": "#b8f3d8",
-        "bottom_padding_mobile": 60,
-        "vertical_padding": 80,
-        "top_padding_mobile": 0,
-        "top_padding_desktop": 0,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40,
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 40,
         "video_aspect_ratio_desktop": 0.8,
         "video_aspect_ratio_mobile": 0.9
       }
@@ -1354,10 +1354,10 @@
         "all_filter_label": "All",
         "filter_group_label": "Filter reviews",
         "card_radius": 16,
-        "bottom_padding_mobile": 60,
-        "vertical_padding": 80,
-        "top_padding_mobile": 0,
-        "top_padding_desktop": 0,
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 40,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40,
         "background_color": "#093d24",
         "rating_color": "#ffd5f7",
         "header_star_color": "#ffffff",
@@ -1477,10 +1477,10 @@
         "toggle_color": "#b8f3d8",
         "toggle_open_icon_color": "#093d24",
         "divider_color": "#b8f3d8",
-        "bottom_padding_mobile": 60,
-        "vertical_padding": 80,
-        "top_padding_mobile": 0,
-        "top_padding_desktop": 0
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40,
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 40
       }
     },
     "custom_subscribe_benefits_mopdp1": {
@@ -1540,10 +1540,10 @@
         "card_radius": 16,
         "section_radius": 20,
         "section_inset": 16,
-        "bottom_padding_mobile": 60,
-        "vertical_padding": 80,
-        "top_padding_mobile": 0,
-        "top_padding_desktop": 0
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40,
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 80
       }
     }
   },
