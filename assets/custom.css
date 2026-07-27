@@ -7171,6 +7171,51 @@ html body .theme-drawer__dialog {
 }
 
 /* ============================================================================
+   MO CART DRAWER — reskins Horizon's native checkout button (snippets/cart-
+   summary.liquid, rendered inside snippets/cart-drawer.liquid via
+   `#checkout`, a static/deterministic id — not editor-generated, so no
+   prefix-match fallback is needed here unlike the PDP Add to Bag button).
+   Matches the same "design button" treatment already established for the
+   PDP Add to Bag button in sections/custom-main-product.liquid (deep green
+   fill, IBM Plex Mono uppercase, 10px radius) so every primary CTA reads as
+   one consistent button style site-wide. custom.css already loads on every
+   page via sections/custom-header.liquid (global header), so this applies
+   everywhere the cart drawer/cart page renders — no separate site-wide
+   stylesheet include needed. UPSTREAM risk LOW — scoped selector only, no
+   Horizon file touched. */
+#checkout.button {
+  width: 100%;
+  background: var(--mo-deep-green, #093d24);
+  color: var(--mo-white, #ffffff);
+  border: none;
+  border-radius: var(--mo-radius-md, 10px);
+  padding: 10px 30px;
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', monospace);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 140%;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase !important;
+}
+
+#checkout.button:hover:not(:disabled) {
+  background: var(--mo-green-mid, #115033);
+}
+
+#checkout.button:disabled {
+  background: var(--mo-color-disabled, #e8e7e3);
+  color: var(--mo-deep-green, #093d24);
+  cursor: not-allowed;
+}
+
+@media screen and (max-width: 749px) {
+  #checkout.button {
+    font-size: 12px;
+  }
+}
+
+/* ============================================================================
    EXPERT VIDEO — sections/custom-expert-video.liquid
    PDP "Doctors recommendation" video-review card (Figma desktop node
    1144:1806, mobile node 1144:1883), wired below the Comparison Table.
