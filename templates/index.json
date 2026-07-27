@@ -53,7 +53,10 @@
         "reviews_link_color": "#ffffff",
         "heading_color": "#ffd5f7",
         "subhead_color": "#ffffff",
-        "vertical_padding": 0
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 0,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40
       }
     },
     "custom_marquee_bar_mohp1": {
@@ -104,7 +107,10 @@
         "scroll_speed": 30,
         "pause_on_hover": true,
         "separator_style": "gap",
-        "vertical_padding": 14
+        "bottom_padding_mobile": 0,
+        "vertical_padding": 14,
+        "top_padding_mobile": 0,
+        "top_padding_desktop": 40
       }
     },
     "custom_range_grid_mohp1": {
@@ -159,7 +165,10 @@
         "coming_soon_text_color": "#e8e7e3",
         "columns_desktop": 3,
         "card_radius": 20,
-        "padding_y": 64
+        "bottom_padding_mobile": 30,
+        "padding_y": 64,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40
       }
     },
     "custom_featured_product_mohp1": {
@@ -575,7 +584,11 @@
         "gap": 40,
         "background_color": "#093d24",
         "padding-block-start": 40,
-        "padding-block-end": 40
+        "padding-block-end": 40,
+        "mo_top_padding_mobile": 30,
+        "mo_top_padding_desktop": 40,
+        "mo_bottom_padding_mobile": 30,
+        "mo_bottom_padding_desktop": 40
       }
     },
     "custom_eye_health_mohp1": {
@@ -634,7 +647,10 @@
         "section_radius": 20,
         "image_aspect_ratio_mobile": 0.9,
         "card_radius": 16,
-        "vertical_padding": 0
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 0,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40
       }
     },
     "custom_how_it_works_rLezhk": {
@@ -681,7 +697,10 @@
         "number_pill_color": "#ffd5f7",
         "number_pill_text_color": "#093d24",
         "divider_color": "#b8f3d8",
-        "vertical_padding": 64
+        "bottom_padding_mobile": 60,
+        "vertical_padding": 40,
+        "top_padding_mobile": 60,
+        "top_padding_desktop": 40
       }
     },
     "custom_about_mohp1": {
@@ -735,7 +754,10 @@
         "button_label": "READ MORE ABOUT US",
         "button_link": "",
         "card_radius": 24,
-        "vertical_padding": 0
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 0,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40
       }
     },
     "custom_reviews_A6riyN": {
@@ -860,7 +882,10 @@
         "all_filter_label": "All",
         "filter_group_label": "Filter reviews",
         "card_radius": 16,
+        "bottom_padding_mobile": 30,
         "vertical_padding": 40,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40,
         "background_color": "#093d24",
         "rating_color": "#ffd5f7",
         "header_star_color": "#ffffff",
