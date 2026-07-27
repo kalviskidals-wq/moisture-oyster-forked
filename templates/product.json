@@ -1478,9 +1478,9 @@
         "toggle_open_icon_color": "#093d24",
         "divider_color": "#b8f3d8",
         "top_padding_mobile": 0,
-        "top_padding_desktop": 64,
+        "top_padding_desktop": 40,
         "bottom_padding_mobile": 0,
-        "vertical_padding": 64
+        "vertical_padding": 0
       }
     },
     "custom_subscribe_benefits_mopdp1": {
@@ -1541,7 +1541,7 @@
         "section_radius": 20,
         "section_inset": 16,
         "top_padding_mobile": 0,
-        "top_padding_desktop": 40,
+        "top_padding_desktop": 0,
         "bottom_padding_mobile": 30,
         "vertical_padding": 40
       }
