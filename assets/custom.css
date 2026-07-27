@@ -7174,7 +7174,9 @@ html body .theme-drawer__dialog {
    MO CART DRAWER — reskins Horizon's native checkout button (snippets/cart-
    summary.liquid, rendered inside snippets/cart-drawer.liquid via
    `#checkout`, a static/deterministic id — not editor-generated, so no
-   prefix-match fallback is needed here unlike the PDP Add to Bag button).
+   prefix-match fallback is needed here unlike the PDP Add to Bag button)
+   AND the empty-cart-drawer "Continue shopping" button (snippets/cart-
+   products.liquid, class .cart-items__empty-button, further below).
    Matches the same "design button" treatment already established for the
    PDP Add to Bag button in sections/custom-main-product.liquid (deep green
    fill, IBM Plex Mono uppercase, 10px radius) so every primary CTA reads as
@@ -7211,6 +7213,38 @@ html body .theme-drawer__dialog {
 
 @media screen and (max-width: 749px) {
   #checkout.button {
+    font-size: 12px;
+  }
+}
+
+/* CUSTOM: empty-cart-drawer "Continue shopping" button (snippets/cart-
+   products.liquid, class .cart-items__empty-button — stable/hand-written,
+   not editor-generated, so no id/prefix match needed). Same design-button
+   treatment as the checkout button above, so the empty state doesn't look
+   like a leftover native button. UPSTREAM risk LOW — scoped selector only,
+   no Horizon file touched. */
+.cart-items__empty-button.button {
+  width: 100%;
+  background: var(--mo-deep-green, #093d24);
+  color: var(--mo-white, #ffffff);
+  border: none;
+  border-radius: var(--mo-radius-md, 10px);
+  padding: 10px 30px;
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', monospace);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 140%;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase !important;
+}
+
+.cart-items__empty-button.button:hover {
+  background: var(--mo-green-mid, #115033);
+}
+
+@media screen and (max-width: 749px) {
+  .cart-items__empty-button.button {
     font-size: 12px;
   }
 }
