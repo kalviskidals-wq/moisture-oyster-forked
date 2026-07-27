@@ -21,6 +21,8 @@
     --mo-hiw-number-text: {{ s.number_pill_text_color | default: '#093D24' }};
     --mo-hiw-divider: {{ s.divider_color | default: '#B8F3D8' }};
     --mo-hiw-padding-y: {{ s.vertical_padding | default: 40 }}px;
+    --mo-hiw-padding-top-mobile: {{ s.top_padding_mobile | default: 60 }}px;
+    --mo-hiw-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
   "
 >
   <div class="mo-hiw__inner">
@@ -174,6 +176,26 @@
       "label": "Section vertical padding",
       "min": 0,
       "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "top_padding_mobile",
+      "label": "Top padding — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "top_padding_desktop",
+      "label": "Top padding — desktop",
+      "min": 0,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "default": 40

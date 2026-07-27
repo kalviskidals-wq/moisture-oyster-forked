@@ -431,13 +431,15 @@ body {
    unconditional margin here is safe. */
 .mo-trust-bar {
   background: var(--mo-trustbar-bg, #093d24);
-  padding-block: 30px;
+  padding-top: var(--mo-trustbar-padding-top-mobile, 30px);
+  padding-bottom: 30px;
   margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-trust-bar {
-    padding-block: var(--mo-trustbar-padding-y, 40px);
+    padding-top: var(--mo-trustbar-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-trustbar-padding-y, 40px);
     margin-bottom: 80px;
   }
 }
@@ -603,7 +605,8 @@ body {
     var(--mo-problem-bg, #093d24) 40px,
     var(--mo-problem-bg, #093d24) 100%
   );
-  padding-block: 30px;
+  padding-top: var(--mo-problem-padding-top-mobile, 30px);
+  padding-bottom: 30px;
   /* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
      gap to the next section (Comparison Table). */
   margin-bottom: 60px;
@@ -612,7 +615,8 @@ body {
 
 @media screen and (min-width: 750px) {
   .mo-problem {
-    padding-block: var(--mo-problem-padding-y, 40px);
+    padding-top: var(--mo-problem-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-problem-padding-y, 40px);
     margin-bottom: 80px;
   }
 }
@@ -1045,12 +1049,14 @@ body {
 .mo-compare__panel {
   background: var(--mo-compare-bg, #0d1b14);
   border-radius: 32px;
-  padding-block: 30px;
+  padding-top: var(--mo-compare-padding-top-mobile, 30px);
+  padding-bottom: 30px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-compare__panel {
-    padding-block: var(--mo-compare-padding-y, 40px);
+    padding-top: var(--mo-compare-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-compare-padding-y, 40px);
   }
 }
 
@@ -1567,7 +1573,7 @@ tbody tr:last-child .mo-compare__cell {
    untouched. */
 .mo-ingredients {
   background: var(--mo-ingredients-bg, #093d24);
-  padding-block-start: 30px;
+  padding-block-start: var(--mo-ingredients-padding-top-mobile, 30px);
   padding-block-end: 0;
   /* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
      gap to the next section (Video Feature). */
@@ -1576,7 +1582,8 @@ tbody tr:last-child .mo-compare__cell {
 
 @media screen and (min-width: 750px) {
   .mo-ingredients {
-    padding-block: var(--mo-ingredients-padding-y, 40px);
+    padding-block-start: var(--mo-ingredients-padding-top-desktop, 40px);
+    padding-block-end: var(--mo-ingredients-padding-y, 40px);
     margin-bottom: 80px;
   }
 }
@@ -2086,14 +2093,15 @@ tbody tr:last-child .mo-compare__cell {
    gap to the next section (Clinical & Science). */
 .mo-howto {
   background: var(--mo-howto-bg, #093d24);
-  padding-block-start: 20px;
+  padding-block-start: var(--mo-howto-padding-top-mobile, 20px);
   padding-block-end: 30px;
   margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-howto {
-    padding-block: var(--mo-howto-padding-y, 40px);
+    padding-block-start: var(--mo-howto-padding-top-desktop, 40px);
+    padding-block-end: var(--mo-howto-padding-y, 40px);
     margin-bottom: 80px;
   }
 }
@@ -2341,13 +2349,15 @@ tbody tr:last-child .mo-compare__cell {
    gap to the next section (Expert Video / Doctors Recommendation). */
 .mo-science {
   background: var(--mo-science-bg, #093d24);
-  padding-block: 30px;
+  padding-top: var(--mo-science-padding-top-mobile, 30px);
+  padding-bottom: 30px;
   margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-science {
-    padding-block: var(--mo-science-padding-y, 40px);
+    padding-top: var(--mo-science-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-science-padding-y, 40px);
     margin-bottom: 80px;
   }
 }
@@ -2937,13 +2947,15 @@ tbody tr:last-child .mo-compare__cell {
    homepage-only CSS-var scoping this used to have. */
 .mo-reviews {
   background: var(--mo-reviews-bg, #093d24);
-  padding-block: 30px;
+  padding-top: var(--mo-reviews-padding-top-mobile, 30px);
+  padding-bottom: 30px;
   margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-reviews {
-    padding-block: var(--mo-reviews-padding-y, 40px);
+    padding-top: var(--mo-reviews-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-reviews-padding-y, 40px);
     margin-bottom: 80px;
   }
 }
@@ -3319,13 +3331,15 @@ mo-review-filter {
    gap to the next section (Subscribe Benefits). */
 .mo-faq {
   background: var(--mo-faq-bg, #093d24);
-  padding-block: 30px;
+  padding-top: var(--mo-faq-padding-top-mobile, 30px);
+  padding-bottom: 30px;
   margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-faq {
-    padding-block: var(--mo-faq-padding-y, 40px);
+    padding-top: var(--mo-faq-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-faq-padding-y, 40px);
     margin-bottom: 80px;
   }
 }
@@ -3673,14 +3687,16 @@ mo-review-filter {
   box-sizing: border-box;
   border-radius: var(--mo-sub-radius, 20px);
   background: var(--mo-sub-header-bg, #e8e7e3);
-  padding-block: 30px 0;
+  padding-top: var(--mo-sub-padding-top-mobile, 30px);
+  padding-bottom: 0;
   margin-bottom: 60px;
   overflow: hidden;
 }
 
 @media screen and (min-width: 750px) {
   .mo-sub-benefits {
-    padding-block: var(--mo-sub-padding-y, 40px);
+    padding-top: var(--mo-sub-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-sub-padding-y, 40px);
     margin-inline: var(--mo-sub-inset, 16px);
     margin-bottom: 80px;
   }
@@ -4185,7 +4201,14 @@ mo-review-filter {
   max-width: var(--page-width, var(--normal-page-width, 1280px));
   margin-inline: auto;
   padding-inline: var(--mo-space-5, 20px);
-  padding-block: var(--mo-footer-padding-top, 64px) var(--mo-footer-padding-bottom, 40px);
+  padding-top: var(--mo-footer-padding-top-mobile, 64px);
+  padding-bottom: var(--mo-footer-padding-bottom, 40px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-footer__inner {
+    padding-top: var(--mo-footer-padding-top-desktop, 64px);
+  }
 }
 
 /* CUSTOM: 30px bottom padding floor on mobile per Kalvis (2026-07-13) —
@@ -4700,7 +4723,8 @@ mo-review-filter {
 .mo-home-hero {
   position: relative;
   background: var(--mo-home-hero-bg, #093d24);
-  padding-block: 30px;
+  padding-top: var(--mo-home-hero-padding-top-mobile, 30px);
+  padding-bottom: 30px;
   overflow: hidden;
   /* Fixed 95vh/95dvh section height at every breakpoint — the background
      image always covers this box via object-fit:cover regardless of its own
@@ -4712,7 +4736,8 @@ mo-review-filter {
 
 @media screen and (min-width: 750px) {
   .mo-home-hero {
-    padding-block: var(--mo-home-hero-padding-y, 40px);
+    padding-top: var(--mo-home-hero-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-home-hero-padding-y, 40px);
   }
 }
 
@@ -4840,7 +4865,7 @@ mo-review-filter {
    the CTA overlay below can still pin to the true bottom of the section. */
 .mo-home-hero__header {
   background: transparent;
-  padding: calc(var(--mo-header-padding-top, 16px) + var(--mo-header-padding-bottom, 16px) + 32px + var(--mo-space-4, 16px)) var(--mo-space-5, 20px) 0;
+  padding: calc(var(--mo-header-padding-top-mobile, 16px) + var(--mo-header-padding-bottom, 16px) + 32px + var(--mo-space-4, 16px)) var(--mo-space-5, 20px) 0;
 }
 
 .mo-home-hero__rating {
@@ -5089,8 +5114,10 @@ mo-review-filter {
    inside the fixed box instead. */
 @media screen and (max-width: 749px) {
   .mo-marquee {
-    height: 40px;
-    padding-block: 0;
+    min-height: 40px;
+    height: auto;
+    padding-top: var(--mo-marquee-padding-top-mobile, 0px);
+    padding-bottom: 0;
     display: flex;
     align-items: center;
   }
@@ -5107,7 +5134,8 @@ mo-review-filter {
 
 @media screen and (min-width: 750px) {
   .mo-marquee {
-    padding-block: var(--mo-marquee-padding-y, 40px);
+    padding-top: var(--mo-marquee-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-marquee-padding-y, 40px);
     margin-bottom: 80px;
   }
 }
@@ -5203,12 +5231,14 @@ mo-review-filter {
    ============================================================================ */
 .mo-range {
   background: var(--mo-range-bg, #093d24);
-  padding-block: 30px;
+  padding-top: var(--mo-range-padding-top-mobile, 30px);
+  padding-bottom: 30px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-range {
-    padding-block: var(--mo-range-padding-y, 40px);
+    padding-top: var(--mo-range-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-range-padding-y, 40px);
   }
 }
 
@@ -5429,7 +5459,8 @@ mo-review-filter {
 .mo-eye-health {
   position: relative;
   background: var(--mo-eye-header-bg, #f7f5f0);
-  padding-block: 30px;
+  padding-top: var(--mo-eye-padding-top-mobile, 30px);
+  padding-bottom: 30px;
   margin-bottom: 60px;
   min-height: 100vh;
   min-height: 100dvh;
@@ -5439,7 +5470,8 @@ mo-review-filter {
 
 @media screen and (min-width: 750px) {
   .mo-eye-health {
-    padding-block: var(--mo-eye-padding-y, 40px);
+    padding-top: var(--mo-eye-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-eye-padding-y, 40px);
     margin-bottom: 80px;
   }
 }
@@ -5884,8 +5916,10 @@ mo-review-filter {
 .mo-hiw {
   background: var(--mo-hiw-bg, #093d24);
   /* CUSTOM (2026-07-19, per Kalvis): was 30px — mobile-only bump. Desktop
-     keeps its own --mo-hiw-padding-y-driven value below. */
-  padding-block: 60px;
+     keeps its own --mo-hiw-padding-y-driven value below. Now schema-driven
+     (top_padding_mobile) rather than hardcoded, default unchanged (60px). */
+  padding-top: var(--mo-hiw-padding-top-mobile, 60px);
+  padding-bottom: 60px;
   /* CUSTOM (per Kalvis — homepage section-gap spec): 60px mobile / 80px
      desktop gap to the next section (About Us), via margin-bottom —
      separate from the padding-block above, which is internal to this
@@ -5895,7 +5929,8 @@ mo-review-filter {
 
 @media screen and (min-width: 750px) {
   .mo-hiw {
-    padding-block: var(--mo-hiw-padding-y, 40px);
+    padding-top: var(--mo-hiw-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-hiw-padding-y, 40px);
     margin-bottom: 80px;
   }
 }
@@ -6178,14 +6213,16 @@ mo-review-filter {
   position: relative;
   background: var(--mo-about-bg, #093d24);
   aspect-ratio: var(--mo-about-aspect-mobile, 0.62);
-  padding-block: 30px;
+  padding-top: var(--mo-about-padding-top-mobile, 30px);
+  padding-bottom: 30px;
   margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-about {
     aspect-ratio: var(--mo-about-aspect-desktop, 1.9);
-    padding-block: var(--mo-about-padding-y, 40px);
+    padding-top: var(--mo-about-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-about-padding-y, 40px);
     margin-bottom: 80px;
   }
 }
@@ -6628,7 +6665,14 @@ html body .theme-drawer__dialog {
   max-width: var(--page-width, var(--normal-page-width, 1280px));
   margin-inline: auto;
   padding-inline: var(--mo-space-5, 20px);
-  padding-block: var(--mo-header-padding-top, 16px) var(--mo-header-padding-bottom, 16px);
+  padding-top: var(--mo-header-padding-top-mobile, 16px);
+  padding-bottom: var(--mo-header-padding-bottom, 16px);
+}
+
+@media screen and (min-width: 750px) {
+  .mo-header__inner {
+    padding-top: var(--mo-header-padding-top-desktop, 16px);
+  }
 }
 
 .mo-header__logo {
@@ -6769,7 +6813,7 @@ html body .theme-drawer__dialog {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  padding: calc(var(--mo-header-padding-top, 16px) + 64px) var(--mo-space-5, 20px) var(--mo-space-8, 40px);
+  padding: calc(var(--mo-header-padding-top-mobile, 16px) + 64px) var(--mo-space-5, 20px) var(--mo-space-8, 40px);
 }
 
 .mo-header__drawer-label {
@@ -6928,13 +6972,15 @@ html body .theme-drawer__dialog {
    gap to the next section (Reviews). */
 .mo-expert-video {
   background: var(--mo-expert-video-bg, #093d24);
-  padding-block: 30px;
+  padding-top: var(--mo-expert-video-padding-top-mobile, 30px);
+  padding-bottom: 30px;
   margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-expert-video {
-    padding-block: var(--mo-expert-video-padding-y, 40px);
+    padding-top: var(--mo-expert-video-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-expert-video-padding-y, 40px);
     margin-bottom: 80px;
   }
 }
@@ -7154,13 +7200,15 @@ html body .theme-drawer__dialog {
    gap to the next section (How To Use). */
 .mo-video-feature {
   background: var(--mo-video-feature-bg, #093d24);
-  padding-block: 30px;
+  padding-top: var(--mo-video-feature-padding-top-mobile, 30px);
+  padding-bottom: 30px;
   margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-video-feature {
-    padding-block: var(--mo-video-feature-padding-y, 40px);
+    padding-top: var(--mo-video-feature-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-video-feature-padding-y, 40px);
     margin-bottom: 80px;
   }
 }

@@ -21,6 +21,24 @@
     }
   }
 
+  /* CUSTOM (per Kalvis — per-section top padding controls): overrides
+     Horizon's native "padding-block-start" section setting (which this fork
+     inherited but never actually wires up separate mobile/desktop values
+     for) with our own responsive pair. Targets .spacing-style directly
+     (the element Horizon's own CSS assigns --padding-block-start to, see
+     assets/base.css) at higher specificity so it wins regardless of source
+     order. Defaults (32px both breakpoints) match this section's current
+     live padding-block-start value, so nothing changes until adjusted here. */
+  #shopify-section-{{ section.id }} .spacing-style {
+    padding-block-start: {{ section.settings.mo_top_padding_mobile | default: 32 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .spacing-style {
+      padding-block-start: {{ section.settings.mo_top_padding_desktop | default: 32 }}px;
+    }
+  }
+
   /* Force thumbnails to a 1:1 box regardless of each photo's native aspect ratio. Main slides keep aspect_ratio: adapt (their own natural ratio) untouched — that setting lives in templates/product.json media-gallery block settings. */
   #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
     aspect-ratio: 1 / 1 !important;
@@ -969,7 +987,8 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 0
+      "default": 0,
+      "info": "Not used — see Top padding (mobile / desktop) below instead."
     },
     {
       "type": "range",
@@ -980,6 +999,30 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Top padding"
+    },
+    {
+      "type": "range",
+      "id": "mo_top_padding_mobile",
+      "label": "Top padding — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "mo_top_padding_desktop",
+      "label": "Top padding — desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 32
     }
   ],
   "presets": []

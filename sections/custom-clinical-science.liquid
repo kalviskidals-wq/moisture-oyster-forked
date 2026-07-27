@@ -42,6 +42,8 @@
     --mo-science-badge-check-bg: {{ s.badge_check_color | default: '#FFD5F7' }};
     --mo-science-chart-h: {{ s.chart_height | default: 220 }}px;
     --mo-science-padding-y: {{ s.vertical_padding | default: 40 }}px;
+    --mo-science-padding-top-mobile: {{ s.top_padding_mobile | default: 30 }}px;
+    --mo-science-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
   "
 >
   <div class="mo-science__inner">
@@ -252,6 +254,26 @@
       "label": "Section vertical padding",
       "min": 0,
       "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "top_padding_mobile",
+      "label": "Top padding — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "top_padding_desktop",
+      "label": "Top padding — desktop",
+      "min": 0,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "default": 40

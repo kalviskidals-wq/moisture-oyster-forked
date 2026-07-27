@@ -26,7 +26,8 @@
     --mo-footer-wordmark: {{ s.wordmark_color | default: '#FFD5F7' }};
     --mo-footer-legal: {{ s.legal_color | default: '#FFFFFFB3' }};
     --mo-footer-field-radius: {{ s.field_radius | default: 10 }}px;
-    --mo-footer-padding-top: {{ s.padding_top | default: 64 }}px;
+    --mo-footer-padding-top-mobile: {{ s.padding_top_mobile | default: 64 }}px;
+    --mo-footer-padding-top-desktop: {{ s.padding_top_desktop | default: 64 }}px;
     --mo-footer-padding-bottom: {{ s.padding_bottom | default: 40 }}px;
   "
 >
@@ -376,10 +377,20 @@
     },
     {
       "type": "range",
-      "id": "padding_top",
-      "label": "Top padding",
+      "id": "padding_top_mobile",
+      "label": "Top padding — mobile",
       "min": 0,
-      "max": 120,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Top padding — desktop",
+      "min": 0,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "default": 64

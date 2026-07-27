@@ -35,6 +35,8 @@
     --mo-home-hero-object-position-desktop: {{ s.object_position_desktop | default: 'center center' }};
     --mo-home-hero-object-position-mobile: {{ s.object_position_mobile | default: 'center top' }};
     --mo-home-hero-padding-y: {{ s.vertical_padding | default: 40 }}px;
+    --mo-home-hero-padding-top-mobile: {{ s.top_padding_mobile | default: 30 }}px;
+    --mo-home-hero-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
   "
 >
   <div class="mo-home-hero__media">
@@ -317,6 +319,26 @@
       "label": "Extra section vertical padding",
       "min": 0,
       "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "top_padding_mobile",
+      "label": "Top padding — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "top_padding_desktop",
+      "label": "Top padding — desktop",
+      "min": 0,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "default": 40

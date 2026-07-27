@@ -32,6 +32,8 @@
     --mo-howto-title: {{ s.title_color | default: '#FFFFFF' }};
     --mo-howto-desc: {{ s.description_color | default: '#FFFFFF' }};
     --mo-howto-padding-y: {{ s.vertical_padding | default: 40 }}px;
+    --mo-howto-padding-top-mobile: {{ s.top_padding_mobile | default: 20 }}px;
+    --mo-howto-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
   "
 >
   <div class="mo-howto__inner">
@@ -256,6 +258,26 @@
       "label": "Section vertical padding",
       "min": 0,
       "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "top_padding_mobile",
+      "label": "Top padding — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "top_padding_desktop",
+      "label": "Top padding — desktop",
+      "min": 0,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "default": 40
