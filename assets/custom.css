@@ -6072,7 +6072,14 @@ mo-review-filter {
     'header'
     'body'
     'tablist';
-  row-gap: var(--mo-space-7, 32px);
+  /* CUSTOM FIX (2026-07-27, per Kalvis): was 32px (--mo-space-7) — that
+     made the mobile heading-to-body gap bigger than desktop's, which
+     already correctly uses 24px (--mo-space-6, matching Figma node
+     521:1490's heading→body spacing). Reduced to 24px to match; the
+     body→tablist gap keeps its original 32px total via the extra 8px
+     margin-top on .mo-hiw__tablist below, mobile-only, so that
+     relationship doesn't shrink along with this. */
+  row-gap: var(--mo-space-6, 24px);
 }
 
 /* CUSTOM (2026-07-14, round 3 fix): .mo-hiw__left dissolves on mobile
@@ -6108,6 +6115,13 @@ mo-review-filter {
 
 .mo-hiw__tablist {
   grid-area: tablist;
+  /* CUSTOM FIX (2026-07-27, per Kalvis): mobile-only — tops up the grid's
+     24px row-gap (see .mo-hiw__grid above) by 8px so the body→tablist gap
+     stays at its original 32px total, even though the row-gap itself was
+     reduced to fix the heading→body gap specifically. Reset to 0 on
+     desktop below, where tablist sits beside the left column instead of
+     stacked under it. */
+  margin-top: var(--mo-space-2, 8px);
 }
 
 /* CUSTOM (2026-07-14, round 3 fix): replaced the earlier "tablist spans all
@@ -6126,6 +6140,14 @@ mo-review-filter {
     display: flex;
     flex-direction: column;
     grid-area: left;
+  }
+
+  /* CUSTOM FIX (2026-07-27, per Kalvis): cancels the mobile-only 8px
+     top-up margin (see the base .mo-hiw__tablist rule above) — desktop's
+     tablist sits beside the left column, not stacked under body, so no
+     extra offset is wanted here. */
+  .mo-hiw__tablist {
+    margin-top: 0;
   }
 
   .mo-hiw__body {
