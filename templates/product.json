@@ -756,11 +756,11 @@
         "label_color": "#ffffff",
         "divider_color": "#ffffff",
         "check_bg": "#b8f3d8",
-        "check_mark_color": "#ffffff",
+        "check_mark_color": "#0f3020",
         "cross_bg": "#b8f3d833",
-        "cross_mark_color": "#093d24",
+        "cross_mark_color": "#b8f3d8",
         "info_bg": "#093d24",
-        "info_color": "#ffffff",
+        "info_color": "#b8f3d8",
         "vertical_padding": 40
       }
     },
