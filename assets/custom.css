@@ -5176,11 +5176,10 @@ mo-review-filter {
    taller instead (this section has no header/content that needs its own
    internal offset the way e.g. Problem Agitation does, so there was no
    reason to keep an "internal spacing" role here). The bar's own
-   top/bottom inset is now fixed below (mobile: 0/0, flex-centered inside
-   the locked 40px height; desktop: 14px/40px, matching the values these
-   settings used to default to) so its height and text position never
-   move regardless of the padding sliders. margin-top defaults to 0 on
-   both breakpoints since there was never a gap between the Hero and this
+   top/bottom inset is now fixed below (mobile: 12px/12px; desktop:
+   14px/14px, per Kalvis) so its height and text position never move
+   regardless of the padding sliders. margin-top defaults to 0 on both
+   breakpoints since there was never a gap between the Hero and this
    section before now. */
 .mo-marquee {
   background: var(--mo-marquee-bg, #1fa567);
@@ -5197,8 +5196,8 @@ mo-review-filter {
   .mo-marquee {
     min-height: 40px;
     height: auto;
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-top: 12px;
+    padding-bottom: 12px;
     display: flex;
     align-items: center;
   }
@@ -5216,7 +5215,7 @@ mo-review-filter {
 @media screen and (min-width: 750px) {
   .mo-marquee {
     padding-top: 14px;
-    padding-bottom: 40px;
+    padding-bottom: 14px;
     margin-top: var(--mo-marquee-margin-top-desktop, 0px);
     margin-bottom: var(--mo-marquee-margin-bottom-desktop, 80px);
   }
