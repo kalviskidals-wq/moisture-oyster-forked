@@ -1540,7 +1540,7 @@
         "card_radius": 16,
         "section_radius": 20,
         "section_inset": 16,
-        "top_padding_mobile": 30,
+        "top_padding_mobile": 0,
         "top_padding_desktop": 40,
         "bottom_padding_mobile": 30,
         "vertical_padding": 40
