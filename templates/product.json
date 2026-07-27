@@ -774,8 +774,8 @@
         "info_color": "#b8f3d8",
         "bottom_padding_mobile": 30,
         "vertical_padding": 40,
-        "top_padding_mobile": 30,
-        "top_padding_desktop": 80
+        "top_padding_mobile": 60,
+        "top_padding_desktop": 56
       }
     },
     "custom_ingredient_transparency_mopdp1": {
