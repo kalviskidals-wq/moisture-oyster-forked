@@ -5092,9 +5092,18 @@ mo-review-filter {
      margin-inline:auto + padding-inline rule set (see the 2026-07-09
      alignment-fix note earlier in this file) so the column lines up with
      every other custom section's column boundary by construction. */
+  /* CUSTOM FIX (2026-07-27, per Kalvis): was a plain 1fr/1fr 50-50 split —
+     switched to this project's shared column convention, the literal
+     `minmax(240px, 32%)` + `1fr` split already reused verbatim by
+     .mo-compare__inner/.mo-ingredients__card/.mo-howto__layout/.mo-faq__inner
+     (32% column narrow/left) and mirrored on .mo-expert-video__card/
+     .mo-science__grid (32% column narrow/right). Here "side" (subhead+CTA)
+     is the narrower column, so it takes the 32% share on the right while
+     "header" (heading) stays wide on the left, matching the mirrored
+     technique. */
   .mo-home-hero__content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr minmax(240px, 32%);
     grid-template-areas: "header side";
     align-items: start;
     align-content: center;
