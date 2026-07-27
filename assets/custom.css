@@ -6204,9 +6204,15 @@ mo-review-filter {
    3 left-column grid rows" technique with a plain 2-cell grid — 'left'
    (header + body, a real flex column — the image that used to also live
    here was removed 2026-07-19) beside 'tablist'. */
+/* CUSTOM FIX (2026-07-27, per Kalvis): was a one-off 38%/62% split — now
+   matches the exact 1:2 ratio used for Home Hero / Hero Product Feature
+   (see .mo-home-hero__content and sections/custom-featured-product.liquid),
+   so 'left' (narrow) : 'tablist' (wide) lines up with that same
+   33.33%/66.67% proportion instead of its own custom value. min-width
+   guard kept at 280px (same as before) for narrow-viewport safety. */
 @media screen and (min-width: 750px) {
   .mo-hiw__grid {
-    grid-template-columns: minmax(280px, 38%) 1fr;
+    grid-template-columns: minmax(280px, 1fr) 2fr;
     column-gap: var(--mo-space-8, 40px);
     grid-template-areas: 'left tablist';
     align-items: start;
