@@ -483,12 +483,12 @@
         "gap": 40,
         "enable_sticky_add_to_cart": true,
         "background_color": "#093d24",
-        "padding-block-start": 32,
-        "padding-block-end": 10,
+        "padding-block-start": 0,
+        "padding-block-end": 0,
         "mo_top_padding_mobile": 0,
         "mo_top_padding_desktop": 0,
-        "mo_bottom_padding_mobile": 60,
-        "mo_bottom_padding_desktop": 80
+        "mo_bottom_padding_mobile": 20,
+        "mo_bottom_padding_desktop": 30
       }
     },
     "custom_trust_bar_mopdp1": {
@@ -545,10 +545,10 @@
       "settings": {
         "columns_desktop": 4,
         "mobile_layout": "stack",
-        "top_padding_mobile": 0,
-        "top_padding_desktop": 0,
-        "bottom_padding_mobile": 60,
-        "vertical_padding": 80,
+        "top_padding_mobile": 30,
+        "top_padding_desktop": 40,
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 40,
         "segment_border": false,
         "background_color": "#093d24",
         "segment_background_color": "#115033",
