@@ -24,17 +24,23 @@
   /* CUSTOM (per Kalvis — per-section top padding controls): overrides
      Horizon's native "padding-block-start" section setting (which this fork
      inherited but never actually wires up separate mobile/desktop values
-     for) with our own responsive pair. Targets .spacing-style directly
-     (the element Horizon's own CSS assigns --padding-block-start to, see
-     assets/base.css) at higher specificity so it wins regardless of source
-     order. Defaults (32px both breakpoints) match this section's current
-     live padding-block-start value, so nothing changes until adjusted here. */
-  #shopify-section-{{ section.id }} .spacing-style {
+     for) with our own responsive pair. Targets .section.spacing-style
+     (the SECTION's own root element — see assets/base.css) rather than a
+     bare .spacing-style, because nearly every individual block (buy-buttons,
+     price, text blocks, accordions, etc.) also carries a .spacing-style
+     class for its own per-block padding; a bare .spacing-style selector
+     matched all of those too and forced the section-level padding onto
+     every block, producing random extra gaps between blocks (caught live,
+     2026-07-27). .section only appears on the outer section wrapper, never
+     on nested blocks, so the combined selector is unambiguous. Defaults
+     (32px both breakpoints) match this section's current live
+     padding-block-start value, so nothing changes until adjusted here. */
+  #shopify-section-{{ section.id }} .section.spacing-style {
     padding-block-start: {{ section.settings.mo_top_padding_mobile | default: 32 }}px;
   }
 
   @media screen and (min-width: 750px) {
-    #shopify-section-{{ section.id }} .spacing-style {
+    #shopify-section-{{ section.id }} .section.spacing-style {
       padding-block-start: {{ section.settings.mo_top_padding_desktop | default: 32 }}px;
     }
   }
@@ -43,12 +49,12 @@
      technique as the top-padding override above, for Horizon's native
      "padding-block-end" setting. Defaults (10px both breakpoints) match
      this section's current live padding-block-end value. */
-  #shopify-section-{{ section.id }} .spacing-style {
+  #shopify-section-{{ section.id }} .section.spacing-style {
     padding-block-end: {{ section.settings.mo_bottom_padding_mobile | default: 10 }}px;
   }
 
   @media screen and (min-width: 750px) {
-    #shopify-section-{{ section.id }} .spacing-style {
+    #shopify-section-{{ section.id }} .section.spacing-style {
       padding-block-end: {{ section.settings.mo_bottom_padding_desktop | default: 10 }}px;
     }
   }

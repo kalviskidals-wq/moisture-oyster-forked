@@ -29,7 +29,7 @@
     --mo-problem-card-source: {{ s.card_source_color | default: '#FFFFFF' }};
     --mo-problem-padding-y: {{ s.vertical_padding | default: 40 }}px;
     --mo-problem-padding-top-mobile: {{ s.top_padding_mobile | default: 30 }}px;
-    --mo-problem-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
+    --mo-problem-padding-top-desktop: {{ s.top_padding_desktop | default: 0 }}px;
     --mo-problem-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 30 }}px;
   "
 >
@@ -328,7 +328,7 @@
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 40
+      "default": 0
     }
   ],
   "blocks": [

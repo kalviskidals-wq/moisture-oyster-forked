@@ -23,14 +23,19 @@
   /* CUSTOM (per Kalvis — per-section top padding controls): overrides
      Horizon's native "padding-block-start" section setting with our own
      responsive pair — see the identical technique + explanation in
-     sections/custom-main-product.liquid. Defaults (40px both breakpoints)
-     match this section's current live padding-block-start value. */
-  #shopify-section-{{ section.id }} .spacing-style {
+     sections/custom-main-product.liquid. Targets .section.spacing-style
+     (not a bare .spacing-style) since every block inside this section also
+     carries .spacing-style for its own per-block padding — a bare selector
+     matched those too and forced this section's padding onto every block,
+     producing random gaps between blocks (caught live, 2026-07-27). Defaults
+     (40px both breakpoints) match this section's current live
+     padding-block-start value. */
+  #shopify-section-{{ section.id }} .section.spacing-style {
     padding-block-start: {{ section.settings.mo_top_padding_mobile | default: 40 }}px;
   }
 
   @media screen and (min-width: 750px) {
-    #shopify-section-{{ section.id }} .spacing-style {
+    #shopify-section-{{ section.id }} .section.spacing-style {
       padding-block-start: {{ section.settings.mo_top_padding_desktop | default: 40 }}px;
     }
   }
@@ -39,12 +44,12 @@
      technique as the top-padding override above, for Horizon's native
      "padding-block-end" setting. Defaults (40px both breakpoints) match
      this section's current live padding-block-end value. */
-  #shopify-section-{{ section.id }} .spacing-style {
+  #shopify-section-{{ section.id }} .section.spacing-style {
     padding-block-end: {{ section.settings.mo_bottom_padding_mobile | default: 40 }}px;
   }
 
   @media screen and (min-width: 750px) {
-    #shopify-section-{{ section.id }} .spacing-style {
+    #shopify-section-{{ section.id }} .section.spacing-style {
       padding-block-end: {{ section.settings.mo_bottom_padding_desktop | default: 40 }}px;
     }
   }
