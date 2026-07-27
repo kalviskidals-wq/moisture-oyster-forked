@@ -596,13 +596,25 @@ body {
    percentage from the top, so this works regardless of the (variable-height)
    header above it, and at both the mobile stacked layout and the desktop
    full-bleed overlay layout where media-wrap covers the whole section. */
+/* CUSTOM FIX (2026-07-27, per Kalvis): the bottom edge used a hardcoded
+   #0d1b14 band, fixed at 40px tall, to blend into whatever the next
+   section (Comparison Table) starts with — so this section's own
+   background_color could still differ from the next section's without a
+   visible hard seam right at the bottom edge. That 40px was tied to the
+   OLD fixed bottom padding; now that bottom padding is a merchant-editable
+   slider (and can be any value, including 0), the band's height is wired
+   to the same padding var so it always exactly covers the reserved
+   padding area — never more, never less — and its color is now its own
+   setting (--mo-problem-bottom-blend) instead of hardcoded, so it can be
+   changed independently of background_color to match whatever the next
+   section actually starts with. */
 .mo-problem {
   position: relative;
   background: linear-gradient(
     to top,
-    #0d1b14 0,
-    #0d1b14 40px,
-    var(--mo-problem-bg, #093d24) 40px,
+    var(--mo-problem-bottom-blend, #0d1b14) 0,
+    var(--mo-problem-bottom-blend, #0d1b14) var(--mo-problem-padding-bottom-mobile, 30px),
+    var(--mo-problem-bg, #093d24) var(--mo-problem-padding-bottom-mobile, 30px),
     var(--mo-problem-bg, #093d24) 100%
   );
   padding-top: var(--mo-problem-padding-top-mobile, 30px);
@@ -615,6 +627,13 @@ body {
 
 @media screen and (min-width: 750px) {
   .mo-problem {
+    background: linear-gradient(
+      to top,
+      var(--mo-problem-bottom-blend, #0d1b14) 0,
+      var(--mo-problem-bottom-blend, #0d1b14) var(--mo-problem-padding-y, 40px),
+      var(--mo-problem-bg, #093d24) var(--mo-problem-padding-y, 40px),
+      var(--mo-problem-bg, #093d24) 100%
+    );
     padding-top: var(--mo-problem-padding-top-desktop, 40px);
     padding-bottom: var(--mo-problem-padding-y, 40px);
     margin-bottom: 80px;
