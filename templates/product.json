@@ -485,10 +485,10 @@
         "background_color": "#093d24",
         "padding-block-start": 32,
         "padding-block-end": 10,
-        "mo_top_padding_mobile": 20,
-        "mo_top_padding_desktop": 32,
-        "mo_bottom_padding_mobile": 0,
-        "mo_bottom_padding_desktop": 10
+        "mo_top_padding_mobile": 0,
+        "mo_top_padding_desktop": 0,
+        "mo_bottom_padding_mobile": 60,
+        "mo_bottom_padding_desktop": 80
       }
     },
     "custom_trust_bar_mopdp1": {
