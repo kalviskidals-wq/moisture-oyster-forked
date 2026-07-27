@@ -877,8 +877,18 @@ body {
     /* CUSTOM FIX (2026-07-20, per Kalvis): 40px from the section top — was
        20px (a previous compensation attempt for the heading's own
        line-height space), which no longer matched the other PDP sections'
-       shared 40px desktop top inset. */
-    padding-block: var(--mo-space-8, 40px) 0;
+       shared 40px desktop top inset.
+       CUSTOM FIX (2026-07-27, per Kalvis): this is the section's REAL
+       visible top offset at desktop — the outer .mo-problem's own
+       padding-top (set via the Top padding — desktop schema slider) has
+       zero effect here since this element is position:absolute and its
+       containing block is .mo-problem's PADDING BOX edge, not its content
+       edge (an abs-positioned child's top:0 lands at the padding box's
+       top regardless of the parent's own padding-top value). Wired
+       directly to the same --mo-problem-padding-top-desktop var so the
+       slider finally does something on desktop; 40px fallback preserves
+       today's appearance. */
+    padding-block: var(--mo-problem-padding-top-desktop, 40px) 0;
   }
 
   .mo-problem__eyebrow,
@@ -932,13 +942,20 @@ body {
   .mo-problem__factors {
     position: absolute;
     top: auto;
-    bottom: var(--mo-space-8, 40px);
+    /* CUSTOM FIX (2026-07-27, per Kalvis): same containing-block issue as
+       .mo-problem__header above, but for the BOTTOM padding — this
+       absolute-positioned element's `bottom` offset is what actually
+       controls the visible gap, not .mo-problem's own (invisible)
+       padding-bottom. Wired to the Bottom padding — desktop slider so it
+       finally responds (this is the section the merchant reported "even
+       setting bottom padding to 0 still left a gap" for). */
+    bottom: var(--mo-problem-padding-y, 40px);
     align-items: flex-start;
   }
 
   .mo-problem__stat-bounds {
     position: absolute;
-    bottom: var(--mo-space-8, 40px);
+    bottom: var(--mo-problem-padding-y, 40px);
     display: flex;
     justify-content: flex-end;
   }
@@ -3936,12 +3953,17 @@ mo-review-filter {
    below), matching .mo-eye-health__cards exactly. Desktop is unaffected —
    the shared left:0/right:0/padding-inline rule further down already
    forces left:0 there regardless. */
+/* CUSTOM FIX (2026-07-27, per Kalvis): `bottom` here is the section's real
+   bottom offset on mobile — .mo-sub-benefits's own padding-bottom never
+   reaches this position:absolute element (containing-block padding-box
+   issue, same as documented on .mo-about__content elsewhere in this
+   file). 20px fallback preserves today's appearance. */
 .mo-sub-benefits__overlay {
   position: absolute;
   z-index: 3;
   left: 0;
   right: 0;
-  bottom: var(--mo-space-5, 20px);
+  bottom: var(--mo-sub-padding-bottom-mobile, 20px);
 }
 
 /* CUSTOM (2026-07-20, per Kalvis, mobile-only): scroll-padding-inline-start
@@ -4020,11 +4042,17 @@ mo-review-filter {
     box-sizing: border-box;
   }
 
+  /* CUSTOM FIX (2026-07-27, per Kalvis): this is the section's real top
+     offset at desktop (mobile already responds correctly via
+     .mo-sub-benefits's own padding-top, since the header stays
+     position:relative there — this override is what switches it to
+     position:absolute, breaking that link). 40px fallback preserves
+     today's appearance. */
   .mo-sub-benefits__header {
     position: absolute;
     top: 0;
     background: transparent;
-    padding-block: var(--mo-space-8, 40px) 0;
+    padding-block: var(--mo-sub-padding-top-desktop, 40px) 0;
   }
 
   /* CUSTOM (2026-07-20, per Kalvis): 8px gap on desktop (was 16px) —
@@ -4066,7 +4094,10 @@ mo-review-filter {
   .mo-sub-benefits__review {
     display: block;
     position: absolute;
-    bottom: var(--mo-space-8, 40px);
+    /* CUSTOM FIX (2026-07-27, per Kalvis): kept in sync with
+       .mo-sub-benefits__overlay's own bottom fix below so the review card
+       and benefit-card row stay aligned on the same baseline. */
+    bottom: var(--mo-sub-padding-y, 40px);
     padding-block-end: 0;
   }
 
@@ -4083,9 +4114,12 @@ mo-review-filter {
      padding-inline already come from the shared rule above (grouped with
      .mo-sub-benefits__header/__review), so only the vertical anchor needs
      to change here. */
+  /* CUSTOM FIX (2026-07-27, per Kalvis): this is the section's real bottom
+     offset at desktop — same containing-block issue as the header fix
+     above. 40px fallback preserves today's appearance. */
   .mo-sub-benefits__overlay {
     top: auto;
-    bottom: var(--mo-space-8, 40px);
+    bottom: var(--mo-sub-padding-y, 40px);
   }
 
   .mo-sub-benefits__benefits {
@@ -4817,11 +4851,27 @@ mo-review-filter {
 /* ---------- Content wrapper ----------
    Mobile: plain block box, children independently position:absolute
    (unchanged stacking behavior from before). Desktop: becomes a CSS Grid
-   (see media query) so header/subhead align without guessed offsets. */
+   (see media query) so header/subhead align without guessed offsets.
+   CUSTOM FIX (2026-07-27, per Kalvis): .mo-home-hero's own padding-top/
+   padding-bottom never reach any of this section's visible content —
+   .mo-home-hero__header/__subhead/__overlay all live inside THIS element,
+   which spans the section edge-to-edge via inset:0 regardless of the
+   outer section's own padding (an abs-positioned child's containing
+   block is the ancestor's padding box, so the ancestor's own padding
+   never insets it). Giving this wrapper its OWN padding instead works at
+   both breakpoints: on mobile it pushes the in-flow header down / pulls
+   the bottom-pinned CTA overlay up; on desktop (see the display:grid
+   override below) it shrinks the box that align-content:center centers
+   within, shifting the whole centered block accordingly. 0px fallback
+   both sides — this wrapper previously had no padding of its own, so the
+   fallback preserves today's appearance exactly; the sliders now add on
+   top of it. */
 .mo-home-hero__content {
   position: absolute;
   inset: 0;
   z-index: 3;
+  padding-top: var(--mo-home-hero-padding-top-mobile, 0px);
+  padding-bottom: var(--mo-home-hero-padding-bottom-mobile, 0px);
 }
 
 /* CUSTOM (2026-07-13 round 4): mobile no-op — display:contents means this
@@ -4971,6 +5021,14 @@ mo-review-filter {
     margin-inline: auto;
     padding-inline: var(--page-margin, 40px);
     box-sizing: border-box;
+    /* CUSTOM FIX (2026-07-27, per Kalvis): desktop half of the top/bottom
+       padding fix — see the base .mo-home-hero__content rule for why this
+       lives here instead of on the outer .mo-home-hero. Shrinks the box
+       that align-content:center centers within, nudging the whole
+       centered header/side block up or down. 0px fallback both sides
+       preserves today's appearance. */
+    padding-top: var(--mo-home-hero-padding-top-desktop, 0px);
+    padding-bottom: var(--mo-home-hero-padding-y, 0px);
   }
 
   /* CUSTOM (2026-07-13 round 5): header needs to be position:relative (not
@@ -5475,8 +5533,15 @@ mo-review-filter {
    above) — transparent background, top-anchored, no bottom padding since
    nothing flows below it in normal document flow anymore. Desktop further
    down only needs to widen the side padding (via the shared max-width rule
-   with .mo-eye-health__cards-wrap) — position/background/top padding are
-   already correct here for both breakpoints. */
+   with .mo-eye-health__cards-wrap).
+   CUSTOM FIX (2026-07-27, per Kalvis): this element (not the outer
+   .mo-eye-health) is the section's real top offset at EVERY breakpoint —
+   .mo-eye-health's own padding-top never reaches it since this is
+   position:absolute (containing block = ancestor's padding box, so a
+   parent's own padding-top never shifts an abs-positioned child's top:0).
+   Split into mobile-first padding-top + a desktop override below so the
+   Top padding — mobile/desktop sliders actually work; 40px fallback both
+   ways preserves today's appearance (was a single unscoped 40px value). */
 .mo-eye-health__header {
   position: absolute;
   z-index: 4;
@@ -5484,7 +5549,9 @@ mo-review-filter {
   left: 0;
   right: 0;
   background: transparent;
-  padding: var(--mo-space-8, 40px) var(--mo-space-5, 20px) 0;
+  padding-top: var(--mo-eye-padding-top-mobile, 40px);
+  padding-inline: var(--mo-space-5, 20px);
+  padding-bottom: 0;
 }
 
 .mo-eye-health__eyebrow {
@@ -5580,12 +5647,17 @@ mo-review-filter {
    inside .mo-eye-health__cards instead (see .mo-eye-health__cards-spacer),
    hidden on desktop, which gets its inset from the shared page-width/
    padding-inline rule below instead. */
+/* CUSTOM FIX (2026-07-27, per Kalvis): same containing-block issue as
+   .mo-eye-health__header above — this absolute-positioned element's own
+   `bottom` offset is the section's real bottom gap on mobile, not
+   .mo-eye-health's own (invisible) padding-bottom. Wired to the Bottom
+   padding — mobile slider; 20px fallback matches today's appearance. */
 .mo-eye-health__cards-wrap {
   position: absolute;
   z-index: 2;
   left: 0;
   right: 0;
-  bottom: var(--mo-space-5, 20px);
+  bottom: var(--mo-eye-padding-bottom-mobile, 20px);
 }
 
 /* ---------- Stat cards: mobile scroll-snap carousel -> desktop 3-up row ----------
@@ -5820,6 +5892,14 @@ mo-review-filter {
     box-sizing: border-box;
   }
 
+  /* CUSTOM FIX (2026-07-27, per Kalvis): desktop half of the Top padding
+     split — see the base .mo-eye-health__header rule above for why this
+     lives here instead of on the outer .mo-eye-health. 40px fallback
+     preserves today's appearance (was a single unscoped 40px value). */
+  .mo-eye-health__header {
+    padding-top: var(--mo-eye-padding-top-desktop, 40px);
+  }
+
   .mo-eye-health__eyebrow {
     font-size: 14px;
   }
@@ -5852,7 +5932,7 @@ mo-review-filter {
 
   .mo-eye-health__cards-wrap {
     position: absolute;
-    bottom: var(--mo-space-8, 40px);
+    bottom: var(--mo-eye-padding-y, 40px);
   }
 
   .mo-eye-health__cards {
@@ -6332,12 +6412,18 @@ mo-review-filter {
   }
 }
 
+/* CUSTOM FIX (2026-07-27, per Kalvis): this element's own padding-top (not
+   .mo-about's) is the section's real top offset — same containing-block
+   issue documented on .mo-about__content above (an abs-positioned child's
+   top:0 resolves against the ancestor's padding box, so .mo-about's own
+   padding-top never reaches here). 24px fallback preserves today's
+   appearance; desktop override below switches to its own var. */
 .mo-about__header {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  padding: var(--mo-space-6, 24px) var(--mo-space-5, 20px) 0;
+  padding: var(--mo-about-padding-top-mobile, 24px) var(--mo-space-5, 20px) 0;
 }
 
 @media screen and (min-width: 750px) {
@@ -6347,7 +6433,7 @@ mo-review-filter {
        children — see the .mo-about__content comment above). */
     left: var(--page-margin, 40px);
     right: var(--page-margin, 40px);
-    padding: var(--mo-space-8, 40px) 0 0;
+    padding: var(--mo-about-padding-top-desktop, 40px) 0 0;
   }
 }
 
@@ -6372,11 +6458,15 @@ mo-review-filter {
    individually, and since rows are different widths (label length varies),
    their icons ended up at different x-positions instead of forming a
    shared left column like the reference design. */
+/* CUSTOM FIX (2026-07-27, per Kalvis): `bottom` here is the section's real
+   bottom offset on mobile — same containing-block reason as the header
+   fix above applies to .mo-about's own padding-bottom. 20px fallback
+   preserves today's appearance. */
 .mo-about__footer {
   position: absolute;
   left: var(--mo-space-5, 20px);
   right: var(--mo-space-5, 20px);
-  bottom: var(--mo-space-5, 20px);
+  bottom: var(--mo-about-padding-bottom-mobile, 20px);
   display: flex;
   flex-direction: column;
   gap: var(--mo-space-5, 20px);
@@ -6432,7 +6522,7 @@ mo-review-filter {
        parent's now-removed padding-inline. */
     left: auto;
     right: var(--page-margin, 40px);
-    bottom: var(--mo-space-8, 40px);
+    bottom: var(--mo-about-padding-y, 40px);
     max-width: 380px;
     align-items: flex-start;
   }

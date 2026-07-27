@@ -39,9 +39,9 @@
     --mo-about-object-position-mobile: {{ s.object_position_mobile | default: 'center center' }};
     --mo-about-radius: {{ s.card_radius | default: 24 }}px;
     --mo-about-padding-y: {{ s.vertical_padding | default: 40 }}px;
-    --mo-about-padding-top-mobile: {{ s.top_padding_mobile | default: 30 }}px;
-    --mo-about-padding-top-desktop: {{ s.top_padding_desktop | default: 0 }}px;
-    --mo-about-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 30 }}px;
+    --mo-about-padding-top-mobile: {{ s.top_padding_mobile | default: 24 }}px;
+    --mo-about-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
+    --mo-about-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 20 }}px;
   "
 >
   <div class="mo-about__media">
@@ -329,7 +329,7 @@
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 30
+      "default": 20
     },
     {
       "type": "range",
@@ -349,7 +349,7 @@
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 30
+      "default": 24
     },
     {
       "type": "range",
@@ -359,7 +359,7 @@
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 40
     }
   ],
   "blocks": [

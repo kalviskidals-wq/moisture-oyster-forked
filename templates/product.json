@@ -642,7 +642,7 @@
         "bottom_padding_mobile": 0,
         "vertical_padding": 0,
         "top_padding_mobile": 0,
-        "top_padding_desktop": 0
+        "top_padding_desktop": 40
       }
     },
     "custom_comparison_table_mopdp1": {
@@ -1539,10 +1539,10 @@
         "card_radius": 16,
         "section_radius": 20,
         "section_inset": 16,
-        "bottom_padding_mobile": 0,
-        "vertical_padding": 0,
+        "bottom_padding_mobile": 20,
+        "vertical_padding": 40,
         "top_padding_mobile": 30,
-        "top_padding_desktop": 0
+        "top_padding_desktop": 40
       }
     }
   },

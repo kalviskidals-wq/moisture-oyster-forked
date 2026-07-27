@@ -35,9 +35,9 @@
     --mo-home-hero-object-position-desktop: {{ s.object_position_desktop | default: 'center center' }};
     --mo-home-hero-object-position-mobile: {{ s.object_position_mobile | default: 'center top' }};
     --mo-home-hero-padding-y: {{ s.vertical_padding | default: 40 }}px;
-    --mo-home-hero-padding-top-mobile: {{ s.top_padding_mobile | default: 30 }}px;
+    --mo-home-hero-padding-top-mobile: {{ s.top_padding_mobile | default: 0 }}px;
     --mo-home-hero-padding-top-desktop: {{ s.top_padding_desktop | default: 0 }}px;
-    --mo-home-hero-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 30 }}px;
+    --mo-home-hero-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 0 }}px;
   "
 >
   <div class="mo-home-hero__media">
@@ -322,7 +322,7 @@
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 30
+      "default": 0
     },
     {
       "type": "range",
@@ -342,7 +342,7 @@
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 30
+      "default": 0
     },
     {
       "type": "range",
