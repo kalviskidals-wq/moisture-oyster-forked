@@ -596,47 +596,43 @@ body {
    percentage from the top, so this works regardless of the (variable-height)
    header above it, and at both the mobile stacked layout and the desktop
    full-bleed overlay layout where media-wrap covers the whole section. */
-/* CUSTOM FIX (2026-07-27, per Kalvis): the bottom edge used a hardcoded
-   #0d1b14 band, fixed at 40px tall, to blend into whatever the next
+/* CUSTOM FIX (2026-07-27, per Kalvis): the bottom edge uses a solid
+   #0d1b14-style band, fixed at 40px tall, to blend into whatever the next
    section (Comparison Table) starts with — so this section's own
-   background_color could still differ from the next section's without a
-   visible hard seam right at the bottom edge. That 40px was tied to the
-   OLD fixed bottom padding; now that bottom padding is a merchant-editable
-   slider (and can be any value, including 0), the band's height is wired
-   to the same padding var so it always exactly covers the reserved
-   padding area — never more, never less — and its color is now its own
+   background_color can still differ from the next section's without a
+   visible hard seam right at the bottom edge. That color is now its own
    setting (--mo-problem-bottom-blend) instead of hardcoded, so it can be
    changed independently of background_color to match whatever the next
-   section actually starts with. */
+   section actually starts with. The band's height is intentionally FIXED
+   at 40px, matching .mo-problem__stat-bounds/.mo-problem__factors' own
+   fixed bottom inset below — both track the stat card's real distance
+   from the media edge, which stays constant regardless of the section's
+   bottom padding.
+   CUSTOM FIX (2026-07-27, per Kalvis — 2nd pass): Bottom padding — mobile/
+   desktop now controls ONLY the gap AFTER this section (margin-bottom, to
+   the next section), not any spacing inside it. Setting it to 0 used to
+   pull the stat card/factor list flush against the media's bottom edge,
+   which read as broken internal spacing rather than "no gap to next
+   section" — see .mo-problem__stat-bounds/.mo-problem__factors below,
+   whose own bottom offset is now fixed instead of padding-driven. */
 .mo-problem {
   position: relative;
   background: linear-gradient(
     to top,
     var(--mo-problem-bottom-blend, #0d1b14) 0,
-    var(--mo-problem-bottom-blend, #0d1b14) var(--mo-problem-padding-bottom-mobile, 30px),
-    var(--mo-problem-bg, #093d24) var(--mo-problem-padding-bottom-mobile, 30px),
+    var(--mo-problem-bottom-blend, #0d1b14) 40px,
+    var(--mo-problem-bg, #093d24) 40px,
     var(--mo-problem-bg, #093d24) 100%
   );
   padding-top: var(--mo-problem-padding-top-mobile, 30px);
-  padding-bottom: var(--mo-problem-padding-bottom-mobile, 30px);
-  /* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
-     gap to the next section (Comparison Table). */
-  margin-bottom: 60px;
+  margin-bottom: var(--mo-problem-padding-bottom-mobile, 60px);
   overflow: hidden;
 }
 
 @media screen and (min-width: 750px) {
   .mo-problem {
-    background: linear-gradient(
-      to top,
-      var(--mo-problem-bottom-blend, #0d1b14) 0,
-      var(--mo-problem-bottom-blend, #0d1b14) var(--mo-problem-padding-y, 40px),
-      var(--mo-problem-bg, #093d24) var(--mo-problem-padding-y, 40px),
-      var(--mo-problem-bg, #093d24) 100%
-    );
     padding-top: var(--mo-problem-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-problem-padding-y, 40px);
-    margin-bottom: 80px;
+    margin-bottom: var(--mo-problem-padding-y, 80px);
   }
 }
 
@@ -961,20 +957,24 @@ body {
   .mo-problem__factors {
     position: absolute;
     top: auto;
-    /* CUSTOM FIX (2026-07-27, per Kalvis): same containing-block issue as
-       .mo-problem__header above, but for the BOTTOM padding — this
-       absolute-positioned element's `bottom` offset is what actually
-       controls the visible gap, not .mo-problem's own (invisible)
-       padding-bottom. Wired to the Bottom padding — desktop slider so it
-       finally responds (this is the section the merchant reported "even
-       setting bottom padding to 0 still left a gap" for). */
-    bottom: var(--mo-problem-padding-y, 40px);
+    /* CUSTOM FIX (2026-07-27, per Kalvis — reverted 2nd pass): kept fixed
+       on purpose. Bottom padding now controls the gap AFTER this section
+       (see .mo-problem's margin-bottom) instead of this element's own
+       offset — a first pass wired this directly to the padding slider,
+       but that made setting bottom padding to 0 pull the factor list
+       flush against the media's bottom edge, which read as broken
+       internal spacing rather than "no gap to the next section." Fixed
+       back to a constant 40px so this stays put regardless of the
+       slider. */
+    bottom: var(--mo-space-8, 40px);
     align-items: flex-start;
   }
 
   .mo-problem__stat-bounds {
     position: absolute;
-    bottom: var(--mo-problem-padding-y, 40px);
+    /* CUSTOM FIX (2026-07-27, per Kalvis — reverted 2nd pass): see
+       .mo-problem__factors above — fixed on purpose, not padding-driven. */
+    bottom: var(--mo-space-8, 40px);
     display: flex;
     justify-content: flex-end;
   }
