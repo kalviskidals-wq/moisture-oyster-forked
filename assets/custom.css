@@ -1271,11 +1271,16 @@ body {
    Safari's table stacking a second, cell-level promotion to fall back on —
    :has() is well-supported in Safari (shipped well before this project's
    baseline), so this isn't a progressive-enhancement risk. */
-/* CUSTOM FIX (Figma mobile node 1126:780): value cell (icon container)
-   padding is a flat 10px on all sides on mobile, not 16px — desktop's
-   current 16px is pinned explicitly in the min-width:750px block below. */
+/* CUSTOM FIX (per Kalvis): exact 22px gap from the checkmark/cross circle to
+   the top AND bottom separator line, same at both mobile and desktop — the
+   circle itself has no margin, so this gap is entirely the cell's own
+   padding-top/padding-bottom (padding-top = gap to the row above's bottom
+   border; padding-bottom = gap down to this row's own bottom border).
+   Horizontal padding stays the mobile/desktop split from the Figma mobile
+   pass (10px mobile, 16px desktop — see the min-width:750px override below)
+   since this request was scoped to the vertical gap only. */
 .mo-compare__cell {
-  padding: 10px;
+  padding: 22px 10px;
   position: relative;
   vertical-align: middle;
   border-bottom: 1px solid var(--mo-compare-divider, #ffffff);
@@ -1483,9 +1488,9 @@ tbody tr:last-child .mo-compare__cell {
   }
 
   .mo-compare__cell {
-    /* CUSTOM: pins desktop's pre-existing 16px cell padding, same reasoning
-       as .mo-compare__th above. */
-    padding: var(--mo-space-4, 16px);
+    /* CUSTOM (per Kalvis): keeps the same 22px vertical gap to the separator
+       lines as mobile, just with desktop's own 16px horizontal padding. */
+    padding: 22px var(--mo-space-4, 16px);
   }
 
   .mo-compare__icon {
