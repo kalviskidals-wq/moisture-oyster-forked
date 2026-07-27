@@ -1040,7 +1040,7 @@
         "bottom_padding_mobile": 0,
         "vertical_padding": 0,
         "top_padding_mobile": 0,
-        "top_padding_desktop": 40
+        "top_padding_desktop": 0
       }
     },
     "custom_how_to_use_8X9BU3": {
@@ -1356,7 +1356,7 @@
         "bottom_padding_mobile": 0,
         "vertical_padding": 40,
         "top_padding_mobile": 0,
-        "top_padding_desktop": 40,
+        "top_padding_desktop": 0,
         "background_color": "#093d24",
         "rating_color": "#ffd5f7",
         "header_star_color": "#ffffff",
