@@ -587,8 +587,8 @@
         "padding-block-end": 0,
         "mo_top_padding_mobile": 0,
         "mo_top_padding_desktop": 0,
-        "mo_bottom_padding_mobile": 60,
-        "mo_bottom_padding_desktop": 80
+        "mo_bottom_padding_mobile": 0,
+        "mo_bottom_padding_desktop": 0
       }
     },
     "custom_eye_health_mohp1": {
