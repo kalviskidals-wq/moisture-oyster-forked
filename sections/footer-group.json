@@ -68,8 +68,10 @@
         "wordmark_color": "#ffd5f7",
         "legal_color": "#ffffffb3",
         "field_radius": 10,
-        "padding_top": 64,
-        "padding_bottom": 0
+        "padding_top_mobile": 0,
+        "padding_top_desktop": 64,
+        "padding_bottom_mobile": 30,
+        "padding_bottom_desktop": 0
       }
     }
   },
