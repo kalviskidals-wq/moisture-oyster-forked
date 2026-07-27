@@ -425,22 +425,27 @@ body {
    UPSTREAM risk LOW — net-new, no Horizon file touched.
    ============================================================================ */
 /* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
-   gap to the next section (Problem Agitation), via margin-bottom — separate
-   from the padding-block above, which is internal to this bar's own
-   background. This section is PDP-only (not reused on the homepage), so an
-   unconditional margin here is safe. */
+   gap to the next section (Problem Agitation). This section is PDP-only
+   (not currently reused on the homepage), so an unconditional margin here
+   is safe.
+   CUSTOM FIX (2026-07-27, per Kalvis, confirmed against Figma node
+   633:270): the item row fills the frame almost exactly top-to-bottom
+   (82px frame vs. ~80px content) — zero internal top/bottom padding by
+   design, same pattern as How It Works/Reviews. Top/bottom padding now
+   drive ONLY margin-top/margin-bottom; this bar's own padding-top/
+   padding-bottom are fixed at 0. */
 .mo-trust-bar {
   background: var(--mo-trustbar-bg, #093d24);
-  padding-top: var(--mo-trustbar-padding-top-mobile, 30px);
-  padding-bottom: var(--mo-trustbar-padding-bottom-mobile, 30px);
-  margin-bottom: 60px;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: var(--mo-trustbar-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-trustbar-margin-bottom-mobile, 60px);
 }
 
 @media screen and (min-width: 750px) {
   .mo-trust-bar {
-    padding-top: var(--mo-trustbar-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-trustbar-padding-y, 40px);
-    margin-bottom: 80px;
+    margin-top: var(--mo-trustbar-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-trustbar-margin-bottom-desktop, 80px);
   }
 }
 

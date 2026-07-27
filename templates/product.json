@@ -545,10 +545,10 @@
       "settings": {
         "columns_desktop": 4,
         "mobile_layout": "stack",
-        "top_padding_mobile": 30,
+        "top_padding_mobile": 0,
         "top_padding_desktop": 0,
-        "bottom_padding_mobile": 0,
-        "vertical_padding": 0,
+        "bottom_padding_mobile": 60,
+        "vertical_padding": 80,
         "segment_border": false,
         "background_color": "#093d24",
         "segment_background_color": "#115033",
