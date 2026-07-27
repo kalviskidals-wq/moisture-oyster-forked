@@ -642,7 +642,7 @@
         "bottom_padding_mobile": 30,
         "vertical_padding": 0,
         "top_padding_mobile": 30,
-        "top_padding_desktop": 40
+        "top_padding_desktop": 0
       }
     },
     "custom_comparison_table_mopdp1": {
@@ -1479,7 +1479,7 @@
         "bottom_padding_mobile": 30,
         "vertical_padding": 64,
         "top_padding_mobile": 30,
-        "top_padding_desktop": 40
+        "top_padding_desktop": 64
       }
     },
     "custom_subscribe_benefits_mopdp1": {
@@ -1542,7 +1542,7 @@
         "bottom_padding_mobile": 0,
         "vertical_padding": 0,
         "top_padding_mobile": 30,
-        "top_padding_desktop": 40
+        "top_padding_desktop": 0
       }
     }
   },

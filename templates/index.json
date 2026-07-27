@@ -56,7 +56,7 @@
         "bottom_padding_mobile": 30,
         "vertical_padding": 0,
         "top_padding_mobile": 30,
-        "top_padding_desktop": 40
+        "top_padding_desktop": 0
       }
     },
     "custom_marquee_bar_mohp1": {
@@ -110,7 +110,7 @@
         "bottom_padding_mobile": 0,
         "vertical_padding": 14,
         "top_padding_mobile": 0,
-        "top_padding_desktop": 40
+        "top_padding_desktop": 14
       }
     },
     "custom_range_grid_mohp1": {
@@ -168,7 +168,7 @@
         "bottom_padding_mobile": 30,
         "padding_y": 64,
         "top_padding_mobile": 30,
-        "top_padding_desktop": 40
+        "top_padding_desktop": 64
       }
     },
     "custom_featured_product_mohp1": {
@@ -650,7 +650,7 @@
         "bottom_padding_mobile": 30,
         "vertical_padding": 0,
         "top_padding_mobile": 30,
-        "top_padding_desktop": 40
+        "top_padding_desktop": 0
       }
     },
     "custom_how_it_works_rLezhk": {
@@ -757,7 +757,7 @@
         "bottom_padding_mobile": 30,
         "vertical_padding": 0,
         "top_padding_mobile": 30,
-        "top_padding_desktop": 40
+        "top_padding_desktop": 0
       }
     },
     "custom_reviews_A6riyN": {
