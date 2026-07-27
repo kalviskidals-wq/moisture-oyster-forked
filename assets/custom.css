@@ -1154,9 +1154,14 @@ body {
   color: var(--mo-compare-label, #ffffff);
   font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
   font-weight: 500;
-  font-size: 11px;
+  /* CUSTOM FIX (Figma mobile node 1126:780, "Mobile/Tag large" style): was
+     11px/0.08em — Figma confirms 10px/0.1em (same tag convention used
+     elsewhere in this project). Desktop's own values are pinned explicitly
+     in the min-width:750px block below so this mobile-only correction
+     doesn't also shift desktop, which wasn't re-verified here. */
+  font-size: 10px;
   line-height: 1.3;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -1212,16 +1217,22 @@ body {
   text-transform: lowercase;
 }
 
+/* CUSTOM FIX (Figma mobile node 1126:780): row label container is h-44 /
+   py-10 (10px vertical padding, not 16px) with 10px-mono/0.1em type (this
+   project's "Tag large" mobile size — was 12px/0.04em here, an off-spec
+   value). Desktop's current 16px vertical padding + 14px/0.04em type are
+   pinned explicitly in the min-width:750px block below so this mobile-only
+   correction doesn't also shift desktop, which wasn't re-verified here. */
 .mo-compare__feature {
-  padding: var(--mo-space-4, 16px) var(--mo-space-2, 8px) var(--mo-space-4, 16px) 0;
+  padding: 10px var(--mo-space-2, 8px) 10px 0;
   text-align: left;
   vertical-align: middle;
   color: var(--mo-compare-label, #ffffff);
   font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
   font-weight: 500;
-  font-size: 12px;
+  font-size: 10px;
   line-height: 1.3;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   border-bottom: 1px solid var(--mo-compare-divider, #ffffff);
 }
@@ -1260,8 +1271,11 @@ body {
    Safari's table stacking a second, cell-level promotion to fall back on —
    :has() is well-supported in Safari (shipped well before this project's
    baseline), so this isn't a progressive-enhancement risk. */
+/* CUSTOM FIX (Figma mobile node 1126:780): value cell (icon container)
+   padding is a flat 10px on all sides on mobile, not 16px — desktop's
+   current 16px is pinned explicitly in the min-width:750px block below. */
 .mo-compare__cell {
-  padding: var(--mo-space-4, 16px);
+  padding: 10px;
   position: relative;
   vertical-align: middle;
   border-bottom: 1px solid var(--mo-compare-divider, #ffffff);
@@ -1452,11 +1466,26 @@ tbody tr:last-child .mo-compare__cell {
   }
 
   .mo-compare__th {
+    /* CUSTOM: pins desktop's pre-existing values so the mobile-only Figma
+       correction above (10px/0.1em) doesn't also shift desktop, which
+       wasn't re-verified in this pass. */
     font-size: 12px;
+    letter-spacing: 0.08em;
   }
 
   .mo-compare__feature {
+    /* CUSTOM: pins desktop's pre-existing values, same reasoning as
+       .mo-compare__th above. */
     font-size: 14px;
+    letter-spacing: 0.04em;
+    padding-top: var(--mo-space-4, 16px);
+    padding-bottom: var(--mo-space-4, 16px);
+  }
+
+  .mo-compare__cell {
+    /* CUSTOM: pins desktop's pre-existing 16px cell padding, same reasoning
+       as .mo-compare__th above. */
+    padding: var(--mo-space-4, 16px);
   }
 
   .mo-compare__icon {

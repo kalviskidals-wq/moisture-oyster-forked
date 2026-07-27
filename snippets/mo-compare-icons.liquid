@@ -17,10 +17,13 @@
       <path d="M12 12L20 20M20 12L12 20" stroke="var(--mo-compare-cross-mark, #5c7a6c)" stroke-width="2" stroke-linecap="round"/>
     </svg>
   {%- when 'info' -%}
-    {%- # Outlined ring + "i" glyph — tooltip trigger, ring baked in (currentColor) -%}
+    {%- # CUSTOM FIX (Figma mobile node 1126:780): was a hollow outline ring —
+       Figma shows this as a SOLID filled circle + white "i" glyph, same
+       filled-badge convention as check/cross above, not a ring-baked-in
+       currentColor outline. -%}
     <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <circle cx="16" cy="16" r="14.5" stroke="currentColor" stroke-width="1.4"/>
-      <circle cx="16" cy="10.5" r="1.4" fill="currentColor"/>
-      <path d="M16 15V22" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="16" cy="16" r="16" fill="var(--mo-compare-info-bg, #093d24)"/>
+      <circle cx="16" cy="10.5" r="1.6" fill="var(--mo-compare-info, #ffffff)"/>
+      <path d="M16 15V22" stroke="var(--mo-compare-info, #ffffff)" stroke-width="2" stroke-linecap="round"/>
     </svg>
 {%- endcase -%}
