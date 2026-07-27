@@ -640,7 +640,7 @@
         "card_caption_color": "#ffffff",
         "card_source_color": "#ffffff",
         "bottom_padding_mobile": 0,
-        "vertical_padding": 0,
+        "vertical_padding": 40,
         "top_padding_mobile": 0,
         "top_padding_desktop": 40
       }
