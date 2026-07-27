@@ -53,16 +53,16 @@
 
       <div class="mo-expert-video__media">
         {%- # CUSTOM FIX (per Kalvis — Safari missing poster image): switched
-           from loading: 'lazy' to 'eager'. Safari's native lazy-load
-           heuristic is measurably more conservative than Chromium's about
-           when it actually fetches a below-the-fold image — on this PDP the
-           card sits far enough down that Chrome had already fetched the
-           poster by the time it's viewed, but Safari hadn't yet, reading as
-           "missing" (the box just shows its --mo-expert-video-media-bg mint
-           fallback with the play icon on top until the <img> loads). This is
-           a single card with one poster image (not a repeating list further
-           down the page), so eager-loading it is cheap and removes the
-           browser-dependent race entirely. -%}
+           # from loading: 'lazy' to 'eager'. Safari's native lazy-load
+           # heuristic is measurably more conservative than Chromium's about
+           # when it actually fetches a below-the-fold image — on this PDP the
+           # card sits far enough down that Chrome had already fetched the
+           # poster by the time it's viewed, but Safari hadn't yet, reading as
+           # "missing" (the box just shows its --mo-expert-video-media-bg mint
+           # fallback with the play icon on top until the <img> loads). This is
+           # a single card with one poster image (not a repeating list further
+           # down the page), so eager-loading it is cheap and removes the
+           # browser-dependent race entirely. -%}
         {%- render 'video',
           video: s.video,
           video_preview_image: video_poster,
@@ -172,7 +172,7 @@
       "label": "Bottom padding — mobile",
       "min": 0,
       "max": 160,
-      "step": 4,
+      "step": 2,
       "unit": "px",
       "default": 30
     },
@@ -192,7 +192,7 @@
       "label": "Top padding — mobile",
       "min": 0,
       "max": 160,
-      "step": 4,
+      "step": 2,
       "unit": "px",
       "default": 30
     },
@@ -202,7 +202,7 @@
       "label": "Top padding — desktop",
       "min": 0,
       "max": 160,
-      "step": 4,
+      "step": 2,
       "unit": "px",
       "default": 40
     },
