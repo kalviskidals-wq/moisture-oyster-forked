@@ -6176,14 +6176,32 @@ mo-review-filter {
   margin: 0 0 var(--mo-space-6, 24px);
 }
 
+/* CUSTOM FIX (2026-07-27, per Kalvis — margin not appearing live): this
+   heading is the ONLY child of .mo-hiw__header, so Horizon's own base
+   typography reset (`:last-child:is(h1,h2,...) { margin-block-end: 0 }`,
+   specificity 0,1,1) matches it too — and beats the plain `.mo-hiw__heading`
+   class selector above (specificity 0,1,0), silently zeroing this margin
+   in the browser despite the rule being present and correct. .mo-problem__heading
+   never hit this because its header has more than one child (eyebrow +
+   heading + subhead), so it's never :last-child. Fixed by qualifying the
+   selector with its parent to reach 0,2,0 specificity, which wins over
+   Horizon's reset. */
+.mo-hiw__header .mo-hiw__heading {
+  margin: 0 0 var(--mo-space-6, 24px);
+}
+
 @media screen and (min-width: 750px) {
   .mo-hiw__heading {
     font-size: 40px; /* CUSTOM: was 64px — swapped with .mo-hiw__tab-heading; Figma confirms "How it works" = 40px (H2 token), audit #7, 2026-07-17 */
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.02em;
-    /* Resets the mobile-only 24px bump above back to 16px, matching
-       .mo-problem__heading's desktop value exactly. */
+  }
+
+  /* Resets the mobile-only 24px bump above back to 16px, matching
+     .mo-problem__heading's desktop value exactly — see the specificity
+     fix note above for why this needs the parent-qualified selector. */
+  .mo-hiw__header .mo-hiw__heading {
     margin-bottom: var(--mo-space-4, 16px);
   }
 }
