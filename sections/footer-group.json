@@ -68,9 +68,9 @@
         "wordmark_color": "#ffd5f7",
         "legal_color": "#ffffffb3",
         "field_radius": 10,
-        "padding_top_mobile": 0,
-        "padding_top_desktop": 64,
-        "padding_bottom_mobile": 30,
+        "padding_top_mobile": 30,
+        "padding_top_desktop": 40,
+        "padding_bottom_mobile": 0,
         "padding_bottom_desktop": 0
       }
     }
