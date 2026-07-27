@@ -5092,18 +5092,20 @@ mo-review-filter {
      margin-inline:auto + padding-inline rule set (see the 2026-07-09
      alignment-fix note earlier in this file) so the column lines up with
      every other custom section's column boundary by construction. */
-  /* CUSTOM FIX (2026-07-27, per Kalvis): was a plain 1fr/1fr 50-50 split —
-     switched to this project's shared column convention, the literal
-     `minmax(240px, 32%)` + `1fr` split already reused verbatim by
-     .mo-compare__inner/.mo-ingredients__card/.mo-howto__layout/.mo-faq__inner
-     (32% column narrow/left) and mirrored on .mo-expert-video__card/
-     .mo-science__grid (32% column narrow/right). Here "side" (subhead+CTA)
-     is the narrower column, so it takes the 32% share on the right while
-     "header" (heading) stays wide on the left, matching the mirrored
-     technique. */
+  /* CUSTOM FIX (2026-07-27, per Kalvis, revised): first pass used this
+     project's shared `minmax(240px, 32%)` PDP convention, but Kalvis wants
+     this column's left edge to line up with Hero Product Feature's buy-box
+     column specifically (sections/custom-featured-product.liquid), not the
+     PDP sections — and that section's media/details split isn't 32%, it's
+     Horizon's own native product-information grid, measured live at an
+     exact 2:1 (66.67%/33.33%) ratio with zero column-gap (confirmed via
+     devtools: media 960px / details 480px at a 1440px content width). 2fr/
+     1fr reproduces that exactly, and is close enough to the previous 68/32
+     guess that "header" (the heading) keeps essentially the same crop —
+     only "side"'s left edge shifts (~19px at this viewport) to match. */
   .mo-home-hero__content {
     display: grid;
-    grid-template-columns: 1fr minmax(240px, 32%);
+    grid-template-columns: 2fr 1fr;
     grid-template-areas: "header side";
     align-items: start;
     align-content: center;
