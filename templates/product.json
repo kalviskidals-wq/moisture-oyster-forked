@@ -628,6 +628,7 @@
         "stat_source": "Graefe's Archive for Clinical & Experimental Ophthalmology, 2021 45–55% across digital displays.",
         "video_background": "shopify://files/videos/kling_20260702_VIDEO__SHOT__Sta_6072_0.mp4",
         "background_color": "#093d24",
+        "bottom_blend_color": "#0d1b14",
         "scrim_color": "#093d24",
         "scrim_opacity": 0,
         "eyebrow_color": "#ffd5f7",
@@ -640,7 +641,7 @@
         "card_caption_color": "#ffffff",
         "card_source_color": "#ffffff",
         "bottom_padding_mobile": 0,
-        "vertical_padding": 40,
+        "vertical_padding": 0,
         "top_padding_mobile": 0,
         "top_padding_desktop": 40
       }
