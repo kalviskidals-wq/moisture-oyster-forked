@@ -2505,8 +2505,19 @@ tbody tr:last-child .mo-compare__cell {
      card is now absorbed by .mo-science__stat's justify-content:space-between
      (grows the internal gap between each quadrant's figure/unit group and
      its description) instead of showing up as dead space below the grid. */
+  /* CUSTOM FIX (2026-07-27, per Kalvis + Figma node 633:518): the one-off
+     1.7fr/1fr ratio (~63%/37%) made the GLP chart card noticeably wider
+     than Figma and out of step with every other PDP section's shared
+     column convention — Comparison Table/Ingredient Detail/How It Works/
+     FAQ all use the literal `minmax(240px, 32%)` + `1fr` split (see their
+     own comments elsewhere in this file), just with the 32% column first/
+     left (a narrow label column). Here the narrow column is the GLP CHART
+     CARD, which sits on the right instead of the left — same 32%/68% split
+     applied with the two tracks swapped (1fr stats card first/left,
+     minmax(240px,32%) chart card second/right), matching the mirrored
+     technique already used on .mo-expert-video__card above. */
   .mo-science__grid {
-    grid-template-columns: 1.7fr 1fr;
+    grid-template-columns: 1fr minmax(240px, 32%);
     align-items: stretch;
     gap: var(--mo-space-6, 24px);
   }
