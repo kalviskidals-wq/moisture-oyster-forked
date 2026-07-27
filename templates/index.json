@@ -585,9 +585,9 @@
         "background_color": "#093d24",
         "padding-block-start": 0,
         "padding-block-end": 40,
-        "mo_top_padding_mobile": 30,
+        "mo_top_padding_mobile": 0,
         "mo_top_padding_desktop": 0,
-        "mo_bottom_padding_mobile": 30,
+        "mo_bottom_padding_mobile": 0,
         "mo_bottom_padding_desktop": 0
       }
     },
@@ -697,9 +697,9 @@
         "number_pill_color": "#ffd5f7",
         "number_pill_text_color": "#093d24",
         "divider_color": "#b8f3d8",
-        "bottom_padding_mobile": 60,
+        "bottom_padding_mobile": 0,
         "vertical_padding": 40,
-        "top_padding_mobile": 60,
+        "top_padding_mobile": 0,
         "top_padding_desktop": 40
       }
     },
