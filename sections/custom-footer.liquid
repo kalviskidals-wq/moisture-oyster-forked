@@ -28,7 +28,8 @@
     --mo-footer-field-radius: {{ s.field_radius | default: 10 }}px;
     --mo-footer-padding-top-mobile: {{ s.padding_top_mobile | default: 64 }}px;
     --mo-footer-padding-top-desktop: {{ s.padding_top_desktop | default: 64 }}px;
-    --mo-footer-padding-bottom: {{ s.padding_bottom | default: 40 }}px;
+    --mo-footer-padding-bottom-mobile: {{ s.padding_bottom_mobile | default: 30 }}px;
+    --mo-footer-padding-bottom-desktop: {{ s.padding_bottom_desktop | default: 0 }}px;
   "
 >
   <div class="mo-footer__inner">
@@ -397,13 +398,23 @@
     },
     {
       "type": "range",
-      "id": "padding_bottom",
-      "label": "Bottom padding",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding — mobile",
       "min": 0,
-      "max": 120,
+      "max": 160,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Bottom padding — desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
     }
   ],
   "blocks": [

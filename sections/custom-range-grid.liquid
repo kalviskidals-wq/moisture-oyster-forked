@@ -22,6 +22,7 @@
     --mo-range-padding-y: {{ s.padding_y | default: 40 }}px;
     --mo-range-padding-top-mobile: {{ s.top_padding_mobile | default: 30 }}px;
     --mo-range-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
+    --mo-range-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 30 }}px;
   "
 >
   <div class="mo-range__inner">
@@ -124,8 +125,18 @@
     },
     {
       "type": "range",
+      "id": "bottom_padding_mobile",
+      "label": "Bottom padding — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
       "id": "padding_y",
-      "label": "Vertical padding",
+      "label": "Bottom padding — desktop",
       "min": 0,
       "max": 120,
       "step": 4,

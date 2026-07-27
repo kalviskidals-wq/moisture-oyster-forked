@@ -36,6 +36,7 @@
     --mo-sub-padding-y: {{ s.vertical_padding | default: 40 }}px;
     --mo-sub-padding-top-mobile: {{ s.top_padding_mobile | default: 30 }}px;
     --mo-sub-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
+    --mo-sub-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 0 }}px;
     --mo-sub-radius: {{ s.section_radius | default: 20 }}px;
     --mo-sub-inset: {{ s.section_inset | default: 16 }}px;
   "
@@ -308,8 +309,18 @@
     },
     {
       "type": "range",
+      "id": "bottom_padding_mobile",
+      "label": "Bottom padding — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
       "id": "vertical_padding",
-      "label": "Extra section vertical padding",
+      "label": "Bottom padding — desktop",
       "min": 0,
       "max": 80,
       "step": 4,

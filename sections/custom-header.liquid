@@ -48,7 +48,8 @@
     --mo-header-icon: {{ s.icon_color | default: '#FFFFFF' }};
     --mo-header-padding-top-mobile: {{ s.padding_top_mobile | default: 16 }}px;
     --mo-header-padding-top-desktop: {{ s.padding_top_desktop | default: 16 }}px;
-    --mo-header-padding-bottom: {{ s.padding_bottom | default: 16 }}px;
+    --mo-header-padding-bottom-mobile: {{ s.padding_bottom_mobile | default: 16 }}px;
+    --mo-header-padding-bottom-desktop: {{ s.padding_bottom_desktop | default: 16 }}px;
     --mo-header-drawer-bg: {{ drawer_bg | default: '#093D24' }};
     --mo-header-drawer-label: {{ s.drawer_menu_label_color | default: '#9FC7AE' }};
     --mo-header-drawer-link: {{ s.drawer_link_color | default: '#FFFFFF' }};
@@ -383,10 +384,20 @@ oyster' | newline_to_br }}</span>
     },
     {
       "type": "range",
-      "id": "padding_bottom",
-      "label": "Bottom padding",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding — mobile",
       "min": 0,
-      "max": 40,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Bottom padding — desktop",
+      "min": 0,
+      "max": 60,
       "step": 2,
       "unit": "px",
       "default": 16

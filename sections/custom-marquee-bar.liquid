@@ -21,6 +21,7 @@
     --mo-marquee-padding-y: {{ s.vertical_padding | default: 40 }}px;
     --mo-marquee-padding-top-mobile: {{ s.top_padding_mobile | default: 0 }}px;
     --mo-marquee-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
+    --mo-marquee-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 0 }}px;
   "
 >
   <div class="mo-marquee__inner">
@@ -113,8 +114,19 @@
     },
     {
       "type": "range",
+      "id": "bottom_padding_mobile",
+      "label": "Bottom padding — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "info": "Mobile bar height is otherwise locked to 40px — raising this adds extra room below the scrolling text rather than changing the bar's fixed height."
+    },
+    {
+      "type": "range",
       "id": "vertical_padding",
-      "label": "Vertical padding",
+      "label": "Bottom padding — desktop",
       "min": 0,
       "max": 40,
       "step": 2,

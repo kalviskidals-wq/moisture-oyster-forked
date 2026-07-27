@@ -35,6 +35,20 @@
     }
   }
 
+  /* CUSTOM (per Kalvis — per-section bottom padding controls): same
+     technique as the top-padding override above, for Horizon's native
+     "padding-block-end" setting. Defaults (40px both breakpoints) match
+     this section's current live padding-block-end value. */
+  #shopify-section-{{ section.id }} .spacing-style {
+    padding-block-end: {{ section.settings.mo_bottom_padding_mobile | default: 40 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .spacing-style {
+      padding-block-end: {{ section.settings.mo_bottom_padding_desktop | default: 40 }}px;
+    }
+  }
+
   /* CUSTOM: replicate the PDP's thumbnail treatment exactly (Kalvis, 2026-07-18) — same rules as sections/custom-main-product.liquid's own inline style block. Force thumbnails to a 1:1 box regardless of each photo's native aspect ratio. */
   #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
     aspect-ratio: 1 / 1 !important;
@@ -424,7 +438,8 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 40
+      "default": 40,
+      "info": "Not used — see Bottom padding (mobile / desktop) below instead."
     },
     {
       "type": "header",
@@ -444,6 +459,30 @@
       "type": "range",
       "id": "mo_top_padding_desktop",
       "label": "Top padding — desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Bottom padding"
+    },
+    {
+      "type": "range",
+      "id": "mo_bottom_padding_mobile",
+      "label": "Bottom padding — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mo_bottom_padding_desktop",
+      "label": "Bottom padding — desktop",
       "min": 0,
       "max": 160,
       "step": 4,

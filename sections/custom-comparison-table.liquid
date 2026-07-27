@@ -30,6 +30,7 @@
     --mo-compare-padding-y: {{ s.vertical_padding | default: 40 }}px;
     --mo-compare-padding-top-mobile: {{ s.top_padding_mobile | default: 30 }}px;
     --mo-compare-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
+    --mo-compare-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 30 }}px;
   "
 >
   {%- # CUSTOM: .mo-compare (this section) is the frame layer — its own background is the "color behind the radius". .mo-compare__panel is the rounded near-black content box, inset from the section's true top/bottom edges via margin-block, so the frame color shows through above and below it. -%}
@@ -286,8 +287,18 @@
     },
     {
       "type": "range",
+      "id": "bottom_padding_mobile",
+      "label": "Bottom padding — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
       "id": "vertical_padding",
-      "label": "Section vertical padding",
+      "label": "Bottom padding — desktop",
       "min": 0,
       "max": 80,
       "step": 4,

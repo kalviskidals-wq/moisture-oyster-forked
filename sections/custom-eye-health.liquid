@@ -71,6 +71,7 @@
     --mo-eye-padding-y: {{ s.vertical_padding | default: 40 }}px;
     --mo-eye-padding-top-mobile: {{ s.top_padding_mobile | default: 30 }}px;
     --mo-eye-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
+    --mo-eye-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 30 }}px;
     --mo-eye-section-radius: {{ s.section_radius | default: 24 }}px;
   "
 >
@@ -348,8 +349,18 @@
     },
     {
       "type": "range",
+      "id": "bottom_padding_mobile",
+      "label": "Bottom padding — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
       "id": "vertical_padding",
-      "label": "Extra section vertical padding",
+      "label": "Bottom padding — desktop",
       "min": 0,
       "max": 80,
       "step": 4,

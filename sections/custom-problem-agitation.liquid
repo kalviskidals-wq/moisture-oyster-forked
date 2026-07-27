@@ -30,6 +30,7 @@
     --mo-problem-padding-y: {{ s.vertical_padding | default: 40 }}px;
     --mo-problem-padding-top-mobile: {{ s.top_padding_mobile | default: 30 }}px;
     --mo-problem-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
+    --mo-problem-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 30 }}px;
   "
 >
   <div class="mo-problem__header">
@@ -291,8 +292,18 @@
     },
     {
       "type": "range",
+      "id": "bottom_padding_mobile",
+      "label": "Bottom padding — mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
       "id": "vertical_padding",
-      "label": "Extra section vertical padding",
+      "label": "Bottom padding — desktop",
       "min": 0,
       "max": 80,
       "step": 4,

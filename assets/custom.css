@@ -432,7 +432,7 @@ body {
 .mo-trust-bar {
   background: var(--mo-trustbar-bg, #093d24);
   padding-top: var(--mo-trustbar-padding-top-mobile, 30px);
-  padding-bottom: 30px;
+  padding-bottom: var(--mo-trustbar-padding-bottom-mobile, 30px);
   margin-bottom: 60px;
 }
 
@@ -606,7 +606,7 @@ body {
     var(--mo-problem-bg, #093d24) 100%
   );
   padding-top: var(--mo-problem-padding-top-mobile, 30px);
-  padding-bottom: 30px;
+  padding-bottom: var(--mo-problem-padding-bottom-mobile, 30px);
   /* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
      gap to the next section (Comparison Table). */
   margin-bottom: 60px;
@@ -1050,7 +1050,7 @@ body {
   background: var(--mo-compare-bg, #0d1b14);
   border-radius: 32px;
   padding-top: var(--mo-compare-padding-top-mobile, 30px);
-  padding-bottom: 30px;
+  padding-bottom: var(--mo-compare-padding-bottom-mobile, 30px);
 }
 
 @media screen and (min-width: 750px) {
@@ -1574,7 +1574,7 @@ tbody tr:last-child .mo-compare__cell {
 .mo-ingredients {
   background: var(--mo-ingredients-bg, #093d24);
   padding-block-start: var(--mo-ingredients-padding-top-mobile, 30px);
-  padding-block-end: 0;
+  padding-block-end: var(--mo-ingredients-padding-bottom-mobile, 0px);
   /* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
      gap to the next section (Video Feature). */
   margin-bottom: 60px;
@@ -2094,7 +2094,7 @@ tbody tr:last-child .mo-compare__cell {
 .mo-howto {
   background: var(--mo-howto-bg, #093d24);
   padding-block-start: var(--mo-howto-padding-top-mobile, 20px);
-  padding-block-end: 30px;
+  padding-block-end: var(--mo-howto-padding-bottom-mobile, 30px);
   margin-bottom: 60px;
 }
 
@@ -2350,7 +2350,7 @@ tbody tr:last-child .mo-compare__cell {
 .mo-science {
   background: var(--mo-science-bg, #093d24);
   padding-top: var(--mo-science-padding-top-mobile, 30px);
-  padding-bottom: 30px;
+  padding-bottom: var(--mo-science-padding-bottom-mobile, 30px);
   margin-bottom: 60px;
 }
 
@@ -2948,7 +2948,7 @@ tbody tr:last-child .mo-compare__cell {
 .mo-reviews {
   background: var(--mo-reviews-bg, #093d24);
   padding-top: var(--mo-reviews-padding-top-mobile, 30px);
-  padding-bottom: 30px;
+  padding-bottom: var(--mo-reviews-padding-bottom-mobile, 30px);
   margin-bottom: 60px;
 }
 
@@ -3332,7 +3332,7 @@ mo-review-filter {
 .mo-faq {
   background: var(--mo-faq-bg, #093d24);
   padding-top: var(--mo-faq-padding-top-mobile, 30px);
-  padding-bottom: 30px;
+  padding-bottom: var(--mo-faq-padding-bottom-mobile, 30px);
   margin-bottom: 60px;
 }
 
@@ -3688,7 +3688,7 @@ mo-review-filter {
   border-radius: var(--mo-sub-radius, 20px);
   background: var(--mo-sub-header-bg, #e8e7e3);
   padding-top: var(--mo-sub-padding-top-mobile, 30px);
-  padding-bottom: 0;
+  padding-bottom: var(--mo-sub-padding-bottom-mobile, 0px);
   margin-bottom: 60px;
   overflow: hidden;
 }
@@ -4202,22 +4202,17 @@ mo-review-filter {
   margin-inline: auto;
   padding-inline: var(--mo-space-5, 20px);
   padding-top: var(--mo-footer-padding-top-mobile, 64px);
-  padding-bottom: var(--mo-footer-padding-bottom, 40px);
+  padding-bottom: var(--mo-footer-padding-bottom-mobile, 30px);
 }
 
 @media screen and (min-width: 750px) {
   .mo-footer__inner {
     padding-top: var(--mo-footer-padding-top-desktop, 64px);
-  }
-}
-
-/* CUSTOM: 30px bottom padding floor on mobile per Kalvis (2026-07-13) —
-   the "Bottom padding" schema setting is shared with desktop and is
-   currently set to 0px live, so this is a fixed mobile-only override rather
-   than routed through --mo-footer-padding-bottom. */
-@media screen and (max-width: 749px) {
-  .mo-footer__inner {
-    padding-bottom: 30px;
+    /* CUSTOM: was a fixed 30px mobile-only floor (2026-07-13) because the
+       old single "Bottom padding" setting was shared with desktop and set
+       to 0 live — now schema-driven per breakpoint via
+       --mo-footer-padding-bottom-mobile/-desktop instead. */
+    padding-bottom: var(--mo-footer-padding-bottom-desktop, 0px);
   }
 }
 
@@ -4724,7 +4719,7 @@ mo-review-filter {
   position: relative;
   background: var(--mo-home-hero-bg, #093d24);
   padding-top: var(--mo-home-hero-padding-top-mobile, 30px);
-  padding-bottom: 30px;
+  padding-bottom: var(--mo-home-hero-padding-bottom-mobile, 30px);
   overflow: hidden;
   /* Fixed 95vh/95dvh section height at every breakpoint — the background
      image always covers this box via object-fit:cover regardless of its own
@@ -4849,7 +4844,7 @@ mo-review-filter {
    rating row (previously at padding-top: var(--mo-space-6, 24px) ≈ 24px)
    sat directly under the fixed header and got covered by it. Top padding
    is now sized to clear the header's own box — padding-top + padding-bottom
-   (--mo-header-padding-top/-bottom, 16px default each) plus its tallest
+   (--mo-header-padding-top-mobile/-bottom-mobile, 16px default each) plus its tallest
    child (the 32px logo) — with an extra --mo-space-4 gap so the rating row
    doesn't sit flush against the header's bottom edge. Desktop resets this to
    0 in the media query below since it isn't the reported issue there.
@@ -4865,7 +4860,7 @@ mo-review-filter {
    the CTA overlay below can still pin to the true bottom of the section. */
 .mo-home-hero__header {
   background: transparent;
-  padding: calc(var(--mo-header-padding-top-mobile, 16px) + var(--mo-header-padding-bottom, 16px) + 32px + var(--mo-space-4, 16px)) var(--mo-space-5, 20px) 0;
+  padding: calc(var(--mo-header-padding-top-mobile, 16px) + var(--mo-header-padding-bottom-mobile, 16px) + 32px + var(--mo-space-4, 16px)) var(--mo-space-5, 20px) 0;
 }
 
 .mo-home-hero__rating {
@@ -5117,7 +5112,7 @@ mo-review-filter {
     min-height: 40px;
     height: auto;
     padding-top: var(--mo-marquee-padding-top-mobile, 0px);
-    padding-bottom: 0;
+    padding-bottom: var(--mo-marquee-padding-bottom-mobile, 0px);
     display: flex;
     align-items: center;
   }
@@ -5232,7 +5227,7 @@ mo-review-filter {
 .mo-range {
   background: var(--mo-range-bg, #093d24);
   padding-top: var(--mo-range-padding-top-mobile, 30px);
-  padding-bottom: 30px;
+  padding-bottom: var(--mo-range-padding-bottom-mobile, 30px);
 }
 
 @media screen and (min-width: 750px) {
@@ -5460,7 +5455,7 @@ mo-review-filter {
   position: relative;
   background: var(--mo-eye-header-bg, #f7f5f0);
   padding-top: var(--mo-eye-padding-top-mobile, 30px);
-  padding-bottom: 30px;
+  padding-bottom: var(--mo-eye-padding-bottom-mobile, 30px);
   margin-bottom: 60px;
   min-height: 100vh;
   min-height: 100dvh;
@@ -5919,7 +5914,7 @@ mo-review-filter {
      keeps its own --mo-hiw-padding-y-driven value below. Now schema-driven
      (top_padding_mobile) rather than hardcoded, default unchanged (60px). */
   padding-top: var(--mo-hiw-padding-top-mobile, 60px);
-  padding-bottom: 60px;
+  padding-bottom: var(--mo-hiw-padding-bottom-mobile, 60px);
   /* CUSTOM (per Kalvis — homepage section-gap spec): 60px mobile / 80px
      desktop gap to the next section (About Us), via margin-bottom —
      separate from the padding-block above, which is internal to this
@@ -6214,7 +6209,7 @@ mo-review-filter {
   background: var(--mo-about-bg, #093d24);
   aspect-ratio: var(--mo-about-aspect-mobile, 0.62);
   padding-top: var(--mo-about-padding-top-mobile, 30px);
-  padding-bottom: 30px;
+  padding-bottom: var(--mo-about-padding-bottom-mobile, 30px);
   margin-bottom: 60px;
 }
 
@@ -6666,12 +6661,13 @@ html body .theme-drawer__dialog {
   margin-inline: auto;
   padding-inline: var(--mo-space-5, 20px);
   padding-top: var(--mo-header-padding-top-mobile, 16px);
-  padding-bottom: var(--mo-header-padding-bottom, 16px);
+  padding-bottom: var(--mo-header-padding-bottom-mobile, 16px);
 }
 
 @media screen and (min-width: 750px) {
   .mo-header__inner {
     padding-top: var(--mo-header-padding-top-desktop, 16px);
+    padding-bottom: var(--mo-header-padding-bottom-desktop, 16px);
   }
 }
 
@@ -6973,7 +6969,7 @@ html body .theme-drawer__dialog {
 .mo-expert-video {
   background: var(--mo-expert-video-bg, #093d24);
   padding-top: var(--mo-expert-video-padding-top-mobile, 30px);
-  padding-bottom: 30px;
+  padding-bottom: var(--mo-expert-video-padding-bottom-mobile, 30px);
   margin-bottom: 60px;
 }
 
@@ -7201,7 +7197,7 @@ html body .theme-drawer__dialog {
 .mo-video-feature {
   background: var(--mo-video-feature-bg, #093d24);
   padding-top: var(--mo-video-feature-padding-top-mobile, 30px);
-  padding-bottom: 30px;
+  padding-bottom: var(--mo-video-feature-padding-bottom-mobile, 30px);
   margin-bottom: 60px;
 }
 
