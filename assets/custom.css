@@ -1625,21 +1625,21 @@ tbody tr:last-child .mo-compare__cell {
    untouched. */
 .mo-ingredients {
   background: var(--mo-ingredients-bg, #093d24);
-  /* CUSTOM: internal top/bottom inset — fixed, matches the section's
-     current live values. No longer schema-driven (schema now controls
-     only the section's own before/after margin below). */
-  padding-block-start: 0;
-  padding-block-end: 0;
-  margin-top: var(--mo-ingredients-margin-top-mobile, 0px);
-  margin-bottom: var(--mo-ingredients-margin-bottom-mobile, 60px);
+  /* CUSTOM (per Kalvis, 2026-07-27): reverted to slider-driven padding —
+     this section is a plain eyebrow/heading/card stack with no internal
+     elements whose relative position the slider could break, so 0 should
+     mean the content touches the section's own edge directly. Gap to the
+     next section stays a separate fixed margin, untouched by this slider. */
+  padding-block-start: var(--mo-ingredients-padding-top-mobile, 0px);
+  padding-block-end: var(--mo-ingredients-padding-bottom-mobile, 0px);
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-ingredients {
-    padding-block-start: 0;
-    padding-block-end: 40px;
-    margin-top: var(--mo-ingredients-margin-top-desktop, 0px);
-    margin-bottom: var(--mo-ingredients-margin-bottom-desktop, 80px);
+    padding-block-start: var(--mo-ingredients-padding-top-desktop, 0px);
+    padding-block-end: var(--mo-ingredients-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 
@@ -2404,21 +2404,21 @@ tbody tr:last-child .mo-compare__cell {
    gap to the next section (Expert Video / Doctors Recommendation). */
 .mo-science {
   background: var(--mo-science-bg, #093d24);
-  /* CUSTOM: internal top/bottom inset — fixed, matches the section's
-     current live values. No longer schema-driven (schema now controls
-     only the section's own before/after margin below). */
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-top: var(--mo-science-margin-top-mobile, 0px);
-  margin-bottom: var(--mo-science-margin-bottom-mobile, 60px);
+  /* CUSTOM (per Kalvis, 2026-07-27): reverted to slider-driven padding —
+     plain eyebrow/heading/cards stack, no internal elements whose relative
+     position the slider could break, so 0 should mean content touches the
+     section's own edge. Gap to the next section stays a separate fixed
+     margin, untouched by this slider. */
+  padding-top: var(--mo-science-padding-top-mobile, 0px);
+  padding-bottom: var(--mo-science-padding-bottom-mobile, 0px);
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-science {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    margin-top: var(--mo-science-margin-top-desktop, 0px);
-    margin-bottom: var(--mo-science-margin-bottom-desktop, 80px);
+    padding-top: var(--mo-science-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-science-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 
@@ -3397,21 +3397,21 @@ mo-review-filter {
    gap to the next section (Subscribe Benefits). */
 .mo-faq {
   background: var(--mo-faq-bg, #093d24);
-  /* CUSTOM: internal top/bottom inset — fixed, matches the section's
-     current live values. No longer schema-driven (schema now controls
-     only the section's own before/after margin below). */
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-top: var(--mo-faq-margin-top-mobile, 0px);
-  margin-bottom: var(--mo-faq-margin-bottom-mobile, 60px);
+  /* CUSTOM (per Kalvis, 2026-07-27): reverted to slider-driven padding —
+     plain eyebrow/heading/accordion stack, no internal elements whose
+     relative position the slider could break, so 0 should mean content
+     touches the section's own edge. Gap to the next section stays a
+     separate fixed margin, untouched by this slider. */
+  padding-top: var(--mo-faq-padding-top-mobile, 0px);
+  padding-bottom: var(--mo-faq-padding-bottom-mobile, 0px);
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-faq {
-    padding-top: 64px;
-    padding-bottom: 64px;
-    margin-top: var(--mo-faq-margin-top-desktop, 0px);
-    margin-bottom: var(--mo-faq-margin-bottom-desktop, 80px);
+    padding-top: var(--mo-faq-padding-top-desktop, 64px);
+    padding-bottom: var(--mo-faq-padding-y, 64px);
+    margin-bottom: 80px;
   }
 }
 
@@ -7194,21 +7194,21 @@ html body .theme-drawer__dialog {
    gap to the next section (Reviews). */
 .mo-expert-video {
   background: var(--mo-expert-video-bg, #093d24);
-  /* CUSTOM: internal top/bottom inset — fixed, matches the section's
-     current live values. No longer schema-driven (schema now controls
-     only the section's own before/after margin below). */
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-top: var(--mo-expert-video-margin-top-mobile, 0px);
-  margin-bottom: var(--mo-expert-video-margin-bottom-mobile, 60px);
+  /* CUSTOM (per Kalvis, 2026-07-27): reverted to slider-driven padding —
+     plain card stack, no internal elements whose relative position the
+     slider could break, so 0 should mean content touches the section's
+     own edge. Gap to the next section stays a separate fixed margin,
+     untouched by this slider. */
+  padding-top: var(--mo-expert-video-padding-top-mobile, 0px);
+  padding-bottom: var(--mo-expert-video-padding-bottom-mobile, 0px);
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-expert-video {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    margin-top: var(--mo-expert-video-margin-top-desktop, 0px);
-    margin-bottom: var(--mo-expert-video-margin-bottom-desktop, 80px);
+    padding-top: var(--mo-expert-video-padding-top-desktop, 40px);
+    padding-bottom: var(--mo-expert-video-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 

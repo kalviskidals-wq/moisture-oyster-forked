@@ -21,10 +21,10 @@
     --mo-faq-toggle: {{ s.toggle_color | default: '#B8F3D8' }};
     --mo-faq-toggle-open-icon: {{ s.toggle_open_icon_color | default: '#093D24' }};
     --mo-faq-divider: {{ s.divider_color | default: '#B8F3D8' }};
-    --mo-faq-margin-bottom-desktop: {{ s.vertical_padding | default: 80 }}px;
-    --mo-faq-margin-top-mobile: {{ s.top_padding_mobile | default: 0 }}px;
-    --mo-faq-margin-top-desktop: {{ s.top_padding_desktop | default: 0 }}px;
-    --mo-faq-margin-bottom-mobile: {{ s.bottom_padding_mobile | default: 60 }}px;
+    --mo-faq-padding-y: {{ s.vertical_padding | default: 64 }}px;
+    --mo-faq-padding-top-mobile: {{ s.top_padding_mobile | default: 0 }}px;
+    --mo-faq-padding-top-desktop: {{ s.top_padding_desktop | default: 64 }}px;
+    --mo-faq-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 0 }}px;
   "
 >
   <div class="mo-faq__inner">
@@ -192,24 +192,24 @@
     {
       "type": "range",
       "id": "top_padding_mobile",
-      "label": "Space above section — mobile",
+      "label": "Top padding — mobile",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
       "default": 0,
-      "info": "Gap above this section only — doesn't affect the FAQ list's own internal padding."
+      "info": "Space between the section's own top edge and its content. 0 = content touches the edge."
     },
     {
       "type": "range",
       "id": "top_padding_desktop",
-      "label": "Space above section — desktop",
+      "label": "Top padding — desktop",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 0,
-      "info": "Gap above this section only — doesn't affect the FAQ list's own internal padding."
+      "default": 64,
+      "info": "Space between the section's own top edge and its content. 0 = content touches the edge."
     },
     {
       "type": "header",
@@ -218,24 +218,24 @@
     {
       "type": "range",
       "id": "bottom_padding_mobile",
-      "label": "Space after section — mobile",
+      "label": "Bottom padding — mobile",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 60,
-      "info": "Gap to the next section only — doesn't affect the FAQ list's own internal padding."
+      "default": 0,
+      "info": "Space between the section's content and its own bottom edge. 0 = content touches the edge. Gap to the next section is separate/fixed."
     },
     {
       "type": "range",
       "id": "vertical_padding",
-      "label": "Space after section — desktop",
+      "label": "Bottom padding — desktop",
       "min": 0,
       "max": 160,
       "step": 4,
       "unit": "px",
-      "default": 80,
-      "info": "Gap to the next section only — doesn't affect the FAQ list's own internal padding."
+      "default": 64,
+      "info": "Space between the section's content and its own bottom edge. 0 = content touches the edge. Gap to the next section is separate/fixed."
     }
   ],
   "blocks": [
