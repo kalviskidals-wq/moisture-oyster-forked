@@ -9,49 +9,39 @@
      desktop gap to the next section (Eye Health Education), applied
      directly to Shopify's own auto-generated section wrapper since this
      forked-native section has no dedicated top-level mo-* class of its own
-     to hang a shared rule on. */
+     to hang a shared rule on.
+     CUSTOM FIX (2026-07-27, per Kalvis): the "Top padding" / "Bottom
+     padding" settings below now drive margin-top/margin-bottom here —
+     i.e. ONLY the gap before/after this section — instead of the native
+     padding-block-start/end (see further below, now fixed at a constant
+     40px on every side so the buy-box/media column never shifts when
+     these sliders change). margin-top defaults to 0 on both breakpoints
+     since Range Grid (the section directly above this one) is currently
+     disabled, so Marquee's own margin-bottom already provides the real
+     gap above Featured Product. */
   #shopify-section-{{ section.id }} {
-    margin-bottom: 60px;
+    margin-top: {{ section.settings.mo_top_padding_mobile | default: 0 }}px;
+    margin-bottom: {{ section.settings.mo_bottom_padding_mobile | default: 60 }}px;
   }
 
   @media screen and (min-width: 750px) {
     #shopify-section-{{ section.id }} {
-      margin-bottom: 80px;
+      margin-top: {{ section.settings.mo_top_padding_desktop | default: 0 }}px;
+      margin-bottom: {{ section.settings.mo_bottom_padding_desktop | default: 80 }}px;
     }
   }
 
-  /* CUSTOM (per Kalvis — per-section top padding controls): overrides
-     Horizon's native "padding-block-start" section setting with our own
-     responsive pair — see the identical technique + explanation in
-     sections/custom-main-product.liquid. Targets .section.spacing-style
-     (not a bare .spacing-style) since every block inside this section also
-     carries .spacing-style for its own per-block padding — a bare selector
-     matched those too and forced this section's padding onto every block,
-     producing random gaps between blocks (caught live, 2026-07-27). Defaults
-     (40px both breakpoints) match this section's current live
-     padding-block-start value. */
+  /* CUSTOM FIX (2026-07-27, per Kalvis — reverted 2nd pass): fixed at a
+     constant 40px on every side, on purpose — Top/Bottom padding no
+     longer touch this (see the margin rule above). Was previously driven
+     by mo_top_padding_mobile/desktop via the same containing-block-safe
+     override technique as sections/custom-main-product.liquid; kept the
+     technique (targeting .section.spacing-style, not a bare
+     .spacing-style, so this doesn't leak onto every block's own
+     .spacing-style padding) but dropped the schema-var wiring. */
   #shopify-section-{{ section.id }} .section.spacing-style {
-    padding-block-start: {{ section.settings.mo_top_padding_mobile | default: 40 }}px;
-  }
-
-  @media screen and (min-width: 750px) {
-    #shopify-section-{{ section.id }} .section.spacing-style {
-      padding-block-start: {{ section.settings.mo_top_padding_desktop | default: 40 }}px;
-    }
-  }
-
-  /* CUSTOM (per Kalvis — per-section bottom padding controls): same
-     technique as the top-padding override above, for Horizon's native
-     "padding-block-end" setting. Defaults (40px both breakpoints) match
-     this section's current live padding-block-end value. */
-  #shopify-section-{{ section.id }} .section.spacing-style {
-    padding-block-end: {{ section.settings.mo_bottom_padding_mobile | default: 40 }}px;
-  }
-
-  @media screen and (min-width: 750px) {
-    #shopify-section-{{ section.id }} .section.spacing-style {
-      padding-block-end: {{ section.settings.mo_bottom_padding_desktop | default: 40 }}px;
-    }
+    padding-block-start: 40px;
+    padding-block-end: 40px;
   }
 
   /* CUSTOM: replicate the PDP's thumbnail treatment exactly (Kalvis, 2026-07-18) — same rules as sections/custom-main-product.liquid's own inline style block. Force thumbnails to a 1:1 box regardless of each photo's native aspect ratio. */
@@ -453,22 +443,24 @@
     {
       "type": "range",
       "id": "mo_top_padding_mobile",
-      "label": "Top padding — mobile",
+      "label": "Space above section — mobile",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 40
+      "default": 0,
+      "info": "Gap above this section only — doesn't affect the media/buy-box position inside this section."
     },
     {
       "type": "range",
       "id": "mo_top_padding_desktop",
-      "label": "Top padding — desktop",
+      "label": "Space above section — desktop",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 40
+      "default": 0,
+      "info": "Gap above this section only — doesn't affect the media/buy-box position inside this section."
     },
     {
       "type": "header",
@@ -477,22 +469,24 @@
     {
       "type": "range",
       "id": "mo_bottom_padding_mobile",
-      "label": "Bottom padding — mobile",
+      "label": "Space after section — mobile",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 40
+      "default": 60,
+      "info": "Gap to the next section only — doesn't affect the media/buy-box position inside this section."
     },
     {
       "type": "range",
       "id": "mo_bottom_padding_desktop",
-      "label": "Bottom padding — desktop",
+      "label": "Space after section — desktop",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 40
+      "default": 80,
+      "info": "Gap to the next section only — doesn't affect the media/buy-box position inside this section."
     }
   ],
   "presets": [
