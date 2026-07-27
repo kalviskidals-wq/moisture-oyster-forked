@@ -516,7 +516,7 @@
         "section_radius": 20,
         "image_aspect_ratio_mobile": 0.9,
         "card_radius": 16,
-        "vertical_padding": 0
+        "vertical_padding": 80
       }
     },
     "main": {

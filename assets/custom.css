@@ -5534,15 +5534,22 @@ mo-review-filter {
    fixes the "pushes content up" complaint from the previous round, since
    the header no longer adds its own flow-height on top of the image's. */
 /* CUSTOM (per Kalvis — homepage section-gap spec): 60px mobile / 80px
-   desktop gap to the next section (How It Works), via margin-bottom —
-   separate from this section's own padding-block, which sits inside its
-   own rounded card, not between it and its neighbor. */
+   desktop gap to the next section (How It Works), via margin-bottom.
+   CUSTOM FIX (2026-07-27, per Kalvis): Top/bottom padding now control
+   ONLY the gap around this section (margin-top / margin-bottom) — this
+   section's own content (header, media, cards) is entirely
+   position:absolute, so its old padding-top/padding-bottom never actually
+   made room for any of it; they only added dead space that stretched the
+   section taller than its min-height/aspect-ratio box. The header's top
+   inset and the cards-wrap's bottom inset are now fixed (see
+   .mo-eye-health__header / .mo-eye-health__cards-wrap below) so they no
+   longer move when these sliders change. margin-top defaults to 0 on both
+   breakpoints, matching today's (no gap above this section) appearance. */
 .mo-eye-health {
   position: relative;
   background: var(--mo-eye-header-bg, #f7f5f0);
-  padding-top: var(--mo-eye-padding-top-mobile, 30px);
-  padding-bottom: var(--mo-eye-padding-bottom-mobile, 30px);
-  margin-bottom: 60px;
+  margin-top: var(--mo-eye-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-eye-margin-bottom-mobile, 60px);
   min-height: 100vh;
   min-height: 100dvh;
   border-radius: var(--mo-eye-section-radius, 24px);
@@ -5551,9 +5558,8 @@ mo-review-filter {
 
 @media screen and (min-width: 750px) {
   .mo-eye-health {
-    padding-top: var(--mo-eye-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-eye-padding-y, 40px);
-    margin-bottom: 80px;
+    margin-top: var(--mo-eye-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-eye-margin-bottom-desktop, 80px);
   }
 }
 
@@ -5562,14 +5568,11 @@ mo-review-filter {
    nothing flows below it in normal document flow anymore. Desktop further
    down only needs to widen the side padding (via the shared max-width rule
    with .mo-eye-health__cards-wrap).
-   CUSTOM FIX (2026-07-27, per Kalvis): this element (not the outer
-   .mo-eye-health) is the section's real top offset at EVERY breakpoint —
-   .mo-eye-health's own padding-top never reaches it since this is
-   position:absolute (containing block = ancestor's padding box, so a
-   parent's own padding-top never shifts an abs-positioned child's top:0).
-   Split into mobile-first padding-top + a desktop override below so the
-   Top padding — mobile/desktop sliders actually work; 40px fallback both
-   ways preserves today's appearance (was a single unscoped 40px value). */
+   CUSTOM FIX (2026-07-27, per Kalvis — reverted 2nd pass): kept fixed on
+   purpose. Top/bottom padding now control the gap AROUND this section
+   (see .mo-eye-health's margin-top/margin-bottom above) instead of this
+   element's own offset from the top — fixed back to a constant 40px so
+   the header stays put regardless of the slider. */
 .mo-eye-health__header {
   position: absolute;
   z-index: 4;
@@ -5577,7 +5580,7 @@ mo-review-filter {
   left: 0;
   right: 0;
   background: transparent;
-  padding-top: var(--mo-eye-padding-top-mobile, 40px);
+  padding-top: 40px;
   padding-inline: var(--mo-space-5, 20px);
   padding-bottom: 0;
 }
@@ -5675,17 +5678,17 @@ mo-review-filter {
    inside .mo-eye-health__cards instead (see .mo-eye-health__cards-spacer),
    hidden on desktop, which gets its inset from the shared page-width/
    padding-inline rule below instead. */
-/* CUSTOM FIX (2026-07-27, per Kalvis): same containing-block issue as
-   .mo-eye-health__header above — this absolute-positioned element's own
-   `bottom` offset is the section's real bottom gap on mobile, not
-   .mo-eye-health's own (invisible) padding-bottom. Wired to the Bottom
-   padding — mobile slider; 20px fallback matches today's appearance. */
+/* CUSTOM FIX (2026-07-27, per Kalvis — reverted 2nd pass): kept fixed on
+   purpose — see .mo-eye-health__header above. Bottom padding now controls
+   the gap AFTER this section (margin-bottom) instead of this element's
+   own offset from the bottom; fixed back to a constant 20px so the cards
+   stay put regardless of the slider. */
 .mo-eye-health__cards-wrap {
   position: absolute;
   z-index: 2;
   left: 0;
   right: 0;
-  bottom: var(--mo-eye-padding-bottom-mobile, 20px);
+  bottom: 20px;
 }
 
 /* ---------- Stat cards: mobile scroll-snap carousel -> desktop 3-up row ----------
@@ -5920,12 +5923,12 @@ mo-review-filter {
     box-sizing: border-box;
   }
 
-  /* CUSTOM FIX (2026-07-27, per Kalvis): desktop half of the Top padding
-     split — see the base .mo-eye-health__header rule above for why this
-     lives here instead of on the outer .mo-eye-health. 40px fallback
-     preserves today's appearance (was a single unscoped 40px value). */
+  /* CUSTOM FIX (2026-07-27, per Kalvis — reverted 2nd pass): fixed on
+     purpose, not padding-driven — see the base .mo-eye-health__header
+     rule above. Same 40px on desktop as mobile, so this override is only
+     here for clarity/explicitness. */
   .mo-eye-health__header {
-    padding-top: var(--mo-eye-padding-top-desktop, 40px);
+    padding-top: 40px;
   }
 
   .mo-eye-health__eyebrow {
@@ -5960,7 +5963,7 @@ mo-review-filter {
 
   .mo-eye-health__cards-wrap {
     position: absolute;
-    bottom: var(--mo-eye-padding-y, 40px);
+    bottom: 40px;
   }
 
   .mo-eye-health__cards {
