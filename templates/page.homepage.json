@@ -792,7 +792,7 @@
         "all_filter_label": "All",
         "filter_group_label": "Filter reviews",
         "card_radius": 16,
-        "vertical_padding": 40,
+        "vertical_padding": 80,
         "background_color": "#093d24",
         "rating_color": "#ffd5f7",
         "header_star_color": "#ffffff",

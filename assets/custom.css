@@ -2980,19 +2980,25 @@ tbody tr:last-child .mo-compare__cell {
    PDP, the footer on the homepage) — this section is reused on both
    templates, but now that both want the identical gap value, a plain
    unconditional margin-bottom covers both without needing the
-   homepage-only CSS-var scoping this used to have. */
+   homepage-only CSS-var scoping this used to have.
+   CUSTOM FIX (2026-07-27, per Kalvis, confirmed against Figma node
+   457:2041): the header + card row fill the frame exactly top-to-bottom —
+   zero internal top/bottom padding by design, same pattern as How It
+   Works (node 521:1490). Top/bottom padding now drive ONLY margin-top/
+   margin-bottom; this section's own padding-top/padding-bottom are fixed
+   at 0. */
 .mo-reviews {
   background: var(--mo-reviews-bg, #093d24);
-  padding-top: var(--mo-reviews-padding-top-mobile, 30px);
-  padding-bottom: var(--mo-reviews-padding-bottom-mobile, 30px);
-  margin-bottom: 60px;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: var(--mo-reviews-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-reviews-margin-bottom-mobile, 60px);
 }
 
 @media screen and (min-width: 750px) {
   .mo-reviews {
-    padding-top: var(--mo-reviews-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-reviews-padding-y, 40px);
-    margin-bottom: 80px;
+    margin-top: var(--mo-reviews-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-reviews-margin-bottom-desktop, 80px);
   }
 }
 
