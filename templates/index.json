@@ -697,10 +697,10 @@
         "number_pill_color": "#ffd5f7",
         "number_pill_text_color": "#093d24",
         "divider_color": "#b8f3d8",
-        "bottom_padding_mobile": 30,
-        "vertical_padding": 40,
-        "top_padding_mobile": 30,
-        "top_padding_desktop": 40
+        "bottom_padding_mobile": 60,
+        "vertical_padding": 80,
+        "top_padding_mobile": 0,
+        "top_padding_desktop": 0
       }
     },
     "custom_about_mohp1": {

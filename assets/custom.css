@@ -6019,25 +6019,28 @@ mo-review-filter {
    hidden state either way, so behavior is identical.
    UPSTREAM: LOW — net-new asset, no Horizon file touched.
    ============================================================================ */
+/* CUSTOM FIX (2026-07-27, per Kalvis, confirmed against Figma node 521:1490):
+   that frame has the heading starting at top:0 and the last step's divider
+   ending at the frame's bottom edge — zero internal top/bottom padding by
+   design, with the standard inter-section margin alone providing all the
+   breathing room. Top/bottom padding here now drive ONLY margin-top/
+   margin-bottom (the gap around this section); this section's own
+   padding-top/padding-bottom are fixed at 0 (removed the earlier
+   60px/64px/40px internal padding, which was stacking on top of the
+   preceding section's own margin-bottom and made the real gap bigger than
+   Figma's spec). */
 .mo-hiw {
   background: var(--mo-hiw-bg, #093d24);
-  /* CUSTOM (2026-07-19, per Kalvis): was 30px — mobile-only bump. Desktop
-     keeps its own --mo-hiw-padding-y-driven value below. Now schema-driven
-     (top_padding_mobile) rather than hardcoded, default unchanged (60px). */
-  padding-top: var(--mo-hiw-padding-top-mobile, 60px);
-  padding-bottom: var(--mo-hiw-padding-bottom-mobile, 60px);
-  /* CUSTOM (per Kalvis — homepage section-gap spec): 60px mobile / 80px
-     desktop gap to the next section (About Us), via margin-bottom —
-     separate from the padding-block above, which is internal to this
-     section's own background. */
-  margin-bottom: 60px;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: var(--mo-hiw-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-hiw-margin-bottom-mobile, 60px);
 }
 
 @media screen and (min-width: 750px) {
   .mo-hiw {
-    padding-top: var(--mo-hiw-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-hiw-padding-y, 40px);
-    margin-bottom: 80px;
+    margin-top: var(--mo-hiw-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-hiw-margin-bottom-desktop, 80px);
   }
 }
 

@@ -20,10 +20,10 @@
     --mo-hiw-number-bg: {{ s.number_pill_color | default: '#FFD5F7' }};
     --mo-hiw-number-text: {{ s.number_pill_text_color | default: '#093D24' }};
     --mo-hiw-divider: {{ s.divider_color | default: '#B8F3D8' }};
-    --mo-hiw-padding-y: {{ s.vertical_padding | default: 40 }}px;
-    --mo-hiw-padding-top-mobile: {{ s.top_padding_mobile | default: 60 }}px;
-    --mo-hiw-padding-top-desktop: {{ s.top_padding_desktop | default: 64 }}px;
-    --mo-hiw-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 60 }}px;
+    --mo-hiw-margin-bottom-desktop: {{ s.vertical_padding | default: 80 }}px;
+    --mo-hiw-margin-top-mobile: {{ s.top_padding_mobile | default: 0 }}px;
+    --mo-hiw-margin-top-desktop: {{ s.top_padding_desktop | default: 0 }}px;
+    --mo-hiw-margin-bottom-mobile: {{ s.bottom_padding_mobile | default: 60 }}px;
   "
 >
   <div class="mo-hiw__inner">
@@ -174,42 +174,46 @@
     {
       "type": "range",
       "id": "bottom_padding_mobile",
-      "label": "Bottom padding — mobile",
+      "label": "Space after section — mobile",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 60
+      "default": 60,
+      "info": "Gap to the next section only — doesn't affect the heading/step-list spacing inside this section."
     },
     {
       "type": "range",
       "id": "vertical_padding",
-      "label": "Bottom padding — desktop",
+      "label": "Space after section — desktop",
       "min": 0,
-      "max": 100,
+      "max": 160,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 80,
+      "info": "Gap to the next section only — doesn't affect the heading/step-list spacing inside this section."
     },
     {
       "type": "range",
       "id": "top_padding_mobile",
-      "label": "Top padding — mobile",
+      "label": "Space above section — mobile",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 60
+      "default": 0,
+      "info": "Gap above this section only — doesn't affect the heading/step-list spacing inside this section."
     },
     {
       "type": "range",
       "id": "top_padding_desktop",
-      "label": "Top padding — desktop",
+      "label": "Space above section — desktop",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 64
+      "default": 0,
+      "info": "Gap above this section only — doesn't affect the heading/step-list spacing inside this section."
     }
   ],
   "blocks": [
