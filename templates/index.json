@@ -583,12 +583,12 @@
         "limit_details_width": false,
         "gap": 40,
         "background_color": "#093d24",
-        "padding-block-start": 40,
+        "padding-block-start": 0,
         "padding-block-end": 40,
         "mo_top_padding_mobile": 30,
-        "mo_top_padding_desktop": 40,
+        "mo_top_padding_desktop": 0,
         "mo_bottom_padding_mobile": 30,
-        "mo_bottom_padding_desktop": 40
+        "mo_bottom_padding_desktop": 0
       }
     },
     "custom_eye_health_mohp1": {
