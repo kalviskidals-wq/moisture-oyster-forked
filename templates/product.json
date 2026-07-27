@@ -642,7 +642,7 @@
         "card_source_color": "#ffffff",
         "bottom_padding_mobile": 0,
         "vertical_padding": 0,
-        "top_padding_mobile": 30,
+        "top_padding_mobile": 20,
         "top_padding_desktop": 40
       }
     },
@@ -1224,7 +1224,7 @@
         "heading_color": "#115033",
         "quote_color": "#093d24",
         "media_background_color": "#b8f3d8",
-        "top_padding_mobile": 40,
+        "top_padding_mobile": 0,
         "top_padding_desktop": 0,
         "bottom_padding_mobile": 0,
         "vertical_padding": 0,
@@ -1354,7 +1354,7 @@
         "all_filter_label": "All",
         "filter_group_label": "Filter reviews",
         "card_radius": 16,
-        "bottom_padding_mobile": 30,
+        "bottom_padding_mobile": 46,
         "vertical_padding": 40,
         "top_padding_mobile": 0,
         "top_padding_desktop": 0,
