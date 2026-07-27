@@ -107,7 +107,7 @@
         "scroll_speed": 30,
         "pause_on_hover": true,
         "separator_style": "gap",
-        "bottom_padding_mobile": 30,
+        "bottom_padding_mobile": 20,
         "vertical_padding": 40,
         "top_padding_mobile": 0,
         "top_padding_desktop": 0
@@ -587,8 +587,8 @@
         "padding-block-end": 0,
         "mo_top_padding_mobile": 0,
         "mo_top_padding_desktop": 0,
-        "mo_bottom_padding_mobile": 60,
-        "mo_bottom_padding_desktop": 80
+        "mo_bottom_padding_mobile": 0,
+        "mo_bottom_padding_desktop": 0
       }
     },
     "custom_eye_health_mohp1": {
