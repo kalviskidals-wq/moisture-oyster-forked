@@ -754,9 +754,9 @@
         "button_label": "READ MORE ABOUT US",
         "button_link": "",
         "card_radius": 24,
-        "bottom_padding_mobile": 60,
-        "vertical_padding": 80,
-        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 30,
+        "vertical_padding": 40,
+        "top_padding_mobile": 30,
         "top_padding_desktop": 0
       }
     },
