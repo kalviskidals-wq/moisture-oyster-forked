@@ -585,10 +585,10 @@
         "background_color": "#093d24",
         "padding-block-start": 0,
         "padding-block-end": 0,
-        "mo_top_padding_mobile": 0,
+        "mo_top_padding_mobile": 30,
         "mo_top_padding_desktop": 40,
         "mo_bottom_padding_mobile": 0,
-        "mo_bottom_padding_desktop": 0
+        "mo_bottom_padding_desktop": 40
       }
     },
     "custom_eye_health_mohp1": {
@@ -648,9 +648,9 @@
         "image_aspect_ratio_mobile": 0.9,
         "card_radius": 16,
         "bottom_padding_mobile": 60,
-        "vertical_padding": 80,
+        "vertical_padding": 40,
         "top_padding_mobile": 0,
-        "top_padding_desktop": 0
+        "top_padding_desktop": 40
       }
     },
     "custom_how_it_works_rLezhk": {
@@ -698,9 +698,9 @@
         "number_pill_text_color": "#093d24",
         "divider_color": "#b8f3d8",
         "bottom_padding_mobile": 0,
-        "vertical_padding": 0,
+        "vertical_padding": 40,
         "top_padding_mobile": 0,
-        "top_padding_desktop": 0
+        "top_padding_desktop": 40
       }
     },
     "custom_about_mohp1": {
