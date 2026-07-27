@@ -5187,6 +5187,10 @@ mo-review-filter {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--mo-space-4, 16px);
+    /* CUSTOM (2026-07-27, per Kalvis): 20px left padding — offsets the
+       content slightly in from the track's true left edge, rather than
+       sitting perfectly flush. */
+    padding-left: 20px;
   }
 
   .mo-home-hero__subhead {
