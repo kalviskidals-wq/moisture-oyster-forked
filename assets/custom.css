@@ -424,14 +424,21 @@ body {
    with hardcoded fallbacks so it still renders if that file is ever removed.
    UPSTREAM risk LOW — net-new, no Horizon file touched.
    ============================================================================ */
+/* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
+   gap to the next section (Problem Agitation), via margin-bottom — separate
+   from the padding-block above, which is internal to this bar's own
+   background. This section is PDP-only (not reused on the homepage), so an
+   unconditional margin here is safe. */
 .mo-trust-bar {
   background: var(--mo-trustbar-bg, #093d24);
   padding-block: 30px;
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-trust-bar {
     padding-block: var(--mo-trustbar-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 
@@ -597,12 +604,16 @@ body {
     var(--mo-problem-bg, #093d24) 100%
   );
   padding-block: 30px;
+  /* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
+     gap to the next section (Comparison Table). */
+  margin-bottom: 60px;
   overflow: hidden;
 }
 
 @media screen and (min-width: 750px) {
   .mo-problem {
     padding-block: var(--mo-problem-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 
@@ -1012,6 +1023,9 @@ body {
     var(--mo-compare-frame-bg, #0d1b14) 100%
   );
   padding-block: 20px;
+  /* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
+     gap to the next section (Ingredient Transparency). */
+  margin-bottom: 60px;
 }
 
 /* CUSTOM (round 13): border-radius hardcoded, not var()-driven, to rule out
@@ -1050,6 +1064,7 @@ body {
       var(--mo-compare-frame-bg, #0d1b14) 100%
     );
     padding-block: 32px;
+    margin-bottom: 80px;
   }
 }
 
@@ -1554,11 +1569,15 @@ tbody tr:last-child .mo-compare__cell {
   background: var(--mo-ingredients-bg, #093d24);
   padding-block-start: 30px;
   padding-block-end: 0;
+  /* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
+     gap to the next section (Video Feature). */
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-ingredients {
     padding-block: var(--mo-ingredients-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 
@@ -2063,15 +2082,19 @@ tbody tr:last-child .mo-compare__cell {
 /* CUSTOM (2026-07-20, per Kalvis, mobile-only): top padding set to 20px
    specifically (was 30px, shared with bottom via the shorthand) — bottom
    stays 30px. Desktop untouched. */
+/* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
+   gap to the next section (Clinical & Science). */
 .mo-howto {
   background: var(--mo-howto-bg, #093d24);
   padding-block-start: 20px;
   padding-block-end: 30px;
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-howto {
     padding-block: var(--mo-howto-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 
@@ -2314,14 +2337,18 @@ tbody tr:last-child .mo-compare__cell {
    MO CLINICAL & SCIENCE — sections/custom-clinical-science.liquid
    Stats card (2x2 desktop / stacked mobile) + CSS-only GLP bar chart card.
    ============================================================================ */
+/* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
+   gap to the next section (Expert Video / Doctors Recommendation). */
 .mo-science {
   background: var(--mo-science-bg, #093d24);
   padding-block: 30px;
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-science {
     padding-block: var(--mo-science-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 
@@ -2902,21 +2929,22 @@ tbody tr:last-child .mo-compare__cell {
    this file only handles layout/visuals — .mo-reviews__card[hidden] (set by the
    JS) uses the browser's native hidden behavior, no extra CSS needed for it.
    ============================================================================ */
-/* CUSTOM (per Kalvis — homepage section-gap spec): margin-bottom driven by
-   --mo-reviews-margin-bottom-mobile/-desktop, which the section file only
-   sets to a nonzero value on the homepage (see custom-reviews.liquid) — the
-   PDP instance of this same section defaults to 0 here, leaving its own
-   spacing untouched. */
+/* CUSTOM (per Kalvis — section-gap spec, both PDP and homepage): 60px
+   mobile / 80px desktop gap to whatever follows this section (FAQ on the
+   PDP, the footer on the homepage) — this section is reused on both
+   templates, but now that both want the identical gap value, a plain
+   unconditional margin-bottom covers both without needing the
+   homepage-only CSS-var scoping this used to have. */
 .mo-reviews {
   background: var(--mo-reviews-bg, #093d24);
   padding-block: 30px;
-  margin-bottom: var(--mo-reviews-margin-bottom-mobile, 0);
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-reviews {
     padding-block: var(--mo-reviews-padding-y, 40px);
-    margin-bottom: var(--mo-reviews-margin-bottom-desktop, 0);
+    margin-bottom: 80px;
   }
 }
 
@@ -3287,14 +3315,18 @@ mo-review-filter {
    convention verbatim (see the trust bar alignment-fix note above) so this
    section's content column lines up with every other PDP section above it.
    ============================================================================ */
+/* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
+   gap to the next section (Subscribe Benefits). */
 .mo-faq {
   background: var(--mo-faq-bg, #093d24);
   padding-block: 30px;
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-faq {
     padding-block: var(--mo-faq-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 
@@ -3629,6 +3661,9 @@ mo-review-filter {
    sits directly above/below it, no lateral gutter needed for that to read.
    The margin-inline gutter is only necessary on desktop, where the section
    sits within a visibly wider page background either side. */
+/* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
+   gap to the next section (the global footer) — this is the last PDP
+   section in templates/product.json's order. */
 .mo-sub-benefits {
   position: relative;
   display: flex;
@@ -3639,6 +3674,7 @@ mo-review-filter {
   border-radius: var(--mo-sub-radius, 20px);
   background: var(--mo-sub-header-bg, #e8e7e3);
   padding-block: 30px 0;
+  margin-bottom: 60px;
   overflow: hidden;
 }
 
@@ -3646,6 +3682,7 @@ mo-review-filter {
   .mo-sub-benefits {
     padding-block: var(--mo-sub-padding-y, 40px);
     margin-inline: var(--mo-sub-inset, 16px);
+    margin-bottom: 80px;
   }
 }
 
@@ -6887,14 +6924,18 @@ html body .theme-drawer__dialog {
    100%/100%), reusing the same "wrapper owns the size, not the media
    element itself" lesson already established for .mo-compare__logo-wrap.
    ============================================================================ */
+/* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
+   gap to the next section (Reviews). */
 .mo-expert-video {
   background: var(--mo-expert-video-bg, #093d24);
   padding-block: 30px;
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-expert-video {
     padding-block: var(--mo-expert-video-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 
@@ -7109,14 +7150,18 @@ html body .theme-drawer__dialog {
    lazy-autoplay mechanism (reuses Horizon's own deferred-media/template
    plumbing, just swaps the click trigger for an IntersectionObserver).
    ============================================================================ */
+/* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
+   gap to the next section (How To Use). */
 .mo-video-feature {
   background: var(--mo-video-feature-bg, #093d24);
   padding-block: 30px;
+  margin-bottom: 60px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-video-feature {
     padding-block: var(--mo-video-feature-padding-y, 40px);
+    margin-bottom: 80px;
   }
 }
 

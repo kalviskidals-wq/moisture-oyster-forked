@@ -5,6 +5,22 @@
 
 {%- # CUSTOM: hero gallery thumbnail overlay per hero-image design spec. Horizon's native thumbnails-style controls hardcode controls_on_media to false (see snippets/product-media-gallery-content.liquid), so an on-image floating rail isn't reachable via block settings alone — this scoped override achieves it with CSS instead. Uses the non-deduplicated inline style tag (not the deduplicated stylesheet tag) specifically because the deduplicated one is shared theme-wide and can't be scoped with the section id — see feedback-shopify-theme-validation-gotchas memory. UPSTREAM risk LOW — scoped entirely to this section's shopify-section wrapper id, no Horizon file touched. -%}
 {% style %}
+  /* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
+     gap to the next section (Trust Bar), applied directly to Shopify's own
+     auto-generated section wrapper since this forked-native section has no
+     dedicated top-level mo-* class of its own to hang a shared rule on
+     (same technique as sections/custom-featured-product.liquid's homepage
+     equivalent). */
+  #shopify-section-{{ section.id }} {
+    margin-bottom: 60px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      margin-bottom: 80px;
+    }
+  }
+
   /* Force thumbnails to a 1:1 box regardless of each photo's native aspect ratio. Main slides keep aspect_ratio: adapt (their own natural ratio) untouched — that setting lives in templates/product.json media-gallery block settings. */
   #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
     aspect-ratio: 1 / 1 !important;
