@@ -6315,24 +6315,30 @@ mo-review-filter {
    (matching every other full-bleed section's corner/background convention)
    instead of the page's background color leaking through. */
 /* CUSTOM (per Kalvis — homepage section-gap spec): 60px mobile / 80px
-   desktop gap to the next section (Reviews), via margin-bottom — separate
-   from the padding-block above, which sits inside this section's own
-   aspect-ratio box, not between it and its neighbor. */
+   desktop gap to the next section (Reviews).
+   CUSTOM FIX (2026-07-27, per Kalvis, confirmed against Figma node
+   457:2016): top/bottom padding now drive ONLY margin-top/margin-bottom —
+   this section's own content (header, media, footer) is entirely
+   position:absolute, so its old padding-top/padding-bottom never made
+   room for anything; they only stretched the box taller than its
+   aspect-ratio box. The header's top inset and the footer's bottom inset
+   are now fixed (see .mo-about__header / .mo-about__footer below) so they
+   no longer move when these sliders change. margin-top defaults to 0 on
+   both breakpoints, matching today's (no gap above this section)
+   appearance. */
 .mo-about {
   position: relative;
   background: var(--mo-about-bg, #093d24);
   aspect-ratio: var(--mo-about-aspect-mobile, 0.62);
-  padding-top: var(--mo-about-padding-top-mobile, 30px);
-  padding-bottom: var(--mo-about-padding-bottom-mobile, 30px);
-  margin-bottom: 60px;
+  margin-top: var(--mo-about-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-about-margin-bottom-mobile, 60px);
 }
 
 @media screen and (min-width: 750px) {
   .mo-about {
     aspect-ratio: var(--mo-about-aspect-desktop, 1.9);
-    padding-top: var(--mo-about-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-about-padding-y, 40px);
-    margin-bottom: 80px;
+    margin-top: var(--mo-about-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-about-margin-bottom-desktop, 80px);
   }
 }
 
@@ -6446,18 +6452,18 @@ mo-review-filter {
   }
 }
 
-/* CUSTOM FIX (2026-07-27, per Kalvis): this element's own padding-top (not
-   .mo-about's) is the section's real top offset — same containing-block
-   issue documented on .mo-about__content above (an abs-positioned child's
-   top:0 resolves against the ancestor's padding box, so .mo-about's own
-   padding-top never reaches here). 24px fallback preserves today's
-   appearance; desktop override below switches to its own var. */
+/* CUSTOM FIX (2026-07-27, per Kalvis — reverted 2nd pass): kept fixed on
+   purpose. Top/bottom padding now control the gap AROUND this section (see
+   .mo-about's margin-top/margin-bottom above) instead of this element's
+   own offset from the top — fixed back to a constant 24px mobile / 40px
+   desktop (confirmed against Figma node 457:2016, which has the heading at
+   top:40px) so the header stays put regardless of the slider. */
 .mo-about__header {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  padding: var(--mo-about-padding-top-mobile, 24px) var(--mo-space-5, 20px) 0;
+  padding: 24px var(--mo-space-5, 20px) 0;
 }
 
 @media screen and (min-width: 750px) {
@@ -6467,7 +6473,7 @@ mo-review-filter {
        children — see the .mo-about__content comment above). */
     left: var(--page-margin, 40px);
     right: var(--page-margin, 40px);
-    padding: var(--mo-about-padding-top-desktop, 40px) 0 0;
+    padding: 40px 0 0;
   }
 }
 
@@ -6492,15 +6498,16 @@ mo-review-filter {
    individually, and since rows are different widths (label length varies),
    their icons ended up at different x-positions instead of forming a
    shared left column like the reference design. */
-/* CUSTOM FIX (2026-07-27, per Kalvis): `bottom` here is the section's real
-   bottom offset on mobile — same containing-block reason as the header
-   fix above applies to .mo-about's own padding-bottom. 20px fallback
-   preserves today's appearance. */
+/* CUSTOM FIX (2026-07-27, per Kalvis — reverted 2nd pass): kept fixed on
+   purpose — see .mo-about__header above. Bottom padding now controls the
+   gap AFTER this section (margin-bottom) instead of this element's own
+   offset from the bottom; fixed back to a constant 20px so the footer
+   stays put regardless of the slider. */
 .mo-about__footer {
   position: absolute;
   left: var(--mo-space-5, 20px);
   right: var(--mo-space-5, 20px);
-  bottom: var(--mo-about-padding-bottom-mobile, 20px);
+  bottom: 20px;
   display: flex;
   flex-direction: column;
   gap: var(--mo-space-5, 20px);
@@ -6556,7 +6563,7 @@ mo-review-filter {
        parent's now-removed padding-inline. */
     left: auto;
     right: var(--page-margin, 40px);
-    bottom: var(--mo-about-padding-y, 40px);
+    bottom: 40px;
     max-width: 380px;
     align-items: flex-start;
   }

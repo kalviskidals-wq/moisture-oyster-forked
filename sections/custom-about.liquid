@@ -38,10 +38,10 @@
     --mo-about-object-position-desktop: {{ s.object_position_desktop | default: 'center center' }};
     --mo-about-object-position-mobile: {{ s.object_position_mobile | default: 'center center' }};
     --mo-about-radius: {{ s.card_radius | default: 24 }}px;
-    --mo-about-padding-y: {{ s.vertical_padding | default: 40 }}px;
-    --mo-about-padding-top-mobile: {{ s.top_padding_mobile | default: 24 }}px;
-    --mo-about-padding-top-desktop: {{ s.top_padding_desktop | default: 40 }}px;
-    --mo-about-padding-bottom-mobile: {{ s.bottom_padding_mobile | default: 20 }}px;
+    --mo-about-margin-bottom-desktop: {{ s.vertical_padding | default: 80 }}px;
+    --mo-about-margin-top-mobile: {{ s.top_padding_mobile | default: 0 }}px;
+    --mo-about-margin-top-desktop: {{ s.top_padding_desktop | default: 0 }}px;
+    --mo-about-margin-bottom-mobile: {{ s.bottom_padding_mobile | default: 60 }}px;
   "
 >
   <div class="mo-about__media">
@@ -324,42 +324,46 @@
     {
       "type": "range",
       "id": "bottom_padding_mobile",
-      "label": "Bottom padding — mobile",
+      "label": "Space after section — mobile",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 20
+      "default": 60,
+      "info": "Gap to the next section only — doesn't affect the heading/provenance-list position inside this section."
     },
     {
       "type": "range",
       "id": "vertical_padding",
-      "label": "Bottom padding — desktop",
+      "label": "Space after section — desktop",
       "min": 0,
-      "max": 80,
+      "max": 160,
       "step": 4,
       "unit": "px",
-      "default": 40
+      "default": 80,
+      "info": "Gap to the next section only — doesn't affect the heading/provenance-list position inside this section."
     },
     {
       "type": "range",
       "id": "top_padding_mobile",
-      "label": "Top padding — mobile",
+      "label": "Space above section — mobile",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 24
+      "default": 0,
+      "info": "Gap above this section only — doesn't affect the heading/provenance-list position inside this section."
     },
     {
       "type": "range",
       "id": "top_padding_desktop",
-      "label": "Top padding — desktop",
+      "label": "Space above section — desktop",
       "min": 0,
       "max": 160,
       "step": 2,
       "unit": "px",
-      "default": 40
+      "default": 0,
+      "info": "Gap above this section only — doesn't affect the heading/provenance-list position inside this section."
     }
   ],
   "blocks": [
