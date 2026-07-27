@@ -548,7 +548,7 @@
         "top_padding_mobile": 30,
         "top_padding_desktop": 40,
         "bottom_padding_mobile": 30,
-        "vertical_padding": 80,
+        "vertical_padding": 40,
         "segment_border": false,
         "background_color": "#093d24",
         "segment_background_color": "#115033",
