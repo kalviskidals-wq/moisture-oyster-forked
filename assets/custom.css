@@ -6065,6 +6065,13 @@ mo-review-filter {
   }
 }
 
+/* CUSTOM FIX (2026-07-27, per Kalvis): row-gap removed (was 32px, shared
+   across every row pair) — the heading→body gap now lives on
+   .mo-hiw__heading's own margin-bottom instead (matching
+   .mo-problem__heading's convention, see below), and the body→tablist
+   gap now lives on .mo-hiw__body's own margin-bottom (still 32px,
+   unchanged) — so each relationship is set independently instead of
+   sharing one grid-level value. */
 .mo-hiw__grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -6072,14 +6079,6 @@ mo-review-filter {
     'header'
     'body'
     'tablist';
-  /* CUSTOM FIX (2026-07-27, per Kalvis): was 32px (--mo-space-7) — that
-     made the mobile heading-to-body gap bigger than desktop's, which
-     already correctly uses 24px (--mo-space-6, matching Figma node
-     521:1490's heading→body spacing). Reduced to 24px to match; the
-     body→tablist gap keeps its original 32px total via the extra 8px
-     margin-top on .mo-hiw__tablist below, mobile-only, so that
-     relationship doesn't shrink along with this. */
-  row-gap: var(--mo-space-6, 24px);
 }
 
 /* CUSTOM (2026-07-14, round 3 fix): .mo-hiw__left dissolves on mobile
@@ -6111,17 +6110,15 @@ mo-review-filter {
 .mo-hiw__body {
   grid-area: body;
   display: grid;
+  /* CUSTOM FIX (2026-07-27, per Kalvis): mobile-only — replaces the old
+     shared row-gap for this specific relationship, same 32px total gap
+     to the tablist below. Reset to 0 on desktop, where tablist sits
+     beside the left column instead of stacked under body. */
+  margin-bottom: var(--mo-space-7, 32px);
 }
 
 .mo-hiw__tablist {
   grid-area: tablist;
-  /* CUSTOM FIX (2026-07-27, per Kalvis): mobile-only — tops up the grid's
-     24px row-gap (see .mo-hiw__grid above) by 8px so the body→tablist gap
-     stays at its original 32px total, even though the row-gap itself was
-     reduced to fix the heading→body gap specifically. Reset to 0 on
-     desktop below, where tablist sits beside the left column instead of
-     stacked under it. */
-  margin-top: var(--mo-space-2, 8px);
 }
 
 /* CUSTOM (2026-07-14, round 3 fix): replaced the earlier "tablist spans all
@@ -6142,22 +6139,20 @@ mo-review-filter {
     grid-area: left;
   }
 
-  /* CUSTOM FIX (2026-07-27, per Kalvis): cancels the mobile-only 8px
-     top-up margin (see the base .mo-hiw__tablist rule above) — desktop's
+  /* CUSTOM FIX (2026-07-27, per Kalvis): cancels the mobile-only 32px
+     margin-bottom (see the base .mo-hiw__body rule above) — desktop's
      tablist sits beside the left column, not stacked under body, so no
-     extra offset is wanted here. */
-  .mo-hiw__tablist {
-    margin-top: 0;
-  }
-
+     gap is needed here; the heading→body gap on desktop now comes
+     entirely from .mo-hiw__heading's own margin-bottom (16px) instead of
+     a margin here (was margin-block-start: 24px).
+     CUSTOM FIX (2026-07-22, per Kalvis, screenshot): removed the fixed
+     3-line height + overflow-y:auto — it was showing an internal
+     scrollbar next to the body copy on desktop. Desktop now falls back to
+     the base .mo-hiw__body/.mo-hiw__panel grid-stack trick (auto-sizes to
+     the tallest panel, same as mobile already did) instead of clipping
+     to 3 lines. */
   .mo-hiw__body {
-    margin-block-start: var(--mo-space-6, 24px); /* CUSTOM FIX (2026-07-20, per Kalvis): was 8px */
-    /* CUSTOM FIX (2026-07-22, per Kalvis, screenshot): removed the fixed
-       3-line height + overflow-y:auto — it was showing an internal
-       scrollbar next to the body copy on desktop. Desktop now falls back to
-       the base .mo-hiw__body/.mo-hiw__panel grid-stack trick (auto-sizes to
-       the tallest panel, same as mobile already did) instead of clipping
-       to 3 lines. */
+    margin-bottom: 0;
   }
 }
 
@@ -6166,6 +6161,11 @@ mo-review-filter {
    spec was actually for .mo-hiw__tab-heading, the per-step heading, not
    this section heading). Desktop keeps its own distinct spec in the
    min-width:750px override below. */
+/* CUSTOM FIX (2026-07-27, per Kalvis): heading→body gap now lives here,
+   directly on the heading's own margin-bottom — same mechanism/values as
+   .mo-problem__heading elsewhere (24px mobile, 16px desktop) instead of
+   the grid's shared row-gap, so this section's heading-to-body spacing
+   matches every other section's convention. */
 .mo-hiw__heading {
   font-family: var(--mo-font-heading);
   font-weight: 700;
@@ -6173,7 +6173,7 @@ mo-review-filter {
   font-size: 28px;
   line-height: 1;
   letter-spacing: -0.02em;
-  margin: 0;
+  margin: 0 0 var(--mo-space-6, 24px);
 }
 
 @media screen and (min-width: 750px) {
@@ -6182,6 +6182,9 @@ mo-review-filter {
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.02em;
+    /* Resets the mobile-only 24px bump above back to 16px, matching
+       .mo-problem__heading's desktop value exactly. */
+    margin-bottom: var(--mo-space-4, 16px);
   }
 }
 
