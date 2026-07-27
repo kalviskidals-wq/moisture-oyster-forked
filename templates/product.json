@@ -640,8 +640,8 @@
         "card_figure_color": "#ffd5f7",
         "card_caption_color": "#ffffff",
         "card_source_color": "#ffffff",
-        "bottom_padding_mobile": 30,
-        "vertical_padding": 40,
+        "bottom_padding_mobile": 0,
+        "vertical_padding": 0,
         "top_padding_mobile": 30,
         "top_padding_desktop": 40
       }
@@ -775,7 +775,7 @@
         "top_padding_mobile": 0,
         "top_padding_desktop": 0,
         "bottom_padding_mobile": 20,
-        "vertical_padding": 20
+        "vertical_padding": 40
       }
     },
     "custom_ingredient_transparency_mopdp1": {
