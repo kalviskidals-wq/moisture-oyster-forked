@@ -1073,9 +1073,11 @@ body {
     var(--mo-compare-frame-bg, #0d1b14) 100%
   );
   padding-block: 20px;
-  /* CUSTOM (per Kalvis — PDP section-gap spec): 60px mobile / 80px desktop
-     gap to the next section (Ingredient Transparency). */
-  margin-bottom: 60px;
+  /* CUSTOM: section-gap only — schema-driven margin (before/after section).
+     Doesn't affect the panel's own internal padding or the frame's own
+     padding-block reveal above/below the panel (both untouched). */
+  margin-top: var(--mo-compare-margin-top-mobile, 0px);
+  margin-bottom: var(--mo-compare-margin-bottom-mobile, 60px);
 }
 
 /* CUSTOM (round 13): border-radius hardcoded, not var()-driven, to rule out
@@ -1095,14 +1097,17 @@ body {
 .mo-compare__panel {
   background: var(--mo-compare-bg, #0d1b14);
   border-radius: 32px;
-  padding-top: var(--mo-compare-padding-top-mobile, 30px);
-  padding-bottom: var(--mo-compare-padding-bottom-mobile, 30px);
+  /* CUSTOM: internal panel padding — fixed, matches the section's current
+     live values. No longer schema-driven (schema now controls only the
+     section's own before/after margin, see .mo-compare above). */
+  padding-top: 40px;
+  padding-bottom: 30px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-compare__panel {
-    padding-top: var(--mo-compare-padding-top-desktop, 40px);
-    padding-bottom: var(--mo-compare-padding-y, 40px);
+    padding-top: 56px;
+    padding-bottom: 40px;
   }
 }
 
@@ -1116,7 +1121,8 @@ body {
       var(--mo-compare-frame-bg, #0d1b14) 100%
     );
     padding-block: 32px;
-    margin-bottom: 80px;
+    margin-top: var(--mo-compare-margin-top-desktop, 0px);
+    margin-bottom: var(--mo-compare-margin-bottom-desktop, 80px);
   }
 }
 
