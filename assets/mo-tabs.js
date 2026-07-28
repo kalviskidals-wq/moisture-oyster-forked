@@ -121,6 +121,36 @@ class MoTabs extends HTMLElement {
       if (!panel) return;
       panel.hidden = i !== index;
     });
+
+    // CUSTOM FIX (2026-07-27, per Kalvis — sections/custom-how-it-works.liquid):
+    // only for real tap/keyboard activation (focus:true, never the initial
+    // mount call or a desktop hover-preview) and only on instances that opt in
+    // via data-scroll-into-view-on-activate. Fixes a mobile-only bug where the
+    // tablist sits BELOW the content it controls — a shopper scrolled down to
+    // the tablist can tap a tab and see nothing change, since the panel that
+    // just updated is off-screen above them.
+    if (focus && this.hasAttribute('data-scroll-into-view-on-activate')) {
+      this.#scrollAnchorIntoViewIfNeeded();
+    }
+  }
+
+  /**
+   * Scrolls the [data-scroll-anchor] element (falling back to the active
+   * panel itself) back into view, but only when it's actually out of view —
+   * an already-visible tab switch shouldn't cause any scrolling — and only
+   * on mobile, matching this project's shared breakpoint. Desktop layouts
+   * that use this opt-in place the tablist beside (not below) the content,
+   * so the anchor should already be in view there regardless.
+   */
+  #scrollAnchorIntoViewIfNeeded() {
+    if (!window.matchMedia('(max-width: 749px)').matches) return;
+
+    const anchor = this.querySelector('[data-scroll-anchor]') || this.panels.find(Boolean);
+    if (!anchor) return;
+
+    const rect = anchor.getBoundingClientRect();
+    const outOfView = rect.top < 0 || rect.bottom > window.innerHeight;
+    if (outOfView) anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 
