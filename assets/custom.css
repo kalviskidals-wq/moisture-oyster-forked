@@ -7797,3 +7797,39 @@ html body .theme-drawer__dialog {
   aspect-ratio: auto !important;
   object-fit: cover;
 }
+
+/* ============================================================================
+   MO BUY BOX CARD — native Horizon "group" block (blocks/group.liquid), used
+   under the JSON block id "mo_buybox_card" in templates/product.json (PDP)
+   and templates/index.json / page.homepage.json / sections/custom-featured-
+   product.liquid (Hero Product Feature). snippets/group.liquid emits
+   `color-custom-{{ block_id }}` whenever the block has a background_color
+   set (this one does, #ffffff) — but block_id here is NOT the bare JSON
+   key: verified live (moistureoyster.com PDP, Claude in Chrome DOM
+   inspection) it actually renders as `color-custom-{section_id}__mo_
+   buybox_card`, e.g. `color-custom-ASlo5bFJtTnMya0lMO__mo_buybox_card` —
+   section-instance-prefixed, so no single static class is stable across
+   every template this block appears in. `[class*="__mo_buybox_card"]`
+   substring-matches the shared suffix regardless of the random prefix.
+   CUSTOM FIX (2026-07-27, per Kalvis): the group block's own padding
+   settings (padding-block-start/end, padding-inline-start/end, all 28 in
+   the JSON) render through Horizon's shared spacing-style system, which
+   has no per-breakpoint value — same 28px at every width. Wanted instead:
+   16px mobile / 32px desktop, all four sides. Horizon's own .spacing-style
+   class rule (assets/base.css) sets padding-block/padding-inline directly
+   (not just custom properties), so a more specific selector here
+   ([class*="__mo_buybox_card"].spacing-style) overrides it outright with
+   no !important needed.
+   UPSTREAM risk LOW — scoped attribute/class selector only, no Horizon
+   file touched. */
+[class*="__mo_buybox_card"].spacing-style {
+  padding-block: 16px;
+  padding-inline: 16px;
+}
+
+@media screen and (min-width: 750px) {
+  [class*="__mo_buybox_card"].spacing-style {
+    padding-block: 32px;
+    padding-inline: 32px;
+  }
+}
