@@ -169,6 +169,23 @@
       padding: 0;
       gap: var(--gap-xs, 8px);
     }
+
+    /* CUSTOM FIX (2026-07-27, per Kalvis — same fix as custom-main-
+       product.liquid): fixed 80x80 thumbnail size + 10px radius on
+       desktop, replacing Horizon's native clamp() sizing and the 12px
+       thumbnail_radius schema setting. */
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
+      width: 80px !important;
+      height: 80px !important;
+      border-radius: 10px !important;
+    }
+
+    /* CUSTOM FIX (2026-07-27, per Kalvis): matches the img's own radius to
+       the button's — see the mobile-side comment above for why the native
+       <img> border-radius needs its own override, not just the button. */
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control img {
+      border-radius: 10px !important;
+    }
   }
 
   /* CUSTOM: reskin the native add-to-cart button as "Add to Bag +", matching
@@ -260,6 +277,13 @@
 
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails {
       padding-block: 10px;
+      /* CUSTOM FIX (2026-07-27, per Kalvis — same fix as custom-main-
+         product.liquid): Horizon ships a small built-in inline padding
+         here (~11.2px) that margin-inline:0 doesn't touch (margin and
+         padding are independent) — left the first thumbnail's left edge
+         sitting right of the main image/other elements' shared left edge.
+         Zeroing inline padding puts the row flush with that same edge. */
+      padding-inline-start: 0 !important;
       margin-block-start: 0 !important;
       margin-inline: 0 !important;
       justify-content: flex-start !important;
@@ -270,6 +294,27 @@
     #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
       justify-content: flex-start !important;
       align-items: flex-start !important;
+    }
+
+    /* CUSTOM FIX (2026-07-27, per Kalvis — same fix as custom-main-
+       product.liquid): fixed 32x32 thumbnail size + 4px radius on mobile,
+       replacing Horizon's native clamp(44px, 7vw, ...) sizing and the
+       12px thumbnail_radius schema setting (templates/index.json's
+       featured-product block). */
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
+      width: 32px !important;
+      height: 32px !important;
+      border-radius: 4px !important;
+    }
+
+    /* CUSTOM FIX (2026-07-27, per Kalvis — "almost a circle" root cause):
+       Horizon's native CSS also sets border-radius directly on the <img>
+       itself (snippets/slideshow-controls.liquid), independent of the
+       button's own clip box — at a 32px box the native 12px radius reads
+       as ~37%, nearly a full circle, regardless of the button's radius
+       above. Matches the img's radius to 4px explicitly. */
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control img {
+      border-radius: 4px !important;
     }
 
     /* CUSTOM: product description mobile type spec (Kalvis) — same as the
