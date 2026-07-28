@@ -893,9 +893,11 @@ body {
   text-transform: uppercase;
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis): solid #b8f3d8 (was a 25%-opacity
+   mix of the caption color, #ffffff-based). */
 .mo-problem__stat-divider {
   border: none;
-  border-top: 1px solid color-mix(in srgb, var(--mo-problem-card-caption, #ffffff) 25%, transparent);
+  border-top: 1px solid #b8f3d8;
   margin: 0 0 var(--mo-space-4, 16px);
 }
 
