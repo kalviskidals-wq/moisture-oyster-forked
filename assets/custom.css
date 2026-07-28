@@ -3387,7 +3387,16 @@ mo-review-filter {
   flex-direction: column;
   background: var(--mo-reviews-card-bg, #ffffff);
   border-radius: var(--mo-reviews-card-radius, 16px); /* CUSTOM: was 20px — Figma dev-mode confirms 16px (audit #13/#24, 2026-07-17) */
-  padding: var(--mo-space-7, 30px); /* CUSTOM: was 24px — Figma confirms 30px */
+  /* CUSTOM FIX (2026-07-28, per Kalvis): mobile flat 15px (was the
+     unconditional 30px below at every breakpoint) — desktop override
+     restores the original 30px in the min-width:750px block below. */
+  padding: 15px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-reviews__card {
+    padding: var(--mo-space-7, 30px); /* CUSTOM: was 24px — Figma confirms 30px */
+  }
 }
 
 /* CUSTOM FIX (2026-07-18, per Kalvis — actual root cause of "filters don't
