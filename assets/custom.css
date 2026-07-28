@@ -980,8 +980,23 @@ body {
     font-size: 16px;
   }
 
+  /* CUSTOM FIX (2026-07-28, per Kalvis, desktop): 32px (was inheriting
+     the mobile 20px margin above, never overridden here). */
   .mo-problem__stat-figure {
     font-size: 80px;
+    margin-bottom: 32px;
+  }
+
+  /* CUSTOM FIX (2026-07-28, per Kalvis, desktop): 20px (was inheriting
+     the mobile 16px margin, never overridden here). */
+  .mo-problem__stat-caption {
+    margin-bottom: 20px;
+  }
+
+  /* CUSTOM FIX (2026-07-28, per Kalvis, desktop): 20px (was inheriting
+     the mobile 16px margin, never overridden here). */
+  .mo-problem__stat-divider {
+    margin-bottom: 20px;
   }
 
   .mo-problem__media-wrap {
@@ -1019,8 +1034,12 @@ body {
     justify-content: flex-end;
   }
 
+  /* CUSTOM FIX (2026-07-28, per Kalvis, desktop): top padding 20px,
+     sides/bottom 30px (was inheriting the mobile 10px/15px values above,
+     never overridden here). */
   .mo-problem__stat-card {
     max-width: 420px;
+    padding: 20px 30px 30px;
   }
 }
 
