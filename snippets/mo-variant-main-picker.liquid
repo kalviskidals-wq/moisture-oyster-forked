@@ -335,6 +335,34 @@
     color: #115033;
   }
 
+  /* CUSTOM FIX (2026-07-27, per Kalvis, Figma node 1456:5411 — mobile
+     view, verified via Figma get_design_context): both "Quantity" and
+     "Purchase Option" headings sit 12px from their own cards row in
+     Figma ("Quantity Section" and "Purchase Options Section" both use a
+     flat 12px label→content gap) — initially only Quantity was fixed
+     here since it was the only one named explicitly in Kalvis's text
+     spec; confirmed against the actual Figma frame that Purchase
+     Option's label uses the same 12px, not the shared 8px default.
+     :has() targets only the label immediately followed by each cards
+     row, not the shared .mo-vpicker__label class generally.
+     Also bumps .mo-vpicker's own internal gap (used both between the
+     Quantity section and the Purchase Option section, and between the
+     Purchase cards and the delivery-frequency row) from the shared 20px
+     default (--mo-space-5) to 24px — Figma's outer "Description
+     Container" and "Price Options Container" both use 24px for these
+     same relationships. Mobile-only, matching this whole Figma-driven
+     pass; desktop keeps the native 20px untouched. */
+  @media screen and (max-width: 749px) {
+    .mo-vpicker {
+      gap: 24px;
+    }
+
+    .mo-vpicker__label:has(+ .mo-vpicker__cards--qty),
+    .mo-vpicker__label:has(+ .mo-vpicker__cards--purchase) {
+      margin-bottom: 12px;
+    }
+  }
+
   .mo-vpicker__cards {
     display: grid;
     gap: 10px;

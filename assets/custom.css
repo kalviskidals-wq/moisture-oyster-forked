@@ -7833,3 +7833,76 @@ html body .theme-drawer__dialog {
     padding-inline: 32px;
   }
 }
+
+/* CUSTOM FIX (2026-07-27, per Kalvis, Figma node 1456:5411 — mobile view):
+   the group block's own "gap" setting (20px) is a single uniform flex gap
+   applied between EVERY child pair — Figma calls for a different gap at
+   each relationship instead. Zeroes the native flex gap for this block
+   only (.group-block-content is the actual flex container — see
+   snippets/group.liquid) and gives each child its own explicit
+   margin-bottom instead, per the values below, all now confirmed against
+   the actual Figma frame (fetched via get_design_context on node
+   1456:5411): eyebrow→headline 12px, headline→badge 20px, badge→
+   description 12px, description→rating 12px, rating→variant-picker-block
+   24px (Figma's outer "Description Container" uses a flat 24px gap
+   between every one of its top-level children, which is also why the
+   trust-bullets/accordion/buy-buttons relationships below are 24px, not
+   the initially-assumed 20px native default — this was corrected after
+   actually inspecting the Figma file, not from Kalvis's original text
+   examples alone). The .mo-vpicker block itself also got its own internal
+   20px→24px gap fix and a Purchase-Option-label 12px fix (see
+   snippets/mo-variant-main-picker.liquid) since Figma's "Quantity
+   Section" and "Purchase Options Section" are two separate top-level
+   children merged into that one component here. Mobile-only per the
+   Figma frame this spec came from; desktop keeps the native uniform 20px
+   gap untouched.
+   Block child classes (mo-pdp-eyebrow, mo-pdp-badge, mo-pdp-rating-link,
+   mo-vpicker, mo-pdp-trust-bullets) are purpose-built for this exact
+   block, but every rule below is still scoped under
+   [class*="__mo_buybox_card"] defensively, matching this file's established
+   convention of never assuming a class is only ever used in one place. The
+   product-title/description/accordion/buy-buttons children render inside
+   a display:contents wrapper with a section-instance-prefixed class
+   (verified live, same mechanism as the block's own color-custom- class
+   above), hence the [class*="__mo_title"] etc. substring selectors. */
+@media screen and (max-width: 749px) {
+  [class*="__mo_buybox_card"] > .group-block-content {
+    gap: 0;
+  }
+
+  [class*="__mo_buybox_card"] .mo-pdp-eyebrow {
+    margin-bottom: 12px;
+  }
+
+  [class*="__mo_buybox_card"] [class*="__mo_title"] {
+    margin-bottom: 20px;
+  }
+
+  [class*="__mo_buybox_card"] .mo-pdp-badge {
+    margin-bottom: 12px;
+  }
+
+  [class*="__mo_buybox_card"] [class*="__mo_description"] {
+    margin-bottom: 12px;
+  }
+
+  [class*="__mo_buybox_card"] .mo-pdp-rating-link {
+    margin-bottom: 24px;
+  }
+
+  [class*="__mo_buybox_card"] .mo-vpicker {
+    margin-bottom: 24px;
+  }
+
+  [class*="__mo_buybox_card"] .mo-pdp-trust-bullets {
+    margin-bottom: 24px;
+  }
+
+  [class*="__mo_buybox_card"] [class*="__mo_accordion"] {
+    margin-bottom: 24px;
+  }
+
+  [class*="__mo_buybox_card"] [class*="__mo_buy_buttons"] {
+    margin-bottom: 24px;
+  }
+}
