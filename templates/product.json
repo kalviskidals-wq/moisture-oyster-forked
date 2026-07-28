@@ -591,32 +591,13 @@
             "icon_image": "shopify://shop_images/Contact_lens.svg",
             "label": "BETWEEN CONTACT USES"
           }
-        },
-        "factor_wrFVQP": {
-          "type": "factor",
-          "settings": {
-            "icon_preset": "air_travel",
-            "icon_image": "shopify://shop_images/On_your_desk.svg",
-            "label": "ON YOUR DESK, BAG, BEDSIDE"
-          }
-        },
-        "factor_6WUNEH": {
-          "type": "factor",
-          "disabled": true,
-          "settings": {
-            "icon_preset": "contact_lens",
-            "icon_image": "shopify://shop_images/Contact_lens.svg",
-            "label": "CONTACT LENS"
-          }
         }
       },
       "block_order": [
         "factor_4B7WaQ",
         "factor_cKkrEb",
         "factor_jBmiyj",
-        "factor_aC8XKf",
-        "factor_wrFVQP",
-        "factor_6WUNEH"
+        "factor_aC8XKf"
       ],
       "name": "MO Problem Agitation",
       "settings": {
