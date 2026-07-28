@@ -358,6 +358,14 @@
 
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails {
       padding-block: 10px;
+      /* CUSTOM FIX (2026-07-27, per Kalvis): Horizon ships a small built-in
+         inline padding here (~11.2px) that isn't touched by margin-inline:0
+         above (margin and padding are independent) — it left the first
+         thumbnail's left edge sitting ~11px right of the main image/other
+         PDP elements' shared left edge (both at the page's mobile margin).
+         Zeroing inline padding puts the thumbnail row flush with that same
+         edge. */
+      padding-inline-start: 0 !important;
       margin-block-start: 0 !important;
       margin-inline: 0 !important;
       justify-content: flex-start !important;
@@ -373,6 +381,14 @@
     #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
       justify-content: flex-start !important;
       align-items: flex-start !important;
+    }
+
+    /* CUSTOM FIX (2026-07-27, per Kalvis): thumbnail radius on mobile only —
+       was 12px (the shared global rule near the top of this file, which
+       still governs desktop). Overrides here since this rule is later in
+       source order at the same specificity. */
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
+      border-radius: 4px !important;
     }
 
     /* CUSTOM: expert-quote testimonial appears above the hero image on
