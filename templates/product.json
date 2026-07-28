@@ -1238,6 +1238,7 @@
         "filter_FK8AzP": {
           "type": "filter",
           "name": "Filter",
+          "disabled": true,
           "settings": {
             "label": "Verified",
             "tag_key": "verified"
@@ -1255,6 +1256,7 @@
         "filter_r77cWT": {
           "type": "filter",
           "name": "Filter",
+          "disabled": true,
           "settings": {
             "label": "Lens Wearer",
             "tag_key": "lens_wearer"
@@ -1263,6 +1265,7 @@
         "filter_UxcDKD": {
           "type": "filter",
           "name": "Filter",
+          "disabled": true,
           "settings": {
             "label": "Screen User",
             "tag_key": "screen_user"
