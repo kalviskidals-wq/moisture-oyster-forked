@@ -678,9 +678,13 @@ body {
    win the cascade since custom.css loads after mo-design-system.css).
    Mobile-first: base rules below are the mobile values, desktop media
    query further down overrides size/line-height where they differ. */
+/* CUSTOM FIX (2026-07-28, per Kalvis, sitewide eyebrow/heading spacing
+   standard): eyebrow-to-heading gap is now a flat 8px at every breakpoint
+   (was 16px mobile) — matches the 8px-mobile/8px-desktop rule applied
+   across every other section's header block this same pass. */
 .mo-problem__eyebrow {
   color: var(--mo-problem-eyebrow, #ffd5f7);
-  margin: 0 0 var(--mo-space-4, 16px);
+  margin: 0 0 var(--mo-space-2, 8px);
   font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
   font-weight: 500;
   font-size: 10px;
@@ -689,11 +693,12 @@ body {
   text-transform: uppercase;
 }
 
-/* CUSTOM (2026-07-19, per Kalvis, mobile-only): gap to the subhead below
-   bumped from 16px to 24px — reset back to 16px on desktop further down. */
+/* CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): heading-to-
+   subhead gap is now 20px mobile / 24px desktop (was 24px/16px) — see
+   the min-width:750px override further down for the desktop half. */
 .mo-problem__heading {
   color: var(--mo-problem-heading, #ffffff);
-  margin: 0 0 var(--mo-space-6, 24px);
+  margin: 0 0 var(--mo-space-5, 20px);
   font-family: var(--mo-font-heading, 'Manrope', sans-serif);
   font-weight: 700;
   font-size: 28px;
@@ -942,16 +947,16 @@ body {
   .mo-problem__eyebrow {
     font-size: 14px;
     /* CUSTOM (2026-07-20, per Kalvis): eyebrow-to-heading gap 8px on
-       desktop (was inheriting the shared 16px mobile margin above, never
-       overridden here) — matches the other PDP sections' convention. */
+       desktop — matches the other PDP sections' convention. */
     margin-bottom: var(--mo-space-2, 8px);
   }
 
   .mo-problem__heading {
     font-size: 40px;
     line-height: 1.1;
-    /* Resets the mobile-only 24px bump above back to its original 16px. */
-    margin-bottom: var(--mo-space-4, 16px);
+    /* CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): 24px on
+       desktop (was 16px) — mobile is 20px, see the base rule above. */
+    margin-bottom: var(--mo-space-6, 24px);
   }
 
   .mo-problem__subhead {
@@ -1228,8 +1233,14 @@ body {
    side-by-side grid (header and table are separate columns, not stacked),
    so neither of these mobile-only changes affects it. */
 @media screen and (max-width: 749px) {
+  /* CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): 20px (was
+     32px) — heading-to-content standard is now 20px mobile / 24px
+     desktop everywhere; this section still pins the gap to the table
+     itself rather than the heading's own margin (see the comment above
+     this block for why), so the value lives here instead of on
+     .mo-compare__heading directly. */
   .mo-compare__table-wrap {
-    margin-top: 32px;
+    margin-top: 20px;
   }
 
   .mo-compare__heading {
@@ -1576,8 +1587,14 @@ tbody tr:last-child .mo-compare__cell {
     margin-bottom: var(--mo-space-2, 8px);
   }
 
+  /* CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): 24px (was
+     32px) — this is the header column's own gap on desktop (the table
+     sits in a separate side-by-side grid column here, not stacked below
+     the heading, so this margin governs the gap to whatever else is in
+     the header column, unlike mobile's table-wrap trick above). */
   .mo-compare__heading {
     font-size: 40px;
+    margin-bottom: var(--mo-space-6, 24px);
   }
 
   .mo-compare__th {
@@ -2477,9 +2494,11 @@ tbody tr:last-child .mo-compare__cell {
   text-transform: uppercase;
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): heading-to-
+   content gap is now 20px mobile / 24px desktop (was 32px both). */
 .mo-science__heading {
   color: var(--mo-science-heading, #ffffff);
-  margin: 0 0 var(--mo-space-7, 32px);
+  margin: 0 0 var(--mo-space-5, 20px);
   font-family: var(--mo-font-heading, 'Manrope', sans-serif);
   font-weight: 700;
   font-size: 28px;
@@ -2502,6 +2521,7 @@ tbody tr:last-child .mo-compare__cell {
   .mo-science__heading {
     font-size: 40px;
     line-height: 1.1;
+    margin-bottom: var(--mo-space-6, 24px);
     /* CUSTOM FIX (2026-07-20, per Kalvis): first pass at 560px (matching
        .mo-problem__heading's convention) over-corrected — this copy
        ("Engineered for tear-film support. GLP-tested as non-irritant")
@@ -3522,8 +3542,10 @@ mo-review-filter {
     margin-bottom: var(--mo-space-2, 8px);
   }
 
+  /* CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): 24px (was
+     16px) — mobile is 20px, see the max-width:749px block below. */
   .mo-faq__heading {
-    margin-bottom: var(--mo-space-4, 16px);
+    margin-bottom: var(--mo-space-6, 24px);
     font-size: 40px;
     line-height: 1.1;
   }
@@ -3554,7 +3576,9 @@ mo-review-filter {
 
   .mo-faq__heading {
     line-height: 1;
-    margin-bottom: 24px;
+    /* CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): 20px (was
+       24px). */
+    margin-bottom: 20px;
   }
 
   .mo-faq__support {
@@ -3841,8 +3865,13 @@ mo-review-filter {
   z-index: 4;
   flex-shrink: 0;
   background: var(--mo-sub-header-bg, #e8e7e3);
-  /* CUSTOM FIX (2026-07-27, per Kalvis): mobile side inset 20px → 16px. */
-  padding: var(--mo-space-8, 40px) var(--mo-space-4, 16px) var(--mo-space-7, 32px);
+  /* CUSTOM FIX (2026-07-27, per Kalvis): mobile side inset 20px → 16px.
+     CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): bottom inset
+     20px (was 32px) — the heading is this header's last child with its
+     own margin at 0, so this padding is what actually creates the
+     heading-to-next-content gap; desktop override to 24px lives in the
+     min-width:750px block below. */
+  padding: var(--mo-space-8, 40px) var(--mo-space-4, 16px) var(--mo-space-5, 20px);
 }
 
 /* CUSTOM (2026-07-20, per Kalvis, mobile-only): this header's own 40px
@@ -4459,8 +4488,12 @@ mo-review-filter {
   /* Desktop-confirmed sizes (node 457:2089) — mobile (node 633:1234) uses
      the larger heading (28px) and smaller description (12px) set as the
      base rules above. */
+  /* CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): 24px (was
+     inheriting the mobile 20px margin-bottom above, never overridden
+     here). */
   .mo-footer__heading {
     font-size: 24px;
+    margin-bottom: var(--mo-space-6, 24px);
   }
 
   .mo-footer__desc {
@@ -5760,9 +5793,11 @@ mo-review-filter {
   padding-bottom: 0;
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): eyebrow-to-
+   heading gap is now a flat 8px at every breakpoint (was 16px). */
 .mo-eye-health__eyebrow {
   color: var(--mo-eye-eyebrow, #1fa567);
-  margin: 0 0 var(--mo-space-4, 16px);
+  margin: 0 0 var(--mo-space-2, 8px);
   font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
   font-weight: 500;
   font-size: 10px;
@@ -5771,9 +5806,12 @@ mo-review-filter {
   text-transform: uppercase;
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): heading-to-
+   subhead gap is now 20px mobile / 24px desktop (was 16px both) — see
+   the min-width:750px override further down for the desktop half. */
 .mo-eye-health__heading {
   color: var(--mo-eye-heading, #093d24);
-  margin: 0 0 var(--mo-space-4, 16px);
+  margin: 0 0 var(--mo-space-5, 20px);
   max-width: 480px;
   font-family: var(--mo-font-heading, 'Manrope', sans-serif);
   font-weight: 700;
@@ -6115,6 +6153,7 @@ mo-review-filter {
   .mo-eye-health__heading {
     font-size: 40px;
     line-height: 1.1;
+    margin-bottom: var(--mo-space-6, 24px);
   }
 
   /* CUSTOM (2026-07-20, per Kalvis, Figma spec): desktop back-face body
@@ -6344,6 +6383,8 @@ mo-review-filter {
    .mo-problem__heading elsewhere (24px mobile, 16px desktop) instead of
    the grid's shared row-gap, so this section's heading-to-body spacing
    matches every other section's convention. */
+/* CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): heading-to-body
+   gap is now 20px mobile / 24px desktop (was 24px/16px). */
 .mo-hiw__heading {
   font-family: var(--mo-font-heading);
   font-weight: 700;
@@ -6351,7 +6392,7 @@ mo-review-filter {
   font-size: 28px;
   line-height: 1;
   letter-spacing: -0.02em;
-  margin: 0 0 var(--mo-space-6, 24px);
+  margin: 0 0 var(--mo-space-5, 20px);
 }
 
 /* CUSTOM FIX (2026-07-27, per Kalvis — margin not appearing live): this
@@ -6365,7 +6406,7 @@ mo-review-filter {
    selector with its parent to reach 0,2,0 specificity, which wins over
    Horizon's reset. */
 .mo-hiw__header .mo-hiw__heading {
-  margin: 0 0 var(--mo-space-6, 24px);
+  margin: 0 0 var(--mo-space-5, 20px);
 }
 
 @media screen and (min-width: 750px) {
@@ -6376,11 +6417,12 @@ mo-review-filter {
     letter-spacing: -0.02em;
   }
 
-  /* Resets the mobile-only 24px bump above back to 16px, matching
-     .mo-problem__heading's desktop value exactly — see the specificity
-     fix note above for why this needs the parent-qualified selector. */
+  /* CUSTOM FIX (2026-07-28, per Kalvis, sitewide standard): 24px (was
+     16px) — mobile is 20px, see the base rule above. Specificity fix
+     note above still applies (parent-qualified selector needed to beat
+     Horizon's :last-child reset). */
   .mo-hiw__header .mo-hiw__heading {
-    margin-bottom: var(--mo-space-4, 16px);
+    margin-bottom: var(--mo-space-6, 24px);
   }
 }
 
