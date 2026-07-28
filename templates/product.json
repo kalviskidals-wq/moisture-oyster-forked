@@ -736,7 +736,7 @@
         "eyebrow": "HOW WE COMPARE",
         "heading": "Not all eye drops \nare equal",
         "feature_column_label": "FEATURE",
-        "mo_logo": "shopify://shop_images/MO_logo.svg",
+        "mo_logo": "shopify://shop_images/MO_logo_pink.svg",
         "mo_column_label": "MOISTURE OYSTER",
         "otc_column_label": "TYPICAL OTC DROPS",
         "background_color": "#0d1b14",
@@ -1157,7 +1157,7 @@
       "name": "MO Clinical & Science",
       "settings": {
         "eyebrow": "THE SCIENCE",
-        "heading": "Engineered for tear-film support. \nGLP-tested as non-irritant.",
+        "heading": "Engineered for tear-film support. GLP-tested as non-irritant",
         "chart_eyebrow": "INDEPENDENT GLP TESTING",
         "chart_title": "GLP Non-Irritant",
         "chart_description": "Tissue viability at 5 / 16 / 120-minute exposures, far above the 50% irritation threshold",
@@ -1449,7 +1449,7 @@
       "name": "MO FAQ",
       "settings": {
         "eyebrow": "FAQ",
-        "heading": "Questions,\nanswered.",
+        "heading": "Questions,\nanswered",
         "support_text": "<p>What's on your mind? <br/>Write to <a href=\"mailto:care@moistureoyster.com\">care@moistureoyster.com</a>, <br/>a human replies within a day.</p>",
         "enable_faq_schema": true,
         "background_color": "#093d24",
