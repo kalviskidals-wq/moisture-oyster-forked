@@ -6947,6 +6947,21 @@ html body .theme-drawer__dialog {
   box-shadow: 0px 0px 10px 0px #00000040;
 }
 
+/* CUSTOM FIX (2026-07-27, per Kalvis): mobile-only — bottom corner radius
+   10px (was 28px, still used on desktop, untouched) and the drop shadow
+   5% darker (25% alpha → 30%, #00000040 → #0000004d). Scoped to max-
+   width:749px so desktop keeps its existing values exactly as-is. */
+@media screen and (max-width: 749px) {
+  .mo-header {
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0px 0px 10px 0px #0000004d;
+  }
+
+  .mo-header.mo-header--transparent.mo-header--scrolled {
+    box-shadow: 0px 0px 10px 0px #0000004d;
+  }
+}
+
 /* CUSTOM (fix): a transparent header opened before any scroll (still
    .mo-header--transparent, not yet .mo-header--scrolled) let whatever's
    behind it — a hero image/video, often light-toned — show straight
