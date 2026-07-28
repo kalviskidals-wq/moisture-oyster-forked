@@ -8022,8 +8022,16 @@ html body .theme-drawer__dialog {
     margin-bottom: 12px;
   }
 
+  /* CUSTOM FIX (2026-07-28, per Kalvis): font-size 12px on mobile — this
+     is a native Horizon product-description block (type_preset "rte" in
+     templates/product.json, font_size left blank there so it was falling
+     back to the preset's own default size at every breakpoint). Set here
+     instead of in the schema so it stays mobile-only and isn't at risk of
+     being silently overwritten by live theme-editor saves (product.json
+     drifts independently — see prior notes). */
   [class*="__mo_buybox_card"] [class*="__mo_description"] {
     margin-bottom: 12px;
+    font-size: 12px;
   }
 
   [class*="__mo_buybox_card"] .mo-pdp-rating-link {
