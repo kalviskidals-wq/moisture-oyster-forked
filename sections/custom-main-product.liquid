@@ -200,6 +200,18 @@
       gap: var(--gap-xs, 8px);
     }
 
+    /* CUSTOM FIX (2026-07-27, per Kalvis): fixed 80x80 thumbnail size + 10px
+       radius on desktop — was Horizon's native clamp(44px, 7vw, ...) sizing
+       and the shared global 12px radius (see the un-scoped rule near the
+       top of this file, which still governs any breakpoint this doesn't
+       explicitly override). !important beats the native clamp() rule at
+       equal specificity since this comes later in the cascade. */
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
+      width: 80px !important;
+      height: 80px !important;
+      border-radius: 10px !important;
+    }
+
     /* CUSTOM FIX (2026-07-20, per Kalvis — reported on a MacBook Air 13.6"):
        the main hero image was rendering with sharp corners at desktop widths
        even though templates/product.json's media-gallery block has
@@ -383,11 +395,15 @@
       align-items: flex-start !important;
     }
 
-    /* CUSTOM FIX (2026-07-27, per Kalvis): thumbnail radius on mobile only —
-       was 12px (the shared global rule near the top of this file, which
-       still governs desktop). Overrides here since this rule is later in
+    /* CUSTOM FIX (2026-07-27, per Kalvis): fixed 32x32 thumbnail size + 4px
+       radius on mobile — was Horizon's native clamp(44px, 7vw, ...) sizing
+       and the shared global 12px radius (see the un-scoped rule near the
+       top of this file, which still governs any breakpoint this doesn't
+       explicitly override). Overrides here since this rule is later in
        source order at the same specificity. */
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
+      width: 32px !important;
+      height: 32px !important;
       border-radius: 4px !important;
     }
 
