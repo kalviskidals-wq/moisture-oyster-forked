@@ -150,7 +150,22 @@ class MoTabs extends HTMLElement {
 
     const rect = anchor.getBoundingClientRect();
     const outOfView = rect.top < 0 || rect.bottom > window.innerHeight;
-    if (outOfView) anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (!outOfView) return;
+
+    // CUSTOM FIX (2026-07-27, per Kalvis): plain scrollIntoView({block:'start'})
+    // lands the anchor's top flush with the viewport's own top edge (y:0) — it
+    // has no awareness of #header-group, which is position:sticky/fixed (see
+    // custom.css) and overlaps that same top strip, hiding roughly the top
+    // quarter of the heading behind the nav bar. Measures the header's actual
+    // rendered height live (rather than hardcoding a value, since it varies
+    // with an announcement bar/transparent mode) and clears it with 25% extra
+    // headroom on top of that, so the full heading lands comfortably below
+    // the nav instead of just barely peeking out from under it.
+    const headerEl = document.getElementById('header-group');
+    const headerHeight = headerEl ? headerEl.getBoundingClientRect().height : 0;
+    const offset = headerHeight * 1.25;
+    const targetY = window.scrollY + rect.top - offset;
+    window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
   }
 }
 
