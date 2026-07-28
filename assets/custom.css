@@ -479,6 +479,9 @@ body {
   }
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis): mobile padding is a flat 16px on
+   every side (was 16px top/bottom, 20px sides) — desktop override below
+   sets its own 20px top/bottom, 30px sides. */
 .mo-trust-bar__item {
   display: flex;
   align-items: center;
@@ -488,8 +491,14 @@ body {
   border-color: var(--mo-trustbar-border-color, #ffffff1f);
   border-style: var(--mo-trustbar-border-style, solid);
   border-radius: var(--mo-radius-md, 10px);
-  padding: var(--mo-space-4, 16px) var(--mo-space-5, 20px);
+  padding: var(--mo-space-4, 16px);
   min-width: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-trust-bar__item {
+    padding: var(--mo-space-5, 20px) 30px;
+  }
 }
 
 /* CUSTOM: the ring is baked into each icon (SVG presets draw their own
@@ -548,6 +557,20 @@ body {
 @media screen and (max-width: 989px) {
   .mo-trust-bar__inner {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* CUSTOM FIX (2026-07-28, per Kalvis): both label lines (label_line_1 +
+   label_line_2, e.g. "Preservative" / "Free") now sit side by side on one
+   row on mobile instead of stacking as two separate lines — was inheriting
+   the base .mo-trust-bar__label's flex-direction:column at every
+   breakpoint. Each line keeps its own nowrap (see .mo-trust-bar__label-line
+   above) so this reads as a single unbroken line of text. */
+@media screen and (max-width: 749px) {
+  .mo-trust-bar__label {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
   }
 }
 
