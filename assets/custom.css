@@ -5004,8 +5004,15 @@ mo-review-filter {
   margin: 0 0 var(--mo-space-4, 16px);
 }
 
+/* CUSTOM FIX (2026-07-27, per Kalvis, Figma spec): Manrope ExtraBold(800),
+   12px mobile / 20px desktop, 14.68px line-height, 0 letter-spacing (was
+   14px font-size only, no explicit weight/line-height/letter-spacing). */
 .mo-home-hero__rating-value {
-  font-size: 14px;
+  font-family: var(--mo-font-heading, 'Manrope', sans-serif);
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 14.68px;
+  letter-spacing: 0;
 }
 
 .mo-home-hero__rating .mo-stars {
@@ -5149,6 +5156,12 @@ mo-review-filter {
     left: 0;
     bottom: 100%;
     margin: 0 0 var(--mo-space-4, 16px);
+  }
+
+  /* CUSTOM FIX (2026-07-27, per Kalvis, Figma spec): desktop bumps to 20px,
+     line-height/letter-spacing stay the same as mobile. */
+  .mo-home-hero__rating-value {
+    font-size: 20px;
   }
 
   /* CUSTOM (2026-07-13 round 4): per Kalvis's exact type spec for this
