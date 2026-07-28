@@ -3512,11 +3512,67 @@ mo-review-filter {
   color: var(--mo-reviews-card-star, #093d24);
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis): long quotes now clip to a fixed
+   line count with a trailing ellipsis instead of running the card's
+   height out — 4 lines on mobile, 3 on desktop (see the min-width:750px
+   override below) — paired with the always-rendered "Read more" toggle
+   button in mo-review-card.liquid (assets/mo-reviews-quote.js reveals it
+   only when text is actually truncated, and expands the card to the full
+   quote on click via .is-expanded below). display:-webkit-box + the
+   -webkit- prefixed properties are the only cross-browser way to combine
+   a multi-line clamp with an ellipsis (the unprefixed `line-clamp`
+   doesn't have a matching unprefixed `box-orient`/`display:box` pair with
+   reliable support yet), so this keeps the -webkit- prefix even though
+   the property itself isn't webkit-specific in practice anymore. */
 .mo-reviews__quote {
   margin: 0;
   text-align: left;
   color: var(--mo-reviews-quote, #093d24);
   font-weight: 500; /* CUSTOM (2026-07-20, node 633:610): .mo-body-lg (font/size/line-height, already correct) doesn't set a weight — Figma confirms Manrope Medium(500), was defaulting to 400. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-reviews__quote {
+    -webkit-line-clamp: 3;
+  }
+}
+
+.mo-reviews__quote.is-expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+/* CUSTOM (2026-07-28, per Kalvis): plain, unstyled-button-reset toggle —
+   underlined text link, no background/border, matching this file's other
+   inline-link treatments (e.g. .mo-home-hero__reviews-link). Hidden by
+   default in the markup; assets/mo-reviews-quote.js is what actually
+   reveals it per-card. */
+.mo-reviews__quote-toggle {
+  display: block;
+  margin-top: 6px;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.75rem;
+  text-decoration: underline;
+  color: var(--mo-reviews-quote, #093d24);
+  cursor: pointer;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-reviews__quote-toggle {
+    margin-top: 12px;
+  }
+}
+
+.mo-reviews__quote-toggle[hidden] {
+  display: none;
 }
 
 /* ============================================================================

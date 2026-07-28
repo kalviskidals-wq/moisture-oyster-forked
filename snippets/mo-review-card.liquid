@@ -72,6 +72,15 @@
   </div>
 
   {%- if quote != blank -%}
+    {%- # CUSTOM (2026-07-28, per Kalvis): quote text is CSS line-clamped
+      (4 lines mobile / 3 lines desktop — see .mo-reviews__quote in
+      custom.css) with an always-rendered "Read more" toggle button below
+      it. The button starts `hidden` (no-JS-safe default: a card whose
+      quote actually fits within the clamp should never show a toggle
+      that does nothing) and assets/mo-reviews-quote.js reveals it only
+      once it confirms the text was actually truncated, then wires up the
+      expand/collapse click. -%}
     <p class="mo-reviews__quote mo-body-lg">&ldquo;{{ quote | escape }}&rdquo;</p>
+    <button type="button" class="mo-reviews__quote-toggle" data-quote-toggle hidden aria-expanded="false">Read more</button>
   {%- endif -%}
 </article>
