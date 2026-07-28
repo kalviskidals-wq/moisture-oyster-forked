@@ -1961,8 +1961,12 @@ tbody tr:last-child .mo-compare__cell {
      confirmed in Figma these tabs are the same pill shape as the reviews
      filter pills (.mo-reviews__filter-pill) at every breakpoint — the
      reviews pill's existing mobile treatment was correct and this one
-     didn't match it. Now uses the same pill radius at all sizes. */
-  border-radius: var(--mo-radius-pill, 999px);
+     didn't match it. Now uses the same pill radius at all sizes.
+     CUSTOM FIX (2026-07-28, per Kalvis — reverses the above): back to a
+     fixed 6px on mobile, not the pill shape — desktop gets its own 10px
+     override in the min-width:750px block below (was also the pill
+     shape). */
+  border-radius: 6px;
   border: 1px solid var(--mo-ingredients-tab-border, #1fa567);
   background: transparent;
   color: var(--mo-ingredients-tab-text, #1fa567);
@@ -1983,8 +1987,10 @@ tbody tr:last-child .mo-compare__cell {
     line-height: 1.1;
     letter-spacing: 0.1em;
     padding: var(--mo-space-2, 8px) var(--mo-space-5, 20px);
-    /* Radius is already the pill shape from the base rule above (unified
-       2026-07-24) — only height/border-width change at this breakpoint. */
+    /* CUSTOM FIX (2026-07-28, per Kalvis): 10px (was the pill shape,
+       999px, unified 2026-07-24) — mobile is 6px, see the base rule
+       above. */
+    border-radius: 10px;
     height: auto;
     border-width: 1.5px;
   }
