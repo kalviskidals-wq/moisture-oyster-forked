@@ -363,14 +363,27 @@
     justify-content: center;
     cursor: pointer;
     border: 1px solid var(--mo-card-border-inactive, #1fa567); /* CUSTOM: was 1.5px — Figma dev-mode confirms 1px (audit #19, 2026-07-17) */
-    /* CUSTOM FIX (2026-07-27, per Kalvis): adds a separate 1px outline
-       ring (distinct from the border above) around every quantity/
-       purchase-option button, both states. */
-    outline: 1px solid #04a96c;
     background: var(--mo-card-bg-inactive, #fff);
     border-radius: var(--mo-radius-md, 10px);
     padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px) var(--mo-space-3, 12px); /* CUSTOM: was 16px all sides — Figma confirms 8px top / 12px sides+bottom (audit #17) */
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+
+  /* CUSTOM FIX (2026-07-27, per Kalvis, round 2): a real `outline` property
+     always paints UNDER any positioned descendant (the free-delivery
+     ribbon, .mo-vpicker__ribbon below, overlaps the card's top edge and
+     covered it). Using a ::after ring instead, with an explicit z-index
+     above the ribbon's z-index:auto, so it paints on top of every element
+     in the card, ribbon included. inset:-1px matches the ribbon's own -1px
+     overhang so the ring sits exactly at the card's true outer edge. */
+  .mo-vpicker__card::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border: 1px solid #04a96c;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 2;
   }
 
   /* CUSTOM FIX (2026-07-22, per Kalvis, Figma node 1297:2371): bottom-aligns
@@ -503,12 +516,12 @@
     display: none;
   }
 
-  /* CUSTOM FIX (2026-07-27, per Kalvis): on the non-highlighted (not
-     .is-selected) card only, the ribbon text switches to light pink at
-     ~50% opacity — the selected card's ribbon keeps the deep-green text
-     set above unchanged. */
+  /* CUSTOM FIX (2026-07-27, per Kalvis, round 2): on the non-highlighted
+     (not .is-selected) card only, the ribbon BACKGROUND switches to light
+     pink at ~50% opacity (was the mint bg above) — text color stays
+     #093d24 on every card, unchanged. */
   .mo-vpicker__card:not(.is-selected) .mo-vpicker__ribbon {
-    color: #ffd5f780;
+    background: #ffd5f780;
   }
 
   /* CUSTOM FIX (2026-07-18, per Kalvis screenshot): was top:-8px, overhanging
