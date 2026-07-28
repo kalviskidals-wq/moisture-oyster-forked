@@ -668,8 +668,14 @@ body {
      40px. Desktop already overrides padding-block entirely (see the
      min-width:750px block below, where the video becomes a full-bleed
      absolute overlay instead of stacking below this header), so this
-     mobile change can't leak into desktop. */
-  padding: 20px var(--mo-space-5, 20px) var(--mo-space-8, 40px);
+     mobile change can't leak into desktop.
+     CUSTOM FIX (2026-07-28, per Kalvis): mobile side inset 20px → 16px —
+     missed in the earlier sitewide 20→16px sweep since this element was
+     deliberately left out of that pass at the time (see the
+     .mo-compare__inner comment referencing this section's "20px inset ...
+     not a one-off"); Kalvis has now confirmed this one should match the
+     rest. */
+  padding: 20px var(--mo-space-4, 16px) var(--mo-space-8, 40px);
 }
 
 /* CUSTOM: typography per Figma spec (2026-07-09) — deliberately overrides
