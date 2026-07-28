@@ -363,6 +363,10 @@
     justify-content: center;
     cursor: pointer;
     border: 1px solid var(--mo-card-border-inactive, #1fa567); /* CUSTOM: was 1.5px — Figma dev-mode confirms 1px (audit #19, 2026-07-17) */
+    /* CUSTOM FIX (2026-07-27, per Kalvis): adds a separate 1px outline
+       ring (distinct from the border above) around every quantity/
+       purchase-option button, both states. */
+    outline: 1px solid #04a96c;
     background: var(--mo-card-bg-inactive, #fff);
     border-radius: var(--mo-radius-md, 10px);
     padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px) var(--mo-space-3, 12px); /* CUSTOM: was 16px all sides — Figma confirms 8px top / 12px sides+bottom (audit #17) */
@@ -497,6 +501,14 @@
      browser's default [hidden] UA style. */
   .mo-vpicker__ribbon[hidden] {
     display: none;
+  }
+
+  /* CUSTOM FIX (2026-07-27, per Kalvis): on the non-highlighted (not
+     .is-selected) card only, the ribbon text switches to light pink at
+     ~50% opacity — the selected card's ribbon keeps the deep-green text
+     set above unchanged. */
+  .mo-vpicker__card:not(.is-selected) .mo-vpicker__ribbon {
+    color: #ffd5f780;
   }
 
   /* CUSTOM FIX (2026-07-18, per Kalvis screenshot): was top:-8px, overhanging
