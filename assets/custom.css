@@ -1474,6 +1474,8 @@ tbody tr:last-child .mo-compare__cell {
   color: var(--mo-compare-info, #ffffff);
   cursor: pointer;
   flex-shrink: 0;
+  /* CUSTOM FIX (2026-07-27, per Kalvis): info icon at 50% opacity. */
+  opacity: 0.5;
 }
 
 .mo-compare__tooltip-trigger svg {
