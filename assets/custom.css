@@ -859,16 +859,21 @@ body {
   bottom: var(--mo-space-5, 20px);
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis, mobile): top padding 10px (was
+   20px), sides/bottom 15px (was 30px). */
 .mo-problem__stat-card {
   background: var(--mo-problem-card-bg, #093d24);
   border-radius: var(--mo-radius-md, 10px);
-  /* CUSTOM FIX (2026-07-18, per Kalvis): was uniform 30px — top reduced to 20px, sides/bottom stay 30px. */
-  padding: 20px 30px 30px;
+  padding: 10px 15px 15px;
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis, mobile): margin-bottom 20px (was
+   16px) — this element also carries the shared .mo-stat class in the
+   markup, but this rule (loaded after mo-design-system.css) wins on
+   specificity/source-order either way. */
 .mo-problem__stat-figure {
   color: var(--mo-problem-card-figure, #ffd5f7);
-  margin: 0 0 var(--mo-space-4, 16px);
+  margin: 0 0 var(--mo-space-5, 20px);
   font-family: var(--mo-font-heading, 'Manrope', sans-serif);
   font-weight: 700;
   font-size: 60px;
