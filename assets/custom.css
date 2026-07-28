@@ -3456,6 +3456,23 @@ mo-review-filter {
   letter-spacing: -0.02em; /* CUSTOM (2026-07-20): Figma confirms -0.48px/-2% tracking, was unset */
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis): name-to-location gap is now 27px
+   mobile / 46px desktop (was 0 via the shared margin:0 above) — put on
+   .mo-reviews__location's own margin-top (not the shared rule, which
+   would also affect .mo-reviews__name) since location is the second of
+   the two stacked lines in .mo-reviews__card-head; .mo-reviews__name's
+   margin-bottom stays 0, so the two sibling margins collapse to exactly
+   this value, not additively. */
+.mo-reviews__location {
+  margin-top: 27px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-reviews__location {
+    margin-top: 46px;
+  }
+}
+
 .mo-reviews__meta {
   text-align: center;
   margin: 0 0 12px; /* CUSTOM (2026-07-20): 12px gap to the photo below, see the card-level comment above */
@@ -3507,7 +3524,16 @@ mo-review-filter {
   align-items: center;
   justify-content: center;
   gap: 6px; /* CUSTOM FIX (2026-07-20, node 633:610): was 8px — Figma confirms 6px between the rating number and the star row */
-  margin-bottom: 46px; /* CUSTOM (2026-07-20): 46px gap to the quote below, see the card-level comment above */
+  /* CUSTOM FIX (2026-07-28, per Kalvis): mobile 27px (was the unconditional
+     46px below at every breakpoint) — desktop override restores the
+     original 46px in the min-width:750px block below. */
+  margin-bottom: 27px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-reviews__rating {
+    margin-bottom: 46px; /* CUSTOM (2026-07-20): 46px gap to the quote below, see the card-level comment above */
+  }
 }
 
 .mo-reviews__rating-value {
