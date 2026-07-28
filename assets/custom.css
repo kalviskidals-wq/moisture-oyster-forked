@@ -724,7 +724,13 @@ body {
   overflow: hidden;
   border-radius: 20px;
   min-height: 95vh;
-  min-height: 95dvh;
+  /* CUSTOM FIX (2026-07-27, per Kalvis): was min-height:95dvh — same
+     iOS Safari jitter fix as .mo-home-hero/.mo-eye-health/.mo-sub-
+     benefits: dvh recalculates live as Safari's toolbar collapses/
+     reappears during scroll, making this box visibly resize mid-scroll.
+     svh is static (computed once) — tradeoff is a small gap can appear
+     at the bottom once the toolbar auto-hides. */
+  min-height: 95svh;
 }
 
 /* CUSTOM: Horizon's base.css resets `img { width: 100%; height: auto; }`
@@ -3765,7 +3771,16 @@ mo-review-filter {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  min-height: 100dvh;
+  /* CUSTOM FIX (2026-07-27, per Kalvis): was min-height:100dvh — dvh
+     recalculates live as Safari's toolbar collapses/reappears during
+     scroll (most noticeable scrolling up, when the toolbar re-shows
+     fastest), making the whole section visibly resize mid-scroll and
+     the overlaid text appear to "swim" against the background. svh is
+     static (computed once, sized to the toolbar-visible viewport), so
+     no more live jitter — tradeoff is a small gap can appear at the
+     bottom once the toolbar auto-hides, instead of the section
+     stretching to fill it. */
+  min-height: 100svh;
   box-sizing: border-box;
   border-radius: var(--mo-sub-radius, 20px);
   background: var(--mo-sub-header-bg, #e8e7e3);
@@ -4837,12 +4852,19 @@ mo-review-filter {
   padding-top: var(--mo-home-hero-padding-top-mobile, 30px);
   padding-bottom: var(--mo-home-hero-padding-bottom-mobile, 30px);
   overflow: hidden;
-  /* Fixed 95vh/95dvh section height at every breakpoint — the background
+  /* Fixed 95vh/95svh section height at every breakpoint — the background
      image always covers this box via object-fit:cover regardless of its own
      aspect ratio, so image_aspect_ratio_mobile/desktop no longer drive
-     layout sizing (left in the schema in case Kalvis wants to switch back). */
+     layout sizing (left in the schema in case Kalvis wants to switch back).
+     CUSTOM FIX (2026-07-27, per Kalvis): was height:95dvh — dvh
+     recalculates live as Safari's toolbar collapses/reappears during
+     scroll (most noticeable scrolling up), making the section visibly
+     resize mid-scroll and the overlaid heading/CTA appear to "swim"
+     against the background. svh is static (computed once), so no more
+     live jitter — tradeoff is a small gap can appear at the bottom once
+     the toolbar auto-hides, instead of the section stretching into it. */
   height: 95vh;
-  height: 95dvh;
+  height: 95svh;
 }
 
 @media screen and (min-width: 750px) {
@@ -5651,7 +5673,15 @@ mo-review-filter {
   margin-top: var(--mo-eye-margin-top-mobile, 0px);
   margin-bottom: var(--mo-eye-margin-bottom-mobile, 60px);
   min-height: 100vh;
-  min-height: 100dvh;
+  /* CUSTOM FIX (2026-07-27, per Kalvis): was min-height:100dvh — dvh
+     recalculates live as Safari's toolbar collapses/reappears during
+     scroll (most noticeable scrolling up), making the whole section
+     visibly resize mid-scroll and the overlaid header text appear to
+     "swim" against the background. svh is static (computed once), so no
+     more live jitter — tradeoff is a small gap can appear at the bottom
+     once the toolbar auto-hides, instead of the section stretching into
+     it. */
+  min-height: 100svh;
   border-radius: var(--mo-eye-section-radius, 24px);
   overflow: hidden;
 }
