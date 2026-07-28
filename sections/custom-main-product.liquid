@@ -212,6 +212,15 @@
       border-radius: 10px !important;
     }
 
+    /* CUSTOM FIX (2026-07-27, per Kalvis): matches the img's own radius to
+       the button's — see the identical mobile-side comment above for why
+       the native <img> border-radius (set separately in snippets/
+       slideshow-controls.liquid) needs its own override, not just the
+       button/clip box. */
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control img {
+      border-radius: 10px !important;
+    }
+
     /* CUSTOM FIX (2026-07-20, per Kalvis — reported on a MacBook Air 13.6"):
        the main hero image was rendering with sharp corners at desktop widths
        even though templates/product.json's media-gallery block has
@@ -404,6 +413,19 @@
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
       width: 32px !important;
       height: 32px !important;
+      border-radius: 4px !important;
+    }
+
+    /* CUSTOM FIX (2026-07-27, per Kalvis — "almost a circle" report): the
+       button's own border-radius above only clips via overflow:hidden on
+       the BUTTON box — Horizon's native CSS (snippets/slideshow-controls.
+       liquid) sets a SEPARATE border-radius directly on the <img> itself
+       (var(--thumbnail-radius, var(--media-radius)), 12px here), and at a
+       32px box that native 12px on the image reads as ~37% — nearly a full
+       circle — regardless of the button's own radius. Matching the img's
+       radius to 4px explicitly fixes the visible corner, not just the
+       button's clip box. */
+    #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control img {
       border-radius: 4px !important;
     }
 
