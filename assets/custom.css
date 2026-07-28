@@ -3441,9 +3441,27 @@ mo-review-filter {
    63+30 = 507, the frame's real height). Card's flat gap (above) was
    removed in favor of these per-element margins so each transition can
    get its own correct value. */
+/* CUSTOM FIX (2026-07-28, per Kalvis, round 3): head-to-meta gap is now
+   27px mobile / 40px desktop (was a flat 46px both). Two earlier attempts
+   put this on .mo-reviews__location's own margin instead (first
+   margin-top, then margin-bottom) — both fought this same rule via
+   parent/child margin collapsing: .mo-reviews__location is the last
+   child of this box, so its own margin-bottom collapses with this
+   element's margin-bottom into whichever is LARGER, not either value
+   alone — with this rule fixed at 46px, location's 27px mobile value was
+   always losing that collapse (46 > 27), which is exactly the "more
+   space than 27px" Kalvis confirmed live. Setting the value directly
+   here, the one place that actually determines this gap, avoids the
+   collapse entirely. */
 .mo-reviews__card-head {
   text-align: center;
-  margin-bottom: 46px;
+  margin-bottom: 27px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-reviews__card-head {
+    margin-bottom: 40px;
+  }
 }
 
 .mo-reviews__name,
@@ -3454,27 +3472,6 @@ mo-review-filter {
   font-weight: 700;
   line-height: 1.1; /* CUSTOM (2026-07-20): was 1.0 via .mo-h4 — Figma confirms 1.1 */
   letter-spacing: -0.02em; /* CUSTOM (2026-07-20): Figma confirms -0.48px/-2% tracking, was unset */
-}
-
-/* CUSTOM FIX (2026-07-28, per Kalvis): name-to-location gap is now 27px
-   mobile / 46px desktop (was 0 via the shared margin:0 above).
-   CUSTOM FIX (2026-07-28, per Kalvis, round 2): margin-bottom, not
-   margin-top — margin-top on location was collapsing upward through
-   .mo-reviews__card-head on any card where location renders as the
-   parent's first child (name blank), pushing the whole head block down
-   and making it look like .mo-reviews__name had picked up the same
-   margin live, even though its own rule was untouched. margin-bottom on
-   location has no such collapse path (nothing above it depends on its
-   bottom edge), so it can't leak onto name or the card-head's own
-   position. */
-.mo-reviews__location {
-  margin-bottom: 27px;
-}
-
-@media screen and (min-width: 750px) {
-  .mo-reviews__location {
-    margin-bottom: 46px;
-  }
 }
 
 .mo-reviews__meta {
