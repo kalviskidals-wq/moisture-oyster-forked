@@ -554,6 +554,15 @@
                     }
                   },
                   "block_order": []
+                },
+                "mo_pdp_payment_badges_tLFWV3": {
+                  "type": "mo-pdp-payment-badges",
+                  "name": "MO Payment Badges",
+                  "settings": {
+                    "text": "Apple Pay · Visa · Mastercard · Afterpay",
+                    "text_color": "#093D24"
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
@@ -565,7 +574,8 @@
                 "mo_tier_picker",
                 "mo_pdp_trust_bullets_WW4FwU",
                 "accordion_UiUqw9",
-                "mo_buy_buttons"
+                "mo_buy_buttons",
+                "mo_pdp_payment_badges_tLFWV3"
               ]
             }
           },
