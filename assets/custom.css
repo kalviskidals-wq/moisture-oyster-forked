@@ -3547,20 +3547,29 @@ mo-review-filter {
   overflow: visible;
 }
 
-/* CUSTOM (2026-07-28, per Kalvis): plain, unstyled-button-reset toggle —
-   underlined text link, no background/border, matching this file's other
-   inline-link treatments (e.g. .mo-home-hero__reviews-link). Hidden by
-   default in the markup; assets/mo-reviews-quote.js is what actually
-   reveals it per-card. */
+/* CUSTOM FIX (2026-07-28, per Kalvis): left-aligned, same type as the
+   quote text above it (Manrope/16px/1.3/weight 500, .mo-body-lg's specs —
+   matched explicitly rather than via `font: inherit`, since this is a
+   <button> and buttons don't inherit text-align/font from their parent by
+   default in every browser), underline-only distinction, no
+   sentence-case transform on the label itself (kept lowercase "read
+   more" in the markup). Plain button reset otherwise — no background/
+   border — matching this file's other inline-link treatments (e.g.
+   .mo-home-hero__reviews-link). Hidden by default in the markup;
+   assets/mo-reviews-quote.js is what actually reveals it per-card. */
 .mo-reviews__quote-toggle {
   display: block;
+  text-align: left;
   margin-top: 6px;
   padding: 0;
   border: none;
   background: none;
-  font: inherit;
-  font-size: 0.75rem;
+  font-family: var(--mo-font-body, 'Manrope', sans-serif);
+  font-size: 1rem;
+  line-height: 1.3;
+  font-weight: 500;
   text-decoration: underline;
+  text-transform: none;
   color: var(--mo-reviews-quote, #093d24);
   cursor: pointer;
 }

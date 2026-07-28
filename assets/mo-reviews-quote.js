@@ -28,8 +28,10 @@
 const QUOTE_SELECTOR = '.mo-reviews__quote';
 const TOGGLE_SELECTOR = '[data-quote-toggle]';
 
-const READ_MORE_TEXT = 'Read more';
-const READ_LESS_TEXT = 'Read less';
+// CUSTOM (2026-07-28, per Kalvis): lowercase, no sentence-case — matches
+// the label's markup default in mo-review-card.liquid.
+const READ_MORE_TEXT = 'read more';
+const READ_LESS_TEXT = 'read less';
 
 /**
  * @param {HTMLElement} quote
