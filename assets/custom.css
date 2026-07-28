@@ -1797,9 +1797,31 @@ tbody tr:last-child .mo-compare__cell {
   }
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis, mobile view): was inheriting the
+   shared .mo-tag helper class's 14px (its default, non-responsive) size
+   with no explicit line-height/vertical-align — Figma's mobile spec calls
+   for 10px/110% line-height/middle vertical-align instead. Set explicitly
+   here (mobile-first base) rather than relying on .mo-tag, matching this
+   file's convention for every other section's eyebrow. Desktop restores
+   the original 14px size in the min-width:750px override below —
+   everything else (weight/letter-spacing/uppercase) is unchanged at both
+   breakpoints. */
 .mo-ingredients__eyebrow {
   color: var(--mo-ingredients-eyebrow, #1fa567);
   margin-block-end: var(--mo-space-2, 8px);
+  font-family: var(--mo-font-mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 1.1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredients__eyebrow {
+    font-size: var(--mo-tag-lg-size, 0.875rem);
+  }
 }
 
 .mo-ingredients__heading {
