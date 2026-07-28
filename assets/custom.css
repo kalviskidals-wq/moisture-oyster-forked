@@ -4992,7 +4992,9 @@ mo-review-filter {
    the CTA overlay below can still pin to the true bottom of the section. */
 .mo-home-hero__header {
   background: transparent;
-  padding: calc(var(--mo-header-padding-top-mobile, 16px) + var(--mo-header-padding-bottom-mobile, 16px) + 32px + var(--mo-space-4, 16px)) var(--mo-space-5, 20px) 0;
+  /* CUSTOM FIX (2026-07-27, per Kalvis): top offset bumped from 80px to
+     96px (32px fixed constant → 48px). */
+  padding: calc(var(--mo-header-padding-top-mobile, 16px) + var(--mo-header-padding-bottom-mobile, 16px) + 48px + var(--mo-space-4, 16px)) var(--mo-space-5, 20px) 0;
 }
 
 .mo-home-hero__rating {
