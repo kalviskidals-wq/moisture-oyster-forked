@@ -55,7 +55,15 @@
         <p class="mo-pdp-testimonial__author">
           {{- bs.author_name | escape -}}
           {%- if bs.author_role != blank -%}
-            <span class="mo-pdp-testimonial__role"> — {{ bs.author_role | escape }}</span>
+            {%- comment -%}
+              CUSTOM FIX (2026-07-27, per Kalvis): author_role switched from
+              a single-line "text" setting to "textarea" (see schema below)
+              so line breaks typed in the theme editor actually do
+              something — a plain text input silently strips/ignores Enter
+              key presses, a textarea preserves them as real \n characters,
+              which newline_to_br then converts to <br> tags here.
+            {%- endcomment -%}
+            <span class="mo-pdp-testimonial__role"> — {{ bs.author_role | escape | newline_to_br }}</span>
           {%- endif -%}
         </p>
       {%- endif -%}
@@ -227,10 +235,11 @@
       "default": "Dr. James K."
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "author_role",
       "label": "Author role / location",
-      "default": "Optometrist, Chicago, IL"
+      "default": "Optometrist, Chicago, IL",
+      "info": "Press Enter for a line break."
     },
     {
       "type": "range",
