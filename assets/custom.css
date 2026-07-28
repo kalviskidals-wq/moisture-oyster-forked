@@ -4231,6 +4231,21 @@ mo-review-filter {
   scroll-snap-align: start;
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis): mobile padding is a flat 16px on
+   every side — was inheriting the shared .mo-icon-card snippet rule's
+   unconditional 20px top / 30px sides+bottom (see that rule further
+   down), which applies at every breakpoint since that class is
+   deliberately generic/reusable. Scoped to the combined selector
+   (specificity 0,2,0) rather than editing .mo-icon-card directly, so
+   any other future consumer of that snippet is unaffected. Desktop
+   already matches the desired 20px top / 30px sides+bottom from the
+   shared rule as-is, so no override is needed there. */
+@media screen and (max-width: 749px) {
+  .mo-icon-card.mo-sub-benefits__card {
+    padding: 16px;
+  }
+}
+
 /* Leading + trailing spacer (same element, used twice in the markup) —
    plain, no snap-align, matching .mo-eye-health__cards-spacer exactly:
    the trailing one physically extends the scrollable content so the
