@@ -3457,19 +3457,23 @@ mo-review-filter {
 }
 
 /* CUSTOM FIX (2026-07-28, per Kalvis): name-to-location gap is now 27px
-   mobile / 46px desktop (was 0 via the shared margin:0 above) — put on
-   .mo-reviews__location's own margin-top (not the shared rule, which
-   would also affect .mo-reviews__name) since location is the second of
-   the two stacked lines in .mo-reviews__card-head; .mo-reviews__name's
-   margin-bottom stays 0, so the two sibling margins collapse to exactly
-   this value, not additively. */
+   mobile / 46px desktop (was 0 via the shared margin:0 above).
+   CUSTOM FIX (2026-07-28, per Kalvis, round 2): margin-bottom, not
+   margin-top — margin-top on location was collapsing upward through
+   .mo-reviews__card-head on any card where location renders as the
+   parent's first child (name blank), pushing the whole head block down
+   and making it look like .mo-reviews__name had picked up the same
+   margin live, even though its own rule was untouched. margin-bottom on
+   location has no such collapse path (nothing above it depends on its
+   bottom edge), so it can't leak onto name or the card-head's own
+   position. */
 .mo-reviews__location {
-  margin-top: 27px;
+  margin-bottom: 27px;
 }
 
 @media screen and (min-width: 750px) {
   .mo-reviews__location {
-    margin-top: 46px;
+    margin-bottom: 46px;
   }
 }
 
