@@ -7673,6 +7673,32 @@ html body .theme-drawer__dialog {
 }
 
 /* ============================================================================
+   MO DRAWER SQUEEZE DISABLE — layout/theme.liquid renders shared theme-drawer
+   infrastructure (snippets/theme-drawer.liquid + theme-drawer.js) used by
+   EVERY drawer (cart, search, menu, filters): on desktop widths ≥990px,
+   opening any drawer adds `.page-wrapper--drawer-open` to `.page-wrapper`,
+   and base.css's own rule for that class sets `margin-right:
+   var(--theme-drawer-width)` — shrinking the ENTIRE page content by the
+   drawer's width the instant it opens ("squeeze" mode; below 990px the
+   same drawer is a plain modal overlay instead, no squeeze). Per Kalvis
+   (2026-07-28): this was breaking layout on smaller desktop screens —
+   thumbnails/columns/etc. recompute against the now-narrower available
+   width the moment the cart drawer opens.
+   The drawer itself (.theme-drawer__dialog, snippets/theme-drawer-
+   styles.liquid) is ALREADY `position: fixed` at every breakpoint with its
+   own dimming `::backdrop` — squeeze mode was purely this extra
+   margin-right push layered on top of that, so neutralizing it turns
+   every drawer into a pure overlay at every screen width, matching
+   mobile's existing (non-squeeze) behavior, with nothing else needed to
+   replace it. `!important` guarantees this wins regardless of whether
+   base.css or custom.css ends up later in the compiled `<head>` order.
+   UPSTREAM risk LOW — overrides a single Horizon base.css class, no
+   Horizon file itself touched. */
+.page-wrapper--drawer-open {
+  margin-right: 0 !important;
+}
+
+/* ============================================================================
    MO CART DRAWER — reskins Horizon's native checkout button (snippets/cart-
    summary.liquid, rendered inside snippets/cart-drawer.liquid via
    `#checkout`, a static/deterministic id — not editor-generated, so no
