@@ -547,8 +547,18 @@ body {
   }
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis): was an unconditional `nowrap` at
+   every breakpoint, which directly contradicted the very comment below
+   this rule ("wrap label onto two lines only when the column gets
+   tight") — nowrap made that wrap physically impossible, so a label like
+   "Preservative Free" ran outside the tab's own box instead of breaking
+   onto a second line whenever the trust-bar item got too narrow to fit it
+   (narrower browser window, or the cart drawer opening and squeezing
+   available width). Default is now `normal` (real wrapping allowed);
+   nowrap is re-applied mobile-only further down, where two lines need to
+   render side by side as a single combined line instead. */
 .mo-trust-bar__label-line {
-  white-space: nowrap;
+  white-space: normal;
 }
 
 /* Desktop: fixed columns set inline via --mo-trustbar-columns; wrap label
@@ -564,13 +574,20 @@ body {
    label_line_2, e.g. "Preservative" / "Free") now sit side by side on one
    row on mobile instead of stacking as two separate lines — was inheriting
    the base .mo-trust-bar__label's flex-direction:column at every
-   breakpoint. Each line keeps its own nowrap (see .mo-trust-bar__label-line
-   above) so this reads as a single unbroken line of text. */
+   breakpoint. Re-applies nowrap to each individual line here (mobile
+   only) so they read as one unbroken line of text — .mo-trust-bar__label-
+   line's own default is `normal` now (see that rule), which is what lets
+   desktop wrap a too-long label onto a second row instead of overflowing
+   the tab. */
 @media screen and (max-width: 749px) {
   .mo-trust-bar__label {
     flex-direction: row;
     align-items: baseline;
     gap: 4px;
+  }
+
+  .mo-trust-bar__label-line {
+    white-space: nowrap;
   }
 }
 
