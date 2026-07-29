@@ -2270,9 +2270,15 @@ tbody tr:last-child .mo-compare__cell {
   font-size: 12px;
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis): font-weight 500 (was the shared
+   .mo-body-lg helper's default 400) — matches its two sibling elements in
+   this same panel group, .mo-ingredient__row-value and .mo-free-from__desc,
+   both already Manrope Medium(500) at every breakpoint; this one was
+   evidently missed when those were set. */
 .mo-specs__value {
   color: var(--mo-ingredients-heading, #093d24);
   text-align: right;
+  font-weight: 500;
 }
 
 /* ============================================================================
@@ -8209,7 +8215,6 @@ html body .theme-drawer__dialog {
   [class*="__mo_buybox_card"] [class*="__mo_description"] {
     margin-bottom: 12px;
     font-size: 12px;
-    font-weight: 500; /* CUSTOM (2026-07-28, per Kalvis): was the native "rte" preset's default 400. */
   }
 
   [class*="__mo_buybox_card"] .mo-pdp-rating-link {
@@ -8231,4 +8236,13 @@ html body .theme-drawer__dialog {
   [class*="__mo_buybox_card"] [class*="__mo_buy_buttons"] {
     margin-bottom: 24px;
   }
+}
+
+/* CUSTOM FIX (2026-07-28, per Kalvis): font-weight 500 at every
+   breakpoint (was the native "rte" preset's default 400) — unlike the
+   font-size/margin values in the mobile-only block above (which came
+   from a mobile-specific Figma frame), this weight fix isn't scoped to
+   any media query, so it also covers desktop. */
+[class*="__mo_buybox_card"] [class*="__mo_description"] {
+  font-weight: 500;
 }
