@@ -1956,7 +1956,9 @@ tbody tr:last-child .mo-compare__cell {
   align-items: center;
   justify-content: center;
   font-family: var(--mo-font-mono);
-  font-size: 10px;
+  /* CUSTOM FIX (2026-07-28, per Kalvis): 8px on mobile (was 10px) —
+     desktop stays as-is via its own explicit 14px override below. */
+  font-size: 8px;
   font-weight: 500;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -2178,10 +2180,19 @@ tbody tr:last-child .mo-compare__cell {
   }
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis): font-size 10px on mobile (was a
+   flat 14px at every breakpoint) — desktop stays as-is via the explicit
+   14px override below. */
 .mo-ingredient__row-label {
   color: var(--mo-ingredients-heading, #093d24);
-  font-size: 14px; /* CUSTOM: was 11px — audit #21 specifies 14px for FUNCTION/EVIDENCE row labels (2026-07-17) */
+  font-size: 10px; /* CUSTOM: was 11px — audit #21 specifies 14px for FUNCTION/EVIDENCE row labels (2026-07-17); now mobile-only, see desktop override below */
   white-space: nowrap;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-ingredient__row-label {
+    font-size: 14px;
+  }
 }
 
 /* CUSTOM (2026-07-09, type spec from Figma): description/body text here uses
