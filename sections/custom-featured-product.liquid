@@ -267,6 +267,17 @@
   }
 
   @media screen and (max-width: 749px) {
+    /* CUSTOM FIX (2026-07-29, per Kalvis — mirrors sections/custom-main-
+       product.liquid): accordion body text inside the Buy Box
+       (.product-details, same scoping as .details__header above).
+       .details-content is Horizon's generic accordion-row content class,
+       reused site-wide (footer, cart note, menu drawer), so this stays
+       scoped to .product-details to avoid touching those other instances. */
+    #shopify-section-{{ section.id }} .product-details .details-content {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
     /* CUSTOM: replicate the PDP's mobile hero image treatment exactly (Kalvis,
        2026-07-18) — same rules as sections/custom-main-product.liquid's own
        inline style block. Horizon's product-information-content snippet
