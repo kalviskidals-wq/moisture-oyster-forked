@@ -1061,7 +1061,11 @@ body {
     aspect-ratio: auto;
     min-height: 0;
     height: 100%;
-    border-radius: 16px;
+    /* CUSTOM FIX (2026-07-29, per Kalvis): no section-level corner radius
+       on desktop either now (was 16px) — matches the mobile-only fix on
+       the base .mo-problem__media-wrap rule above, which already zeroed
+       this for mobile back on 2026-07-27. */
+    border-radius: 0;
   }
 
   .mo-problem__factors {
@@ -6080,7 +6084,12 @@ mo-review-filter {
      once the toolbar auto-hides, instead of the section stretching into
      it. */
   min-height: 100svh;
-  border-radius: var(--mo-eye-section-radius, 24px);
+  /* CUSTOM FIX (2026-07-29, per Kalvis): no section-level corner radius on
+     desktop either now (was var(--mo-eye-section-radius, 24px)) — matches
+     the mobile-only fix below, which already zeroed this for mobile back
+     on 2026-07-27. Zeroed directly here rather than left only to the
+     mobile override, since this base rule is what desktop actually reads. */
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -6091,8 +6100,10 @@ mo-review-filter {
   }
 }
 
-/* CUSTOM FIX (2026-07-27, per Kalvis): no section-level corner radius on
-   mobile (was 24px, still used on desktop, untouched). */
+/* CUSTOM (2026-07-27, per Kalvis): no section-level corner radius on
+   mobile (was 24px) — now redundant with the 2026-07-29 fix on the base
+   rule above (which zeroed it for desktop too), left in place since it's
+   harmless and documents the original mobile-specific fix. */
 @media screen and (max-width: 749px) {
   .mo-eye-health {
     border-radius: 0;
@@ -6959,14 +6970,21 @@ mo-review-filter {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  border-radius: var(--mo-about-radius, 24px);
+  /* CUSTOM FIX (2026-07-29, per Kalvis): no section-level corner radius on
+     desktop either now (was var(--mo-about-radius, 24px)) — matches the
+     mobile-only fix below, which already zeroed this for mobile back on
+     2026-07-27. Zeroed directly here rather than left only to the mobile
+     override, since this base rule is what desktop actually reads. */
+  border-radius: 0;
   z-index: 0;
 }
 
-/* CUSTOM FIX (2026-07-27, per Kalvis): no section-level corner radius on
-   mobile (was 24px, still used on desktop, untouched) — this is where the
-   "rounded card look" for the About Us section actually lives (see the
-   round-2 fix comment above .mo-about). */
+/* CUSTOM (2026-07-27, per Kalvis): no section-level corner radius on
+   mobile (was 24px) — now redundant with the 2026-07-29 fix above (which
+   zeroed it for desktop too), left in place since it's harmless and
+   documents the original mobile-specific fix. This is where the "rounded
+   card look" for the About Us section used to live (see the round-2 fix
+   comment above .mo-about). */
 @media screen and (max-width: 749px) {
   .mo-about__media {
     border-radius: 0;
