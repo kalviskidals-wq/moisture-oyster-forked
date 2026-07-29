@@ -711,10 +711,16 @@
     z-index: calc(var(--layer-sticky) - 1); /* Below sticky header */
     display: block;
     width: 600px;
-    /* CUSTOM: was Horizon's native calc() token — matched to the same radius
-       used site-wide for cards/buttons (mo-design-system.css --mo-radius-md),
-       not the theme's default button-radius token. Per Kalvis (2026-07-18). */
-    border-radius: var(--mo-radius-md, 10px);
+    /* CUSTOM FIX (2026-07-29, per Kalvis): was Horizon's native calc()
+       token, then briefly matched to the site-wide card/button radius
+       (--mo-radius-md, 10px) — now matches the header nav bar's own
+       desktop radius (--mo-header-radius, set in custom-header.liquid,
+       default 28px) instead, per Kalvis's request that the fixed
+       top/bottom bars share one consistent radius. Applied uniformly here
+       (all 4 corners) since this bar floats mid-screen rather than sitting
+       flush against an edge like the header does — see the mobile block
+       below for the flush-edge case, which only rounds 2 corners. */
+    border-radius: var(--mo-header-radius, 28px);
     box-shadow: var(--shadow-popover);
     padding: var(--padding-sm);
     /* Layout styling */
@@ -849,11 +855,16 @@
       bottom: 0;
       width: 100%;
       max-width: none;
-      /* CUSTOM: top corners only (flush with the screen's bottom edge) —
-         matches the header nav's mobile corner radius (--mo-header-radius,
-         set in custom-header.liquid) so the two fixed bars bookend the page
-         with a consistent rounded look. Per Kalvis (2026-07-18). */
-      border-radius: var(--mo-header-radius, 28px) var(--mo-header-radius, 28px) 0 0;
+      /* CUSTOM FIX (2026-07-29, per Kalvis): top corners only (flush with
+         the screen's bottom edge) — this previously referenced
+         --mo-header-radius (28px, the header's DESKTOP value), but the
+         header's own mobile radius is a separate hardcoded 10px (see
+         assets/custom.css's max-width:749px override on .mo-header,
+         2026-07-27), not driven by that variable at all. Hardcoded to the
+         same 10px here so the two fixed bars actually match on mobile,
+         not just share a variable name that resolved to the wrong value
+         at this breakpoint. */
+      border-radius: 10px 10px 0 0;
 
       &::before {
         --border: 1px;
