@@ -316,6 +316,17 @@
       grid-column: 2 / 3;
     }
 
+    /* CUSTOM FIX (2026-07-29, per Kalvis): accordion body text inside the
+       Buy Box (.product-details — same scoping used by .details__header
+       above) — .details-content is Horizon's generic accordion-row content
+       class (blocks/_accordion-row.liquid, reused site-wide by the footer,
+       cart note, menu drawer, etc.), so this is scoped to .product-details
+       specifically to avoid touching those other instances. */
+    #shopify-section-{{ section.id }} .product-details .details-content {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
     /* CUSTOM: mobile sticky add-to-cart bar drops the product name — doesn't fit
        alongside the image + subscribe-discount text + button in that compact a
        row. Desktop keeps it (untouched). .sticky-add-to-cart__info only wraps
