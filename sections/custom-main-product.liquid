@@ -712,15 +712,13 @@
     display: block;
     width: 600px;
     /* CUSTOM FIX (2026-07-29, per Kalvis): was Horizon's native calc()
-       token, then briefly matched to the site-wide card/button radius
-       (--mo-radius-md, 10px) — now matches the header nav bar's own
-       desktop radius (--mo-header-radius, set in custom-header.liquid,
-       default 28px) instead, per Kalvis's request that the fixed
-       top/bottom bars share one consistent radius. Applied uniformly here
-       (all 4 corners) since this bar floats mid-screen rather than sitting
-       flush against an edge like the header does — see the mobile block
-       below for the flush-edge case, which only rounds 2 corners. */
-    border-radius: var(--mo-header-radius, 28px);
+       token, then briefly matched to the header nav bar's desktop radius
+       (--mo-header-radius, 28px) to keep the two fixed bars consistent —
+       Kalvis flagged that 28px read wrong on this floating pill-shaped bar
+       (looked strange at that size/shape, unlike the flush-edge header),
+       so back to the site-wide card/button radius token instead
+       (--mo-radius-md, 10px). */
+    border-radius: var(--mo-radius-md, 10px);
     box-shadow: var(--shadow-popover);
     padding: var(--padding-sm);
     /* Layout styling */
