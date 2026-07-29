@@ -5580,6 +5580,14 @@ mo-review-filter {
        content slightly in from the track's true left edge, rather than
        sitting perfectly flush. */
     padding-left: 20px;
+    /* CUSTOM FIX (2026-07-29, per Kalvis): .mo-home-hero__content's own
+       align-items:start top-aligns every item in the "header side" row
+       (needed so the header/heading's top lines up with subhead's top —
+       see the align-items:start comment above). Overriding align-self here
+       to bottom-align just THIS item instead, with a 40px margin so it
+       doesn't sit flush against the row's true bottom edge. */
+    align-self: end;
+    margin-bottom: 40px;
   }
 
   .mo-home-hero__subhead {
