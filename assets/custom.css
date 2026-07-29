@@ -5486,23 +5486,32 @@ mo-review-filter {
      1fr reproduces that exactly, and is close enough to the previous 68/32
      guess that "header" (the heading) keeps essentially the same crop —
      only "side"'s left edge shifts (~19px at this viewport) to match. */
+  /* CUSTOM FIX (2026-07-29, per Kalvis — bottom-align .mo-home-hero__side
+     without moving the heading): before this, header and side were both
+     auto-placed into ONE shared implicit row (grid-area:header/side had no
+     matching grid-template-areas, so they were no-ops — this was really
+     just 2-column, 1-row auto-placement) whose height = whichever item was
+     taller, then align-content:center centered that whole row in the
+     section. That coupled them: any change that gave side room to reach
+     the true bottom necessarily changed the row's height, which shifted
+     the heading too (confirmed live — an earlier attempt at this moved the
+     heading down).
+     Now genuinely decoupled via 3 explicit rows + named areas: the middle
+     row (auto) holds ONLY the heading, sized to its own natural height,
+     with equal 1fr spacer rows above/below it — this centers the heading
+     based purely on its OWN height, independent of side. .side spans all
+     3 rows (full section height) via the same area declaration, then
+     pins its own content to the bottom internally (see .mo-home-hero__side
+     below) — it no longer shares sizing with the heading at all. */
   .mo-home-hero__content {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    /* CUSTOM FIX (2026-07-29, per Kalvis — bottom-align .mo-home-hero__side):
-       previously this had no explicit row height, so the single "header
-       side" row auto-sized to its tallest item (the heading) and
-       align-content:center centered that short row-block inside the full
-       section height. align-self:end on an item only moves it to the
-       bottom of its OWN row box — with an auto-height row, that row's
-       bottom already sits near the heading's own bottom (itself roughly
-       centered in the section), not the section's true bottom edge, so
-       bottom-aligning .side against it barely moved it. Setting the row to
-       1fr makes it span the FULL content box height instead, so align-self
-       now has real room to work with: end truly means the bottom of the
-       section (minus this box's own top/bottom padding). */
-    grid-template-rows: 1fr;
-    align-content: center;
+    grid-template-rows: 1fr auto 1fr;
+    grid-template-areas:
+      '.      side'
+      'header side'
+      '.      side';
+    align-items: start;
     inset: 0;
     max-width: var(--page-width, var(--normal-page-width, 1280px));
     margin-inline: auto;
@@ -5511,39 +5520,27 @@ mo-review-filter {
     /* CUSTOM FIX (2026-07-27, per Kalvis): desktop half of the top/bottom
        padding fix — see the base .mo-home-hero__content rule for why this
        lives here instead of on the outer .mo-home-hero. Shrinks the box
-       that align-content:center centers within, nudging the whole
-       centered header/side block up or down. 0px fallback both sides
-       preserves today's appearance. */
+       the heading's row centers within (see the 3-row comment above),
+       nudging it up or down. 0px fallback both sides preserves today's
+       appearance. */
     padding-top: var(--mo-home-hero-padding-top-desktop, 0px);
     padding-bottom: var(--mo-home-hero-padding-y, 0px);
   }
 
   /* CUSTOM (2026-07-13 round 5): header needs to be position:relative (not
      static) so .mo-home-hero__rating below can be pulled out of normal flow
-     and anchored above it — align-items:start on the grid aligns the
-     HEADER BOX's own top edge with .mo-home-hero__side's top (the subhead),
-     and until now that top edge was the rating row's top (rating was the
-     first in-flow child), which visually stuck the subhead's top out above
-     the heading. Removing rating from flow makes the heading the header
-     box's first (only) in-flow content, so its top IS the box's top. */
+     and anchored above it — removing rating from flow makes the heading
+     the header box's first (only) in-flow content, so its top IS the
+     box's top (matters for .mo-home-hero__rating's bottom:100% anchor
+     below, independent of however the box itself is positioned in the
+     grid — see the 3-row comment on .mo-home-hero__content above for that
+     part). */
   .mo-home-hero__header {
     position: relative;
     grid-area: header;
     justify-self: start;
     background: transparent;
     padding: 0;
-    /* CUSTOM FIX (2026-07-29, per Kalvis — bottom-align .mo-home-hero__side):
-       the shared row is now a full-height 1fr track (see
-       .mo-home-hero__content above), which removed the container's
-       align-items:start default for every item in it. Header explicitly
-       re-centers itself here to keep its current vertical position — since
-       header was previously the row's tallest (row-defining) item, "start
-       of an auto-height row that's itself align-content:centered" and
-       "center of a full-height row" land in effectively the same visual
-       spot, so this preserves today's appearance while letting .side
-       (below) size its own alignment independently instead of inheriting
-       the same "start" as header. */
-    align-self: center;
   }
 
   /* CUSTOM (2026-07-13 round 5): taken out of normal flow and pinned just
@@ -5604,16 +5601,17 @@ mo-review-filter {
        sitting perfectly flush. */
     padding-left: 20px;
     /* CUSTOM FIX (2026-07-29, per Kalvis — bottom-align .mo-home-hero__side):
-       first pass just set align-self:end here, but the shared row was
-       still auto-height at the time (sized to the heading), so "end"
-       barely moved anything. Now that .mo-home-hero__content's row is
-       1fr (full section height) and .mo-home-hero__header explicitly
-       re-centers itself (see its own comment above), this item is free to
-       bottom-align independently — end now resolves against the actual
-       bottom of the full-height row, with a 40px margin so it doesn't sit
-       flush against that true bottom edge. */
-    align-self: end;
-    margin-bottom: 40px;
+       this area now spans all 3 rows of .mo-home-hero__content (the full
+       section height, decoupled from the heading — see that rule's
+       comment). align-self:stretch makes THIS box actually fill that full
+       area (the container's align-items:start would otherwise shrink it to
+       its own content height); justify-content:flex-end then pushes the
+       subhead/CTA content down to the bottom of that full-height box, and
+       padding-bottom is the requested 40px gap from the section's true
+       bottom edge. */
+    align-self: stretch;
+    justify-content: flex-end;
+    padding-bottom: 40px;
   }
 
   .mo-home-hero__subhead {
