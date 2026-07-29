@@ -5489,8 +5489,19 @@ mo-review-filter {
   .mo-home-hero__content {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    grid-template-areas: "header side";
-    align-items: start;
+    /* CUSTOM FIX (2026-07-29, per Kalvis — bottom-align .mo-home-hero__side):
+       previously this had no explicit row height, so the single "header
+       side" row auto-sized to its tallest item (the heading) and
+       align-content:center centered that short row-block inside the full
+       section height. align-self:end on an item only moves it to the
+       bottom of its OWN row box — with an auto-height row, that row's
+       bottom already sits near the heading's own bottom (itself roughly
+       centered in the section), not the section's true bottom edge, so
+       bottom-aligning .side against it barely moved it. Setting the row to
+       1fr makes it span the FULL content box height instead, so align-self
+       now has real room to work with: end truly means the bottom of the
+       section (minus this box's own top/bottom padding). */
+    grid-template-rows: 1fr;
     align-content: center;
     inset: 0;
     max-width: var(--page-width, var(--normal-page-width, 1280px));
@@ -5521,6 +5532,18 @@ mo-review-filter {
     justify-self: start;
     background: transparent;
     padding: 0;
+    /* CUSTOM FIX (2026-07-29, per Kalvis — bottom-align .mo-home-hero__side):
+       the shared row is now a full-height 1fr track (see
+       .mo-home-hero__content above), which removed the container's
+       align-items:start default for every item in it. Header explicitly
+       re-centers itself here to keep its current vertical position — since
+       header was previously the row's tallest (row-defining) item, "start
+       of an auto-height row that's itself align-content:centered" and
+       "center of a full-height row" land in effectively the same visual
+       spot, so this preserves today's appearance while letting .side
+       (below) size its own alignment independently instead of inheriting
+       the same "start" as header. */
+    align-self: center;
   }
 
   /* CUSTOM (2026-07-13 round 5): taken out of normal flow and pinned just
@@ -5580,12 +5603,15 @@ mo-review-filter {
        content slightly in from the track's true left edge, rather than
        sitting perfectly flush. */
     padding-left: 20px;
-    /* CUSTOM FIX (2026-07-29, per Kalvis): .mo-home-hero__content's own
-       align-items:start top-aligns every item in the "header side" row
-       (needed so the header/heading's top lines up with subhead's top —
-       see the align-items:start comment above). Overriding align-self here
-       to bottom-align just THIS item instead, with a 40px margin so it
-       doesn't sit flush against the row's true bottom edge. */
+    /* CUSTOM FIX (2026-07-29, per Kalvis — bottom-align .mo-home-hero__side):
+       first pass just set align-self:end here, but the shared row was
+       still auto-height at the time (sized to the heading), so "end"
+       barely moved anything. Now that .mo-home-hero__content's row is
+       1fr (full section height) and .mo-home-hero__header explicitly
+       re-centers itself (see its own comment above), this item is free to
+       bottom-align independently — end now resolves against the actual
+       bottom of the full-height row, with a 40px margin so it doesn't sit
+       flush against that true bottom edge. */
     align-self: end;
     margin-bottom: 40px;
   }
