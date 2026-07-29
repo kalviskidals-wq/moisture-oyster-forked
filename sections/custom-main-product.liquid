@@ -221,6 +221,34 @@
       border-radius: 10px !important;
     }
 
+    /* CUSTOM FIX (2026-07-28, per Kalvis): 80px only reads correctly on
+       wider desktop screens — on a smaller desktop/laptop viewport (or
+       any width squeezed by the cart drawer opening, since that reduces
+       the same available column width) it crowded the media column.
+       Two extra desktop-only breakpoints scale it down further: 60px
+       between 1024–1439px, 40px from 750–1023px. Nested @media here
+       (rather than separate top-level blocks) combines with this file's
+       existing min-width:750px wrapper automatically — standard CSS,
+       not the newer nesting syntax. Both come AFTER the 80px rule above
+       in source order, so at any width they match (e.g. 900px matches
+       both the unconditional 80px rule and the 750–1023px range below),
+       the later, narrower rule wins the cascade — exact breakpoints are
+       a reasonable starting point, not measured against a specific
+       Figma frame; adjust if a size looks off on a real device. */
+    @media screen and (min-width: 1024px) and (max-width: 1439px) {
+      #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
+        width: 60px !important;
+        height: 60px !important;
+      }
+    }
+
+    @media screen and (max-width: 1023px) {
+      #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
+        width: 40px !important;
+        height: 40px !important;
+      }
+    }
+
     /* CUSTOM FIX (2026-07-20, per Kalvis — reported on a MacBook Air 13.6"):
        the main hero image was rendering with sharp corners at desktop widths
        even though templates/product.json's media-gallery block has
