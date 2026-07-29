@@ -4093,14 +4093,27 @@ mo-review-filter {
        longer affects layout — zeroed rather than left dead. */
     padding-top: 0;
     padding-bottom: 0;
-    margin-inline: var(--mo-sub-inset, 16px);
+    /* CUSTOM FIX (2026-07-29, per Kalvis): desktop had a 16px side inset
+       (templates/product.json's section_inset setting, now 0 — the
+       schema's own info text explains this existed only to keep the
+       section_radius corners visible against a full-bleed box) — removed
+       per Kalvis, no side padding on desktop at all. */
+    margin-inline: var(--mo-sub-inset, 0px);
     margin-top: var(--mo-sub-benefits-margin-top-desktop, 0px);
     margin-bottom: var(--mo-sub-benefits-margin-bottom-desktop, 80px);
+    /* CUSTOM FIX (2026-07-29, per Kalvis): with no inset, the section is
+       flush edge-to-edge on desktop too now — same reasoning as the
+       mobile fix below (a full-bleed box has nowhere for a border-radius
+       to actually show; left as-is it just clips a stray triangle off
+       each corner against whatever sits behind the section). Zeroed here
+       to match. */
+    border-radius: 0;
   }
 }
 
 /* CUSTOM FIX (2026-07-27, per Kalvis): no section-level corner radius on
-   mobile (was 20px, still used on desktop, untouched). */
+   mobile (was 20px, still used on desktop until the 2026-07-29 fix above
+   removed the desktop inset too). */
 @media screen and (max-width: 749px) {
   .mo-sub-benefits {
     border-radius: 0;
