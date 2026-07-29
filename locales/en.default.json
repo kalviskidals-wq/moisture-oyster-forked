@@ -354,7 +354,8 @@
   "shopify": {
     "checkout": {
       "marketing": {
-        "accept_sms_checkbox_label": "Send me Moisture Oyster updates and occasional offers"
+        "accept_sms_checkbox_label": "Send me Moisture Oyster updates and occasional offers",
+        "accept_marketing_checkbox_label": "Send me Moisture Oyster updates and occasional offers"
       }
     }
   }
