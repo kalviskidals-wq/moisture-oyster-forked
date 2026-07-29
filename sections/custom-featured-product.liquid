@@ -120,8 +120,17 @@
     /* CUSTOM: anchor the thumbnail overlay on slideshow-component (not media-gallery itself) —
        media-gallery already carries Horizon's native sticky-content class (position: sticky), and
        setting position: relative directly on it here would override that native rule. */
+    /* CUSTOM FIX (2026-07-28, per Kalvis — rebuild, same as custom-main-
+       product.liquid): container-type turns this into a size-query
+       container so the thumbnail rail below can size itself off this
+       column's actual rendered width (cqw units) instead of viewport-
+       width breakpoints, which drifted out of sync whenever this
+       column's real width changed for a reason other than the viewport
+       itself (grid-column ratio, or the cart-drawer squeeze margin —
+       see the .page-wrapper--drawer-open fix in custom.css). */
     #shopify-section-{{ section.id }} .media-gallery--carousel slideshow-component {
       position: relative;
+      container-type: inline-size;
     }
 
     /* CUSTOM FIX (2026-07-20, per Kalvis — same investigation + fix as
@@ -143,16 +152,21 @@
       }
     }
 
+    /* CUSTOM FIX (2026-07-28, per Kalvis — rebuild, same as custom-main-
+       product.liquid): fluid inset/size custom properties, replacing the
+       fixed 30px inset + fixed-breakpoint thumbnail sizes further down. */
     #shopify-section-{{ section.id }} slideshow-controls[thumbnails][pagination-position='center'] {
+      --mo-thumb-inset: clamp(16px, 4.5cqw, 30px);
+      --mo-thumb-size: clamp(40px, 12cqw, 80px);
       position: absolute;
-      left: 30px;
-      bottom: 30px;
+      left: var(--mo-thumb-inset);
+      bottom: var(--mo-thumb-inset);
       top: auto;
       transform: none;
       flex-direction: column;
       width: auto;
       height: auto;
-      max-height: calc(100% - 60px);
+      max-height: calc(100% - (var(--mo-thumb-inset) * 2));
       z-index: var(--layer-raised, 2);
     }
 
@@ -170,47 +184,22 @@
       gap: var(--gap-xs, 8px);
     }
 
-    /* CUSTOM FIX (2026-07-27, per Kalvis — same fix as custom-main-
-       product.liquid): fixed 80x80 thumbnail size + 10px radius on
-       desktop, replacing Horizon's native clamp() sizing and the 12px
-       thumbnail_radius schema setting. */
+    /* CUSTOM FIX (2026-07-28, per Kalvis — rebuild, same as custom-main-
+       product.liquid, replaces the three separate fixed-breakpoint
+       attempts): width/height/radius are unconditional here since
+       --mo-thumb-size already does the responsive work via clamp()+cqw,
+       resolving to a real length continuously rather than jumping
+       between hardcoded steps. border-radius is asserted on both the
+       button and its img since Horizon renders the two with separate
+       radius sources. */
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
-      width: 80px !important;
-      height: 80px !important;
+      width: var(--mo-thumb-size) !important;
+      height: var(--mo-thumb-size) !important;
       border-radius: 10px !important;
     }
 
-    /* CUSTOM FIX (2026-07-27, per Kalvis): matches the img's own radius to
-       the button's — see the mobile-side comment above for why the native
-       <img> border-radius needs its own override, not just the button. */
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control img {
       border-radius: 10px !important;
-    }
-
-    /* CUSTOM FIX (2026-07-28, per Kalvis — same fix as custom-main-
-       product.liquid): 80px only reads correctly on wider desktop
-       screens — on a smaller desktop/laptop viewport (or any width
-       squeezed by the cart drawer opening) it crowded the media column.
-       Two extra desktop-only breakpoints scale it down further: 60px
-       between 1024–1439px, 40px from 750–1023px. Nested @media here
-       combines with this file's existing min-width:750px wrapper
-       automatically (standard CSS, not the newer nesting syntax); both
-       come AFTER the 80px rule above in source order, so the later,
-       narrower rule wins the cascade at any width they overlap. Exact
-       breakpoints are a reasonable starting point, not measured against
-       a specific Figma frame. */
-    @media screen and (min-width: 1024px) and (max-width: 1439px) {
-      #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
-        width: 60px !important;
-        height: 60px !important;
-      }
-    }
-
-    @media screen and (max-width: 1023px) {
-      #shopify-section-{{ section.id }} .slideshow-controls__thumbnails .slideshow-control {
-        width: 40px !important;
-        height: 40px !important;
-      }
     }
   }
 
