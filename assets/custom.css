@@ -6041,11 +6041,15 @@ mo-review-filter {
 
 /* Brand-token spec keeps this on --mo-font-body (Inter) — no font-family
    override needed, .mo-body-lg already provides it. */
+/* CUSTOM FIX (2026-07-28, per Kalvis): font-size 12px on mobile (was the
+   shared .mo-body-lg helper's flat 16px/1rem) — desktop already has its
+   own explicit 16px override further down, untouched. */
 .mo-eye-health__subhead {
   color: var(--mo-eye-subhead, #093d24);
   margin: 0;
   max-width: 480px;
   opacity: 0.85;
+  font-size: 12px;
 }
 
 /* CUSTOM (2026-07-16, round 7): position:absolute + inset:0 at EVERY
