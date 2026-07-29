@@ -8207,6 +8207,7 @@ html body .theme-drawer__dialog {
   [class*="__mo_buybox_card"] [class*="__mo_description"] {
     margin-bottom: 12px;
     font-size: 12px;
+    font-weight: 500; /* CUSTOM (2026-07-28, per Kalvis): was the native "rte" preset's default 400. */
   }
 
   [class*="__mo_buybox_card"] .mo-pdp-rating-link {
