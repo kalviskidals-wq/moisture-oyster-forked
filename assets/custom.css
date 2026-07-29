@@ -6652,12 +6652,22 @@ mo-review-filter {
 /* No-JS fallback: only the first panel renders unhidden (server-rendered
    active state); mo-tabs.js toggles [hidden] on click same as it does for
    .mo-ingredients__panel. */
+/* CUSTOM FIX (2026-07-28, per Kalvis): font-size 12px on mobile (was the
+   shared .mo-body-lg helper's flat 16px/1rem at every breakpoint) —
+   desktop stays as-is (no override here, so it keeps that same 16px). */
 .mo-hiw__panel {
   grid-row: 1;
   grid-column: 1;
   color: var(--mo-hiw-body, #ffffff);
   font-weight: 400;
   max-width: 340px; /* CUSTOM: was 383px (Figma dev-mode measurement, audit #9) — narrowed further per Kalvis (2026-07-17) */
+  font-size: 12px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-hiw__panel {
+    font-size: 1rem;
+  }
 }
 
 /* CUSTOM (2026-07-19, per Kalvis): overrides the UA default of [hidden]
