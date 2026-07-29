@@ -932,6 +932,7 @@ body {
   opacity: 0.8;
   margin: 0;
   font-size: 12px;
+  font-weight: 500; /* CUSTOM (2026-07-28, per Kalvis): was the shared .mo-body helper's default 400. */
 }
 
 @media screen and (min-width: 750px) {
@@ -4599,10 +4600,21 @@ mo-review-filter {
   }
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis): font-size 12px on mobile (was the
+   shared .mo-body-lg helper's flat 16px/1rem at every breakpoint) —
+   desktop stays as-is via the explicit 16px override below. */
 .mo-icon-card__desc {
   color: var(--mo-icon-card-desc, #ffffff);
   margin: 0;
   opacity: 0.9;
+  font-size: 12px;
+  font-weight: 500; /* CUSTOM (2026-07-28, per Kalvis): was the shared .mo-body-lg helper's default 400. */
+}
+
+@media screen and (min-width: 750px) {
+  .mo-icon-card__desc {
+    font-size: 1rem;
+  }
 }
 
 /* ============================================================================
@@ -5383,6 +5395,7 @@ mo-review-filter {
   color: var(--mo-home-hero-subhead, #ffffff);
   max-width: 46ch;
   font-size: 12px;
+  font-weight: 500; /* CUSTOM (2026-07-28, per Kalvis): was the shared .mo-body-lg helper's default 400. */
 }
 
 @media screen and (min-width: 750px) {
@@ -6076,6 +6089,7 @@ mo-review-filter {
   max-width: 480px;
   opacity: 0.85;
   font-size: 12px;
+  font-weight: 500; /* CUSTOM (2026-07-28, per Kalvis): was the shared .mo-body-lg helper's default 400. */
 }
 
 /* CUSTOM (2026-07-16, round 7): position:absolute + inset:0 at EVERY
@@ -6685,7 +6699,7 @@ mo-review-filter {
   grid-row: 1;
   grid-column: 1;
   color: var(--mo-hiw-body, #ffffff);
-  font-weight: 400;
+  font-weight: 500; /* CUSTOM (2026-07-28, per Kalvis): was 400. */
   max-width: 340px; /* CUSTOM: was 383px (Figma dev-mode measurement, audit #9) — narrowed further per Kalvis (2026-07-17) */
   font-size: 12px;
 }
