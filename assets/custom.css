@@ -5350,9 +5350,19 @@ mo-review-filter {
   background: transparent;
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis): font-size 12px mobile / 16px
+   desktop (was the shared .mo-body-lg helper's flat 16px/1rem at every
+   breakpoint — that class has no responsive split of its own). */
 .mo-home-hero__subhead-text {
   color: var(--mo-home-hero-subhead, #ffffff);
   max-width: 46ch;
+  font-size: 12px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-home-hero__subhead-text {
+    font-size: 16px;
+  }
 }
 
 /* ---------- CTA row overlay ----------
