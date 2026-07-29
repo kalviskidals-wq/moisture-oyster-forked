@@ -924,10 +924,20 @@ body {
   margin: 0 0 var(--mo-space-4, 16px);
 }
 
+/* CUSTOM FIX (2026-07-28, per Kalvis): font-size 12px mobile / 16px
+   desktop (was the shared .mo-body helper's flat 14px at every
+   breakpoint — that class has no responsive split of its own). */
 .mo-problem__stat-source {
   color: var(--mo-problem-card-source, #ffffff);
   opacity: 0.8;
   margin: 0;
+  font-size: 12px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-problem__stat-source {
+    font-size: 16px;
+  }
 }
 
 /* Desktop (Figma desktop frame): header, factor list, and stat card all
