@@ -7685,9 +7685,19 @@ html body .theme-drawer__dialog {
     display: none;
   }
 
+  /* CUSTOM FIX (2026-07-29, per Kalvis): desktop logo height now differs by
+     page — 76px on the front page (mo-header--home, set in
+     sections/custom-header.liquid via template.name == 'index', same
+     detection pattern already used there for the transparent-header
+     option), 60px on every other page/template. */
   .mo-header__logo-img {
-    height: 36px !important;
-    max-height: 36px !important;
+    height: 60px !important;
+    max-height: 60px !important;
+  }
+
+  .mo-header--home .mo-header__logo-img {
+    height: 76px !important;
+    max-height: 76px !important;
   }
 
   .mo-header__drawer-link {
