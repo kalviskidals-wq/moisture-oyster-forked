@@ -3810,10 +3810,11 @@ mo-review-filter {
     margin-bottom: 20px;
   }
 
+  /* CUSTOM FIX (2026-07-28, per Kalvis): font-size 12px (was 14px). */
   .mo-faq__support {
     font-family: var(--mo-font-heading, 'Manrope', sans-serif);
     font-weight: 500;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.3;
     letter-spacing: normal;
   }
