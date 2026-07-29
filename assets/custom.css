@@ -3570,6 +3570,9 @@ mo-review-filter {
    doesn't have a matching unprefixed `box-orient`/`display:box` pair with
    reliable support yet), so this keeps the -webkit- prefix even though
    the property itself isn't webkit-specific in practice anymore. */
+/* CUSTOM FIX (2026-07-28, per Kalvis): font-size 12px on mobile (was the
+   shared .mo-body-lg helper's flat 16px/1rem at every breakpoint) —
+   desktop stays as-is via the explicit 16px override below. */
 .mo-reviews__quote {
   margin: 0;
   text-align: left;
@@ -3579,6 +3582,13 @@ mo-review-filter {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
   overflow: hidden;
+  font-size: 12px;
+}
+
+@media screen and (min-width: 750px) {
+  .mo-reviews__quote {
+    font-size: 1rem;
+  }
 }
 
 @media screen and (min-width: 750px) {
@@ -3611,7 +3621,11 @@ mo-review-filter {
   border: none;
   background: none;
   font-family: var(--mo-font-body, 'Manrope', sans-serif);
-  font-size: 1rem;
+  /* CUSTOM FIX (2026-07-28, per Kalvis): 12px on mobile, matching
+     .mo-reviews__quote's own new mobile size directly above — was a
+     fixed 1rem/16px at every breakpoint, which no longer matched the
+     quote text it sits under once that became responsive. */
+  font-size: 12px;
   line-height: 1.3;
   font-weight: 500;
   text-decoration: underline;
@@ -3623,6 +3637,7 @@ mo-review-filter {
 @media screen and (min-width: 750px) {
   .mo-reviews__quote-toggle {
     margin-top: 12px;
+    font-size: 1rem;
   }
 }
 
