@@ -560,7 +560,7 @@
                   "name": "MO Payment Badges",
                   "settings": {
                     "text": "Apple Pay · Visa · Mastercard · Afterpay",
-                    "text_color": "#093D24"
+                    "text_color": "#093d24"
                   },
                   "blocks": {}
                 }
