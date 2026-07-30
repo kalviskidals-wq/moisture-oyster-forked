@@ -1377,7 +1377,7 @@
           "name": "FAQ",
           "settings": {
             "question": "How does the preservative-free, multi-dose bottle work?",
-            "answer": "<p>Our bottle uses the Aptar OSD (Ophthalmic Squeeze Dispenser), a one-way valve system that keeps every drop sterile without chemical preservatives, about 200 drops per bottle. </p>",
+            "answer": "<p>Our bottle uses the Aptar OSD (Ophthalmic Squeeze Dispenser). A one-way valve system that keeps every drop sterile without chemical preservatives, roughly 200 drops per bottle. </p>",
             "open_by_default": false
           }
         },
