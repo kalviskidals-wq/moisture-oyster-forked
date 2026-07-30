@@ -1160,7 +1160,7 @@
         "heading": "Engineered for tear-film support. GLP-tested as non-irritant.",
         "chart_eyebrow": "INDEPENDENT GLP TESTING",
         "chart_title": "GLP Non-Irritant",
-        "chart_description": "Tissue viability at 5 / 16 / 120-minute exposures, far above the 50% irritation threshold",
+        "chart_description": "Tissue viability at 5 / 16 / 120-minute exposures, far above the 50% irritation threshold.",
         "threshold_value": 50,
         "threshold_label": "IRRITATION THRESHOLD",
         "caption": "Reconstructed human cornea · Tissue viability",
@@ -1449,7 +1449,7 @@
       "name": "MO FAQ",
       "settings": {
         "eyebrow": "FAQ",
-        "heading": "Questions,\nanswered",
+        "heading": "Questions,\nanswered.",
         "support_text": "<p>What's on your mind? <br/>Write to <a href=\"mailto:care@moistureoyster.com\">care@moistureoyster.com</a>, <br/>a human replies within a day.</p>",
         "enable_faq_schema": true,
         "background_color": "#093d24",
