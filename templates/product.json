@@ -1386,7 +1386,7 @@
           "name": "FAQ",
           "settings": {
             "question": "Will my subscription price ever increase?",
-            "answer": "<p>Your price is locked at sign-up. We never increase subscription prices without 30 days' notice and an opt-out window.</p>",
+            "answer": "<p>Your price is locked in at sign-up. We never increase subscription prices without 30 days' notice and an opt-out window.</p>",
             "open_by_default": false
           }
         },
