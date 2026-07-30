@@ -404,40 +404,36 @@
       border-radius: 16px !important;
     }
 
+    /* CUSTOM FIX (2026-07-29, per Kalvis — real iPhone Safari only, per a
+       screenshot: image rendered at its own natural/landscape ratio, not
+       square, with a gap of the section's own background showing below it
+       before the thumbnail row; NOT reproducible in Chrome/Edge's device-
+       toolbar emulation). Root cause, found by reading the actual DOM
+       chain rather than guessing further (the previous "flex-basis" fix
+       here was wrong and has been removed): .product-media-container's
+       aspect-ratio:1/1 above only forces the OUTER box square — the
+       .product-media wrapper one level inside it (snippets/product-
+       media.liquid) has its OWN separate aspect-ratio, set to the photo's
+       natural ratio via --ratio (only relevant when constrain_to_viewport
+       is off and aspect_ratio is 'adapt' — with it on, --constrained-
+       height capped this same box by a different mechanism and never
+       exposed the conflict). .product-media is also flex:1 inside the
+       outer box's flex row, so which of the two competing aspect-ratios
+       actually wins is exactly the kind of flexbox+aspect-ratio edge case
+       Blink and WebKit have a history of resolving differently — Chrome
+       apparently lets the outer 1/1 win, Safari apparently lets this
+       inner, un-overridden one win. Forcing it to 1/1 too removes the
+       conflict entirely instead of relying on either engine's resolution
+       order. */
+    #shopify-section-{{ section.id }} .product-information__media .product-media-container .product-media {
+      aspect-ratio: 1 / 1 !important;
+    }
+
     #shopify-section-{{ section.id }} .product-information__media slideshow-container {
       contain: paint;
       isolation: isolate;
       transform: translateZ(0);
       -webkit-transform: translateZ(0);
-      /* CUSTOM FIX (2026-07-29, per Kalvis — real iPhone Safari only, NOT
-         reproducible in Chrome/Edge's device-toolbar emulation, confirmed
-         via live devtools: at an equivalent mobile width, Chrome measures
-         zero gap between this element's bottom and the thumbnail row's
-         top): reported gap between the hero image and the thumbnail row on
-         mobile, appearing only since "Constrain to screen height" was
-         turned off (that setting's removal took away Horizon's own
-         --constrained-height/vh-based sizing, so this box's height is now
-         driven entirely by the aspect-ratio:1/1 forced on the nested
-         .product-media-container, several DOM levels down, inside a
-         flex-column parent — slideshow-component). This is slideshow-
-         component's direct flex item; flex items default to
-         min-height:auto (their own content's intrinsic minimum), which is
-         a known trouble spot in WebKit specifically when that content's
-         size comes from a nested aspect-ratio box rather than an explicit
-         height — Safari has a history of not reliably resolving the two
-         together on first layout, understating or delaying the item's
-         real height and leaving stale space before the next flex sibling
-         (the thumbnails) until something forces a relayout. flex-shrink:0
-         + flex-basis:auto make this item's sizing explicit instead of
-         "auto" end to end, and min-height:0 removes the automatic
-         content-based minimum entirely, so there's nothing left for that
-         calculation to get out of sync on. Chrome already computes this
-         correctly either way, hence it not reproducing there — flagging
-         to Kalvis to confirm this actually clears it on his iPhone, since
-         this session's tooling can't test real WebKit directly. */
-      flex-shrink: 0;
-      flex-basis: auto;
-      min-height: 0;
     }
 
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails-container {
