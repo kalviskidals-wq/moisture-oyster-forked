@@ -1487,7 +1487,7 @@
             "icon_preset": "delivery",
             "icon_image": "shopify://shop_images/free_delivery_always.svg",
             "title": "Free delivery with subscription",
-            "description": "Every subscription ships free across the US. No threshold, no conditions."
+            "description": "Every subscription order ships free across the U.S. No threshold, no conditions."
           }
         },
         "benefit_3": {
