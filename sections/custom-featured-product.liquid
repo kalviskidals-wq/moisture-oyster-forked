@@ -306,6 +306,25 @@
       border-radius: 16px !important;
     }
 
+    /* CUSTOM FIX (2026-07-29, per Kalvis — mirrors sections/custom-main-
+       product.liquid: real iPhone Safari only, not reproducible in Chrome/
+       Edge's device-toolbar emulation. See that file's own comment for the
+       full root-cause writeup — same setup here (constrain_to_viewport:
+       false in templates/index.json's media-gallery block), same flex-
+       column parent (slideshow-component), so the same fix applies:
+       flex-shrink:0 + flex-basis:auto make this item's sizing explicit
+       instead of "auto" end to end, and min-height:0 removes the
+       automatic content-based minimum a flex item gets by default — a
+       known trouble spot in WebKit when that minimum's content comes from
+       a nested aspect-ratio box rather than an explicit height. Flagging
+       to Kalvis to confirm this actually clears it, since this session's
+       tooling can't test real WebKit directly. */
+    #shopify-section-{{ section.id }} .product-information__media slideshow-container {
+      flex-shrink: 0;
+      flex-basis: auto;
+      min-height: 0;
+    }
+
     #shopify-section-{{ section.id }} .slideshow-controls__thumbnails-container {
       padding-block-start: 0;
       justify-content: flex-start !important;
