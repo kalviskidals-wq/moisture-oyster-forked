@@ -1413,7 +1413,7 @@
           "name": "FAQ",
           "settings": {
             "question": "How do I pause or cancel?",
-            "answer": "<p>One tap in your account dashboard. No forms, no phone calls.</p>",
+            "answer": "<p>Just one click in your account dashboard. No forms, no phone calls.</p>",
             "open_by_default": false
           }
         },
