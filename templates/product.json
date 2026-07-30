@@ -1422,7 +1422,7 @@
           "name": "FAQ",
           "settings": {
             "question": "Is Moisture Oyster safe for daily use?",
-            "answer": "<p>Yes. BAK-free, preservative-free, and independently tested as non-irritant under OECD TG 492B. Follow the directions on the Drug Facts panel.</p>",
+            "answer": "<p>Yes. BAK-free, preservative-free, and independently tested as a non-irritant under OECD TG 492B. Follow the directions on the Drug Facts panel.</p>",
             "open_by_default": false
           }
         },
