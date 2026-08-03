@@ -40,6 +40,11 @@
   type="module"
   fetchpriority="low"
 ></script>
+<script
+  src="{{ 'mo-cart-frequency.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
 
 <div
   {{ block.shopify_attributes }}
@@ -292,7 +297,44 @@
                       {%- endif -%}
 
                       {%- if item.selling_plan_allocation -%}
-                        <p>{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                        {%- # CUSTOM (2026-07-29, per Kalvis): let a shopper change delivery
+                          # frequency for an already-added subscription line directly from the
+                          # cart drawer, instead of only being able to pick it on the PDP before
+                          # adding to cart. item.variant.selling_plan_allocations lists every
+                          # plan available for THIS variant (not just the one currently on the
+                          # line) — only worth a dropdown if there's an actual choice; a single
+                          # option renders as the same static text as before. Wired up in
+                          # assets/mo-cart-frequency.js via Shopify's cart/change.js endpoint
+                          # (id: line key, selling_plan: new plan id) — per Kalvis, price is flat
+                          # across frequencies for this store, so no price re-render is needed on
+                          # change, just persisting the new plan to the cart line. -%}
+                        {%- if item.variant.selling_plan_allocations.size > 1 -%}
+                          <div
+                            class="mo-cart-frequency"
+                            data-mo-cart-frequency
+                            data-line-key="{{ item.key }}"
+                          >
+                            <select
+                              class="mo-cart-frequency__select"
+                              data-role="mo-cart-frequency-select"
+                              aria-label="Delivery frequency"
+                            >
+                              {%- for alloc in item.variant.selling_plan_allocations -%}
+                                <option
+                                  value="{{ alloc.selling_plan.id }}"
+                                  {% if alloc.selling_plan.id == item.selling_plan_allocation.selling_plan.id %}
+                                    selected
+                                  {% endif %}
+                                >
+                                  {{- alloc.selling_plan.name -}}
+                                </option>
+                              {%- endfor -%}
+                            </select>
+                            <p class="mo-cart-frequency__error" data-role="mo-cart-frequency-error" hidden></p>
+                          </div>
+                        {%- else -%}
+                          <p>{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                        {%- endif -%}
                       {%- endif -%}
 
                       {%- if item.line_level_discount_allocations.size > 0 -%}

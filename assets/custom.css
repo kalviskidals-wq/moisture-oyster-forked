@@ -8363,3 +8363,37 @@ html body .theme-drawer__dialog {
 [class*="__mo_buybox_card"] [class*="__mo_description"] {
   font-weight: 500;
 }
+
+/* ============================================================================
+   MO CART FREQUENCY — snippets/cart-products.liquid + assets/mo-cart-
+   frequency.js. Lets a shopper change delivery frequency on an already-added
+   subscription line from the cart drawer/page. Kept visually close to the
+   plain <p> it replaces (native cart line text) rather than a heavier custom
+   control, so it doesn't look out of place among Horizon's own cart-line
+   metadata rows (variant options, properties, etc.) above/below it.
+   ============================================================================ */
+.mo-cart-frequency__select {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: var(--style-border-width, 1px) solid rgb(var(--color-foreground-rgb) / 0.35);
+  border-radius: var(--mo-radius-sm, 6px);
+  padding: 2px 6px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.mo-cart-frequency__select:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.mo-cart-frequency__error {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--mo-error, #c0392b);
+}
+
+.mo-cart-frequency__error[hidden] {
+  display: none;
+}
