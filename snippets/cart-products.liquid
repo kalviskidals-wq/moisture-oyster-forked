@@ -45,6 +45,21 @@
   type="module"
   fetchpriority="low"
 ></script>
+{%- comment -%}
+  CUSTOM (2026-08-04, per Kalvis): double-submit guard + busy state for the
+  cart drawer's CHECK OUT button — see assets/mo-cart-checkout-guard.js for
+  the full write-up of the iOS "download 'cart'" / dead-first-tap bug it
+  fixes. Loaded from here rather than cart-summary.liquid (which actually
+  renders the button) because this snippet is already the drawer's script
+  entry point, and the guard binds to `document`, so it doesn't care which
+  file pulls it in. `defer` (not type="module") so it stays a classic script
+  that self-guards against being evaluated twice — this snippet renders in
+  both the drawer and the cart page, so the tag can appear more than once.
+{%- endcomment -%}
+<script
+  src="{{ 'mo-cart-checkout-guard.js' | asset_url }}"
+  defer
+></script>
 
 <div
   {{ block.shopify_attributes }}
