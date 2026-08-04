@@ -60,6 +60,17 @@
   src="{{ 'mo-cart-checkout-guard.js' | asset_url }}"
   defer
 ></script>
+{%- comment -%}
+  CUSTOM (2026-08-04, per Kalvis): holds the cart drawer's reveal until the
+  cart section morph has actually delivered the CHECK OUT button, so the
+  button can't materialise under a finger that's already moving — the cause
+  of the "first tap does nothing" report. Full measurement + reasoning in
+  assets/mo-cart-drawer-ready.js. Same defer/self-guard rationale as above.
+{%- endcomment -%}
+<script
+  src="{{ 'mo-cart-drawer-ready.js' | asset_url }}"
+  defer
+></script>
 
 <div
   {{ block.shopify_attributes }}
