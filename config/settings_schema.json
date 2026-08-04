@@ -1479,6 +1479,13 @@
         "default": "page"
       },
       {
+        "type": "checkbox",
+        "id": "skip_cart_to_checkout",
+        "label": "Add to cart goes straight to checkout",
+        "default": false,
+        "info": "CUSTOM: skips the cart entirely — tapping Add to Bag adds the item and lands the shopper on checkout in a single page load, instead of opening the cart drawer. Intended for a single-product store. The header cart icon still opens the cart normally, so shoppers can still change quantity or delivery frequency there. Note: this turns Add to Bag into a real page navigation, so the button's 'Added' checkmark animation no longer plays — verify your Meta / Shopify pixel still records AddToCart on this path before relying on it for ad optimisation."
+      },
+      {
         "type": "select",
         "id": "product_title_case",
         "label": "t:settings.product_title_case",

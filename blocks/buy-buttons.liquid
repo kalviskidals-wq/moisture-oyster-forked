@@ -44,11 +44,37 @@
 >
   {%- if product != blank -%}
     {%- assign product_form_id = 'BuyButtons-ProductForm-' | append: section.id -%}
+    {%- comment -%}
+      CUSTOM (2026-08-04, per Kalvis): "Add to cart goes straight to checkout"
+      (settings.skip_cart_to_checkout, Theme settings → Cart). With it on, the
+      form is left to submit NATIVELY: Shopify adds the line and honours the
+      return_to below in the same request, so the shopper goes from tapping Add
+      to Bag to standing on checkout in one page load.
+
+      That is done purely by withholding `on:submit="/handleSubmit"`. Horizon
+      binds `on:` attributes through a single delegated listener on `document`
+      that resolves the handler via `target.closest('[on\:submit]')` (see
+      assets/component.js) — with the attribute absent, nothing intercepts the
+      submit and the browser navigates. No JS override, no preventDefault
+      wrestling, and <product-form-component> keeps doing everything else it
+      does (variant swaps, quantity rules, accelerated checkout state).
+
+      Why native rather than "AJAX then redirect": the whole class of bugs
+      behind this request came from work happening between the tap and the
+      navigation. A native submit navigates inside the tap's own user gesture,
+      so there's no drawer to open, no section to morph, and no window in which
+      a control can appear late or a second tap can land. It also means
+      snippets/mo-variant-main-picker.liquid's capture-phase submit hook still
+      runs first and still fixes up `selling_plan` — the browser builds the
+      form's entry list only after the submit event finishes.
+    {%- endcomment -%}
     <product-form-component
       data-section-id="{{ section.id }}"
       data-product-id="{{ product.id }}"
       data-product-url="{{ product.url }}"
-      on:submit="/handleSubmit"
+      {% unless settings.skip_cart_to_checkout %}
+        on:submit="/handleSubmit"
+      {% endunless %}
       data-quantity-default="{% if product.selected_or_first_available_variant.quantity_rule.min %}{{ product.selected_or_first_available_variant.quantity_rule.min }}{% else %}1{% endif %}"
       data-quantity-error-max="{{ 'products.product.quantity_error_max' | t }}"
     >
@@ -66,6 +92,36 @@
           ref="variantId"
           value="{{ product.selected_or_first_available_variant.id }}"
         >
+        {%- if settings.skip_cart_to_checkout -%}
+          {%- comment -%}
+            CUSTOM (2026-08-04, per Kalvis): Shopify's /cart/add honours
+            `return_to` on a form-encoded POST — it adds the line and then
+            redirects there instead of back to the cart. Verified against
+            production 2026-08-04: posting id + selling_plan + return_to landed
+            on checkout with the subscription plan and price intact.
+            Hardcoded to routes.cart_url + '/checkout' rather than a bare
+            '/checkout' so it stays correct on locale/market-prefixed
+            storefronts. Only rendered when the setting is on — otherwise the
+            form is untouched and Horizon's AJAX flow runs exactly as before.
+          {%- endcomment -%}
+          <input
+            type="hidden"
+            name="return_to"
+            value="{{ routes.cart_url }}/checkout"
+          >
+          {%- comment -%}
+            The double-submit guard is normally pulled in by
+            snippets/cart-products.liquid, but that only renders on the product
+            page when the cart drawer is enabled. In skip-cart mode Add to Bag
+            is itself a navigation, so the guard has to be present on the PDP
+            regardless of cart_type. The script self-guards against being
+            evaluated twice, so loading it from both places is safe.
+          {%- endcomment -%}
+          <script
+            src="{{ 'mo-cart-checkout-guard.js' | asset_url }}"
+            defer
+          ></script>
+        {%- endif -%}
         {%- if block_settings.gift_card_form and product.gift_card? -%}
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section, block: block -%}
           <span class="buy-buttons-block__bar">

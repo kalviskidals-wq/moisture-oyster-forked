@@ -53,21 +53,62 @@
   var submitting = new WeakSet();
   var releaseTimer = null;
 
-  function cartForms() {
-    return document.querySelectorAll('form.cart-form, form#cart-form');
+  // Every form on the storefront whose submit causes a real NAVIGATION, and so
+  // can be double-submitted into the download bug described above:
+  //
+  //   - the cart drawer / cart page form (POST /cart with `checkout`)
+  //   - CUSTOM (2026-08-04): the product form when
+  //     settings.skip_cart_to_checkout is on. That setting withholds
+  //     `on:submit="/handleSubmit"` so the form submits natively straight to
+  //     checkout (see blocks/buy-buttons.liquid), which puts Add to Bag in
+  //     exactly the same position CHECK OUT was in — a slow navigation with no
+  //     feedback, inviting a second tap. The hidden `return_to` input is what
+  //     marks that mode; with the setting off, the product form is intercepted
+  //     by Horizon and never navigates, so it must NOT be guarded (that would
+  //     break adding a second item).
+  var GUARDED = 'form.cart-form, form#cart-form, form[action*="/cart/add"]:has(input[name="return_to"])';
+
+  function isGuarded(form) {
+    // :has() is supported everywhere this theme targets, but fall back to an
+    // explicit lookup rather than throwing if a browser rejects the selector.
+    try {
+      return form.matches(GUARDED);
+    } catch (error) {
+      return (
+        form.id === 'cart-form' ||
+        form.classList.contains('cart-form') ||
+        !!form.querySelector('input[name="return_to"]')
+      );
+    }
   }
 
-  function checkoutButtons() {
-    return document.querySelectorAll('button[name="checkout"]');
+  function guardedForms() {
+    try {
+      return document.querySelectorAll(GUARDED);
+    } catch (error) {
+      return document.querySelectorAll('form.cart-form, form#cart-form');
+    }
   }
 
-  function setBusy(isBusy) {
-    checkoutButtons().forEach(function (button) {
+  // The control that should show the busy state for a given form: CHECK OUT in
+  // the cart, Add to Bag on the product form. Iterates form.elements rather
+  // than querySelectorAll because the cart's CHECK OUT button is not a
+  // DESCENDANT of #cart-form — it's associated to it by `form="cart-form"`
+  // (snippets/cart-summary.liquid). form.elements includes controls adopted
+  // that way; a descendant query would miss it entirely.
+  function busyTargets(form) {
+    return Array.prototype.filter.call(form.elements, function (el) {
+      return el.name === 'checkout' || el.name === 'add' || el.getAttribute('ref') === 'addToCartButton';
+    });
+  }
+
+  function setBusy(form, isBusy) {
+    busyTargets(form).forEach(function (button) {
       if (!(button instanceof HTMLElement)) return;
       button.setAttribute('aria-busy', isBusy ? 'true' : 'false');
-      // Inline styles rather than a class: this button is rendered by a
-      // Horizon snippet we don't own, and its stylesheet lives in that same
-      // snippet — a custom class would need an edit there to mean anything.
+      // Inline styles rather than a class: these buttons are rendered by
+      // Horizon snippets we don't own, and their stylesheets live in those same
+      // snippets — a custom class would need an edit there to mean anything.
       button.style.opacity = isBusy ? '0.65' : '';
       button.style.cursor = isBusy ? 'progress' : '';
     });
@@ -78,10 +119,10 @@
       clearTimeout(releaseTimer);
       releaseTimer = null;
     }
-    cartForms().forEach(function (form) {
+    guardedForms().forEach(function (form) {
       submitting.delete(form);
+      setBusy(form, false);
     });
-    setBusy(false);
   }
 
   document.addEventListener(
@@ -89,7 +130,7 @@
     function (event) {
       var form = event.target;
       if (!(form instanceof HTMLFormElement)) return;
-      if (form.id !== 'cart-form' && !form.classList.contains('cart-form')) return;
+      if (!isGuarded(form)) return;
 
       if (submitting.has(form)) {
         // A navigation for this form is already under way. Swallowing this one
@@ -100,7 +141,7 @@
       }
 
       submitting.add(form);
-      setBusy(true);
+      setBusy(form, true);
 
       // If the navigation never happens (offline, a handler cancelled it, the
       // shopper dismissed something), don't strand the button as permanently
