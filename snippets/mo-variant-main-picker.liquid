@@ -1198,5 +1198,46 @@
       },
       true
     );
+
+    // CUSTOM FIX (2026-08-04, found while investigating a QA report on mobile
+    // express checkout): the submit hook above only covers "Add to Bag". The
+    // accelerated-checkout wallet buttons rendered inside this same form by
+    // blocks/accelerated-checkout.liquid ({{ form | payment_button }} — Shop
+    // Pay, PayPal, Google Pay) never fire a `submit` event on the form. They
+    // read the form's fields directly and go straight to checkout, so nothing
+    // was correcting `selling_plan` for them.
+    //
+    // That matters because Seal still wins the load-time race: verified live
+    // on production 2026-08-04 that after a normal page load, with Subscribe
+    // pre-selected in the UI, `input[name="selling_plan"]` (Seal's own
+    // `data-sls-selling_plan` input, which is the one we write into) sits
+    // empty and STAYS empty — Seal's init now lands after the 800ms re-apply
+    // above, so that guess no longer covers it. Consequence: a shopper who
+    // landed on the PDP and tapped Shop Pay / PayPal / G Pay without first
+    // touching a card checked out the ONE-TIME item at full price, with the
+    // page still showing Subscribe selected.
+    //
+    // Rather than keep chasing Seal's init timing, re-assert on the same
+    // principle as the submit hook — at the last moment before it can matter.
+    // `pointerdown` (capture, on document) fires before any wallet button's
+    // own click handling and before the mousedown/click the sticky bar
+    // forwards, and it costs one cheap synchronous write per press.
+    document.addEventListener(
+      'pointerdown',
+      function (event) {
+        var target = event.target;
+        if (!(target instanceof Element)) return;
+
+        var form = getForm();
+        if (!form) return;
+
+        // Anything inside the buy-buttons form: Add to Bag, the wallet
+        // buttons, the "More payment options" link. The sticky add-to-cart bar
+        // lives outside the form but forwards its tap to the real button
+        // inside it, so it's covered by the submit hook already.
+        if (form.contains(target)) applyState(true);
+      },
+      true
+    );
   })();
 </script>
