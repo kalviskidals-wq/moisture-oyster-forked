@@ -167,9 +167,10 @@
                   "blocks": {}
                 },
                 "mo_title": {
-                  "type": "product-title",
-                  "name": "t:names.product_title",
+                  "type": "text",
+                  "name": "Product title (H1)",
                   "settings": {
+                    "text": "<h1>{{ closest.product.title }}</h1>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
