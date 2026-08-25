@@ -244,6 +244,7 @@
                   "type": "mo-tier-picker",
                   "name": "MO Tier + Sub Picker",
                   "settings": {
+                    "default_quantity_tier": "2",
                     "quantity_label": "Quantity",
                     "purchase_label": "Purchase Option",
                     "subscribe_title": "Subscribe",

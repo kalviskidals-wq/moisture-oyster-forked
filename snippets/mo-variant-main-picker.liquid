@@ -19,21 +19,24 @@
 
   assign current_variant = product.selected_or_first_available_variant
 
-  # CUSTOM (2026-07-20, per Kalvis; updated 2026-08-04; updated 2026-08-18):
-  # default the PDP to the 2-bottle tier instead of Shopify's native "first
-  # available variant" pick (which would otherwise be whatever's listed first
-  # in the admin). product.selected_variant is only non-blank when the
-  # shopper (or an incoming link) explicitly requested a specific variant via
-  # a ?variant= URL param — checking that first means a deep link to the 1-
-  # or 3-bottle tier is still honored exactly as before; this override only
-  # kicks in on a plain, no-param visit to the page. Matches on the same
-  # "leading number in the title" parsing used for each qty card further
-  # down (e.g. "2" from "2 Bottles"), and only overrides if that tier is
-  # actually in stock — falls back to Shopify's own default otherwise.
+  # CUSTOM (2026-07-20, per Kalvis; updated 2026-08-04; updated 2026-08-18;
+  # updated 2026-08-25 to a merchant-editable setting instead of a hardcoded
+  # number): default the PDP to whichever tier "default_quantity_tier" (block
+  # setting, theme editor) names, instead of Shopify's native "first available
+  # variant" pick (which would otherwise be whatever's listed first in the
+  # admin). product.selected_variant is only non-blank when the shopper (or
+  # an incoming link) explicitly requested a specific variant via a ?variant=
+  # URL param — checking that first means a deep link to any tier is still
+  # honored exactly as before; this override only kicks in on a plain,
+  # no-param visit to the page. Matches on the same "leading number in the
+  # title" parsing used for each qty card further down (e.g. "2" from
+  # "2 Bottles"), and only overrides if that tier is actually in stock —
+  # falls back to Shopify's own default otherwise.
+  assign default_quantity_tier = bs.default_quantity_tier | default: '2'
   if product.selected_variant == blank
     for v in product.variants
       assign v_default_number = v.title | split: ' ' | first
-      if v_default_number == '2' and v.available
+      if v_default_number == default_quantity_tier and v.available
         assign current_variant = v
         break
       endif

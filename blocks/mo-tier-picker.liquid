@@ -13,6 +13,22 @@
   "settings": [
     {
       "type": "header",
+      "content": "Default selection"
+    },
+    {
+      "type": "select",
+      "id": "default_quantity_tier",
+      "label": "Default quantity tier",
+      "info": "Which pack size is pre-selected on a fresh page load (no ?variant= link). Only applies if that tier is in stock — falls back to Shopify's own default otherwise.",
+      "options": [
+        { "value": "1", "label": "1 Bottle" },
+        { "value": "2", "label": "2 Bottles" },
+        { "value": "3", "label": "3 Bottles" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
       "content": "Labels"
     },
     {
