@@ -44,8 +44,8 @@
       "name": "MO Footer",
       "settings": {
         "eyebrow": "NEXT FROM THE OYSTER",
-        "heading": "Become a founding member:",
-        "description": "<p>∙ First to know, before the limited first batch sells out<br/>∙ Your feedback shapes what comes next<br/>∙ Special gifts and early offers, members only<br/></p>",
+        "heading": "Become a member:",
+        "description": "<p>∙ First to know, before the launch<br/>∙ Your feedback shapes what comes next<br/>∙ Special gifts and early offers, members only<br/></p>",
         "email_placeholder": "Your email address",
         "button_label": "NOTIFY ME",
         "success_message": "You’re on the list. We’ll email you when vitamins launch.",
