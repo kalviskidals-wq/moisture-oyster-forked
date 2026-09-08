@@ -800,9 +800,9 @@
      shows when Subscribe is selected, so it reads as a continuation of that
      green-bordered card, not a separate control). Border switched to the
      same accent-green used by .mo-vpicker__card (var(--mo-card-border-
-     inactive), theme-editable, defaults #1fa567) and a light green tint
-     background added so it reads as part of that card family without going
-     full solid-green (which would look like another selectable option). */
+     inactive), theme-editable, defaults #1fa567). Background left as-is
+     (no tint) per Kalvis — border alone was enough to tie it into the card
+     family. */
   .mo-vpicker__frequency {
     display: flex;
     align-items: center;
@@ -810,7 +810,6 @@
     gap: var(--mo-space-3, 12px);
     height: 34px;
     border: 1px solid var(--mo-card-border-inactive, #1fa567);
-    background: rgba(31, 165, 103, 0.08);
     border-radius: var(--mo-radius-md, 10px);
     padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px);
   }
