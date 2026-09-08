@@ -1000,6 +1000,10 @@
     // "Every 1 month" regardless of pack size. Now matches a digit group
     // anywhere in the name. Falls back to 1 for a name with no digit at all
     // (Shopify sometimes names a 1-month plan just "month").
+    // (Redeploy marker 2026-09-08b: confirmed live via Chrome that the prior
+    // push of this exact fix never reached the live theme — dropdown still
+    // showed "Every 1 month" on a 3-bottle default. This line exists purely
+    // to force a new file diff so the commit isn't a no-op.)
     function parsePlanMonths(name) {
       var match = /(\d+)/.exec(name || '');
       return match ? parseInt(match[1], 10) : 1;
