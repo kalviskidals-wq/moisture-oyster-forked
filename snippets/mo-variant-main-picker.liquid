@@ -990,7 +990,21 @@
       card.classList.add('is-selected');
     }
 
-    function rebuildFrequencyOptions(allocations) {
+    // CUSTOM: extracts the leading number of months from a selling plan name
+    // (e.g. "2 months" -> 2). Shopify's default naming for the 1-month plan is
+    // often just "month" with no leading digit, so that case is treated as 1.
+    function parsePlanMonths(name) {
+      var match = /^(\d+)/.exec(name || '');
+      return match ? parseInt(match[1], 10) : 1;
+    }
+
+    // CUSTOM: bottleCount (optional) is the currently-selected qty tier's pack
+    // size (from the qty radio's data-bottle-count) — when a delivery frequency
+    // option's own name matches that number of months (e.g. a 3-bottle tier
+    // matching a "3 months" plan), it's pre-selected here. Per Kalvis: purely a
+    // smarter default, the shopper can still freely pick any other frequency
+    // from this same dropdown afterward.
+    function rebuildFrequencyOptions(allocations, bottleCount) {
       var row = picker.querySelector('[data-role="frequency-row"]');
       var select = picker.querySelector('[data-role="frequency-select"]');
       var staticEl = picker.querySelector('[data-role="frequency-static"]');
@@ -999,6 +1013,13 @@
         select.innerHTML = allocations.map(function (a) {
           return '<option value="' + a.selling_plan_id + '">' + a.name + '</option>';
         }).join('');
+
+        if (bottleCount) {
+          var matched = allocations.filter(function (a) {
+            return parsePlanMonths(a.name) === bottleCount;
+          })[0];
+          if (matched) select.value = String(matched.selling_plan_id);
+        }
       } else if (allocations.length === 1 && staticEl) {
         staticEl.textContent = allocations[0].name;
       }
@@ -1142,7 +1163,10 @@
 
         selectCard(card);
         if (card.dataset.card === 'qty') {
-          rebuildFrequencyOptions(getAllocations(cardRadio));
+          // CUSTOM: pass the pack size so the frequency dropdown can default
+          // to a matching delivery interval (e.g. 3 bottles -> "3 months").
+          var bottleCount = cardRadio.dataset.bottleCount ? parseInt(cardRadio.dataset.bottleCount, 10) : null;
+          rebuildFrequencyOptions(getAllocations(cardRadio), bottleCount);
         }
         applyState(true);
       });
@@ -1153,6 +1177,16 @@
       freqSelect.addEventListener('change', function () {
         applyState(true);
       });
+    }
+
+    // CUSTOM: also pre-select a matching delivery frequency for whichever qty
+    // tier is checked on load (per default_quantity_tier), not just on click —
+    // otherwise a fresh page load kept the frequency dropdown at its server-
+    // rendered first option regardless of pack size.
+    var initialQtyRadio = getQtyRadio();
+    if (initialQtyRadio) {
+      var initialBottleCount = initialQtyRadio.dataset.bottleCount ? parseInt(initialQtyRadio.dataset.bottleCount, 10) : null;
+      rebuildFrequencyOptions(getAllocations(initialQtyRadio), initialBottleCount);
     }
 
     // CUSTOM: sync the cart form (id + selling_plan) to the default-checked cards
