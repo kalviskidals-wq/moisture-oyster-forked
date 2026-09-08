@@ -990,11 +990,18 @@
       card.classList.add('is-selected');
     }
 
-    // CUSTOM: extracts the leading number of months from a selling plan name
-    // (e.g. "2 months" -> 2). Shopify's default naming for the 1-month plan is
-    // often just "month" with no leading digit, so that case is treated as 1.
+    // CUSTOM (2026-09-08, fixed after live testing): extracts the number of
+    // months from a selling plan name. Originally matched only a LEADING
+    // digit (/^(\d+)/), assuming names like "2 months" — but live DOM
+    // inspection (moistureoyster.com) showed the real plan names are
+    // "Every 1 month" / "Every 2 months" / "Every 3 months", so the digit is
+    // never first and the old regex always fell through to the "no digit"
+    // default of 1, which is why the frequency dropdown stayed stuck on
+    // "Every 1 month" regardless of pack size. Now matches a digit group
+    // anywhere in the name. Falls back to 1 for a name with no digit at all
+    // (Shopify sometimes names a 1-month plan just "month").
     function parsePlanMonths(name) {
-      var match = /^(\d+)/.exec(name || '');
+      var match = /(\d+)/.exec(name || '');
       return match ? parseInt(match[1], 10) : 1;
     }
 
