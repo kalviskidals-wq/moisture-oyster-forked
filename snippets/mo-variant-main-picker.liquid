@@ -793,14 +793,24 @@
   /* CUSTOM FIX (2026-07-18, Figma node 633:213): border was accent-green
      #1fa567 — Figma confirms a neutral grey #d9d9d9 for this row (unlike the
      quantity/purchase cards, which really do use green). Also fixed height
-     34px (was padding-driven, taller) with matching 8px/12px padding. */
+     34px (was padding-driven, taller) with matching 8px/12px padding.
+     CUSTOM FIX (2026-09-08, per Kalvis): superseded — Kalvis flagged that the
+     neutral-grey treatment above makes this row look disconnected from the
+     pack-size/purchase-option cards it's logically nested under (it only
+     shows when Subscribe is selected, so it reads as a continuation of that
+     green-bordered card, not a separate control). Border switched to the
+     same accent-green used by .mo-vpicker__card (var(--mo-card-border-
+     inactive), theme-editable, defaults #1fa567) and a light green tint
+     background added so it reads as part of that card family without going
+     full solid-green (which would look like another selectable option). */
   .mo-vpicker__frequency {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--mo-space-3, 12px);
     height: 34px;
-    border: 1px solid #d9d9d9;
+    border: 1px solid var(--mo-card-border-inactive, #1fa567);
+    background: rgba(31, 165, 103, 0.08);
     border-radius: var(--mo-radius-md, 10px);
     padding: var(--mo-space-2, 8px) var(--mo-space-3, 12px);
   }
